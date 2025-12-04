@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Program.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Program.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Program.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T11:13:49.479Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

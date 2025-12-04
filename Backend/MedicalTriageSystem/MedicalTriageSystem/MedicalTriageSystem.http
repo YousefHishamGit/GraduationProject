@@ -1,0 +1,6 @@
+@MedicalTriageSystem_HostAddress = http://localhost:5235
+
+GET {{MedicalTriageSystem_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
