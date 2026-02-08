@@ -1,0 +1,39 @@
+<header class="header">
+  <div class="top-bar">
+    <div class="container">
+      <div class="contact-info">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a>
+        <i class="fas fa-phone"></i>
+        <span>{{ phoneNumber }}</span>
+      </div>
+      <div class="social-links">
+        <a *ngFor="let social of socialLinks" [href]="social.link">
+          <i [class]="social.icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <div class="container">
+      <a routerLink="/" class="logo">
+        <h1><i class="fas fa-hospital"></i> Clinic</h1>
+      </a>
+
+      <div class="nav-links" [class.active]="mobileMenuOpen">
+        <a *ngFor="let nav of navLinks" [routerLink]="nav.path" routerLinkActive="active"
+          [routerLinkActiveOptions]="nav.path === '/' ? { exact: true } : { exact: false }">{{ nav.text }}</a>
+      </div>
+
+      <div class="auth-buttons">
+        <a routerLink="/login" class="btn btn-login">Login</a>
+        <a routerLink="/signup" class="btn btn-signup">Sign Up</a>
+      </div>
+
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" type="button">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+</header>

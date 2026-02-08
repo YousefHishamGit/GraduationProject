@@ -1,0 +1,82 @@
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Excellence in Healthcare With Compassionate Care</h1>
+        <p>We provide premium medical services with advanced technology and experienced professionals.</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3>25+</h3>
+            <p>Years Experience</p>
+          </div>
+          <div class="stat-item">
+            <h3>5000+</h3>
+            <p>Patients Treated</p>
+          </div>
+          <div class="stat-item">
+            <h3>50+</h3>
+            <p>Medical Experts</p>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a routerLink="/appointment" class="btn btn-primary">Book Appointment</a>
+          <a routerLink="/about" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="/assets/img/health/facilities-6.webp" alt="Healthcare">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services-grid">
+      <a *ngFor="let service of services" [routerLink]="service.link" class="service-card">
+        <div class="service-icon">
+          <i [class]="service.icon"></i>
+        </div>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </a>
+    </div>
+    <div class="text-center">
+      <a routerLink="/services" class="btn btn-primary">View All Services</a>
+    </div>
+  </div>
+</section>
+
+<section class="departments-preview">
+  <div class="container">
+    <h2 class="section-title">Medical Departments</h2>
+    <div class="departments-grid">
+      <a *ngFor="let dept of departments" [routerLink]="dept.link" class="department-card">
+        <img [src]="dept.image" [alt]="dept.title">
+        <h3>{{ dept.title }}</h3>
+        <p>{{ dept.description }}</p>
+      </a>
+    </div>
+    <div class="text-center">
+      <a routerLink="/departments" class="btn btn-primary">View All Departments</a>
+    </div>
+  </div>
+</section>
+
+<section class="doctors-preview">
+  <div class="container">
+    <h2 class="section-title">Our Doctors</h2>
+    <div class="doctors-grid">
+      <a *ngFor="let doctor of doctors" [routerLink]="doctor.link" class="doctor-card">
+        <img [src]="doctor.image" [alt]="doctor.name">
+        <h3>{{ doctor.name }}</h3>
+        <p>{{ doctor.specialty }}</p>
+        <p>{{ doctor.experience }}</p>
+      </a>
+    </div>
+    <div class="text-center">
+      <a routerLink="/doctors" class="btn btn-primary">View All Doctors</a>
+    </div>
+  </div>
+</section>
