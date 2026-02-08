@@ -1,0 +1,20 @@
+symptoms,triage_level
+
+chest pain and shortness of breath,critical
+pain in chest and difficulty breathing,critical
+tightness in chest and can't breathe,critical
+pressure on chest with breathing problems,critical
+high fever and confusion,critical
+very high temperature with confusion,critical
+
+mild headache and sore throat,normal
+light headache and throat pain,normal
+runny nose and cough,normal
+sneezing and mild cough,normal
+headache,normal
+i feel a headeach,normal
+
+abdominal pain after eating,moderate
+stomach pain after eating,moderate
+my stomach hurts after meals,moderate
+pain in stomach after food,moderate

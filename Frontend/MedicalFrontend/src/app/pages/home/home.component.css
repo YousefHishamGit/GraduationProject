@@ -1,164 +1,188 @@
-.hero { margin-top: 0; }
+.hero {
+    margin-top: 0;
+}
 
 .hero-content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 3rem;
-  align-items: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
 }
 
 .hero-text h1 {
-  font-size: 2.8rem;
-  line-height: 1.2;
-  margin-bottom: 1rem;
-  color: var(--heading-color, #0f172a);
+    font-size: 2.8rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--heading-color, #0f172a);
 }
 
 .hero-text p {
-  font-size: 1rem;
-  color: #64748b;
-  margin-bottom: 1.75rem;
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 1.75rem;
 }
 
 .hero-stats {
-  display: flex;
-  gap: 1.75rem;
-  margin-bottom: 2rem;
+    display: flex;
+    gap: 1.75rem;
+    margin-bottom: 2rem;
 }
 
 .stat-item h3 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--accent-color, #0ea5e9);
-  margin-bottom: 0.25rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-color, #0ea5e9);
+    margin-bottom: 0.25rem;
 }
 
-.stat-item p { margin: 0; font-size: 0.9rem; color: #64748b; }
+.stat-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+}
 
 .hero-image img {
-  width: 100%;
-  max-width: 480px;
-  display: block;
-  border-radius: 1.5rem;
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.3);
+    width: 100%;
+    max-width: 480px;
+    display: block;
+    border-radius: 1.5rem;
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.3);
 }
 
-section { padding: 4rem 0; }
+section {
+    padding: 4rem 0;
+}
 
 .section-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2.5rem;
-  color: var(--heading-color, #0f172a);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--heading-color, #0f172a);
 }
 
-.services { background: #fff; }
+.services {
+    background: #fff;
+}
 
 .services-grid,
 .departments-grid,
 .doctors-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.75rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.75rem;
 }
 
 .service-card,
 .department-card,
 .doctor-card {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .service-card:hover,
 .department-card:hover,
 .doctor-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 26px 60px rgba(15, 23, 42, 0.12);
 }
 
 .service-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  background: rgba(14, 165, 233, 0.1);
-  color: var(--accent-color, #0ea5e9);
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-color, #0ea5e9);
 }
 
 .service-card h3,
 .department-card h3,
 .doctor-card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: var(--heading-color, #0f172a);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--heading-color, #0f172a);
 }
 
 .service-card p,
 .department-card p,
 .doctor-card p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #64748b;
+    margin: 0;
+    font-size: 0.95rem;
+    color: #64748b;
 }
 
 .department-card img,
 .doctor-card img {
-  width: 100%;
-  border-radius: 0.9rem;
-  margin-bottom: 0.9rem;
-  object-fit: cover;
+    width: 100%;
+    border-radius: 0.9rem;
+    margin-bottom: 0.9rem;
+    object-fit: cover;
 }
 
 .doctors-preview {
-  background: linear-gradient(to bottom, #f1f5f9, #fff);
+    background: linear-gradient(to bottom, #f1f5f9, #fff);
 }
 
-.text-center { text-align: center; }
+.text-center {
+    text-align: center;
+}
 
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.55rem 1.2rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1.8rem;
 }
 
 .btn-primary {
-  background: var(--accent-color, #0ea5e9);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
+    background: var(--accent-color, #0ea5e9);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
 }
 
-.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-primary:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
 
 .btn-secondary {
-  background: transparent;
-  color: var(--accent-color, #0ea5e9);
-  border-color: rgba(14, 165, 233, 0.5);
+    background: transparent;
+    color: var(--accent-color, #0ea5e9);
+    border-color: rgba(14, 165, 233, 0.5);
 }
 
-.btn-secondary:hover { background: rgba(14, 165, 233, 0.1); }
+.btn-secondary:hover {
+    background: rgba(14, 165, 233, 0.1);
+}
 
 @media (max-width: 992px) {
-  .hero-content {
-    grid-template-columns: minmax(0, 1fr);
-    text-align: center;
-  }
-  .hero-stats { justify-content: center; }
-  .hero-image { order: -1; display: flex; justify-content: center; }
+    .hero-content {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: center;
+    }
+    .hero-stats {
+        justify-content: center;
+    }
+    .hero-image {
+        order: -1;
+        display: flex;
+        justify-content: center;
+    }
 }

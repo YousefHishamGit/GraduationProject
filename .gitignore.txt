@@ -1,0 +1,11 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# AI models
+*.pkl
+
+# .NET
+obj/
+bin/

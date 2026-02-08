@@ -1,23 +1,30 @@
 <footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Clinic</h3>
-        <p>Premium healthcare services with compassion.</p>
-      </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <a *ngFor="let link of navLinks" [routerLink]="link.path">{{ link.text }}</a>
-      </div>
-      <div class="footer-section">
-        <h3>Contact</h3>
-        <p><i class="fas fa-map-marker"></i> {{ address }}</p>
-        <p><i class="fas fa-phone"></i> {{ phoneNumber }}</p>
-        <p><i class="fas fa-envelope"></i> {{ contactEmail }}</p>
-      </div>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Clinic</h3>
+                <p>Premium healthcare services with compassion.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="nav-grid">
+                    @for (link of navLinks; track $index) {
+                    <a [routerLink]="link.path">{{ link.text }}</a> }
+
+                </div>
+
+
+
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker"></i> {{ address }}</p>
+                <p><i class="fas fa-phone"></i> {{ phoneNumber }}</p>
+                <p><i class="fas fa-envelope"></i> {{ contactEmail }}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clinic. All rights reserved.</p>
+        </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 Clinic. All rights reserved.</p>
-    </div>
-  </div>
 </footer>
