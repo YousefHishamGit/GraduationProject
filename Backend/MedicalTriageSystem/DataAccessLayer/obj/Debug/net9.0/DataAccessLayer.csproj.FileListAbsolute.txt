@@ -1,0 +1,12 @@
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.deps.json
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.pdb
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.AssemblyInfoInputs.cache
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.AssemblyInfo.cs
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.sourcelink.json
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\refint\DataAccessLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.pdb
+E:\gradutionProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\ref\DataAccessLayer.dll
