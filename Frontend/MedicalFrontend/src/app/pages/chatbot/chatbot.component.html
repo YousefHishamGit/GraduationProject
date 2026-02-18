@@ -1,0 +1,45 @@
+<div class="chat-wrapper">
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="avatar">🏥</div>
+      <div class="bot-info">
+        <h3>Health Assistant</h3>
+        <p>Online</p>
+      </div>
+    </div>
+
+    <div class="chat-messages" #chatMessages>
+      @for (message of messages(); track $index) {
+        <div class="message" [class.user-message]="message.sender === 'user'" [class.bot-message]="message.sender === 'bot'">
+          <div class="avatar">
+            {{ message.sender === 'bot' ? '🏥' : '🙂' }}
+          </div>
+          <div class="message-content">
+            @if (message.isTyping) {
+              <span class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            } @else {
+              <div [innerHTML]="formatMessage(message.text)"></div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <form class="chat-input-form" (ngSubmit)="sendMessage()">
+      <input
+        type="text"
+        [ngModel]="userInput()"
+        (ngModelChange)="userInput.set($event)"
+        name="userInput"
+        class="chat-input"
+        placeholder="Type your message here..."
+        required
+        autocomplete="off">
+      <button type="submit" class="send-button">➤</button>
+    </form>
+  </div>
+</div>

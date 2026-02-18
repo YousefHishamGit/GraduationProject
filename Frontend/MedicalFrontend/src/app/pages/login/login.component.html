@@ -1,0 +1,119 @@
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-content">
+      <div class="login-form-section">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <i class="fas fa-hospital"></i>
+          </div>
+          <h2 class="logo-text">ClinicCare</h2>
+        </div>
+
+        <h1 class="welcome-title">Welcome Back</h1>
+        <p class="welcome-subtitle">Sign in to your account</p>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                [ngModel]="email()"
+                (ngModelChange)="email.set($event)"
+                name="email"
+                placeholder="Enter your email"
+                required>
+            </div>
+            @if (errorMessage()) {
+              <span class="text-danger">{{ errorMessage() }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input
+                [type]="showPassword() ? 'text' : 'password'"
+                id="password"
+                [ngModel]="password()"
+                (ngModelChange)="password.set($event)"
+                name="password"
+                placeholder="Enter your password"
+                required>
+              <button type="button" class="password-toggle" (click)="togglePassword()">
+                <i [class]="showPassword() ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-forgot">
+            <div class="remember-me">
+              <input type="checkbox" id="remember" [ngModel]="remember()" (ngModelChange)="remember.set($event)" name="remember">
+              <label for="remember">Remember me</label>
+            </div>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn-login-submit">
+            <span>Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+          <button type="button" class="btn-social btn-google">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
+          </button>
+          <button type="button" class="btn-social btn-microsoft">
+            <i class="fab fa-microsoft"></i>
+            <span>Microsoft</span>
+          </button>
+        </div>
+
+        <div class="register-link">
+          <p>Don't have an account? <a routerLink="/signup">Create one now</a></p>
+        </div>
+      </div>
+
+      <div class="login-features-section">
+        <h2 class="features-title">Clinic Management System</h2>
+        <p class="features-description">Streamline your healthcare operations with our comprehensive management solution.</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h3>Appointment Scheduling</h3>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <h3>Doctor Management</h3>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+            <h3>Patient Records</h3>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <h3>Analytics &amp; Reports</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

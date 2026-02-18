@@ -1,25 +1,46 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterLink],
-  template: `
-    <section class="page-section">
-      <div class="container">
-        <h1 class="page-title">Sign Up</h1>
-        <p class="page-lead">Create your account.</p>
-        <a routerLink="/login" class="btn btn-secondary">Already have an account? Login</a>
-      </div>
-    </section>
-  `,
-  styles: [`
-    .page-section { padding: 6rem 0; min-height: 50vh; }
-    .page-title { font-size: 2.5rem; margin-bottom: 1rem; color: #0f172a; }
-    .page-lead { font-size: 1.2rem; color: #64748b; margin-bottom: 1.5rem; }
-    .btn { padding: 0.55rem 1.2rem; border-radius: 999px; text-decoration: none; font-weight: 600; display: inline-block; }
-    .btn-secondary { background: transparent; color: #0ea5e9; border: 2px solid #0ea5e9; }
-  `]
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
 })
-export class SignupComponent {}
+export class SignupComponent {
+  username = signal<string>('');
+  email = signal<string>('');
+  password = signal<string>('');
+  confirmPassword = signal<string>('');
+  agreedToTerms = signal<boolean>(false);
+  errorMessage = signal<string>('');
+
+  constructor(private router: Router) {}
+
+  onSubmit() {
+    this.errorMessage.set('');
+
+    if (this.password() !== this.confirmPassword()) {
+      this.errorMessage.set('Passwords do not match');
+      return;
+    }
+
+    if (!this.agreedToTerms()) {
+      this.errorMessage.set('You must agree to the terms and conditions');
+      return;
+    }
+
+    const userData = {
+      username: this.username(),
+      email: this.email(),
+      createdAt: new Date().toISOString()
+    };
+
+    localStorage.setItem('pendingUser', JSON.stringify(userData));
+
+    this.router.navigate(['/registration-confirmation']);
+  }
+}

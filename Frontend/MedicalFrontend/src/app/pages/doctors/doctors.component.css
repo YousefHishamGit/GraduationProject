@@ -1,0 +1,492 @@
+.page-title {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/assets/img/health/facilities-6.webp');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 180px 0 100px;
+  margin-top: 120px;
+  text-align: center;
+}
+
+.heading-title {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.breadcrumbs {
+  background: rgba(255,255,255,0.1);
+  padding: 15px 0;
+  margin-top: 30px;
+}
+
+.breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs a {
+  color: white;
+  text-decoration: none;
+}
+
+.breadcrumbs .current {
+  color: var(--primary);
+}
+
+/* Search Section */
+.doctors-search {
+  padding: 50px 0;
+  background: var(--light);
+}
+
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 15px 20px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius) 0 0 var(--radius);
+  font-size: 1rem;
+  border-right: none;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.search-btn {
+  padding: 0 30px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.3s;
+}
+
+.search-btn:hover {
+  background: var(--primary-dark);
+}
+
+.filter-options {
+  display: flex;
+  gap: 15px;
+}
+
+.filter-options select {
+  flex: 1;
+  padding: 12px 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+}
+
+/* Grid helpers */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-lg-3, .col-md-6 {
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.col-lg-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.col-lg-8 {
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
+}
+
+.gy-4 > * {
+  margin-bottom: 1.5rem;
+}
+
+.d-flex { display: flex; }
+.justify-content-center { justify-content: center; }
+.text-center { text-align: center; }
+.mb-0 { margin-bottom: 0; }
+
+/* Doctors Grid */
+.doctors {
+  padding: 60px 0;
+}
+
+.doctor-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 100%;
+  cursor: pointer;
+}
+
+.doctor-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.doctor-image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 300px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.doctor-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.doctor-card:hover .doctor-image img {
+  transform: scale(1.1);
+}
+
+.doctor-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.doctor-card:hover .doctor-overlay {
+  opacity: 1;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-links a {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: background 0.3s;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.doctor-content {
+  padding: 25px;
+}
+
+.doctor-content h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.specialty {
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.doctor-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.experience,
+.department {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.btn-appointment {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 25px;
+  background: var(--primary);
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-appointment:hover {
+  background: var(--primary-dark);
+  color: white;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Modal Styles */
+.doctor-details-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.doctor-details-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--dark);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: var(--danger);
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.doctor-modal-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+}
+
+.doctor-modal-image {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.doctor-modal-image img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.doctor-modal-info .doctor-specialty {
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.doctor-modal-info .doctor-experience {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.doctor-availability {
+  margin-top: 25px;
+}
+
+.doctor-availability h3 {
+  margin-bottom: 15px;
+  color: var(--dark);
+}
+
+.availability-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.time-slot {
+  padding: 8px 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.time-slot:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.time-slot.selected {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.modal-actions {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border);
+}
+
+.modal-actions .btn {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.modal-actions .btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.modal-actions .btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .col-lg-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .heading-title {
+    font-size: 2rem;
+  }
+
+  .filter-options {
+    flex-direction: column;
+  }
+
+  .doctor-modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-modal-image img {
+    height: 200px;
+  }
+
+  .col-md-6,
+  .col-lg-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .col-lg-8 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    margin: 0;
+  }
+
+  .col-lg-3, .col-md-6 {
+    padding: 0;
+  }
+}

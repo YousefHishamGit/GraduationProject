@@ -1,0 +1,162 @@
+.success-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.success-card {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.success-icon {
+  font-size: 80px;
+  color: var(--success);
+  margin-bottom: 30px;
+}
+
+.success-card h1 {
+  margin-bottom: 20px;
+  color: var(--dark);
+  font-size: 2.5rem;
+}
+
+.success-card p {
+  margin-bottom: 30px;
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.appointment-details {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.appointment-details h3 {
+  margin-bottom: 20px;
+  color: var(--dark);
+  text-align: center;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.detail-value {
+  color: var(--primary);
+  font-weight: 500;
+  text-align: right;
+}
+
+.status-confirmed {
+  color: var(--success) !important;
+}
+
+.note {
+  background: #e7f3ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: left;
+  border-left: 4px solid var(--primary);
+}
+
+.note i {
+  color: var(--primary);
+  margin-right: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 30px;
+  font-size: 1rem;
+  min-width: 150px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .success-page, .success-page * {
+    visibility: visible;
+  }
+  .success-page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white !important;
+  }
+  .success-card {
+    box-shadow: none !important;
+    max-width: 100% !important;
+  }
+  .actions {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .success-card {
+    padding: 30px 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -4,10 +4,15 @@ import { AboutComponent } from './pages/about/about.component';
 import { DepartmentsComponent } from './pages/departments/departments.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { DoctorsComponent } from './pages/doctors/doctors.component';
+import { DoctorDashboardComponent } from './pages/doctor-dashboard/doctor-dashboard.component';
 import { AppointmentComponent } from './pages/appointment/appointment.component';
+import { AppointmentSuccessComponent } from './pages/appointment-success/appointment-success.component';
 import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
+import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
+import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,9 +20,14 @@ export const routes: Routes = [
   { path: 'departments', component: DepartmentsComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'doctors', component: DoctorsComponent },
+  { path: 'doctor-dashboard', component: DoctorDashboardComponent },
   { path: 'appointment', component: AppointmentComponent },
+  { path: 'appointment-success', component: AppointmentSuccessComponent },
   { path: 'chatbot', component: ChatbotComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'registration-confirmation', component: RegistrationConfirmationComponent },
+  { path: 'patient-dashboard', component: PatientDashboardComponent },
+  { path: 'admin', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' }
 ];

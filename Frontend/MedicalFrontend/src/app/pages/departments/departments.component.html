@@ -1,0 +1,74 @@
+<section class="departments-hero">
+  <div class="container">
+    <h1>Medical Departments</h1>
+    <p>Explore our specialized medical departments offering comprehensive care across various fields.</p>
+  </div>
+</section>
+
+<section class="departments-tabs">
+  <div class="container">
+    <div class="tabs-header">
+      <button
+        *ngFor="let dept of departments"
+        class="tab-btn"
+        [class.active]="activeTab === dept.id"
+        (click)="setActiveTab(dept.id)">
+        {{ dept.name }}
+      </button>
+    </div>
+
+    <div
+      *ngFor="let dept of departments"
+      class="tab-content"
+      [class.active]="activeTab === dept.id"
+      [id]="dept.id">
+      <div class="department-detail">
+        <div class="department-image">
+          <img [src]="dept.image" [alt]="dept.title">
+        </div>
+        <div class="department-info">
+          <h2>{{ dept.title }}</h2>
+          <p>{{ dept.description }}</p>
+
+          <div class="department-services">
+            <h3>Services Offered:</h3>
+            <ul>
+              <li *ngFor="let service of dept.services">
+                <i [class]="dept.icon"></i> {{ service }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="department-stats" *ngIf="dept.stats.length">
+            <div class="stat" *ngFor="let stat of dept.stats">
+              <h4>{{ stat.value }}</h4>
+              <p>{{ stat.label }}</p>
+            </div>
+          </div>
+
+          <a [routerLink]="['/appointment']" [queryParams]="{department: dept.id}" class="btn btn-primary">
+            Book Appointment
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="all-departments">
+  <div class="container">
+    <h2 class="section-title">All Departments</h2>
+    <div class="departments-grid">
+      <div *ngFor="let dept of allDepartments" class="department-card">
+        <div class="department-icon">
+          <i [class]="dept.icon"></i>
+        </div>
+        <h3>{{ dept.name }}</h3>
+        <p>{{ dept.shortDesc }}</p>
+        <a href="javascript:void(0)" (click)="scrollToDepartment(dept.id); $event.preventDefault()" class="btn-link">
+          Learn More <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

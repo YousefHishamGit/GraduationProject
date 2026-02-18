@@ -1,0 +1,316 @@
+.services-hero {
+  padding: 180px 0 100px;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/assets/img/health/facilities-6.webp');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  margin-top: 120px;
+}
+
+.services-hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.services-hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.services-categories {
+  padding: 100px 0;
+  background: var(--light);
+}
+
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.category-btn {
+  padding: 15px 30px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 180px;
+}
+
+.category-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.category-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.category-content {
+  animation: fadeIn 0.5s ease;
+}
+
+.category-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--dark);
+  text-align: center;
+}
+
+.category-content > p {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.service-item {
+  background: white;
+  padding: 40px 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s;
+}
+
+.service-item:hover {
+  transform: translateY(-10px);
+}
+
+.service-icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.service-item h3 {
+  margin-bottom: 15px;
+  color: var(--dark);
+}
+
+.service-item p {
+  color: var(--text);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.service-item ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.service-item li {
+  padding: 8px 0;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.service-item li:last-child {
+  border-bottom: none;
+}
+
+.service-item li::before {
+  content: '✓';
+  color: var(--success);
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.special-services {
+  padding: 100px 0;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: var(--dark);
+}
+
+.special-services-grid {
+  display: grid;
+  gap: 40px;
+}
+
+.special-service-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 300px;
+}
+
+.service-content {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.service-content h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--dark);
+}
+
+.service-content p {
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.service-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.service-features span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.service-features i {
+  color: var(--success);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.emergency-services {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+}
+
+.emergency-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 40px;
+  align-items: center;
+  background: white;
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.emergency-icon {
+  font-size: 4rem;
+  color: var(--danger);
+}
+
+.emergency-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--dark);
+}
+
+.emergency-content p {
+  color: var(--text);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.emergency-contact h3 {
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.phone-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--danger);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 992px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .special-service-card {
+    grid-template-columns: 1fr;
+  }
+
+  .emergency-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-btn {
+    min-width: auto;
+    flex: 1;
+  }
+}

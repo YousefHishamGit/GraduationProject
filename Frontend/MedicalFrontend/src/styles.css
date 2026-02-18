@@ -8,6 +8,9 @@
   --light: #f1f5f9;
   --radius: 12px;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --border: #e2e8f0;
+  --danger: #dc3545;
+  --success: #28a745;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

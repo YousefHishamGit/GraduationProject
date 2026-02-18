@@ -1,0 +1,249 @@
+.dashboard-container {
+  background: #f8f9fa;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+[class^="col-"] {
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.col-sm-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+.col-sm-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+.col-6 { flex: 0 0 50%; max-width: 50%; }
+.col-md-12 { flex: 0 0 100%; max-width: 100%; }
+
+.mt-4 { margin-top: 1.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mr-3 { margin-right: 1rem; }
+
+.shadow-lg { box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+.p-4 { padding: 1.5rem; }
+.rounded { border-radius: var(--radius); }
+.text-right { text-align: center; }
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.profile-header {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.profile-view {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.profile-img-wrap {
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.staff-id {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.d-flex { display: flex; }
+.align-items-center { align-items: center; }
+.flex-fill { flex: 1; }
+.ml-auto { margin-left: auto; }
+
+.personal-info {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.personal-info li {
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.personal-info a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.nav-tabs {
+  display: flex;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  padding: 12px 25px;
+  color: var(--text-light);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.3s;
+}
+
+.nav-link.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.card-box {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--dark);
+}
+
+.list-unstyled {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-unstyled li {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.list-unstyled li:last-child {
+  border-bottom: none;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background: #f8f9fa;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.bg-success { background: var(--success); color: white; }
+.bg-warning { background: #ffc107; color: #000; }
+.bg-danger { background: var(--danger); color: white; }
+
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-rounded {
+  border-radius: 25px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .profile-view {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .personal-info {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .ml-auto {
+    margin-left: 0;
+  }
+
+  .col-sm-7, .col-sm-5, .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

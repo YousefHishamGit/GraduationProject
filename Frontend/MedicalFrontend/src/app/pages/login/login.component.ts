@@ -1,25 +1,53 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink],
-  template: `
-    <section class="page-section">
-      <div class="container">
-        <h1 class="page-title">Login</h1>
-        <p class="page-lead">Sign in to your account.</p>
-        <a routerLink="/signup" class="btn btn-secondary">Create Account</a>
-      </div>
-    </section>
-  `,
-  styles: [`
-    .page-section { padding: 6rem 0; min-height: 50vh; }
-    .page-title { font-size: 2.5rem; margin-bottom: 1rem; color: #0f172a; }
-    .page-lead { font-size: 1.2rem; color: #64748b; margin-bottom: 1.5rem; }
-    .btn { padding: 0.55rem 1.2rem; border-radius: 999px; text-decoration: none; font-weight: 600; display: inline-block; }
-    .btn-secondary { background: transparent; color: #0ea5e9; border: 2px solid #0ea5e9; }
-  `]
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {}
+export class LoginComponent {
+  email = signal<string>('');
+  password = signal<string>('');
+  remember = signal<boolean>(false);
+  showPassword = signal<boolean>(false);
+  errorMessage = signal<string>('');
+
+  constructor(private router: Router) {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  togglePassword() {
+    this.showPassword.update(v => !v);
+  }
+
+  onSubmit() {
+    const emailVal = this.email();
+    const passwordVal = this.password();
+    if (!emailVal || !passwordVal) {
+      this.errorMessage.set('Please fill in all fields');
+      return;
+    }
+
+    const userData = {
+      email: emailVal,
+      name: emailVal.split('@')[0],
+      role: 'Patient',
+      loginTime: new Date().toISOString()
+    };
+
+    localStorage.setItem('currentUser', JSON.stringify(userData));
+
+    const returnUrl = localStorage.getItem('returnUrl') || '/';
+    localStorage.removeItem('returnUrl');
+
+    this.router.navigate([returnUrl]);
+  }
+}

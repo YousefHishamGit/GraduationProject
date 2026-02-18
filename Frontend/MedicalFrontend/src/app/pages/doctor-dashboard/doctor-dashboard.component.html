@@ -1,0 +1,249 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2><i class="fas fa-user-md"></i> <span>Doctor Portal</span></h2>
+      <div class="admin-info">
+        <div class="admin-avatar">{{ getInitials(doctor()?.name) }}</div>
+        <div class="admin-name">
+          <h4>{{ doctor()?.name }}</h4>
+          <small>{{ doctor()?.specialization }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-menu">
+      <a href="#" class="menu-item active">
+        <i class="fas fa-dashboard"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-calendar-check"></i>
+        <span>Appointments</span>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-users"></i>
+        <span>Patients</span>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-file-medical"></i>
+        <span>Medical Records</span>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-chart-line"></i>
+        <span>Statistics</span>
+      </a>
+      <a href="#" class="menu-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a routerLink="/" class="menu-item">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="top-bar">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search patients or appointments...">
+      </div>
+
+      <div class="user-menu">
+        <div class="notification-icon">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">5</span>
+        </div>
+        <div class="user-profile">
+          <span>Today: {{ currentDate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="container mt-4">
+        <div class="card shadow-lg p-4 rounded">
+          <div class="content">
+            <div class="row mb-3">
+              <div class="col-sm-7 col-6">
+                <h4 class="page-title">My Profile</h4>
+              </div>
+              <div class="col-sm-5 col-6 text-right">
+                <a routerLink="/" class="btn btn-primary btn-rounded">
+                  <i class="fas fa-arrow-left"></i> Back
+                </a>
+              </div>
+            </div>
+
+            <!-- Profile Info - صورة دائرية واسعة -->
+            <div class="card-box profile-header mb-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="profile-view">
+                    <div class="doctor-image-container">
+                      <img class="doctor-avatar-large" [src]="doctor()?.image" [alt]="doctor()?.name">
+                    </div>
+
+                    <div class="profile-info-section">
+                      <div class="profile-basic">
+                        <h3 class="user-name m-t-0 mb-0">{{ doctor()?.name }}</h3>
+                        <small class="text-muted">{{ doctor()?.specialization }}</small>
+                        <div class="staff-id">Employee ID : DR-{{ doctor()?.id }}</div>
+                      </div>
+
+                      <div class="personal-info-grid">
+                        <div class="info-item">
+                          <i class="fas fa-phone text-primary"></i>
+                          <div>
+                            <small class="text-muted">Phone</small>
+                            <p class="mb-0"><a [href]="'tel:' + doctor()?.phone">{{ doctor()?.phone }}</a></p>
+                          </div>
+                        </div>
+                        <div class="info-item">
+                          <i class="fas fa-envelope text-primary"></i>
+                          <div>
+                            <small class="text-muted">Email</small>
+                            <p class="mb-0"><a [href]="'mailto:' + doctor()?.email">{{ doctor()?.email }}</a></p>
+                          </div>
+                        </div>
+                        <div class="info-item">
+                          <i class="fas fa-calendar text-primary"></i>
+                          <div>
+                            <small class="text-muted">Birthday</small>
+                            <p class="mb-0">{{ doctor()?.birthDate | date }}</p>
+                          </div>
+                        </div>
+                        <div class="info-item">
+                          <i class="fas fa-map-marker-alt text-primary"></i>
+                          <div>
+                            <small class="text-muted">Address</small>
+                            <p class="mb-0">{{ doctor()?.address }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabs Section -->
+            <div class="profile-tabs">
+              <ul class="nav nav-tabs nav-tabs-bottom">
+                <li class="nav-item">
+                  <a class="nav-link" [class.active]="activeTab === 'about'"
+                     (click)="setActiveTab('about'); $event.preventDefault()" href="javascript:void(0)">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" [class.active]="activeTab === 'profile'"
+                     (click)="setActiveTab('profile'); $event.preventDefault()" href="javascript:void(0)">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" [class.active]="activeTab === 'appointments'"
+                     (click)="setActiveTab('appointments'); $event.preventDefault()" href="javascript:void(0)">Appointments</a>
+                </li>
+              </ul>
+
+              <div class="tab-content mt-3">
+                <!-- About -->
+                <div class="tab-pane" [class.show]="activeTab === 'about'" [class.active]="activeTab === 'about'">
+                  <div class="card-box">
+                    <h3 class="card-title">Doctor Information</h3>
+                    <div class="info-grid">
+                      <div class="info-row">
+                        <span class="info-label">License Number:</span>
+                        <span class="info-value">{{ doctor()?.licenseNumber }}</span>
+                      </div>
+                      <div class="info-row">
+                        <span class="info-label">Years of Experience:</span>
+                        <span class="info-value">{{ doctor()?.yearsOfExperience }} years</span>
+                      </div>
+                      <div class="info-row">
+                        <span class="info-label">Hire Date:</span>
+                        <span class="info-value">{{ doctor()?.hireDate | date }}</span>
+                      </div>
+                      <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span class="badge bg-success">{{ doctor()?.status }}</span>
+                      </div>
+                      <div class="info-row">
+                        <span class="info-label">Consultation Fee:</span>
+                        <span class="info-value text-success fw-bold">${{ doctor()?.consultationFee }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Profile -->
+                <div class="tab-pane" [class.show]="activeTab === 'profile'" [class.active]="activeTab === 'profile'">
+                  <div class="card-box">
+                    <p class="text-muted">Profile details can be edited here.</p>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fas fa-edit me-2"></i>Edit Profile
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Appointments -->
+                <div class="tab-pane" [class.show]="activeTab === 'appointments'" [class.active]="activeTab === 'appointments'">
+                  <div class="card-box">
+                    <h3 class="card-title">Upcoming Appointments</h3>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Patient Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Contact</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let apt of appointments">
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="patient-avatar">{{ getInitials(apt.firstName + ' ' + apt.lastName) }}</div>
+                                <span class="ms-2">{{ apt.firstName }} {{ apt.lastName }}</span>
+                              </div>
+                            </td>
+                            <td>{{ apt.appointmentDate | date:'dd/MM/yyyy' }}</td>
+                            <td>{{ apt.appointmentDate | date:'shortTime' }}</td>
+                            <td>
+                              <span class="badge" [ngClass]="{
+                                'bg-success': apt.status === 'Confirmed',
+                                'bg-warning': apt.status === 'Pending',
+                                'bg-danger': apt.status === 'Cancelled'
+                              }">{{ apt.status }}</span>
+                            </td>
+                            <td>
+                              <a [href]="'tel:' + apt.phone" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="fas fa-phone"></i>
+                              </a>
+                              <a [href]="'mailto:' + apt.email" class="btn btn-sm btn-outline-info">
+                                <i class="fas fa-envelope"></i>
+                              </a>
+                            </td>
+                          </tr>
+                          <tr *ngIf="appointments.length === 0">
+                            <td colspan="5" class="text-center text-muted py-4">
+                              <i class="fas fa-calendar-times fa-2x mb-2 d-block"></i>
+                              No appointments found.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,106 @@
+<!-- Hero Section -->
+<section class="services-hero">
+  <div class="container">
+    <h1>Our Services</h1>
+    <p>Comprehensive healthcare services designed to meet the needs of every patient.</p>
+  </div>
+</section>
+
+<!-- Category Tabs -->
+<section class="services-categories">
+  <div class="container">
+    <div class="category-tabs">
+      @for (category of categories(); track category.id) {
+        <button
+          class="category-btn"
+          [class.active]="activeCategory() === category.id"
+          (click)="setActiveCategory(category.id)">
+          {{ category.name }}
+        </button>
+      }
+    </div>
+
+    @for (category of categories(); track category.id) {
+      @if (activeCategory() === category.id) {
+        <div class="category-content active">
+          <h2>{{ category.name }}</h2>
+          <p>Comprehensive {{ category.name.toLowerCase() }} with modern techniques and technology.</p>
+
+          <div class="services-grid">
+            @for (service of category.services; track service.name) {
+              <div class="service-item">
+                <div class="service-icon">
+                  <i [class]="service.icon"></i>
+                </div>
+                <h3>{{ service.name }}</h3>
+                <p>{{ service.description }}</p>
+                <ul>
+                  @for (feature of service.features; track feature) {
+                    <li>{{ feature }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+</section>
+
+<!-- Special Services -->
+<section class="special-services">
+  <div class="container">
+    <h2 class="section-title">Specialized Services</h2>
+
+    <div class="special-services-grid">
+      @for (special of specialServices(); track special.id) {
+        <div class="special-service-card">
+          <div class="service-image">
+            <img [src]="special.image" [alt]="special.title">
+          </div>
+          <div class="service-content">
+            <h3>{{ special.title }}</h3>
+            <p>{{ special.description }}</p>
+            <div class="service-features">
+              @for (feature of special.features; track feature) {
+                <span><i class="fas fa-check"></i> {{ feature }}</span>
+              }
+            </div>
+            <a [routerLink]="['/appointment']" [queryParams]="{service: special.serviceParam}" class="btn btn-primary">
+              Schedule Consultation
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Services -->
+<section class="emergency-services">
+  <div class="container">
+    <div class="emergency-card">
+      <div class="emergency-icon">
+        <i class="fas fa-ambulance"></i>
+      </div>
+      <div class="emergency-content">
+        <h2>24/7 Emergency Services</h2>
+        <p>Our emergency department is open 24 hours a day, 7 days a week with a team of specialists ready to provide immediate care.</p>
+        <div class="emergency-contact">
+          <h3>Emergency Hotline</h3>
+          <div class="phone-number">
+            <i class="fas fa-phone"></i>
+            <span>+1 (555) 911-9111</span>
+          </div>
+        </div>
+      </div>
+      <div class="emergency-action">
+        <a href="tel:+15559119111" class="btn btn-danger">
+          <i class="fas fa-phone"></i>
+          Call Emergency
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

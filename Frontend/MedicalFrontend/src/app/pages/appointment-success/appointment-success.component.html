@@ -1,0 +1,43 @@
+<div class="success-page">
+  <div class="success-card">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h1>Appointment Confirmed!</h1>
+    <p>
+      Thank you for booking. Your appointment has been scheduled successfully.
+    </p>
+
+    <div class="appointment-details">
+      <h3>Appointment Details</h3>
+      <div class="detail-item">
+        <span class="detail-label">Appointment ID:</span>
+        <span class="detail-value">APT-{{ appointment()?.id }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Patient Name:</span>
+        <span class="detail-value">{{ appointment()?.firstName }} {{ appointment()?.lastName }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Date &amp; Time:</span>
+        <span class="detail-value">{{ appointment()?.appointmentDate | date:'mediumDate' }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value status-confirmed">Confirmed</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <i class="fas fa-info-circle"></i>
+      Please arrive 15 minutes before your appointment time. Bring your ID and insurance card.
+    </div>
+
+    <div class="actions">
+      <a routerLink="/" class="btn btn-primary">Back to Home</a>
+      <button type="button" class="btn btn-secondary" (click)="print()">
+        <i class="fas fa-print"></i> Print
+      </button>
+    </div>
+  </div>
+</div>

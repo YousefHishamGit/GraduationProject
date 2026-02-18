@@ -1,0 +1,147 @@
+<section class="appointment-section">
+  <div class="container">
+    <h1 class="page-title">Book an Appointment</h1>
+
+    <!-- Steps -->
+    <div class="steps">
+      @for (step of [1, 2, 3]; track step) {
+        <div class="step" [class.active]="currentStep() >= step" [class.completed]="currentStep() > step">
+          <span class="step-number">{{ step }}</span>
+          <span class="step-label">{{ getStepLabel(step) }}</span>
+        </div>
+      }
+    </div>
+
+    <form id="appointmentForm" class="appointment-form" (ngSubmit)="onSubmit()">
+      <!-- Step 1: Personal Info -->
+      @if (currentStep() === 1) {
+        <div class="form-step active">
+          <h2>Step 1: Your Personal Details</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" [(ngModel)]="formData.firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" [(ngModel)]="formData.lastName" name="lastName">
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" [(ngModel)]="formData.email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone *</label>
+              <input type="tel" id="phone" [(ngModel)]="formData.phone" name="phone" required>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" [(ngModel)]="formData.address" name="address">
+            </div>
+            <div class="form-group">
+              <label for="allergies">Allergies</label>
+              <input type="text" id="allergies" [(ngModel)]="formData.allergies" name="allergies">
+            </div>
+            <div class="form-group">
+              <label for="bloodType">Blood Type</label>
+              <input type="text" id="bloodType" [(ngModel)]="formData.bloodType" name="bloodType">
+            </div>
+            <div class="form-group">
+              <label for="emergencyContactPhone">Emergency Contact Phone</label>
+              <input type="tel" id="emergencyContactPhone" [(ngModel)]="formData.emergencyContactPhone" name="emergencyContactPhone">
+            </div>
+            <div class="form-group">
+              <label for="medicalHistory">Medical History</label>
+              <input type="text" id="medicalHistory" [(ngModel)]="formData.medicalHistory" name="medicalHistory">
+            </div>
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" [(ngModel)]="formData.age" name="age" min="0" max="120">
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Step 2: Appointment Details -->
+      @if (currentStep() === 2) {
+        <div class="form-step active">
+          <h2>Step 2: Choose Your Specialist</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="department">Department *</label>
+              <select id="department" [ngModel]="selectedDepartment()" (ngModelChange)="onDepartmentChange($event)" name="department" required>
+                <option value="">Select Department</option>
+                @for (dept of departments(); track dept.id) {
+                  <option [value]="dept.id">{{ dept.name }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="doctor">Doctor *</label>
+              <select id="doctor" [(ngModel)]="formData.doctorId" name="doctor" required [disabled]="!availableDoctors().length">
+                <option value="">Select Doctor</option>
+                @for (doc of availableDoctors(); track doc.id) {
+                  <option [value]="doc.id">{{ doc.name }} - {{ doc.specialization }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="appointmentDate">Appointment Date *</label>
+              <input type="date" id="appointmentDate" [(ngModel)]="formData.appointmentDate" name="appointmentDate" [min]="minDate()" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="message">Message (Optional)</label>
+              <textarea id="message" [(ngModel)]="formData.message" name="message" rows="5" placeholder="Please describe your symptoms or reason for visit"></textarea>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Step 3: Confirmation -->
+      @if (currentStep() === 3) {
+        <div class="form-step active">
+          <h2>Step 3: Confirm Your Details</h2>
+          <p>Please review your information below before submitting.</p>
+          <div class="confirmation-details">
+            <div class="detail-row">
+              <span class="detail-label">Name:</span>
+              <span class="detail-value">{{ formData.firstName }} {{ formData.lastName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Email:</span>
+              <span class="detail-value">{{ formData.email }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Phone:</span>
+              <span class="detail-value">{{ formData.phone }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Department:</span>
+              <span class="detail-value">{{ getDepartmentName(selectedDepartment()) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Doctor:</span>
+              <span class="detail-value">{{ getDoctorName(formData.doctorId) }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">{{ formData.appointmentDate | date:'longDate' }}</span>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Confirm &amp; Book</button>
+          </div>
+        </div>
+      }
+
+      <div class="form-navigation">
+        @if (currentStep() > 1) {
+          <button type="button" class="btn btn-secondary" (click)="prevStep()">Previous</button>
+        }
+        @if (currentStep() < 3) {
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+        }
+      </div>
+    </form>
+  </div>
+</section>
