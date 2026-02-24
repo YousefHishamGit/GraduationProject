@@ -28,6 +28,6 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'registration-confirmation', component: RegistrationConfirmationComponent },
   { path: 'patient-dashboard', component: PatientDashboardComponent },
-  { path: 'admin', component: AdminDashboardComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' }
 ];

@@ -15,7 +15,7 @@ namespace DataAccessLayer.Entities
         public string Phone { get; set; } = string.Empty;
         public string? ImgPath { get; set; }
 
-        // Navigation Properties (العلاقات)
+        // Navigation Properties 
         public virtual User? User { get; set; }
         public virtual Doctor? Doctor { get; set; }
         public virtual Patient? Patient { get; set; }

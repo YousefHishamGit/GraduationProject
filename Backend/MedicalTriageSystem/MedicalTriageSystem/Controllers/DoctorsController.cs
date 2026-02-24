@@ -1,0 +1,142 @@
+﻿using BusinessLogicLayer.DTOs.Doctor;
+using BusinessLogicLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace MedicalTriageSystem.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DoctorsController : ControllerBase
+    {
+        private readonly IDoctorService _doctorService;
+
+        public DoctorsController(IDoctorService doctorService)
+        {
+            _doctorService = doctorService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var doctors = await _doctorService.GetAllDoctorsAsync();
+            return Ok(doctors);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+            return Ok(doctor);
+        }
+
+        [HttpGet("department/{departmentId}")]
+        public async Task<IActionResult> GetByDepartment(int departmentId)
+        {
+            var doctors = await _doctorService.GetDoctorsByDepartmentAsync(departmentId);
+            return Ok(doctors);
+        }
+
+        
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(
+            [FromQuery] string? name,
+            [FromQuery] int? departmentId,
+            [FromQuery] string? specialization)
+        {
+            var doctors = await _doctorService.SearchAsync(name, departmentId, specialization);
+            return Ok(doctors);
+        }
+
+        
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromForm] CreateDoctorDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var doctor = await _doctorService.CreateDoctorAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = doctor.Id }, doctor);
+        }
+
+       
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Doctor")]
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateDoctorDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var doctor = await _doctorService.UpdateDoctorAsync(id, dto);
+            if (doctor == null) return NotFound();
+            return Ok(doctor);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _doctorService.DeleteDoctorAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
+        }
+
+
+        
+        [HttpGet("{id}/schedule")]
+        [ProducesResponseType(typeof(IEnumerable<DoctorScheduleResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetSchedule(int id)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+
+            var schedule = await _doctorService.GetDoctorScheduleAsync(id);
+            return Ok(schedule);
+        }
+
+       
+        [HttpGet("{id}/leaves")]
+        [ProducesResponseType(typeof(IEnumerable<DoctorLeaveResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetLeaves(int id)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+
+            var leaves = await _doctorService.GetDoctorLeavesAsync(id);
+            return Ok(leaves);
+        }
+
+        [HttpGet("{id}/timeslots")]
+        [ProducesResponseType(typeof(IEnumerable<TimeSlotResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetTimeSlots(int id)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+
+            var slots = await _doctorService.GetDoctorTimeSlotsAsync(id);
+            return Ok(slots);
+        }
+
+        
+        [HttpGet("{id}/reviews")]
+        [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetReviews(int id)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+
+            var reviews = await _doctorService.GetDoctorReviewsAsync(id);
+            return Ok(reviews);
+        }
+
+
+
+
+
+
+    }
+}

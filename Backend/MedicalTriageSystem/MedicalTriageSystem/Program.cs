@@ -1,4 +1,15 @@
 
+using BusinessLogicLayer;
+using BusinessLogicLayer.Services.Implementation;
+using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Data;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Repositories.Implementation;
+using DataAccessLayer.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace MedicalTriageSystem
 {
     public class Program
@@ -11,14 +22,33 @@ namespace MedicalTriageSystem
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));
+            builder.Services.AddIdentity<User, IdentityRole>()
+                        .AddEntityFrameworkStores<MedicalTriageDbContext>()
+                        .AddDefaultTokenProviders();
+            builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
+
+
+
+
+            builder.Services.AddDbContext<MedicalTriageDbContext>(options =>
+             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+           
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
             }
 
             app.UseHttpsRedirection();
