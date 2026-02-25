@@ -1,20 +1,208 @@
 symptoms,triage_level
-
 chest pain and shortness of breath,critical
 pain in chest and difficulty breathing,critical
 tightness in chest and can't breathe,critical
 pressure on chest with breathing problems,critical
 high fever and confusion,critical
 very high temperature with confusion,critical
-
+severe chest pain radiating to arm,critical
+crushing chest pain with sweating,critical
+sudden severe headache worst of my life,critical
+loss of consciousness,critical
+difficulty breathing and blue lips,critical
+heart racing very fast and chest pain,critical
+coughing blood,critical
+vomiting blood,critical
+sudden vision loss,critical
+sudden weakness on one side of body,critical
+slurred speech suddenly,critical
+severe allergic reaction swelling throat,critical
+high fever with stiff neck,critical
+seizure and unresponsive,critical
+severe abdominal pain and rigid abdomen,critical
+deep cut with heavy bleeding,critical
+broken bone visible through skin,critical
+severe burn covering large area,critical
+child not breathing,critical
+electric shock and unconscious,critical
+drowning and not breathing,critical
+overdose and unconscious,critical
+severe head injury after accident,critical
+chest pain with nausea and sweating,critical
+sudden confusion and high fever,critical
+difficulty swallowing with throat swelling,critical
+severe asthma attack not responding to inhaler,critical
+high fever in infant under 3 months,critical
+severe dehydration and not urinating,critical
 mild headache and sore throat,normal
 light headache and throat pain,normal
 runny nose and cough,normal
 sneezing and mild cough,normal
 headache,normal
-i feel a headeach,normal
-
+i feel a headache,normal
+mild fever,normal
+slight temperature,normal
+tired and sleepy,normal
+feeling a bit unwell,normal
+mild sore throat,normal
+itchy eyes,normal
+mild skin rash,normal
+slight nausea,normal
+minor cut on finger,normal
+bruise on leg,normal
+mild back pain,normal
+stiff neck from sleeping wrong,normal
+mild anxiety,normal
+feeling nervous,normal
+mild stomach ache,normal
+slight dizziness,normal
+ear pain,normal
+toothache,normal
+mild eye irritation,normal
+hiccups,normal
+bloating after eating,normal
+gas and burping,normal
+mild constipation,normal
+dry skin,normal
+mild sunburn,normal
+insect bite,normal
+paper cut,normal
+mild muscle ache after exercise,normal
+cold hands and feet,normal
+slight cough,normal
+low grade fever 37.5,normal
+runny nose,normal
+watery eyes and sneezing,normal
+mild allergic reaction,normal
 abdominal pain after eating,moderate
 stomach pain after eating,moderate
 my stomach hurts after meals,moderate
 pain in stomach after food,moderate
+fever 38.5 and body aches,moderate
+moderate fever with chills,moderate
+persistent headache for 2 days,moderate
+headache and vomiting,moderate
+vomiting and diarrhea,moderate
+diarrhea and stomach cramps,moderate
+urinary burning and frequent urination,moderate
+pain when urinating,moderate
+ear pain and fluid from ear,moderate
+severe toothache and swollen face,moderate
+eye redness and discharge,moderate
+skin rash and itching spreading,moderate
+ankle sprain and swelling,moderate
+knee pain and swelling after fall,moderate
+back pain that won't go away,moderate
+neck pain and headache,moderate
+migraine with light sensitivity,moderate
+dizziness and vomiting,moderate
+chest tightness without severe pain,moderate
+shortness of breath on exertion,moderate
+coughing for more than 2 weeks,moderate
+blood in urine,moderate
+blood in stool,moderate
+unexplained weight loss,moderate
+high fever 39 and rash,moderate
+fever and joint pain,moderate
+swollen lymph nodes,moderate
+painful swallowing,moderate
+difficulty eating,moderate
+abdominal cramps and bloating,moderate
+pelvic pain,moderate
+severe menstrual cramps,moderate
+vaginal discharge with odor,moderate
+painful urination in women,moderate
+testicular pain,moderate
+rectal pain and bleeding,moderate
+yellow skin and eyes,moderate
+dark urine and light stool,moderate
+swollen leg with redness and warmth,moderate
+calf pain when walking,moderate
+numbness in hands and feet,moderate
+tingling in fingers,moderate
+memory problems and confusion in elderly,moderate
+chest pain and shortness of breath,critical
+difficulty breathing at rest,critical
+severe chest pain,critical
+high fever above 40,critical
+loss of consciousness,critical
+severe allergic reaction,critical
+uncontrolled bleeding,critical
+stroke symptoms,critical
+severe abdominal pain,critical
+drug overdose,critical
+i have fever and cough,normal
+my head hurts a little,normal
+i feel tired,normal
+slight sore throat,normal
+i have runny nose,normal
+feeling nauseous mildly,normal
+minor headache,normal
+i feel dizzy slightly,normal
+mild back ache,normal
+sneezing a lot,normal
+i have a cold,normal
+feeling under the weather,normal
+mild flu symptoms,normal
+low energy and fatigue,normal
+i have stomach pain after eating,moderate
+my knee hurts,moderate
+i have a rash on my arm,moderate
+pain when i pee,moderate
+i have been coughing for weeks,moderate
+i have blood in my urine,moderate
+my back has been hurting for days,moderate
+i have swollen glands,moderate
+persistent fever for 3 days,moderate
+i have chest tightness,moderate
+i cannot breathe properly,critical
+i am having a heart attack,critical
+i am bleeding heavily,critical
+i cannot wake up,critical
+my baby is not breathing,critical
+i am having a seizure,critical
+i think i was poisoned,critical
+i have severe chest pain and sweating,critical
+i have worst headache of my life,critical
+i am having an allergic reaction and throat is swelling,critical
+fever and headache and stiff neck,critical
+vomiting and severe abdominal pain,critical
+high fever with seizure,critical
+unconscious after head injury,critical
+breathing stopped after drowning,critical
+shortness of breath,moderate
+persistent cough with phlegm,moderate
+fever and sore throat,moderate
+body aches and fever,moderate
+fatigue and loss of appetite,moderate
+nausea and vomiting,moderate
+diarrhea for 2 days,moderate
+stomach cramps,moderate
+urinary tract infection symptoms,moderate
+ear infection pain,moderate
+pink eye and discharge,moderate
+skin infection with pus,moderate
+wound not healing,moderate
+joint pain and swelling,moderate
+muscle weakness,moderate
+blurred vision,moderate
+hearing loss,moderate
+ringing in ears,moderate
+nose bleeds,moderate
+mouth sores,moderate
+difficulty swallowing,moderate
+acid reflux and chest burning,moderate
+constipation for several days,moderate
+swollen ankles,moderate
+hair loss,moderate
+excessive thirst and urination,moderate
+night sweats,moderate
+irregular heartbeat feeling,moderate
+shortness of breath when lying down,moderate
+swollen belly,moderate
+jaundice,moderate
+painful joints,moderate
+rash after medication,moderate
+headache and fever in child,moderate
+child with ear pain and crying,moderate
+child with rash and fever,moderate

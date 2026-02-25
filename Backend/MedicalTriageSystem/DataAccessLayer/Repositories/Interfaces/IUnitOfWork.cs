@@ -12,6 +12,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new();
         IDoctorRepository Doctors { get; }
         IReceptionistRepository Receptionists { get; }
+        IPersonRepository Persons { get; }
         Task<int> SaveChangesAsync();
     }
 }

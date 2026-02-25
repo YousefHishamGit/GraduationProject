@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTOs.Doctor;
+using BusinessLogicLayer.DTOs.Person;
 using BusinessLogicLayer.DTOs.Receptionist;
 using DataAccessLayer.Entities;
 using System;
@@ -15,6 +16,8 @@ namespace BusinessLogicLayer
         public MappingProfile()
         {
             DoctorMap();
+            ReservationMap();
+            PersonMap();
         }
 
         private void DoctorMap()
@@ -79,6 +82,17 @@ namespace BusinessLogicLayer
         opt => opt.MapFrom(src => src.Person.Gender.ToString()))
             .ForMember(dest => dest.Email,
         opt => opt.MapFrom(src => src.User.Email));
+        }
+
+        private void PersonMap() {
+            CreateMap<Person, PersonResponseDto>()
+              .ForMember(dest => dest.FullName,
+          opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+             .ForMember(dest => dest.Gender,
+        opt => opt.MapFrom(src => src.Gender.ToString()));
+            CreateMap<UpdatePersonDto, Person>()
+                    .ForAllMembers(opt => opt.Condition(
+        (src, dest, srcMember) => srcMember != null));
         }
 
             

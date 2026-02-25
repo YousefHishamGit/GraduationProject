@@ -32,6 +32,7 @@ namespace MedicalTriageSystem
                         .AddEntityFrameworkStores<MedicalTriageDbContext>()
                         .AddDefaultTokenProviders();
             builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
+            builder.Services.AddScoped<IPersonService, PersonService>();
 
 
 

@@ -16,12 +16,15 @@ namespace DataAccessLayer.Repositories.Implementation
 
         public IDoctorRepository Doctors { get; private set; }
         public IReceptionistRepository Receptionists { get; private set; }
+        public IPersonRepository Persons { get; private set; }
 
         public UnitOfWork(MedicalTriageDbContext dbContext)
         {
             _dbContext = dbContext;
             _repositories = new Dictionary<Type, object>();
             Doctors = new DoctorRepository(_dbContext);
+            Receptionists = new ReceptionistRepository(_dbContext);
+            Persons = new PersonRepository(_dbContext);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()
