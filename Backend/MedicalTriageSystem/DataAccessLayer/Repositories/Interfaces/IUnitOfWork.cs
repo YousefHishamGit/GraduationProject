@@ -1,5 +1,4 @@
-using DataAccessLayer.Entities.Base;
-using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +13,6 @@ namespace DataAccessLayer.Repositories.Interfaces
         IDoctorRepository Doctors { get; }
         IReceptionistRepository Receptionists { get; }
         IPersonRepository Persons { get; }
-        IAppointmentRepository Appointments { get; }
-        IMedicalRecordRepository MedicalRecords { get; }
-        IPrescriptionRepository Prescriptions { get; }
         Task<int> SaveChangesAsync();
     }
 }
