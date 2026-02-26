@@ -1,7 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.DTOs.Person;
 using BusinessLogicLayer.DTOs.Receptionist;
+using BusinessLogicLayer.DTOs.Appointment;
+using BusinessLogicLayer.DTOs.MedicalRecord;
+using BusinessLogicLayer.DTOs.Prescription;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +21,9 @@ namespace BusinessLogicLayer
             DoctorMap();
             ReservationMap();
             PersonMap();
+            AppointmentMap();
+            MedicalRecordMap();
+            PrescriptionMap();
         }
 
         private void DoctorMap()
@@ -84,6 +90,24 @@ namespace BusinessLogicLayer
         opt => opt.MapFrom(src => src.User.Email));
         }
 
+        private void AppointmentMap()
+        {
+            CreateMap<Appointment, AppointmentResponseDto>()
+                .ForMember(dest => dest.Type,
+                    opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status.ToString()));
+        }
+
+        private void MedicalRecordMap()
+        {
+            CreateMap<MedicalRecord, MedicalRecordResponseDto>();
+        }
+
+        private void PrescriptionMap()
+        {
+            CreateMap<Prescription, PrescriptionResponseDto>();
+        }
         private void PersonMap() {
             CreateMap<Person, PersonResponseDto>()
               .ForMember(dest => dest.FullName,

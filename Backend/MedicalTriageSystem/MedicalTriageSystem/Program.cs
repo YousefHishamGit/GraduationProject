@@ -27,6 +27,9 @@ namespace MedicalTriageSystem
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+            builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
             builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));
             builder.Services.AddIdentity<User, IdentityRole>()
                         .AddEntityFrameworkStores<MedicalTriageDbContext>()
@@ -54,6 +57,7 @@ namespace MedicalTriageSystem
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

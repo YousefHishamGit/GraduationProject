@@ -14,3 +14,6 @@ E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net
 E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\refint\BusinessLogicLayer.dll
 E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.pdb
 E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\ref\BusinessLogicLayer.dll
+D:\project\GraduationProject-main\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.dll
+D:\project\GraduationProject-main\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\refint\BusinessLogicLayer.dll
+D:\project\GraduationProject-main\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.pdb
