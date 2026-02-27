@@ -17,6 +17,9 @@ namespace DataAccessLayer.Repositories.Implementation
         public IDoctorRepository Doctors { get; private set; }
         public IReceptionistRepository Receptionists { get; private set; }
         public IPersonRepository Persons { get; private set; }
+        public IAppointmentRepository Appointments { get; private set; }
+        public IMedicalRecordRepository MedicalRecords { get; private set; }
+        public IPrescriptionRepository Prescriptions { get; private set; }
 
         public UnitOfWork(MedicalTriageDbContext dbContext)
         {
@@ -25,6 +28,9 @@ namespace DataAccessLayer.Repositories.Implementation
             Doctors = new DoctorRepository(_dbContext);
             Receptionists = new ReceptionistRepository(_dbContext);
             Persons = new PersonRepository(_dbContext);
+            Appointments = new AppointmentRepository(_dbContext);
+            MedicalRecords = new MedicalRecordRepository(_dbContext);
+            Prescriptions = new PrescriptionRepository(_dbContext);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()

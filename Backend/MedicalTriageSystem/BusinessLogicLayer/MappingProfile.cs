@@ -84,6 +84,27 @@ namespace BusinessLogicLayer
         opt => opt.MapFrom(src => src.User.Email));
         }
 
+
+
+        private void AppointmentMap()
+        {
+            CreateMap<Appointment, AppointmentResponseDto>()
+                .ForMember(dest => dest.Type,
+                    opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status.ToString()));
+        }
+
+        private void MedicalRecordMap()
+        {
+            CreateMap<MedicalRecord, MedicalRecordResponseDto>();
+        }
+
+        private void PrescriptionMap()
+        {
+            CreateMap<Prescription, PrescriptionResponseDto>();
+        }
+        
         private void PersonMap() {
             CreateMap<Person, PersonResponseDto>()
               .ForMember(dest => dest.FullName,
@@ -96,6 +117,8 @@ namespace BusinessLogicLayer
         }
 
             
+
+
 
     }
 }

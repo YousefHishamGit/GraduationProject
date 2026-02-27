@@ -13,6 +13,9 @@ namespace DataAccessLayer.Repositories.Interfaces
         IDoctorRepository Doctors { get; }
         IReceptionistRepository Receptionists { get; }
         IPersonRepository Persons { get; }
+        IAppointmentRepository Appointments { get; }
+        IMedicalRecordRepository MedicalRecords { get; }
+        IPrescriptionRepository Prescriptions { get; }
         Task<int> SaveChangesAsync();
     }
 }
