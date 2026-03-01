@@ -1,6 +1,8 @@
+using DataAccessLayer.Entities.Base;
+
 namespace DataAccessLayer.Entities
 {
-    public class Prescription
+    public class Prescription:BaseEntity
     {
         public int Id { get; set; }
         public int MedicalRecordId { get; set; }

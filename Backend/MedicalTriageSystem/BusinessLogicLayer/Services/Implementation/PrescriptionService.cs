@@ -53,7 +53,7 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<PrescriptionResponseDto?> UpdateAsync(int id, UpdatePrescriptionDto dto)
         {
-            var entity = await _unitOfWork.Prescriptions.GetTrackedByIdAsync(id);
+            var entity = await _unitOfWork.Prescriptions.GetByIdAsync(id);
             if (entity == null) return null;
 
             if (dto.MedicineName != null) entity.MedicineName = dto.MedicineName;
@@ -71,7 +71,7 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _unitOfWork.Prescriptions.GetTrackedByIdAsync(id);
+            var entity = await _unitOfWork.Prescriptions.GetByIdAsync(id);
             if (entity == null) return false;
 
             _unitOfWork.Prescriptions.Delete(entity);

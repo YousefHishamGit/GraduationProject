@@ -94,9 +94,9 @@ namespace MedicalTriageSystem.Controllers
         [Authorize(Roles = "Doctor,Receptionist")]
         [ProducesResponseType(typeof(AppointmentResponseDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Cancel(int id, [FromBody] string? reason)
+        public async Task<IActionResult> Cancel(int id, [FromBody] CancelAppointmentDto dto)
         {
-            var appointment = await _appointmentService.CancelAsync(id, reason);
+            var appointment = await _appointmentService.CancelAsync(id, dto.Reason);
             if (appointment == null) return NotFound();
             return Ok(appointment);
         }

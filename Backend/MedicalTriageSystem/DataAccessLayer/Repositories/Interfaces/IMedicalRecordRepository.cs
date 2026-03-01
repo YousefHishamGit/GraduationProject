@@ -4,14 +4,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.Interfaces
 {
-    public interface IMedicalRecordRepository
+    public interface IMedicalRecordRepository : IGenericRepository<MedicalRecord>
     {
-        Task<MedicalRecord?> GetByIdAsync(int id);
-        Task<MedicalRecord?> GetTrackedByIdAsync(int id);
+        Task<MedicalRecord?> GetByIdWithDetailsAsync(int id);
         Task<MedicalRecord?> GetByAppointmentIdAsync(int appointmentId);
         Task<IEnumerable<MedicalRecord>> GetByPatientIdAsync(int patientId);
-        Task AddAsync(MedicalRecord entity);
-        void Update(MedicalRecord entity);
     }
 }
 

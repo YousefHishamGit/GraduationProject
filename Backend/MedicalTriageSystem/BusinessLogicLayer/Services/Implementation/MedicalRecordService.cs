@@ -62,7 +62,7 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<MedicalRecordResponseDto?> UpdateAsync(int id, UpdateMedicalRecordDto dto)
         {
-            var record = await _unitOfWork.MedicalRecords.GetTrackedByIdAsync(id);
+            var record = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
             if (record == null) return null;
 
             if (dto.Diagnosis != null) record.Diagnosis = dto.Diagnosis;

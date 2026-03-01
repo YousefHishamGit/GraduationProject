@@ -8,34 +8,34 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.Implementation
 {
-    public class MedicalRecordRepository : IMedicalRecordRepository
+    public class MedicalRecordRepository : GenericRepository<MedicalRecord>, IMedicalRecordRepository
     {
         private readonly MedicalTriageDbContext _dbContext;
 
-        public MedicalRecordRepository(MedicalTriageDbContext dbContext)
+        public MedicalRecordRepository(MedicalTriageDbContext context) : base(context)
         {
-            _dbContext = dbContext;
+            _dbContext = context;
         }
 
-        public async Task<MedicalRecord?> GetByIdAsync(int id)
+        public async Task<MedicalRecord?> GetByIdWithDetailsAsync(int id)
         {
             return await _dbContext.MedicalRecords
+                .Include(m => m.Patient)
+                    .ThenInclude(p => p.Person)
+                .Include(m => m.Doctor)
+                    .ThenInclude(d => d.Person)
                 .Include(m => m.Prescriptions)
                 .Include(m => m.LabRequests)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-        public async Task<MedicalRecord?> GetTrackedByIdAsync(int id)
-        {
-            return await _dbContext.MedicalRecords.FindAsync(id);
         }
 
         public async Task<MedicalRecord?> GetByAppointmentIdAsync(int appointmentId)
         {
             return await _dbContext.MedicalRecords
-                .Include(m => m.Prescriptions)
-                .Include(m => m.LabRequests)
+                .Include(m => m.Patient)
+                    .ThenInclude(p => p.Person)
+                .Include(m => m.Doctor)
+                    .ThenInclude(d => d.Person)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AppointmentId == appointmentId);
         }
@@ -43,20 +43,11 @@ namespace DataAccessLayer.Repositories.Implementation
         public async Task<IEnumerable<MedicalRecord>> GetByPatientIdAsync(int patientId)
         {
             return await _dbContext.MedicalRecords
+                .Include(m => m.Doctor)
+                    .ThenInclude(d => d.Person)
                 .AsNoTracking()
                 .Where(m => m.PatientId == patientId)
-                .OrderByDescending(m => m.CreatedOn)
                 .ToListAsync();
-        }
-
-        public async Task AddAsync(MedicalRecord entity)
-        {
-            await _dbContext.MedicalRecords.AddAsync(entity);
-        }
-
-        public void Update(MedicalRecord entity)
-        {
-            _dbContext.MedicalRecords.Update(entity);
         }
     }
 }

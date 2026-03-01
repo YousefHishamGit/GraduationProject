@@ -8,25 +8,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.Implementation
 {
-    public class PrescriptionRepository : IPrescriptionRepository
+    public class PrescriptionRepository : GenericRepository<Prescription>, IPrescriptionRepository
     {
         private readonly MedicalTriageDbContext _dbContext;
 
-        public PrescriptionRepository(MedicalTriageDbContext dbContext)
+        public PrescriptionRepository(MedicalTriageDbContext context) : base(context)
         {
-            _dbContext = dbContext;
-        }
-
-        public async Task<Prescription?> GetByIdAsync(int id)
-        {
-            return await _dbContext.Prescriptions
-                .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == id);
-        }
-
-        public async Task<Prescription?> GetTrackedByIdAsync(int id)
-        {
-            return await _dbContext.Prescriptions.FindAsync(id);
+            _dbContext = context;
         }
 
         public async Task<IEnumerable<Prescription>> GetByMedicalRecordIdAsync(int medicalRecordId)
@@ -35,21 +23,6 @@ namespace DataAccessLayer.Repositories.Implementation
                 .AsNoTracking()
                 .Where(p => p.MedicalRecordId == medicalRecordId)
                 .ToListAsync();
-        }
-
-        public async Task AddAsync(Prescription entity)
-        {
-            await _dbContext.Prescriptions.AddAsync(entity);
-        }
-
-        public void Update(Prescription entity)
-        {
-            _dbContext.Prescriptions.Update(entity);
-        }
-
-        public void Delete(Prescription entity)
-        {
-            _dbContext.Prescriptions.Remove(entity);
         }
     }
 }

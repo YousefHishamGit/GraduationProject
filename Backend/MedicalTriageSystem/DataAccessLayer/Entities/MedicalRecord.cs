@@ -1,6 +1,8 @@
+using DataAccessLayer.Entities.Base;
+
 namespace DataAccessLayer.Entities
 {
-    public class MedicalRecord
+    public class MedicalRecord: BaseEntity
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
@@ -9,7 +11,7 @@ namespace DataAccessLayer.Entities
         public string Diagnosis { get; set; } = string.Empty;
         public string? Notes { get; set; }
         public string? VitalSigns { get; set; } // JSON: BP, Pulse, Temp, etc.
-        public DateTime CreatedOn { get; set; }
+        
 
         // Navigation Properties
         public virtual Appointment Appointment { get; set; } = null!;
