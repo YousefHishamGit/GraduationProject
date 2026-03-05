@@ -1,6 +1,8 @@
+using DataAccessLayer.Entities.Base;
+
 namespace DataAccessLayer.Entities
 {
-    public class Review
+    public class Review: BaseEntity
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
@@ -8,7 +10,7 @@ namespace DataAccessLayer.Entities
         public int DoctorId { get; set; }
         public int Rating { get; set; } // 1-5
         public string? Comment { get; set; }
-        public DateTime CreatedOn { get; set; }
+        
 
         // Navigation Properties
         public virtual Appointment Appointment { get; set; } = null!;

@@ -1,8 +1,9 @@
+using DataAccessLayer.Entities.Base;
 using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class LabRequest
+    public class LabRequest:BaseEntity
     {
         public int Id { get; set; }
         public int MedicalRecordId { get; set; }

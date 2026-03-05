@@ -19,6 +19,6 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<IEnumerable<DoctorScheduleResponseDto>> GetDoctorScheduleAsync(int doctorId);
         Task<IEnumerable<DoctorLeaveResponseDto>> GetDoctorLeavesAsync(int doctorId);
         Task<IEnumerable<TimeSlotResponseDto>> GetDoctorTimeSlotsAsync(int doctorId);
-        Task<IEnumerable<ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId);
+        Task<IEnumerable<DTOs.Review.ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId);
     }
 }

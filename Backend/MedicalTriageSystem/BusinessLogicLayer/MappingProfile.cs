@@ -2,10 +2,12 @@
 using BusinessLogicLayer.DTOs.Appointment;
 using BusinessLogicLayer.DTOs.Department;
 using BusinessLogicLayer.DTOs.Doctor;
+using BusinessLogicLayer.DTOs.LapRequest;
 using BusinessLogicLayer.DTOs.MedicalRecord;
 using BusinessLogicLayer.DTOs.Person;
 using BusinessLogicLayer.DTOs.Prescription;
 using BusinessLogicLayer.DTOs.Receptionist;
+using BusinessLogicLayer.DTOs.Review;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Enums;
 using System;
@@ -27,6 +29,8 @@ namespace BusinessLogicLayer
             MedicalRecordMap();
             PrescriptionMap();
             DepartmentMap();
+            LabRequestMap();
+            ReviewMap();
 
         }
 
@@ -67,7 +71,7 @@ namespace BusinessLogicLayer
 
             CreateMap<TimeSlot, TimeSlotResponseDto>();
 
-            CreateMap<Review, ReviewResponseDto>()
+            CreateMap<Review, DTOs.Review.ReviewResponseDto>()
                 .ForMember(dest => dest.PatientName,
                     opt => opt.MapFrom(src =>
                         $"{src.Patient.Person.FirstName} {src.Patient.Person.LastName}"));
@@ -93,9 +97,6 @@ namespace BusinessLogicLayer
             .ForMember(dest => dest.Email,
         opt => opt.MapFrom(src => src.User.Email));
         }
-
-
-
         private void AppointmentMap()
         {
             
@@ -169,6 +170,37 @@ namespace BusinessLogicLayer
                     (src, dest, srcMember) => srcMember != null));
 
             CreateMap<Department, DepartmentResponseDto>();
+        }
+
+        private void LabRequestMap()
+        {
+            CreateMap<CreateLabRequestDto, LabRequest>()
+    .ForMember(dest => dest.Status,
+        opt => opt.MapFrom(src => LabRequestStatus.Requested))
+    .ForMember(dest => dest.RequestedOn,
+        opt => opt.MapFrom(src => DateTime.UtcNow));
+
+            CreateMap<UpdateLabRequestDto, LabRequest>()
+                .ForAllMembers(opt => opt.Condition(
+                    (src, dest, srcMember) => srcMember != null));
+
+            CreateMap<LabRequest, LabRequestResponseDto>()
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status.ToString()));
+        }
+
+        private void ReviewMap()
+        {
+            CreateMap<CreateReviewDto, Review>();
+
+            CreateMap<UpdateReviewDto, Review>()
+                .ForAllMembers(opt => opt.Condition(
+                    (src, dest, srcMember) => srcMember != null));
+
+            CreateMap<Review, DTOs.Review.ReviewResponseDto>()
+                .ForMember(dest => dest.PatientName,
+                    opt => opt.MapFrom(src =>
+                        $"{src.Patient.Person.FirstName} {src.Patient.Person.LastName}"));
         }
 
 

@@ -3,20 +3,36 @@
   "WorkspaceRootPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\departmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\departmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\interfaces\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\interfaces\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\implementation\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\implementation\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\implementation\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\implementation\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\doctorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\doctorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\review\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\review\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\receptionistscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\receptionistscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\interfaces\\ireviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\interfaces\\ireviewservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\implementation\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,6 +41,82 @@
     {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\interfaces\\ireviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\interfaces\\ireviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\review\\updatereviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\review\\updatereviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\review\\createreviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\review\\createreviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\labrequestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\labrequestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\implementation\\labrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\implementation\\labrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\interfaces\\ilabrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\interfaces\\ilabrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\implementation\\labrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\implementation\\labrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\interfaces\\ilabrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\interfaces\\ilabrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\laprequest\\labrequestresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\laprequest\\labrequestresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\laprequest\\uploadlabresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\laprequest\\uploadlabresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\laprequest\\updatelabrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\laprequest\\updatelabrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\laprequest\\createlabrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\laprequest\\createlabrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\enums\\labrequeststatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\enums\\labrequeststatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\entities\\labrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\entities\\labrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\entities\\base\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\entities\\base\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\departmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\departmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\implementation\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\implementation\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\services\\interfaces\\idepartmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\implementation\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,10 +141,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\entities\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\entities\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\services\\implementation\\prescriptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -103,16 +191,8 @@
       "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\medicalrecordscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\doctorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\controllers\\doctorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\implementation\\medicalrecordrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\implementation\\medicalrecordrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\entities\\base\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\entities\\base\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\repositories\\implementation\\receptionistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -141,10 +221,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\medicalrecord\\createmedicalrecorddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\medicalrecord\\createmedicalrecorddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|solutionrelative:medicaltriagesystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9A319AA-2E74-4390-9000-D81F196BE691}|MedicalTriageSystem\\MedicalTriageSystem.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\medicaltriagesystem\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -239,12 +315,12 @@
       "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\repositories\\implementation\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\doctor\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\doctor\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\businesslogiclayer\\dtos\\doctor\\timeslotresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA081239-41EA-4F38-8DF5-38FBA137F3E7}|BusinessLogicLayer\\BusinessLogicLayer.csproj|solutionrelative:businesslogiclayer\\dtos\\doctor\\timeslotresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|e:\\gradutionproject\\backend\\medicaltriagesystem\\dataaccesslayer\\migrations\\20260228233114_addbaseentitytomedicalrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CED4BA3-987D-48B6-A25A-2994270A053A}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\migrations\\20260228233114_addbaseentitytomedicalrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -267,67 +343,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DepartmentsController.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
-              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
-              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAYwE8AAAABAAAAAAAAAA==",
+              "Title": "IDoctorService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDoctorService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IDoctorService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDoctorService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IDoctorService.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T00:03:36.639Z",
+              "WhenOpened": "2026-03-05T07:50:54.952Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "DepartmentService.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAowDcAAAAJAAAAAAAAAA==",
+              "Title": "DoctorService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DoctorService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\DoctorService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DoctorService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\DoctorService.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAiwAYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:53:06.067Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T07:49:34.823Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IDepartmentService.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAADwvxIAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "IReviewRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IReviewRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IReviewRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IReviewRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IReviewRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:52:36.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T07:33:01.991Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DepartmentRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAswBgAAAAVAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "ReviewResponseDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\ReviewResponseDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Review\\ReviewResponseDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\ReviewResponseDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Review\\ReviewResponseDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:43:58.659Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IDepartmentRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:43:39.669Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T07:30:09.628Z"
             },
             {
               "$type": "Document",
@@ -337,287 +397,301 @@
               "RelativeDocumentMoniker": "BusinessLogicLayer\\MappingProfile.cs",
               "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\MappingProfile.cs",
               "RelativeToolTip": "BusinessLogicLayer\\MappingProfile.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAywKYAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAYwEkAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-24T01:04:10.788Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-24T01:04:10.788Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DepartmentResponseDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAIwA8AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:42:29.338Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "UpdateDepartmentDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:42:01.258Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IUnitOfWork.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBIAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T00:08:34.948Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UnitOfWork.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAkwCMAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T00:08:53.087Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CreateDepartmentDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:41:20.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Department.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Department.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Department.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Department.cs",
-              "RelativeToolTip": "DataAccessLayer\\Entities\\Department.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAA3wAoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:35:41.762Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "20260228233114_AddBaseEntityToMedicalRecord.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
-              "RelativeToolTip": "DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:31:14.493Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "PrescriptionService.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAIAwwEkAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:30:37.424Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "MedicalRecordService.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAADwv0AAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:29:57.823Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "PrescriptionsController.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
-              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
-              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAADwv1EAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:29:12.203Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "PrescriptionRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAADwvxoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:28:36.032Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "IPrescriptionRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:28:14.733Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Prescription.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Prescription.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Prescription.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Prescription.cs",
-              "RelativeToolTip": "DataAccessLayer\\Entities\\Prescription.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAA3wBEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:26:38.411Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CreatePrescriptionDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAA3wBIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:51:26.456Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "PrescriptionResponseDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:32:32.575Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UpdatePrescriptionDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAgwBEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:51:56.186Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "IMedicalRecordRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAowAkAAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:16:24.825Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "MedicalRecord.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\MedicalRecord.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\MedicalRecord.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\MedicalRecord.cs",
-              "RelativeToolTip": "DataAccessLayer\\Entities\\MedicalRecord.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAQwA0AAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:14:37.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "MedicalRecordsController.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
-              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
-              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAADwv1EAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:21:49.911Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 3,
               "Title": "DoctorsController.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DoctorsController.cs",
               "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\DoctorsController.cs",
               "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DoctorsController.cs",
               "RelativeToolTip": "MedicalTriageSystem\\Controllers\\DoctorsController.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAQwIQAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:21:44.37Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IReviewService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IReviewService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IReviewService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IReviewService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IReviewService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAkwBEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:35:39.665Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ReviewsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\ReviewsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\ReviewsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\ReviewsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\ReviewsController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwBwAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:36:51.186Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ReceptionistsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\ReceptionistsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\ReceptionistsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\ReceptionistsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\ReceptionistsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:21:44.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-05T07:37:36.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UpdateReviewDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\UpdateReviewDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Review\\UpdateReviewDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\UpdateReviewDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Review\\UpdateReviewDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:29:51.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwBQAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T00:08:34.948Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\UnitOfWork.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAowBoAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T00:08:53.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CreateReviewDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\CreateReviewDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Review\\CreateReviewDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Review\\CreateReviewDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Review\\CreateReviewDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:29:23.482Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Review.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Review.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Review.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Review.cs",
+              "RelativeToolTip": "DataAccessLayer\\Entities\\Review.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAiwBMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:26:51.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "LabRequestService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\LabRequestService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\LabRequestService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\LabRequestService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\LabRequestService.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwD8AAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:22:20.111Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LabRequestsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\LabRequestsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\LabRequestsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\LabRequestsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\LabRequestsController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:23:12.506Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ILabRequestService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\ILabRequestService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\ILabRequestService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\ILabRequestService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\ILabRequestService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAkwBEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:21:41.927Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "LabRequestRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\LabRequestRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\LabRequestRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\LabRequestRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\LabRequestRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAkwBYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:20:15.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ILabRequestRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\ILabRequestRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\ILabRequestRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\ILabRequestRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\ILabRequestRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:19:52.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "LabRequestResponseDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\LabRequestResponseDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\LapRequest\\LabRequestResponseDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\LabRequestResponseDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\LapRequest\\LabRequestResponseDto.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAkwBEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:18:24.846Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UploadLabResultDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\UploadLabResultDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\LapRequest\\UploadLabResultDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\UploadLabResultDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\LapRequest\\UploadLabResultDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:18:09.062Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "UpdateLabRequestDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\UpdateLabRequestDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\LapRequest\\UpdateLabRequestDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\UpdateLabRequestDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\LapRequest\\UpdateLabRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:17:44.314Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CreateLabRequestDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\CreateLabRequestDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\LapRequest\\CreateLabRequestDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\LapRequest\\CreateLabRequestDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\LapRequest\\CreateLabRequestDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:17:26.544Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "LabRequestStatus.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums\\LabRequestStatus.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Enums\\LabRequestStatus.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums\\LabRequestStatus.cs",
+              "RelativeToolTip": "DataAccessLayer\\Enums\\LabRequestStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:16:44.634Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "LabRequest.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\LabRequest.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\LabRequest.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\LabRequest.cs",
+              "RelativeToolTip": "DataAccessLayer\\Entities\\LabRequest.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAmwA0AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T07:15:01.326Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 26,
-              "Title": "MedicalRecordRepository.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
-              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAA2AAAAAAAAAA==",
+              "Title": "DepartmentsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\DepartmentsController.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwCMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:17:40.229Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-01T00:03:36.639Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
+              "Title": "IDepartmentService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IDepartmentService.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAADwvxIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:52:36.75Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "DepartmentRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\DepartmentRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAswBgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:43:58.659Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "IDepartmentRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IDepartmentRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:43:39.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Base\\BaseEntity.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Base\\BaseEntity.cs",
@@ -625,12 +699,239 @@
               "RelativeToolTip": "DataAccessLayer\\Entities\\Base\\BaseEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:02:33.734Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:02:33.734Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 27,
+              "Title": "DepartmentService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\DepartmentService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowDcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:53:06.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "DepartmentResponseDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\DepartmentResponseDto.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:42:29.338Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "UpdateDepartmentDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\UpdateDepartmentDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:42:01.258Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "CreateDepartmentDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Department\\CreateDepartmentDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:41:20.219Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "Department.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Department.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Department.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Department.cs",
+              "RelativeToolTip": "DataAccessLayer\\Entities\\Department.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA3wAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:35:41.762Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 79,
+              "Title": "20260228233114_AddBaseEntityToMedicalRecord.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
+              "RelativeToolTip": "DataAccessLayer\\Migrations\\20260228233114_AddBaseEntityToMedicalRecord.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:31:14.493Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "PrescriptionService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAIAwwEkAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:30:37.424Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "MedicalRecordService.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\MedicalRecordService.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAADwv0AAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:29:57.823Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "PrescriptionsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAADwv1EAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:29:12.203Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "PrescriptionRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\PrescriptionRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAADwvxoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:28:36.032Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "IPrescriptionRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IPrescriptionRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:28:14.733Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "Prescription.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Prescription.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Prescription.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Prescription.cs",
+              "RelativeToolTip": "DataAccessLayer\\Entities\\Prescription.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA3wBEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:26:38.411Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "CreatePrescriptionDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\CreatePrescriptionDto.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA3wBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T22:51:26.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "PrescriptionResponseDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\PrescriptionResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T22:32:32.575Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "UpdatePrescriptionDto.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
+              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
+              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Prescription\\UpdatePrescriptionDto.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAgwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T22:51:56.186Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "IMedicalRecordRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IMedicalRecordRepository.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAowAkAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:16:24.825Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "MedicalRecord.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\MedicalRecord.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\MedicalRecord.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\MedicalRecord.cs",
+              "RelativeToolTip": "DataAccessLayer\\Entities\\MedicalRecord.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAQwA0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:14:37.92Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "MedicalRecordsController.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
+              "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
+              "RelativeToolTip": "MedicalTriageSystem\\Controllers\\MedicalRecordsController.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAADwv1EAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:21:49.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "MedicalRecordRepository.cs",
+              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
+              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
+              "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\MedicalRecordRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T23:17:40.229Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
               "Title": "ReceptionistRepository.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\ReceptionistRepository.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\ReceptionistRepository.cs",
@@ -638,25 +939,23 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\ReceptionistRepository.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:17:34.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:17:34.837Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "DataAccessLayer",
+              "DocumentIndex": 51,
+              "Title": "DataAccessLayer.csproj",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
               "RelativeDocumentMoniker": "DataAccessLayer\\DataAccessLayer.csproj",
               "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
               "RelativeToolTip": "DataAccessLayer\\DataAccessLayer.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-28T23:15:23.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:15:23.327Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 50,
               "Title": "IDoctorRepository .cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IDoctorRepository .cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IDoctorRepository .cs",
@@ -664,12 +963,11 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IDoctorRepository .cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-24T01:05:00.081Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-24T01:05:00.081Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 49,
               "Title": "IAppointmentRepository.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IAppointmentRepository.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IAppointmentRepository.cs",
@@ -677,12 +975,11 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IAppointmentRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:58:02.576Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:58:02.576Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 54,
               "Title": "CreateMedicalRecordDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\MedicalRecord\\CreateMedicalRecordDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\MedicalRecord\\CreateMedicalRecordDto.cs",
@@ -690,25 +987,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\MedicalRecord\\CreateMedicalRecordDto.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAqwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:50:14.094Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:50:14.094Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Program.cs",
-              "RelativeDocumentMoniker": "MedicalTriageSystem\\Program.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Program.cs",
-              "RelativeToolTip": "MedicalTriageSystem\\Program.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACUAAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T00:14:29.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 53,
               "Title": "MedicalRecordResponseDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\MedicalRecord\\MedicalRecordResponseDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\MedicalRecord\\MedicalRecordResponseDto.cs",
@@ -716,12 +999,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\MedicalRecord\\MedicalRecordResponseDto.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAmwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:32:33.773Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:32:33.773Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 52,
               "Title": "UpdateMedicalRecordDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\MedicalRecord\\UpdateMedicalRecordDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\MedicalRecord\\UpdateMedicalRecordDto.cs",
@@ -729,12 +1011,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\MedicalRecord\\UpdateMedicalRecordDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:50:37.933Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:50:37.933Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 55,
               "Title": "AppointmentsController.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\AppointmentsController.cs",
               "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\AppointmentsController.cs",
@@ -742,12 +1023,11 @@
               "RelativeToolTip": "MedicalTriageSystem\\Controllers\\AppointmentsController.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAAAwFwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:05:57.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:05:57.456Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 56,
               "Title": "CancelAppointmentDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Appointment\\CancelAppointmentDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Appointment\\CancelAppointmentDto.cs",
@@ -755,12 +1035,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Appointment\\CancelAppointmentDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:09:39.035Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:09:39.035Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 58,
               "Title": "AppointmentRepository.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\AppointmentRepository.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\AppointmentRepository.cs",
@@ -768,12 +1047,11 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\AppointmentRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:57:58.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:57:58.148Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 59,
               "Title": "IAppointmentService.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IAppointmentService.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IAppointmentService.cs",
@@ -781,12 +1059,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IAppointmentService.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:33:33.333Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:33:33.333Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 57,
               "Title": "AppointmentService.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\AppointmentService.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\AppointmentService.cs",
@@ -794,12 +1071,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\AppointmentService.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAAwEcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:33:39.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:33:39.195Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 60,
               "Title": "AppointmentType.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums\\AppointmentType.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Enums\\AppointmentType.cs",
@@ -807,12 +1083,11 @@
               "RelativeToolTip": "DataAccessLayer\\Enums\\AppointmentType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:56:19.694Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:56:19.694Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 61,
               "Title": "AppointmentStatus.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums\\AppointmentStatus.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Enums\\AppointmentStatus.cs",
@@ -820,12 +1095,11 @@
               "RelativeToolTip": "DataAccessLayer\\Enums\\AppointmentStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:56:13.136Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:56:13.136Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 65,
               "Title": "AppointmentResponseDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Appointment\\AppointmentResponseDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Appointment\\AppointmentResponseDto.cs",
@@ -833,12 +1107,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Appointment\\AppointmentResponseDto.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAA6wBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:32:24.1Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:32:24.1Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 64,
               "Title": "CreateAppointmentDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Appointment\\CreateAppointmentDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Appointment\\CreateAppointmentDto.cs",
@@ -846,12 +1119,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Appointment\\CreateAppointmentDto.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAqwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:49:02.402Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:49:02.402Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 63,
               "Title": "UpdateAppointmentDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Appointment\\UpdateAppointmentDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Appointment\\UpdateAppointmentDto.cs",
@@ -859,12 +1131,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Appointment\\UpdateAppointmentDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T22:49:30.591Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T22:49:30.591Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 62,
               "Title": "Appointment.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Appointment.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Appointment.cs",
@@ -872,12 +1143,11 @@
               "RelativeToolTip": "DataAccessLayer\\Entities\\Appointment.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAA2wBsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:32:11.295Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:32:11.295Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 66,
               "Title": "ReceptionistResponseDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Receptionist\\ReceptionistResponseDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Receptionist\\ReceptionistResponseDto.cs",
@@ -885,12 +1155,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Receptionist\\ReceptionistResponseDto.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T22:32:38.401Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T22:32:38.401Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 67,
               "Title": "UpdatePersonDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Person\\UpdatePersonDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Person\\UpdatePersonDto.cs",
@@ -898,12 +1167,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Person\\UpdatePersonDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T00:03:36.558Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T00:03:36.558Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 68,
               "Title": "PersonResponseDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Person\\PersonResponseDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Person\\PersonResponseDto.cs",
@@ -911,12 +1179,11 @@
               "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Person\\PersonResponseDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T00:01:22.738Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T00:01:22.738Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 69,
               "Title": "CreateReceptionistDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Receptionist\\CreateReceptionistDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Receptionist\\CreateReceptionistDto.cs",
@@ -928,7 +1195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 70,
               "Title": "UpdateReceptionistDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Receptionist\\UpdateReceptionistDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Receptionist\\UpdateReceptionistDto.cs",
@@ -940,7 +1207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 71,
               "Title": "PersonController.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\PersonController.cs",
               "RelativeDocumentMoniker": "MedicalTriageSystem\\Controllers\\PersonController.cs",
@@ -952,7 +1219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 72,
               "Title": "PersonService.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation\\PersonService.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Implementation\\PersonService.cs",
@@ -964,7 +1231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 73,
               "Title": "IPersonService.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
@@ -976,7 +1243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 74,
               "Title": "PersonRepository.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\PersonRepository.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\PersonRepository.cs",
@@ -988,7 +1255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 75,
               "Title": "IPersonRepository .cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Interfaces\\IPersonRepository .cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Interfaces\\IPersonRepository .cs",
@@ -1000,7 +1267,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 76,
               "Title": "Person.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Entities\\Person.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Entities\\Person.cs",
@@ -1012,7 +1279,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 77,
               "Title": "DoctorRepository.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories\\Implementation\\DoctorRepository.cs",
               "RelativeDocumentMoniker": "DataAccessLayer\\Repositories\\Implementation\\DoctorRepository.cs",
@@ -1024,19 +1291,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
-              "Title": "ReviewResponseDto.cs",
-              "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Doctor\\ReviewResponseDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Doctor\\ReviewResponseDto.cs",
-              "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Doctor\\ReviewResponseDto.cs",
-              "RelativeToolTip": "BusinessLogicLayer\\DTOs\\Doctor\\ReviewResponseDto.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-24T01:03:41.742Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 78,
               "Title": "TimeSlotResponseDto.cs",
               "DocumentMoniker": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Doctor\\TimeSlotResponseDto.cs",
               "RelativeDocumentMoniker": "BusinessLogicLayer\\DTOs\\Doctor\\TimeSlotResponseDto.cs",

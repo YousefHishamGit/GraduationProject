@@ -36,6 +36,8 @@ namespace MedicalTriageSystem
                         .AddDefaultTokenProviders();
             builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
             builder.Services.AddScoped<IPersonService, PersonService>();
+            builder.Services.AddScoped<ILabRequestService, LabRequestService>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
 
 
 

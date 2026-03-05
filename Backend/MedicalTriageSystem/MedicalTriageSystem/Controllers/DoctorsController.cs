@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.DTOs.Doctor;
+﻿using BusinessLogicLayer.DTOs.Review;
+using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -126,10 +126,10 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(slots);
         }
 
-        public async Task<IEnumerable<ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId)
+        public async Task<IEnumerable<DTOs.Review.ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId)
         {
             var reviews = await _unitOfWork.Doctors.GetDoctorReviewsAsync(doctorId);
-            return _mapper.Map<IEnumerable<ReviewResponseDto>>(reviews);
+            return _mapper.Map<IEnumerable<DTOs.Review.ReviewResponseDto>>(reviews);
         }
     }
 }

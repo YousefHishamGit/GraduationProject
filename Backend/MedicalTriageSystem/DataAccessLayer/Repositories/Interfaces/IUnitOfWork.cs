@@ -17,6 +17,9 @@ namespace DataAccessLayer.Repositories.Interfaces
         IMedicalRecordRepository MedicalRecords { get; }
         IPrescriptionRepository Prescriptions { get; }
         IDepartmentRepository Departments { get; }
+        ILabRequestRepository LabRequests { get; }
+        IReviewRepository Reviews { get; }
+
         Task<int> SaveChangesAsync();
     }
 }

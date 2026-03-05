@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Entities.Base;
 using DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace DataAccessLayer.Repositories.Implementation
         public IPrescriptionRepository Prescriptions { get; private set; }
 
         public IDepartmentRepository Departments { get; private set; }
+        public ILabRequestRepository LabRequests { get; private set; }
+        public IReviewRepository Reviews { get; private set; }
 
         public UnitOfWork(MedicalTriageDbContext dbContext)
         {
@@ -34,6 +37,8 @@ namespace DataAccessLayer.Repositories.Implementation
             MedicalRecords = new MedicalRecordRepository(_dbContext);
             Prescriptions = new PrescriptionRepository(_dbContext);
             Departments = new DepartmentRepository(_dbContext);
+            LabRequests = new LabRequestRepository(_dbContext);
+            Reviews = new ReviewRepository(_dbContext);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()
