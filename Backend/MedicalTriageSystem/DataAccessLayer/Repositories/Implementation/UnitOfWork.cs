@@ -25,6 +25,7 @@ namespace DataAccessLayer.Repositories.Implementation
         public IDepartmentRepository Departments { get; private set; }
         public ILabRequestRepository LabRequests { get; private set; }
         public IReviewRepository Reviews { get; private set; }
+        public IAdminRepository Admin { get; private set; }
 
         public UnitOfWork(MedicalTriageDbContext dbContext)
         {
@@ -39,6 +40,7 @@ namespace DataAccessLayer.Repositories.Implementation
             Departments = new DepartmentRepository(_dbContext);
             LabRequests = new LabRequestRepository(_dbContext);
             Reviews = new ReviewRepository(_dbContext);
+            Admin = new AdminRepository(_dbContext);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()

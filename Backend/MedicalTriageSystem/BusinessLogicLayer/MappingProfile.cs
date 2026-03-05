@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLogicLayer.DTOs.Admin;
 using BusinessLogicLayer.DTOs.Appointment;
 using BusinessLogicLayer.DTOs.Department;
 using BusinessLogicLayer.DTOs.Doctor;
@@ -31,6 +32,7 @@ namespace BusinessLogicLayer
             DepartmentMap();
             LabRequestMap();
             ReviewMap();
+            AdminMap();
 
         }
 
@@ -201,6 +203,15 @@ namespace BusinessLogicLayer
                 .ForMember(dest => dest.PatientName,
                     opt => opt.MapFrom(src =>
                         $"{src.Patient.Person.FirstName} {src.Patient.Person.LastName}"));
+        }
+
+        private void AdminMap()
+        {
+            CreateMap<User, UserListDto>()
+                .ForMember(dest => dest.FullName,
+                    opt => opt.MapFrom(src => $"{src.Person.FirstName} {src.Person.LastName}"))
+                .ForMember(dest => dest.Role,
+                    opt => opt.MapFrom(src => src.Role.ToString()));
         }
 
 

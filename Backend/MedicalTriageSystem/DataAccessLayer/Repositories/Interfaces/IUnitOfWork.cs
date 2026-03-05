@@ -19,6 +19,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         IDepartmentRepository Departments { get; }
         ILabRequestRepository LabRequests { get; }
         IReviewRepository Reviews { get; }
+        IAdminRepository Admin { get; }
 
         Task<int> SaveChangesAsync();
     }
