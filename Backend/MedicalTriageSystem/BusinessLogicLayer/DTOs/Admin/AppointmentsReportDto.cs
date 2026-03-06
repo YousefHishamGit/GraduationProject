@@ -13,16 +13,7 @@ namespace BusinessLogicLayer.DTOs.Admin
         public List<AppointmentsByTypeDto> AppointmentsByType { get; set; } = new();
     }
 
-    public class AppointmentsByDoctorDto
-    {
-        public int DoctorId { get; set; }
-        public string DoctorName { get; set; } = string.Empty;
-        public int Count { get; set; }
-    }
 
-    public class AppointmentsByTypeDto
-    {
-        public string Type { get; set; } = string.Empty;
-        public int Count { get; set; }
-    }
+
+   
 }

@@ -14,17 +14,7 @@ namespace BusinessLogicLayer.DTOs.Admin
         public List<RevenueByDateDto> RevenueByDate { get; set; } = new();
     }
 
-    public class RevenueByPaymentMethodDto
-    {
-        public string PaymentMethod { get; set; } = string.Empty;
-        public decimal Amount { get; set; }
-        public int Count { get; set; }
-    }
 
-    public class RevenueByDateDto
-    {
-        public DateTime Date { get; set; }
-        public decimal Amount { get; set; }
-        public int TransactionCount { get; set; }
-    }
+
+   
 }

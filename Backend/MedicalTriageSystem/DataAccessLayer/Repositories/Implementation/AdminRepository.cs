@@ -66,7 +66,7 @@ namespace DataAccessLayer.Repositories.Implementation
         public async Task<decimal> GetTotalRevenueAsync()
         {
             return await _dbContext.Payments
-                .Where(p => p.Status == PaymentStatus.Completed)
+                .Where(p => p.Status == PaymentStatus.Paid)
                 .SumAsync(p => p.Amount);
         }
 
@@ -74,7 +74,7 @@ namespace DataAccessLayer.Repositories.Implementation
         {
             var today = DateTime.UtcNow.Date;
             return await _dbContext.Payments
-                .Where(p => p.Status == PaymentStatus.Completed && p.PaidAt.HasValue && p.PaidAt.Value.Date == today)
+                .Where(p => p.Status == PaymentStatus.Paid && p.PaidAt.HasValue && p.PaidAt.Value.Date == today)
                 .SumAsync(p => p.Amount);
         }
 
@@ -153,7 +153,7 @@ namespace DataAccessLayer.Repositories.Implementation
         public async Task<decimal> GetRevenueByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _dbContext.Payments
-                .Where(p => p.Status == PaymentStatus.Completed 
+                .Where(p => p.Status == PaymentStatus.Paid 
                     && p.PaidAt.HasValue 
                     && p.PaidAt.Value >= startDate 
                     && p.PaidAt.Value <= endDate)
@@ -174,7 +174,7 @@ namespace DataAccessLayer.Repositories.Implementation
         public async Task<IEnumerable<(string PaymentMethod, decimal Amount, int Count)>> GetRevenueByPaymentMethodAsync()
         {
             var result = await _dbContext.Payments
-                .Where(p => p.Status == PaymentStatus.Completed)
+                .Where(p => p.Status == PaymentStatus.Paid)
                 .GroupBy(p => p.Method)
                 .Select(g => new { Method = g.Key.ToString(), Amount = g.Sum(p => p.Amount), Count = g.Count() })
                 .AsNoTracking()
@@ -187,7 +187,7 @@ namespace DataAccessLayer.Repositories.Implementation
         {
             var startDate = DateTime.UtcNow.AddDays(-days).Date;
             var result = await _dbContext.Payments
-                .Where(p => p.Status == PaymentStatus.Completed && p.PaidAt.HasValue && p.PaidAt.Value.Date >= startDate)
+                .Where(p => p.Status == PaymentStatus.Paid && p.PaidAt.HasValue && p.PaidAt.Value.Date >= startDate)
                 .GroupBy(p => p.PaidAt.Value.Date)
                 .Select(g => new { Date = g.Key, Amount = g.Sum(p => p.Amount), TransactionCount = g.Count() })
                 .OrderBy(r => r.Date)

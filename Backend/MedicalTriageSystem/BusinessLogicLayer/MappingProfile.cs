@@ -207,11 +207,32 @@ namespace BusinessLogicLayer
 
         private void AdminMap()
         {
+            
             CreateMap<User, UserListDto>()
                 .ForMember(dest => dest.FullName,
                     opt => opt.MapFrom(src => $"{src.Person.FirstName} {src.Person.LastName}"))
+                .ForMember(dest => dest.Phone,
+                    opt => opt.MapFrom(src => src.Person.Phone))
                 .ForMember(dest => dest.Role,
-                    opt => opt.MapFrom(src => src.Role.ToString()));
+                    opt => opt.MapFrom(src => src.Role.ToString()))
+                .ForMember(dest => dest.CreatedOn,
+                    opt => opt.MapFrom(src => src.Person.CreatedOn));
+
+            CreateMap<Appointment, AppointmentsByDoctorDto>()
+                .ForMember(dest => dest.DoctorId,
+                    opt => opt.MapFrom(src => src.DoctorId))
+                .ForMember(dest => dest.DoctorName,
+                    opt => opt.MapFrom(src =>
+                        $"{src.Doctor.Person.FirstName} {src.Doctor.Person.LastName}"))
+                .ForMember(dest => dest.Count,
+                    opt => opt.Ignore()); 
+
+          
+            CreateMap<Appointment, AppointmentsByTypeDto>()
+                .ForMember(dest => dest.Type,
+                    opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dest => dest.Count,
+                    opt => opt.Ignore()); 
         }
 
 
