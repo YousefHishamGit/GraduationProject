@@ -7,8 +7,8 @@ namespace DataAccessLayer.Entities
         public DateTime LeaveDate { get; set; }
         public string? Reason { get; set; }
         public bool IsApproved { get; set; }
-
-        // Navigation Properties
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public virtual Doctor Doctor { get; set; } = null!;
     }
 }

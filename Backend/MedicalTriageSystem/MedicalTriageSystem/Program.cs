@@ -39,7 +39,7 @@ namespace MedicalTriageSystem
             builder.Services.AddScoped<ILabRequestService, LabRequestService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
-
+            builder.Services.AddScoped<IPatientService, PatientService>();
 
 
 

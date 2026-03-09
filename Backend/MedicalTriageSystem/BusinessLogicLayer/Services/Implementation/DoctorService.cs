@@ -131,5 +131,159 @@ namespace BusinessLogicLayer.Services.Implementation
             var reviews = await _unitOfWork.Doctors.GetDoctorReviewsAsync(doctorId);
             return _mapper.Map<IEnumerable<DTOs.Review.ReviewResponseDto>>(reviews);
         }
+
+        public async Task<DoctorScheduleResponseDto> CreateScheduleAsync(int doctorId, CreateDoctorScheduleDto dto)
+        {
+            var doctor = await _unitOfWork.Doctors.GetByIdAsync(doctorId);
+            if (doctor == null)
+                throw new Exception("Doctor not found");
+
+            var schedule = _mapper.Map<DoctorSchedule>(dto);
+            schedule.DoctorId = doctorId;
+
+            await _unitOfWork.GetRepository<DoctorSchedule>().AddAsync(schedule);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<DoctorScheduleResponseDto>(schedule);
+        }
+
+        public async Task<DoctorScheduleResponseDto?> UpdateScheduleAsync(int scheduleId, UpdateDoctorScheduleDto dto)
+        {
+            var schedule = await _unitOfWork.GetRepository<DoctorSchedule>().GetByIdAsync(scheduleId);
+            if (schedule == null) return null;
+
+            _mapper.Map(dto, schedule);
+            _unitOfWork.GetRepository<DoctorSchedule>().Update(schedule);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<DoctorScheduleResponseDto>(schedule);
+        }
+
+        public async Task<bool> DeleteScheduleAsync(int scheduleId)
+        {
+            var schedule = await _unitOfWork.GetRepository<DoctorSchedule>().GetByIdAsync(scheduleId);
+            if (schedule == null) return false;
+
+            _unitOfWork.GetRepository<DoctorSchedule>().Delete(schedule);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<DoctorScheduleResponseDto?> GetScheduleByIdAsync(int scheduleId)
+        {
+            var schedule = await _unitOfWork.GetRepository<DoctorSchedule>().GetByIdAsync(scheduleId);
+            return _mapper.Map<DoctorScheduleResponseDto?>(schedule);
+        }
+
+        public async Task<DoctorLeaveResponseDto> CreateLeaveAsync(int doctorId, CreateDoctorLeaveDto dto)
+        {
+            var doctor = await _unitOfWork.Doctors.GetByIdAsync(doctorId);
+            if (doctor == null)
+                throw new Exception("Doctor not found");
+
+            var leave = _mapper.Map<DoctorLeave>(dto);
+            leave.DoctorId = doctorId;
+
+            await _unitOfWork.GetRepository<DoctorLeave>().AddAsync(leave);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<DoctorLeaveResponseDto>(leave);
+        }
+
+        public async Task<DoctorLeaveResponseDto?> UpdateLeaveAsync(int leaveId, UpdateDoctorLeaveDto dto)
+        {
+            var leave = await _unitOfWork.GetRepository<DoctorLeave>().GetByIdAsync(leaveId);
+            if (leave == null) return null;
+
+            _mapper.Map(dto, leave);
+            _unitOfWork.GetRepository<DoctorLeave>().Update(leave);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<DoctorLeaveResponseDto>(leave);
+        }
+
+        public async Task<bool> DeleteLeaveAsync(int leaveId)
+        {
+            var leave = await _unitOfWork.GetRepository<DoctorLeave>().GetByIdAsync(leaveId);
+            if (leave == null) return false;
+
+            _unitOfWork.GetRepository<DoctorLeave>().Delete(leave);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<DoctorLeaveResponseDto?> GetLeaveByIdAsync(int leaveId)
+        {
+            var leave = await _unitOfWork.GetRepository<DoctorLeave>().GetByIdAsync(leaveId);
+            return _mapper.Map<DoctorLeaveResponseDto?>(leave);
+        }
+
+        public async Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsAsync(int doctorId, GenerateTimeSlotsDto dto)
+        {
+            var doctor = await _unitOfWork.Doctors.GetByIdAsync(doctorId);
+            if (doctor == null)
+                throw new Exception("Doctor not found");
+
+            int dayOfWeek = (int)dto.Date.DayOfWeek; 
+            var schedules = await _unitOfWork.GetRepository<DoctorSchedule>()
+                .GetAllAsync(s => s.DoctorId == doctorId && s.DayOfWeek == dayOfWeek && s.IsAvailable);
+
+            if (!schedules.Any())
+                throw new Exception("No available schedule for this day");
+
+            var generatedSlots = new List<TimeSlot>();
+
+            foreach (var schedule in schedules)
+            {
+                var current = dto.Date.Date + schedule.StartTime;
+                var end = dto.Date.Date + schedule.EndTime;
+
+                while (current < end)
+                {
+                    var slotEnd = current.AddMinutes(schedule.SlotDurationMinutes);
+                    if (slotEnd > end) slotEnd = end;
+
+                    var existing = await _unitOfWork.GetRepository<TimeSlot>()
+                        .GetAllAsync(t => t.DoctorId == doctorId && t.SlotStart == current);
+                    if (!existing.Any())
+                    {
+                        var slot = new TimeSlot
+                        {
+                            DoctorId = doctorId,
+                            SlotStart = current,
+                            SlotEnd = slotEnd,
+                            IsBooked = false
+                        };
+                        await _unitOfWork.GetRepository<TimeSlot>().AddAsync(slot);
+                        generatedSlots.Add(slot);
+                    }
+
+                    current = slotEnd;
+                }
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(generatedSlots);
+        }
+
+        public async Task<bool> DeleteTimeSlotAsync(int timeSlotId)
+        {
+            var slot = await _unitOfWork.GetRepository<TimeSlot>().GetByIdAsync(timeSlotId);
+            if (slot == null) return false;
+
+            if (slot.IsBooked)
+                throw new Exception("Cannot delete a booked time slot");
+
+            _unitOfWork.GetRepository<TimeSlot>().Delete(slot);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+        
+        public async Task<IEnumerable<TimeSlotResponseDto>> GetAvailableTimeSlotsByDateAsync(int doctorId, DateTime date)
+        {
+            var slots = await _unitOfWork.GetRepository<TimeSlot>()
+                .GetAllAsync(t => t.DoctorId == doctorId && t.SlotStart.Date == date.Date && !t.IsBooked);
+            return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(slots);
+        }
     }
 }

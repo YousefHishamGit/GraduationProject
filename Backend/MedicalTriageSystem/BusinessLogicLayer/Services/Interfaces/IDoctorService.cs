@@ -20,5 +20,16 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<IEnumerable<DoctorLeaveResponseDto>> GetDoctorLeavesAsync(int doctorId);
         Task<IEnumerable<TimeSlotResponseDto>> GetDoctorTimeSlotsAsync(int doctorId);
         Task<IEnumerable<DTOs.Review.ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId);
+        Task<DoctorScheduleResponseDto> CreateScheduleAsync(int doctorId, CreateDoctorScheduleDto dto);
+        Task<DoctorScheduleResponseDto?> UpdateScheduleAsync(int scheduleId, UpdateDoctorScheduleDto dto);
+        Task<bool> DeleteScheduleAsync(int scheduleId);
+        Task<DoctorScheduleResponseDto?> GetScheduleByIdAsync(int scheduleId);
+        Task<DoctorLeaveResponseDto> CreateLeaveAsync(int doctorId, CreateDoctorLeaveDto dto);
+        Task<DoctorLeaveResponseDto?> UpdateLeaveAsync(int leaveId, UpdateDoctorLeaveDto dto);
+        Task<bool> DeleteLeaveAsync(int leaveId);
+        Task<DoctorLeaveResponseDto?> GetLeaveByIdAsync(int leaveId);
+        Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsAsync(int doctorId, GenerateTimeSlotsDto dto);
+        Task<bool> DeleteTimeSlotAsync(int timeSlotId);
+        Task<IEnumerable<TimeSlotResponseDto>> GetAvailableTimeSlotsByDateAsync(int doctorId, DateTime date);
     }
 }

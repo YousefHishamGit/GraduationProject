@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Backend",
+    "\\Backend\\MedicalTriageSystem",
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer",
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs",
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Doctor",
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services",
+    "\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums",
+    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem",
+    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers"
+  ],
+  "SelectedNode": "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
+  "PreviewInSolutionExplorer": false
+}

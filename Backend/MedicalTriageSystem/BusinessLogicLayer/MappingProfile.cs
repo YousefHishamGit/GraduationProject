@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTOs.Admin;
+using BusinessLogicLayer.DTOs.Patient;
 using BusinessLogicLayer.DTOs.Appointment;
 using BusinessLogicLayer.DTOs.Department;
 using BusinessLogicLayer.DTOs.Doctor;
@@ -33,6 +34,7 @@ namespace BusinessLogicLayer
             LabRequestMap();
             ReviewMap();
             AdminMap();
+            PatientMap();
 
         }
 
@@ -66,6 +68,15 @@ namespace BusinessLogicLayer
                 .ForMember(dest => dest.Status,
                     opt => opt.MapFrom(src => src.Status.ToString()));
 
+            CreateMap<CreateDoctorLeaveDto, DoctorLeave>();
+            
+            CreateMap<UpdateDoctorLeaveDto, DoctorLeave>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<CreateDoctorScheduleDto, DoctorSchedule>();
+     
+            CreateMap<UpdateDoctorScheduleDto, DoctorSchedule>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<DoctorSchedule, DoctorScheduleResponseDto>();
 
@@ -78,6 +89,7 @@ namespace BusinessLogicLayer
                     opt => opt.MapFrom(src =>
                         $"{src.Patient.Person.FirstName} {src.Patient.Person.LastName}"));
         }
+  
         private void ReservationMap()
         {
             CreateMap<CreateReceptionistDto, Person>();
@@ -99,6 +111,7 @@ namespace BusinessLogicLayer
             .ForMember(dest => dest.Email,
         opt => opt.MapFrom(src => src.User.Email));
         }
+       
         private void AppointmentMap()
         {
             
@@ -234,7 +247,27 @@ namespace BusinessLogicLayer
                 .ForMember(dest => dest.Count,
                     opt => opt.Ignore()); 
         }
+  
+        private void PatientMap()
+        {
+            CreateMap<UpdatePatientDto, Patient>()
+                .ForAllMembers(opt => opt.Condition(
+                    (src, dest, srcMember) => srcMember != null));
 
+            CreateMap<Patient, PatientResponseDto>()
+                .ForMember(dest => dest.FullName,
+                    opt => opt.MapFrom(src => $"{src.Person.FirstName} {src.Person.LastName}"))
+                .ForMember(dest => dest.BirthDate,
+                    opt => opt.MapFrom(src => src.Person.BirthDate))
+                .ForMember(dest => dest.Gender,
+                    opt => opt.MapFrom(src => src.Person.Gender.ToString()))
+                .ForMember(dest => dest.Phone,
+                    opt => opt.MapFrom(src => src.Person.Phone))
+                .ForMember(dest => dest.Address,
+                    opt => opt.MapFrom(src => src.Person.Address))
+                .ForMember(dest => dest.BloodType,
+                    opt => opt.MapFrom(src => src.BloodType.HasValue ? src.BloodType.Value.ToString() : null));
+        }
 
 
 
