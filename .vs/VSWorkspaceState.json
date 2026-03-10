@@ -4,13 +4,14 @@
     "\\Backend",
     "\\Backend\\MedicalTriageSystem",
     "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer",
-    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs",
-    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\DTOs\\Doctor",
     "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services",
-    "\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Enums",
-    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem",
-    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers"
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Implementation",
+    "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces",
+    "\\Backend\\MedicalTriageSystem\\DataAccessLayer",
+    "\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories",
+    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\bin",
+    "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\bin\\Debug"
   ],
-  "SelectedNode": "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
+  "SelectedNode": "\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
   "PreviewInSolutionExplorer": false
 }

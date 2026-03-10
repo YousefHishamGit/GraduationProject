@@ -21,7 +21,7 @@ namespace DataAccessLayer.Repositories.Implementation
         public IAppointmentRepository Appointments { get; private set; }
         public IMedicalRecordRepository MedicalRecords { get; private set; }
         public IPrescriptionRepository Prescriptions { get; private set; }
-
+        public IPatientRepository Patients { get; private set; }
         public IDepartmentRepository Departments { get; private set; }
         public ILabRequestRepository LabRequests { get; private set; }
         public IReviewRepository Reviews { get; private set; }
@@ -41,6 +41,7 @@ namespace DataAccessLayer.Repositories.Implementation
             LabRequests = new LabRequestRepository(_dbContext);
             Reviews = new ReviewRepository(_dbContext);
             Admin = new AdminRepository(_dbContext);
+            Patients = new PatientRepository(_dbContext);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity, new()

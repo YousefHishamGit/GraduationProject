@@ -7,7 +7,7 @@ using BusinessLogicLayer.DTOs.MedicalRecord;
 using BusinessLogicLayer.DTOs.Prescription;
 using BusinessLogicLayer.DTOs.LapRequest;
 using BusinessLogicLayer.Services.Interfaces;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.Services.Implementation
 {
@@ -24,30 +24,16 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<IEnumerable<PatientResponseDto>> GetAllPatientsAsync()
         {
-            var patients = await _unitOfWork.Patients.GetAllAsync();
-
-            var patientList = patients.ToList();
-            foreach (var patient in patientList)
-            {
-                if (patient.Person == null)
-                {
-                    patient.Person = await _unitOfWork.Persons.GetByIdAsync(patient.PersonId);
-                }
-            }
-
-            return _mapper.Map<IEnumerable<PatientResponseDto>>(patientList);
+            // استخدام الدالة الجديدة التي تحمل Person مع Patient
+            var patients = await _unitOfWork.Patients.GetAllWithPersonAsync();
+            return _mapper.Map<IEnumerable<PatientResponseDto>>(patients);
         }
 
         public async Task<PatientResponseDto?> GetPatientByIdAsync(int id)
         {
-            var patient = await _unitOfWork.Patients.GetByIdAsync(id);
+            // استخدام الدالة الجديدة التي تحمل Person
+            var patient = await _unitOfWork.Patients.GetPatientWithPersonAsync(id);
             if (patient == null) return null;
-
-            if (patient.Person == null)
-            {
-                patient.Person = await _unitOfWork.Persons.GetByIdAsync(patient.PersonId);
-            }
-
             return _mapper.Map<PatientResponseDto>(patient);
         }
 
@@ -61,8 +47,9 @@ namespace BusinessLogicLayer.Services.Implementation
             _unitOfWork.Patients.Update(patient);
             await _unitOfWork.SaveChangesAsync();
 
-            patient.Person = await _unitOfWork.Persons.GetByIdAsync(patient.PersonId);
-            return _mapper.Map<PatientResponseDto>(patient);
+            // إعادة جلب المريض مع Person بعد التحديث
+            var updatedPatient = await _unitOfWork.Patients.GetPatientWithPersonAsync(id);
+            return _mapper.Map<PatientResponseDto>(updatedPatient);
         }
 
         public async Task<IEnumerable<AppointmentResponseDto>> GetPatientAppointmentsAsync(int patientId)

@@ -20,7 +20,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         ILabRequestRepository LabRequests { get; }
         IReviewRepository Reviews { get; }
         IAdminRepository Admin { get; }
-
+        IPatientRepository Patients { get; }
         Task<int> SaveChangesAsync();
     }
 }

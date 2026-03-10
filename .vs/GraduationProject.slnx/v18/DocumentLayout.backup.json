@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TimeSlotController.cs",
-              "DocumentMoniker": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
-              "RelativeDocumentMoniker": "Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
-              "ToolTip": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
-              "RelativeToolTip": "Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Controllers\\TimeSlotController.cs",
-              "ViewState": "AgIAAAIAAAAAZmZmZmYewBYAAAAJAAAAAAAAAA==",
+              "Title": "IPersonService.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
+              "RelativeDocumentMoniker": "Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
+              "ToolTip": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
+              "RelativeToolTip": "Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPersonService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-09T19:31:38.478Z",
+              "WhenOpened": "2026-03-09T20:25:01.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IPatientService.cs",
+              "DocumentMoniker": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs",
+              "RelativeDocumentMoniker": "Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs",
+              "ToolTip": "C:\\Users\\hp\\Desktop\\project\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs",
+              "RelativeToolTip": "Backend\\MedicalTriageSystem\\BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T20:24:56.984Z",
               "EditorCaption": ""
             }
           ]
