@@ -177,3 +177,4 @@ E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\ne
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.pdb
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.genruntimeconfig.cache
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\ref\MedicalTriageSystem.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

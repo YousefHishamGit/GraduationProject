@@ -21,6 +21,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         IReviewRepository Reviews { get; }
         IAdminRepository Admin { get; }
         IPatientRepository Patients { get; }
+        IPaymentRepository Payments { get; }
         Task<int> SaveChangesAsync();
     }
 }

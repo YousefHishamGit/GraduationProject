@@ -1,8 +1,9 @@
+using DataAccessLayer.Entities.Base;
 using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Entities
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }

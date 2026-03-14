@@ -16,4 +16,3 @@ namespace BusinessLogicLayer.DTOs.Doctor
         public bool IsAvailable { get; set; }
     }
 }
-ب

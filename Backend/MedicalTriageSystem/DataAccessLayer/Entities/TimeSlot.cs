@@ -1,6 +1,8 @@
+using DataAccessLayer.Entities.Base;
+
 namespace DataAccessLayer.Entities
 {
-    public class TimeSlot
+    public class TimeSlot: BaseEntity
     {
         public int Id { get; set; }
         public int DoctorId { get; set; }
