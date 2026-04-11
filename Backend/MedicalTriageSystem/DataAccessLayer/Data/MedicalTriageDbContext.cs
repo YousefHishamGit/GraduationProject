@@ -141,7 +141,7 @@ namespace DataAccessLayer.Data
 
                 entity.Property(e => e.BloodType)
                       .HasConversion<string>()
-                      .HasMaxLength(5);
+                      .HasMaxLength(35);
 
                 entity.Property(e => e.EmergencyContactPhone)
                       .HasMaxLength(15);

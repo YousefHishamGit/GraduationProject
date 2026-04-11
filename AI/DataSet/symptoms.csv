@@ -1,208 +1,387 @@
-symptoms,triage_level
-chest pain and shortness of breath,critical
-pain in chest and difficulty breathing,critical
-tightness in chest and can't breathe,critical
-pressure on chest with breathing problems,critical
-high fever and confusion,critical
-very high temperature with confusion,critical
-severe chest pain radiating to arm,critical
-crushing chest pain with sweating,critical
-sudden severe headache worst of my life,critical
-loss of consciousness,critical
-difficulty breathing and blue lips,critical
-heart racing very fast and chest pain,critical
-coughing blood,critical
-vomiting blood,critical
-sudden vision loss,critical
-sudden weakness on one side of body,critical
-slurred speech suddenly,critical
-severe allergic reaction swelling throat,critical
-high fever with stiff neck,critical
-seizure and unresponsive,critical
-severe abdominal pain and rigid abdomen,critical
-deep cut with heavy bleeding,critical
-broken bone visible through skin,critical
-severe burn covering large area,critical
-child not breathing,critical
-electric shock and unconscious,critical
-drowning and not breathing,critical
-overdose and unconscious,critical
-severe head injury after accident,critical
-chest pain with nausea and sweating,critical
-sudden confusion and high fever,critical
-difficulty swallowing with throat swelling,critical
-severe asthma attack not responding to inhaler,critical
-high fever in infant under 3 months,critical
-severe dehydration and not urinating,critical
-mild headache and sore throat,normal
-light headache and throat pain,normal
-runny nose and cough,normal
-sneezing and mild cough,normal
-headache,normal
-i feel a headache,normal
-mild fever,normal
-slight temperature,normal
-tired and sleepy,normal
-feeling a bit unwell,normal
-mild sore throat,normal
-itchy eyes,normal
-mild skin rash,normal
-slight nausea,normal
-minor cut on finger,normal
-bruise on leg,normal
-mild back pain,normal
-stiff neck from sleeping wrong,normal
-mild anxiety,normal
-feeling nervous,normal
-mild stomach ache,normal
-slight dizziness,normal
-ear pain,normal
-toothache,normal
-mild eye irritation,normal
-hiccups,normal
-bloating after eating,normal
-gas and burping,normal
-mild constipation,normal
-dry skin,normal
-mild sunburn,normal
-insect bite,normal
-paper cut,normal
-mild muscle ache after exercise,normal
-cold hands and feet,normal
-slight cough,normal
-low grade fever 37.5,normal
-runny nose,normal
-watery eyes and sneezing,normal
-mild allergic reaction,normal
-abdominal pain after eating,moderate
-stomach pain after eating,moderate
-my stomach hurts after meals,moderate
-pain in stomach after food,moderate
-fever 38.5 and body aches,moderate
-moderate fever with chills,moderate
-persistent headache for 2 days,moderate
-headache and vomiting,moderate
-vomiting and diarrhea,moderate
-diarrhea and stomach cramps,moderate
-urinary burning and frequent urination,moderate
-pain when urinating,moderate
-ear pain and fluid from ear,moderate
-severe toothache and swollen face,moderate
-eye redness and discharge,moderate
-skin rash and itching spreading,moderate
-ankle sprain and swelling,moderate
-knee pain and swelling after fall,moderate
-back pain that won't go away,moderate
-neck pain and headache,moderate
-migraine with light sensitivity,moderate
-dizziness and vomiting,moderate
-chest tightness without severe pain,moderate
-shortness of breath on exertion,moderate
-coughing for more than 2 weeks,moderate
-blood in urine,moderate
-blood in stool,moderate
-unexplained weight loss,moderate
-high fever 39 and rash,moderate
-fever and joint pain,moderate
-swollen lymph nodes,moderate
-painful swallowing,moderate
-difficulty eating,moderate
-abdominal cramps and bloating,moderate
-pelvic pain,moderate
-severe menstrual cramps,moderate
-vaginal discharge with odor,moderate
-painful urination in women,moderate
-testicular pain,moderate
-rectal pain and bleeding,moderate
-yellow skin and eyes,moderate
-dark urine and light stool,moderate
-swollen leg with redness and warmth,moderate
-calf pain when walking,moderate
-numbness in hands and feet,moderate
-tingling in fingers,moderate
-memory problems and confusion in elderly,moderate
-chest pain and shortness of breath,critical
-difficulty breathing at rest,critical
-severe chest pain,critical
-high fever above 40,critical
-loss of consciousness,critical
-severe allergic reaction,critical
-uncontrolled bleeding,critical
-stroke symptoms,critical
-severe abdominal pain,critical
-drug overdose,critical
-i have fever and cough,normal
-my head hurts a little,normal
-i feel tired,normal
-slight sore throat,normal
-i have runny nose,normal
-feeling nauseous mildly,normal
-minor headache,normal
-i feel dizzy slightly,normal
-mild back ache,normal
-sneezing a lot,normal
-i have a cold,normal
-feeling under the weather,normal
-mild flu symptoms,normal
-low energy and fatigue,normal
-i have stomach pain after eating,moderate
-my knee hurts,moderate
-i have a rash on my arm,moderate
-pain when i pee,moderate
-i have been coughing for weeks,moderate
-i have blood in my urine,moderate
-my back has been hurting for days,moderate
-i have swollen glands,moderate
-persistent fever for 3 days,moderate
-i have chest tightness,moderate
-i cannot breathe properly,critical
-i am having a heart attack,critical
-i am bleeding heavily,critical
-i cannot wake up,critical
-my baby is not breathing,critical
-i am having a seizure,critical
-i think i was poisoned,critical
-i have severe chest pain and sweating,critical
-i have worst headache of my life,critical
-i am having an allergic reaction and throat is swelling,critical
-fever and headache and stiff neck,critical
-vomiting and severe abdominal pain,critical
-high fever with seizure,critical
-unconscious after head injury,critical
-breathing stopped after drowning,critical
-shortness of breath,moderate
-persistent cough with phlegm,moderate
-fever and sore throat,moderate
-body aches and fever,moderate
-fatigue and loss of appetite,moderate
-nausea and vomiting,moderate
-diarrhea for 2 days,moderate
-stomach cramps,moderate
-urinary tract infection symptoms,moderate
-ear infection pain,moderate
-pink eye and discharge,moderate
-skin infection with pus,moderate
-wound not healing,moderate
-joint pain and swelling,moderate
-muscle weakness,moderate
-blurred vision,moderate
-hearing loss,moderate
-ringing in ears,moderate
-nose bleeds,moderate
-mouth sores,moderate
-difficulty swallowing,moderate
-acid reflux and chest burning,moderate
-constipation for several days,moderate
-swollen ankles,moderate
-hair loss,moderate
-excessive thirst and urination,moderate
-night sweats,moderate
-irregular heartbeat feeling,moderate
-shortness of breath when lying down,moderate
-swollen belly,moderate
-jaundice,moderate
-painful joints,moderate
-rash after medication,moderate
-headache and fever in child,moderate
-child with ear pain and crying,moderate
-child with rash and fever,moderate
+symptoms,triage_level,specialty
+chest pain and left arm pain,critical,Cardiology
+heart attack symptoms,critical,Cardiology
+severe palpitations and chest pain,critical,Cardiology
+cardiac arrest symptoms,critical,Cardiology
+severe chest pressure and sweating,critical,Cardiology
+chest pain and jaw pain,critical,Cardiology
+heart failure symptoms,critical,Cardiology
+severe arrhythmia,critical,Cardiology
+aortic dissection pain,critical,Cardiology
+sudden cardiac death symptoms,critical,Cardiology
+stroke symptoms and face drooping,critical,Neurology
+brain hemorrhage symptoms,critical,Neurology
+severe meningitis,critical,Neurology
+spinal cord injury,critical,Neurology
+status epilepticus,critical,Neurology
+severe traumatic brain injury,critical,Neurology
+sudden paralysis,critical,Neurology
+acute stroke,critical,Neurology
+severe migraine with neurological symptoms,critical,Neurology
+intracranial pressure symptoms,critical,Neurology
+severe respiratory failure,critical,Pulmonology
+acute respiratory distress,critical,Pulmonology
+pulmonary embolism symptoms,critical,Pulmonology
+severe pneumothorax,critical,Pulmonology
+acute asthma attack,critical,Pulmonology
+respiratory arrest,critical,Pulmonology
+severe hemoptysis,critical,Pulmonology
+acute bronchospasm,critical,Pulmonology
+severe hypoxia,critical,Pulmonology
+tension pneumothorax,critical,Pulmonology
+severe anaphylaxis,critical,Allergy
+anaphylactic shock,critical,Allergy
+severe allergic reaction to medication,critical,Allergy
+severe bee sting allergy,critical,Allergy
+severe food allergy reaction,critical,Allergy
+acute gastrointestinal bleeding,critical,Gastroenterology
+severe liver failure,critical,Gastroenterology
+acute pancreatitis severe,critical,Gastroenterology
+bowel perforation,critical,Gastroenterology
+severe internal bleeding abdomen,critical,Gastroenterology
+ruptured appendix,critical,Gastroenterology
+acute intestinal obstruction,critical,Gastroenterology
+severe mesenteric ischemia,critical,Gastroenterology
+major trauma with internal bleeding,critical,Emergency
+severe polytrauma,critical,Emergency
+gunshot wound,critical,Emergency
+stab wound to chest,critical,Emergency
+severe crush injury,critical,Emergency
+major burns over body,critical,Emergency
+chemical burns to eyes,critical,Emergency
+severe hypothermia,critical,Emergency
+heat stroke,critical,Emergency
+lightning strike injury,critical,Emergency
+newborn not breathing,critical,Pediatrics
+severe febrile seizure in child,critical,Pediatrics
+child with severe dehydration,critical,Pediatrics
+infant with severe respiratory distress,critical,Pediatrics
+child poisoning,critical,Pediatrics
+severe sepsis,critical,Emergency
+septic shock,critical,Emergency
+diabetic ketoacidosis severe,critical,Endocrinology
+severe hypoglycemia unconscious,critical,Endocrinology
+thyroid storm,critical,Endocrinology
+adrenal crisis,critical,Endocrinology
+severe hypertensive crisis,critical,Cardiology
+malignant hypertension,critical,Cardiology
+acute kidney failure,critical,Urology
+severe renal failure,critical,Urology
+acute urinary retention severe,critical,Urology
+ectopic pregnancy rupture,critical,Gynecology
+severe postpartum hemorrhage,critical,Gynecology
+eclampsia in pregnancy,critical,Gynecology
+severe preeclampsia,critical,Gynecology
+placental abruption,critical,Gynecology
+retinal detachment,critical,Ophthalmology
+acute glaucoma attack,critical,Ophthalmology
+chemical injury to eye,critical,Ophthalmology
+sudden vision loss both eyes,critical,Ophthalmology
+mild cold symptoms,normal,General Medicine
+common cold,normal,General Medicine
+seasonal allergies,normal,General Medicine
+minor headache after screen time,normal,General Medicine
+mild indigestion,normal,General Medicine
+slight fatigue,normal,General Medicine
+mild dehydration,normal,General Medicine
+minor bruise,normal,General Medicine
+mild sunburn on arm,normal,General Medicine
+chapped lips,normal,General Medicine
+dry throat,normal,General Medicine
+mild gas pain,normal,General Medicine
+hiccups lasting few minutes,normal,General Medicine
+minor ankle twist,normal,Orthopedics
+mild wrist pain,normal,Orthopedics
+minor shoulder stiffness,normal,Orthopedics
+mild knee discomfort,normal,Orthopedics
+minor muscle cramp,normal,Orthopedics
+mild joint stiffness morning,normal,Orthopedics
+minor foot pain,normal,Orthopedics
+mild eye strain,normal,Ophthalmology
+minor eye redness,normal,Ophthalmology
+mild watery eyes,normal,Ophthalmology
+mild dandruff,normal,Dermatology
+minor skin dryness,normal,Dermatology
+mild acne,normal,Dermatology
+minor rash on arm,normal,Dermatology
+mild eczema flare,normal,Dermatology
+minor psoriasis patch,normal,Dermatology
+mild ear wax buildup,normal,ENT
+minor nasal congestion,normal,ENT
+mild throat clearing,normal,ENT
+minor ear ringing,normal,ENT
+mild snoring,normal,ENT
+mild anxiety feeling,normal,Psychiatry
+minor stress symptoms,normal,Psychiatry
+mild mood swings,normal,Psychiatry
+minor sleep difficulty,normal,Psychiatry
+mild nervousness,normal,Psychiatry
+minor stomach upset,normal,Gastroenterology
+mild heartburn after eating,normal,Gastroenterology
+minor bloating,normal,Gastroenterology
+mild gas after beans,normal,Gastroenterology
+minor nausea after travel,normal,Gastroenterology
+mild toothache,normal,Dentistry
+minor gum sensitivity,normal,Dentistry
+mild tooth sensitivity to cold,normal,Dentistry
+minor mouth ulcer,normal,Dentistry
+mild bad breath,normal,Dentistry
+minor urinary frequency,normal,Urology
+mild thirst,normal,General Medicine
+minor appetite change,normal,General Medicine
+mild weight fluctuation,normal,General Medicine
+minor hair loss,normal,Dermatology
+mild nail brittleness,normal,Dermatology
+minor vitamin deficiency symptoms,normal,General Medicine
+mild iron deficiency,normal,General Medicine
+minor fatigue after exercise,normal,General Medicine
+mild post workout soreness,normal,Orthopedics
+minor paper cut on hand,normal,General Medicine
+mild insect bite arm,normal,Dermatology
+minor splinter in finger,normal,General Medicine
+mild cold sore,normal,Dermatology
+minor canker sore,normal,Dentistry
+abdominal pain and bloating,moderate,Gastroenterology
+stomach cramps and diarrhea,moderate,Gastroenterology
+persistent nausea and vomiting,moderate,Gastroenterology
+gastroenteritis symptoms,moderate,Gastroenterology
+food poisoning symptoms,moderate,Gastroenterology
+irritable bowel symptoms,moderate,Gastroenterology
+colitis symptoms,moderate,Gastroenterology
+gastritis pain,moderate,Gastroenterology
+peptic ulcer pain,moderate,Gastroenterology
+chronic constipation,moderate,Gastroenterology
+recurrent abdominal pain,moderate,Gastroenterology
+fatty liver symptoms,moderate,Gastroenterology
+hepatitis symptoms,moderate,Gastroenterology
+gallbladder pain,moderate,Gastroenterology
+bile duct pain,moderate,Gastroenterology
+moderate chest pain,moderate,Cardiology
+palpitations without chest pain,moderate,Cardiology
+high blood pressure symptoms,moderate,Cardiology
+moderate hypertension,moderate,Cardiology
+peripheral artery disease symptoms,moderate,Cardiology
+varicose veins pain,moderate,Cardiology
+moderate edema in legs,moderate,Cardiology
+chest discomfort on exertion,moderate,Cardiology
+mild angina,moderate,Cardiology
+heart murmur symptoms,moderate,Cardiology
+persistent cough with blood traces,moderate,Pulmonology
+chronic bronchitis symptoms,moderate,Pulmonology
+moderate asthma symptoms,moderate,Pulmonology
+sleep apnea symptoms,moderate,Pulmonology
+moderate pneumonia,moderate,Pulmonology
+pleurisy pain,moderate,Pulmonology
+moderate emphysema symptoms,moderate,Pulmonology
+recurrent respiratory infections,moderate,Pulmonology
+moderate breathlessness,moderate,Pulmonology
+chronic sinusitis,moderate,ENT
+recurrent ear infections,moderate,ENT
+moderate hearing loss,moderate,ENT
+nasal polyps symptoms,moderate,ENT
+tonsillitis,moderate,ENT
+laryngitis,moderate,ENT
+moderate throat pain,moderate,ENT
+deviated septum symptoms,moderate,ENT
+eustachian tube dysfunction,moderate,ENT
+moderate vertigo,moderate,ENT
+chronic headaches,moderate,Neurology
+moderate migraine,moderate,Neurology
+tension headache,moderate,Neurology
+cluster headache,moderate,Neurology
+moderate dizziness,moderate,Neurology
+peripheral neuropathy symptoms,moderate,Neurology
+moderate memory loss,moderate,Neurology
+chronic fatigue syndrome,moderate,Neurology
+moderate tremors,moderate,Neurology
+sleep disorders,moderate,Neurology
+back pain radiating to leg,moderate,Orthopedics
+herniated disc symptoms,moderate,Orthopedics
+moderate arthritis pain,moderate,Orthopedics
+osteoporosis symptoms,moderate,Orthopedics
+moderate sports injury,moderate,Orthopedics
+shoulder pain and stiffness,moderate,Orthopedics
+moderate hip pain,moderate,Orthopedics
+carpal tunnel syndrome,moderate,Orthopedics
+plantar fasciitis,moderate,Orthopedics
+moderate scoliosis symptoms,moderate,Orthopedics
+skin infection spreading,moderate,Dermatology
+moderate eczema,moderate,Dermatology
+severe psoriasis,moderate,Dermatology
+fungal infection skin,moderate,Dermatology
+moderate acne,moderate,Dermatology
+cellulitis symptoms,moderate,Dermatology
+shingles rash,moderate,Dermatology
+moderate hives,moderate,Dermatology
+suspicious skin lesion,moderate,Dermatology
+moderate rosacea,moderate,Dermatology
+urinary tract infection,moderate,Urology
+kidney stones symptoms,moderate,Urology
+moderate kidney infection,moderate,Urology
+prostate symptoms,moderate,Urology
+moderate urinary retention,moderate,Urology
+recurrent urinary infections,moderate,Urology
+bladder infection,moderate,Urology
+moderate hematuria,moderate,Urology
+overactive bladder,moderate,Urology
+interstitial cystitis,moderate,Urology
+irregular periods,moderate,Gynecology
+moderate pelvic inflammatory disease,moderate,Gynecology
+ovarian cyst symptoms,moderate,Gynecology
+endometriosis symptoms,moderate,Gynecology
+moderate uterine fibroids,moderate,Gynecology
+moderate vaginal infection,moderate,Gynecology
+breast pain and lump,moderate,Gynecology
+moderate hormonal imbalance,moderate,Gynecology
+polycystic ovary syndrome,moderate,Gynecology
+moderate menopause symptoms,moderate,Gynecology
+diabetes symptoms,moderate,Endocrinology
+thyroid disorder symptoms,moderate,Endocrinology
+moderate hyperthyroidism,moderate,Endocrinology
+moderate hypothyroidism,moderate,Endocrinology
+adrenal insufficiency symptoms,moderate,Endocrinology
+moderate obesity complications,moderate,Endocrinology
+metabolic syndrome symptoms,moderate,Endocrinology
+moderate hypoglycemia,moderate,Endocrinology
+insulin resistance symptoms,moderate,Endocrinology
+moderate hormonal disorder,moderate,Endocrinology
+joint pain and morning stiffness,moderate,Rheumatology
+moderate rheumatoid arthritis,moderate,Rheumatology
+lupus symptoms,moderate,Rheumatology
+moderate gout attack,moderate,Rheumatology
+fibromyalgia symptoms,moderate,Rheumatology
+moderate ankylosing spondylitis,moderate,Rheumatology
+sjögren syndrome symptoms,moderate,Rheumatology
+moderate vasculitis,moderate,Rheumatology
+polymyalgia rheumatica,moderate,Rheumatology
+moderate connective tissue disorder,moderate,Rheumatology
+blurred vision and eye pain,moderate,Ophthalmology
+moderate glaucoma,moderate,Ophthalmology
+cataracts symptoms,moderate,Ophthalmology
+diabetic eye disease,moderate,Ophthalmology
+moderate uveitis,moderate,Ophthalmology
+dry eye syndrome,moderate,Ophthalmology
+moderate macular degeneration,moderate,Ophthalmology
+eye infection with discharge,moderate,Ophthalmology
+moderate astigmatism symptoms,moderate,Ophthalmology
+moderate strabismus,moderate,Ophthalmology
+depression symptoms,moderate,Psychiatry
+anxiety disorder,moderate,Psychiatry
+moderate panic attacks,moderate,Psychiatry
+bipolar disorder symptoms,moderate,Psychiatry
+moderate PTSD symptoms,moderate,Psychiatry
+moderate OCD symptoms,moderate,Psychiatry
+moderate phobia,moderate,Psychiatry
+eating disorder symptoms,moderate,Psychiatry
+moderate ADHD symptoms,moderate,Psychiatry
+moderate insomnia,moderate,Psychiatry
+child with persistent fever,moderate,Pediatrics
+child with recurring ear infections,moderate,Pediatrics
+child with asthma,moderate,Pediatrics
+child with eczema,moderate,Pediatrics
+child with developmental delay,moderate,Pediatrics
+child with recurrent infections,moderate,Pediatrics
+child with allergies,moderate,Pediatrics
+child with growth problems,moderate,Pediatrics
+child with behavioral issues,moderate,Pediatrics
+child with moderate dehydration,moderate,Pediatrics
+unexplained fatigue for weeks,moderate,General Medicine
+moderate anemia symptoms,moderate,General Medicine
+lymphoma symptoms,moderate,Oncology
+leukemia early symptoms,moderate,Oncology
+moderate cancer symptoms,moderate,Oncology
+tumor symptoms,moderate,Oncology
+moderate radiation side effects,moderate,Oncology
+chemotherapy side effects,moderate,Oncology
+cancer screening concerns,moderate,Oncology
+moderate pain from cancer,moderate,Oncology
+i feel chest tightness and dizzy,moderate,Cardiology
+my heart beats fast sometimes,moderate,Cardiology
+i have been having headaches daily,moderate,Neurology
+my vision gets blurry sometimes,moderate,Ophthalmology
+i have pain in my lower back,moderate,Orthopedics
+my joints hurt every morning,moderate,Rheumatology
+i feel very anxious lately,moderate,Psychiatry
+i have trouble sleeping for weeks,moderate,Psychiatry
+my stomach hurts after every meal,moderate,Gastroenterology
+i have been coughing for a month,moderate,Pulmonology
+i feel burning when i urinate,moderate,Urology
+my skin has been breaking out badly,moderate,Dermatology
+i have been losing weight without trying,moderate,Oncology
+my throat has been sore for weeks,moderate,ENT
+i have been feeling very sad,moderate,Psychiatry
+i keep getting dizzy when i stand,moderate,Neurology
+my ear hurts and i can't hear well,moderate,ENT
+i have a rash that won't go away,moderate,Dermatology
+i feel short of breath climbing stairs,moderate,Pulmonology
+my blood sugar has been high,moderate,Endocrinology
+i cannot breathe and chest hurts badly,critical,Cardiology
+i am having worst headache ever,critical,Neurology
+i cannot stop bleeding from cut,critical,Emergency
+my child is having a seizure,critical,Pediatrics
+i think i am having a stroke,critical,Neurology
+i swallowed something and cannot breathe,critical,Emergency
+severe allergic reaction after eating,critical,Allergy
+i am coughing up a lot of blood,critical,Pulmonology
+severe stomach pain and vomiting blood,critical,Gastroenterology
+i fell and cannot move my leg,critical,Emergency
+i have chest pain and left arm hurts,critical,Cardiology
+my baby has very high fever and won't wake,critical,Pediatrics
+i took too many pills accidentally,critical,Emergency
+severe burn on my hand,critical,Emergency
+i cannot see anything suddenly,critical,Ophthalmology
+my heart is beating very irregularly,critical,Cardiology
+i have severe pain in my back and cannot walk,critical,Orthopedics
+i am pregnant and bleeding heavily,critical,Gynecology
+i feel like i am going to pass out,critical,Emergency
+severe pain in chest spreading to back,critical,Cardiology
+mild headache after waking up,normal,General Medicine
+slight tiredness after long day,normal,General Medicine
+minor stomach gurgling,normal,Gastroenterology
+mild thirst feeling,normal,General Medicine
+minor eye twitching,normal,Ophthalmology
+mild leg cramp at night,normal,Orthopedics
+minor skin itching,normal,Dermatology
+mild sneezing in morning,normal,General Medicine
+minor dry cough,normal,General Medicine
+mild stiff neck from sitting,normal,Orthopedics
+minor hand tingling from sleeping position,normal,General Medicine
+mild bloating after soda,normal,Gastroenterology
+minor ear fullness feeling,normal,ENT
+mild lower back stiffness,normal,Orthopedics
+minor skin peeling after sunburn,normal,Dermatology
+mild foot cramp,normal,Orthopedics
+minor lip dryness,normal,General Medicine
+mild post nasal drip,normal,ENT
+minor scalp itching,normal,Dermatology
+mild eye dryness,normal,Ophthalmology
+minor wrist stiffness morning,normal,Orthopedics
+mild burping after meals,normal,Gastroenterology
+minor skin tag,normal,Dermatology
+mild occasional dizziness,normal,General Medicine
+minor temple headache,normal,General Medicine
+mild finger numbness from cold,normal,General Medicine
+minor neck stiffness from phone use,normal,Orthopedics
+mild throat dryness,normal,ENT
+minor eyelid twitch,normal,Ophthalmology
+mild abdominal gurgling,normal,Gastroenterology
+minor shoulder tension,normal,Orthopedics
+mild sweating after exercise,normal,General Medicine
+minor skin bump,normal,Dermatology
+mild hunger pains,normal,General Medicine
+minor toe pain from shoes,normal,Orthopedics
+mild scalp dryness,normal,Dermatology
+minor jaw tension,normal,Dentistry
+mild ear popping,normal,ENT
+minor heel discomfort,normal,Orthopedics
+mild post meal sleepiness,normal,General Medicine
+minor eye watering in wind,normal,Ophthalmology
+mild knee clicking,normal,Orthopedics
+minor lip cracking,normal,Dermatology
+mild fingernail breaking,normal,Dermatology
+minor forehead tension,normal,General Medicine
+mild stomach growling,normal,Gastroenterology
+minor skin redness from heat,normal,Dermatology
+mild ankle stiffness,normal,Orthopedics
+minor tooth sensitivity to sweets,normal,Dentistry
+mild hand dryness from washing,normal,Dermatology

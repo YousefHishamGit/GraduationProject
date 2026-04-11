@@ -1,0 +1,16 @@
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\BusinessLogicLayer.deps.json
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\BusinessLogicLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\BusinessLogicLayer.pdb
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\DataAccessLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\DataAccessLayer.pdb
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.csproj.AssemblyReference.cache
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.AssemblyInfoInputs.cache
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.AssemblyInfo.cs
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.sourcelink.json
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\Business.450209FB.Up2Date
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\refint\BusinessLogicLayer.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.pdb
+E:\gradutionProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\ref\BusinessLogicLayer.dll

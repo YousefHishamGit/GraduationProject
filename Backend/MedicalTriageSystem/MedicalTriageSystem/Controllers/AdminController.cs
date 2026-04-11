@@ -19,10 +19,7 @@ namespace MedicalTriageSystem.Controllers
             _adminService = adminService;
         }
 
-        /// <summary>
-        /// Get general dashboard statistics
-        /// </summary>
-        /// <returns>Dashboard statistics including users, appointments, and revenue</returns>
+        
         [HttpGet("dashboard/stats")]
         public async Task<IActionResult> GetDashboardStats()
         {
@@ -37,10 +34,7 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Get all users in the system
-        /// </summary>
-        /// <returns>List of all users with their details</returns>
+       
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -55,11 +49,7 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Get a specific user by ID
-        /// </summary>
-        /// <param name="userId">The user ID</param>
-        /// <returns>User details if found</returns>
+        
         [HttpGet("users/{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
         {
@@ -77,11 +67,7 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Activate a user account
-        /// </summary>
-        /// <param name="userId">The user ID</param>
-        /// <returns>Success status</returns>
+       
         [HttpPut("users/{userId}/activate")]
         public async Task<IActionResult> ActivateUser(string userId)
         {
@@ -99,11 +85,7 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Deactivate a user account
-        /// </summary>
-        /// <param name="userId">The user ID</param>
-        /// <returns>Success status</returns>
+        
         [HttpPut("users/{userId}/deactivate")]
         public async Task<IActionResult> DeactivateUser(string userId)
         {
@@ -121,10 +103,7 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Get appointments statistics and report
-        /// </summary>
-        /// <returns>Detailed appointments report with breakdown by doctor and type</returns>
+
         [HttpGet("reports/appointments")]
         public async Task<IActionResult> GetAppointmentsReport()
         {
@@ -139,10 +118,6 @@ namespace MedicalTriageSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// Get revenue statistics and report
-        /// </summary>
-        /// <returns>Detailed revenue report with breakdown by payment method and date</returns>
         [HttpGet("reports/revenue")]
         public async Task<IActionResult> GetRevenueReport()
         {

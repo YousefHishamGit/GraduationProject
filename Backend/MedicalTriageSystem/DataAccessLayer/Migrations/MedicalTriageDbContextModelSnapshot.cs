@@ -414,8 +414,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BloodType")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()

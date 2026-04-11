@@ -6,10 +6,11 @@ using DataAccessLayer.Data;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories.Implementation;
 using DataAccessLayer.Repositories.Interfaces;
+using MedicalTriageSystem.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -66,6 +67,8 @@ namespace MedicalTriageSystem
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddHttpClient<IAIService, AIService>();
+            builder.Services.AddScoped<IAIService, AIService>();
 
 
 
@@ -83,6 +86,9 @@ namespace MedicalTriageSystem
                 app.UseSwaggerUI();
 
             }
+
+            
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseHttpsRedirection();
 
