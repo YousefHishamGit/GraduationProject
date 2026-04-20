@@ -146,4 +146,14 @@ export class ServicesComponent {
   setActiveCategory(categoryId: string) {
     this.activeCategory.set(categoryId);
   }
+
+  getCategoryName(id: string): string {
+    const cat = this.categories().find(c => c.id === id);
+    return cat ? cat.name : '';
+  }
+
+  getActiveServices(): Service[] {
+    const cat = this.categories().find(c => c.id === this.activeCategory());
+    return cat ? cat.services : [];
+  }
 }

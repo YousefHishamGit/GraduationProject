@@ -9,6 +9,7 @@ interface Department {
   description: string;
   image: string;
   icon: string;
+  icon3d?: string;
   shortDesc: string;
   services: string[];
   stats: { value: string; label: string }[];
@@ -32,6 +33,7 @@ export class DepartmentsComponent {
       description: 'Our Cardiology Department provides comprehensive heart care services with state-of-the-art diagnostic tools and treatment options for cardiovascular conditions.',
       image: '/assets/img/health/cardiology-1.webp',
       icon: 'fas fa-heart',
+      icon3d: '/assets/images/icon_cardiology_1776622787980.png',
       shortDesc: 'Heart and cardiovascular care',
       services: [
         'Heart disease diagnosis and treatment',
@@ -53,6 +55,7 @@ export class DepartmentsComponent {
       description: 'Specialized care for brain and nervous system disorders with advanced imaging technology and comprehensive treatment programs.',
       image: '/assets/img/health/neurology-2.webp',
       icon: 'fas fa-brain',
+      icon3d: '/assets/images/icon_neurology_3d_1776659667339.png',
       shortDesc: 'Brain and nervous system care',
       services: [
         'Neurological examinations',
@@ -70,6 +73,7 @@ export class DepartmentsComponent {
       description: 'Comprehensive bone and joint care including sports medicine, trauma surgery, and joint replacement procedures.',
       image: '/assets/img/health/orthopedics-1.webp',
       icon: 'fas fa-bone',
+      icon3d: '/assets/images/icon_orthopedics_3d_1776659765427.png',
       shortDesc: 'Bone and joint treatment',
       services: [
         'Joint replacement surgery',
@@ -85,7 +89,7 @@ export class DepartmentsComponent {
       name: 'Pediatrics',
       title: 'Pediatrics Department',
       description: 'Comprehensive healthcare for children and adolescents from birth through age 18.',
-      image: '/assets/img/health/pediatrics-1.webp',
+      image: '/assets/img/health/pediatrics-3.webp',
       icon: 'fas fa-baby',
       shortDesc: 'Healthcare for children',
       services: [
@@ -102,7 +106,7 @@ export class DepartmentsComponent {
       name: 'Surgery',
       title: 'Surgery Department',
       description: 'State-of-the-art surgical facilities with experienced surgeons performing various procedures.',
-      image: '/assets/img/health/surgery-1.webp',
+      image: '/assets/img/health/surgery-2.webp',
       icon: 'fas fa-procedures',
       shortDesc: 'Surgical procedures',
       services: [
@@ -133,25 +137,40 @@ export class DepartmentsComponent {
     }
   ];
 
-  allDepartments = [
+  allDepartments: Department[] = [
     ...this.departments,
     {
       id: 'internal',
       name: 'Internal Medicine',
+      title: 'Internal Medicine',
+      description: 'General adult healthcare and chronic disease management.',
+      image: '',
+      icon: 'fas fa-stethoscope',
       shortDesc: 'General adult healthcare',
-      icon: 'fas fa-stethoscope'
+      services: [],
+      stats: []
     },
     {
       id: 'ophthalmology',
       name: 'Ophthalmology',
+      title: 'Ophthalmology Department',
+      description: 'Comprehensive eye care and surgical procedures.',
+      image: '',
+      icon: 'fas fa-eye',
       shortDesc: 'Eye care and surgery',
-      icon: 'fas fa-eye'
+      services: [],
+      stats: []
     },
     {
       id: 'dentistry',
       name: 'Dentistry',
+      title: 'Dentistry Department',
+      description: 'Dental and oral health services for all ages.',
+      image: '',
+      icon: 'fas fa-tooth',
       shortDesc: 'Dental and oral care',
-      icon: 'fas fa-tooth'
+      services: [],
+      stats: []
     }
   ];
 

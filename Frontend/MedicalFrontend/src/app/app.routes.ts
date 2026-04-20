@@ -13,11 +13,13 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
 import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
+import { SpecialtyDetailComponent } from './pages/specialty-detail/specialty-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'departments', component: DepartmentsComponent },
+  { path: 'departments/:id', component: SpecialtyDetailComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'doctors', component: DoctorsComponent },
   { path: 'doctor-dashboard', component: DoctorDashboardComponent },

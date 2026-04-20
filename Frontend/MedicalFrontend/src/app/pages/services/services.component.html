@@ -1,106 +1,107 @@
-<!-- Hero Section -->
-<section class="services-hero">
-  <div class="container">
-    <h1>Our Services</h1>
-    <p>Comprehensive healthcare services designed to meet the needs of every patient.</p>
-  </div>
-</section>
+<div class="services-page">
+  <div class="container py-20">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs mb-4">
+      <a routerLink="/">Home</a> / <span class="current">Services</span>
+    </nav>
 
-<!-- Category Tabs -->
-<section class="services-categories">
-  <div class="container">
-    <div class="category-tabs">
-      @for (category of categories(); track category.id) {
-        <button
-          class="category-btn"
+    <!-- Page Header -->
+    <div class="page-header mb-12">
+      <h1 class="text-3xl font-bold mb-2">Our Healthcare Services</h1>
+      <p class="text-sub">Comprehensive medical care tailored to your individual needs.</p>
+    </div>
+
+    <!-- Category Switcher -->
+    <div class="category-tabs card mb-12">
+      <div class="tabs-scroll">
+        <button 
+          *ngFor="let category of categories()" 
+          class="tab-btn"
           [class.active]="activeCategory() === category.id"
-          (click)="setActiveCategory(category.id)">
+          (click)="setActiveCategory(category.id)"
+        >
           {{ category.name }}
         </button>
-      }
+      </div>
     </div>
 
-    @for (category of categories(); track category.id) {
-      @if (activeCategory() === category.id) {
-        <div class="category-content active">
-          <h2>{{ category.name }}</h2>
-          <p>Comprehensive {{ category.name.toLowerCase() }} with modern techniques and technology.</p>
+    <!-- Active Category Content -->
+    <div class="active-category-section">
+      <div class="section-badge mb-4">
+        <span>{{ getCategoryName(activeCategory()) }}</span>
+      </div>
+      
+      <div class="services-grid mt-8">
+        <div class="card service-item" *ngFor="let service of getActiveServices()">
+          <div class="service-icon-box mb-6">
+            <i [class]="service.icon"></i>
+          </div>
+          <h3 class="mb-4">{{ service.name }}</h3>
+          <p class="text-sub mb-6">{{ service.description }}</p>
+          
+          <ul class="feature-list px-0">
+            <li *ngFor="let feature of service.features">
+              <i class="fas fa-check-circle text-primary"></i>
+              <span>{{ feature }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-          <div class="services-grid">
-            @for (service of category.services; track service.name) {
-              <div class="service-item">
-                <div class="service-icon">
-                  <i [class]="service.icon"></i>
-                </div>
-                <h3>{{ service.name }}</h3>
-                <p>{{ service.description }}</p>
-                <ul>
-                  @for (feature of service.features; track feature) {
-                    <li>{{ feature }}</li>
-                  }
-                </ul>
+    <!-- Specialized Services Section -->
+    <div class="specialized-row mt-24">
+      <div class="section-header mb-12">
+        <h2 class="text-2xl font-bold">Centers of Excellence</h2>
+        <p class="text-sub">Specialized care units with industry-leading diagnostic technology.</p>
+      </div>
+
+      <div class="special-grid">
+        <div class="card special-card" *ngFor="let special of specialServices()">
+          <div class="card-content">
+            <div class="special-info">
+              <h3 class="text-xl mb-4">{{ special.title }}</h3>
+              <p class="text-sub mb-8">{{ special.description }}</p>
+              
+              <div class="feature-pills mb-8">
+                <span class="pill" *ngFor="let f of special.features">{{ f }}</span>
               </div>
-            }
-          </div>
-        </div>
-      }
-    }
-  </div>
-</section>
 
-<!-- Special Services -->
-<section class="special-services">
-  <div class="container">
-    <h2 class="section-title">Specialized Services</h2>
-
-    <div class="special-services-grid">
-      @for (special of specialServices(); track special.id) {
-        <div class="special-service-card">
-          <div class="service-image">
-            <img [src]="special.image" [alt]="special.title">
-          </div>
-          <div class="service-content">
-            <h3>{{ special.title }}</h3>
-            <p>{{ special.description }}</p>
-            <div class="service-features">
-              @for (feature of special.features; track feature) {
-                <span><i class="fas fa-check"></i> {{ feature }}</span>
-              }
+              <button 
+                class="btn btn-primary" 
+                [routerLink]="['/appointment']" 
+                [queryParams]="{service: special.serviceParam}"
+              >
+                Schedule Consultation <i class="fas fa-arrow-right"></i>
+              </button>
             </div>
-            <a [routerLink]="['/appointment']" [queryParams]="{service: special.serviceParam}" class="btn btn-primary">
-              Schedule Consultation
-            </a>
+            <div class="special-visual">
+              <img [src]="special.image" [alt]="special.title" class="special-img">
+            </div>
           </div>
         </div>
-      }
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- Emergency Services -->
-<section class="emergency-services">
-  <div class="container">
-    <div class="emergency-card">
-      <div class="emergency-icon">
-        <i class="fas fa-ambulance"></i>
-      </div>
+    <!-- Emergency Hotline Banner -->
+    <div class="emergency-action-card card mt-24" [routerLink]="['/appointment']" [queryParams]="{department: 'emergency'}">
       <div class="emergency-content">
-        <h2>24/7 Emergency Services</h2>
-        <p>Our emergency department is open 24 hours a day, 7 days a week with a team of specialists ready to provide immediate care.</p>
-        <div class="emergency-contact">
-          <h3>Emergency Hotline</h3>
-          <div class="phone-number">
-            <i class="fas fa-phone"></i>
-            <span>+1 (555) 911-9111</span>
+        <div class="hotline-icon pulse-red">
+          <i class="fas fa-truck-medical"></i>
+        </div>
+        <div class="hotline-info">
+          <h2 class="text-3xl font-bold">24/7 Urgent Emergency Care</h2>
+          <p class="text-lg">Skip the line with immediate digital ER notification. Our trauma team is on standby.</p>
+        </div>
+        <div class="hotline-actions">
+          <div class="hotline-number mb-4">
+            <span class="label">EMERGENCY HOTLINE</span>
+            <a href="tel:+15559119111" class="number" (click)="$event.stopPropagation()">+1 (555) 911-9111</a>
           </div>
+          <button class="btn btn-white w-full">Request Immediate Help</button>
         </div>
       </div>
-      <div class="emergency-action">
-        <a href="tel:+15559119111" class="btn btn-danger">
-          <i class="fas fa-phone"></i>
-          Call Emergency
-        </a>
-      </div>
     </div>
+
   </div>
-</section>
+</div>

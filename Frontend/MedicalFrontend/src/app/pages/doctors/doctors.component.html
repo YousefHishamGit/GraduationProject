@@ -1,155 +1,164 @@
-<!-- Page Title -->
-<div class="page-title">
-  <div class="heading">
-    <div class="container">
-      <div class="row d-flex justify-content-center text-center">
-        <div class="col-lg-8">
-          <h1 class="heading-title">Doctors</h1>
-          <p class="mb-0">
-            Meet our team of highly qualified and experienced medical professionals, dedicated to providing compassionate care and innovative treatments to every patient.
-          </p>
-        </div>
+<div class="doctors-page">
+  <div class="container py-20">
+    <nav class="breadcrumbs mb-4">
+      <a routerLink="/">Home</a> / <span class="current">Doctors</span>
+    </nav>
+
+    <div class="page-header mb-12">
+      <h1 class="text-3xl font-bold mb-2">Our Medical Team</h1>
+      <p class="text-sub">Meet our experienced specialists — find the right doctor for you</p>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="search-filter-container card mb-8">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (input)="filterDoctors()" 
+          placeholder="Search by name or specialty..."
+          class="search-input"
+        >
+      </div>
+      <div class="sort-box">
+        <span class="sort-label">Sort:</span>
+        <select class="sort-select">
+          <option>Rating</option>
+          <option>Experience</option>
+        </select>
       </div>
     </div>
-  </div>
-  <nav class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a routerLink="/">Home</a></li>
-        <li class="current">Doctors</li>
-      </ol>
-    </div>
-  </nav>
-</div>
 
-<!-- Search Section -->
-<section class="doctors-search">
-  <div class="container">
-    <div class="search-container">
-      <div class="search-box">
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="filterDoctors()"
-          placeholder="Search doctors by name or specialty...">
-        <button class="search-btn">
-          <i class="fas fa-search"></i>
+    <!-- Filter Chips -->
+    <div class="filter-chips mb-10">
+      <button 
+        class="chip" 
+        [class.active]="departmentFilter === ''" 
+        (click)="departmentFilter = ''; filterDoctors()"
+      >All</button>
+      <button 
+        class="chip" 
+        *ngFor="let dept of uniqueDepartments"
+        [class.active]="departmentFilter.toLowerCase() === dept?.toLowerCase()"
+        (click)="departmentFilter = dept || ''; filterDoctors()"
+      >{{ dept }}</button>
+    </div>
+
+    <p class="results-info mb-6">Showing <strong>{{ filteredDoctors.length }} doctors</strong> — filtered by: All specialties</p>
+
+    <!-- Doctors Grid (2 Columns) -->
+    <div class="doctors-grid-2col">
+      <div class="card doctor-card-wide" *ngFor="let doctor of filteredDoctors">
+        <div class="doctor-card-top" [ngClass]="doctor.department || 'general'">
+          <!-- Actual Doctor Image -->
+          <div class="doctor-photo-container">
+            <img [src]="doctor.DoctorImgUrl" [alt]="doctor.name" class="doctor-img">
+            <div class="availability-indicator" [class.on]="doctor.available"></div>
+          </div>
+        </div>
+        <div class="doctor-card-body">
+          <div class="doctor-main-info">
+            <h3>{{ doctor.name }}</h3>
+            <p class="doctor-sub">{{ doctor.Specialization }} • {{ doctor.YearsOfExperience }} yrs exp</p>
+          </div>
+          
+          <div class="doctor-badges">
+            <span class="stat-badge"><i class="fas fa-star"></i> 4.9</span>
+            <span class="status-badge" [class.busy]="doctor.id % 3 === 0">
+              {{ doctor.id % 3 === 0 ? 'Busy' : 'Available' }}
+            </span>
+          </div>
+
+          <div class="doctor-actions">
+            <button class="btn btn-outline" (click)="viewDoctorDetails(doctor)">View</button>
+            <button class="btn btn-primary" [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}">Book</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results State -->
+      <div class="no-results card py-16 text-center" *ngIf="filteredDoctors.length === 0">
+        <i class="fas fa-search-minus text-4xl text-muted mb-4 opacity-50"></i>
+        <h2 class="text-xl font-bold mb-2">No Doctors Found</h2>
+        <p class="text-sub px-6">We couldn't find any specialist matching your criteria. Try adjusting your filters or searching for something else.</p>
+        <button class="btn btn-outline mt-6" (click)="searchTerm = ''; departmentFilter = ''; filterDoctors()">
+          Clear All Filters
         </button>
       </div>
-      <div class="filter-options">
-        <select [(ngModel)]="departmentFilter" (change)="filterDoctors()">
-          <option value="">All Departments</option>
-          <option value="cardiology">Cardiology</option>
-          <option value="neurology">Neurology</option>
-          <option value="orthopedics">Orthopedics</option>
-          <option value="pediatrics">Pediatrics</option>
-          <option value="dermatology">Dermatology</option>
-          <option value="surgery">Surgery</option>
-        </select>
-        <select [(ngModel)]="experienceFilter" (change)="filterDoctors()">
-          <option value="">All Experience</option>
-          <option value="5">5+ Years</option>
-          <option value="10">10+ Years</option>
-          <option value="15">15+ Years</option>
-        </select>
-      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination mt-16">
+      <button class="page-nav"><i class="fas fa-chevron-left"></i></button>
+      <button class="page-num active">1</button>
+      <button class="page-num">2</button>
+      <button class="page-num">3</button>
+      <button class="page-nav"><i class="fas fa-chevron-right"></i></button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- Doctors Section -->
-<section id="doctors" class="doctors section">
-  <div class="container">
-    <div class="row gy-4">
-      <div
-        class="col-lg-3 col-md-6"
-        *ngFor="let doctor of filteredDoctors; let i = index">
-        <div class="doctor-card" (click)="viewDoctorDetails(doctor)">
-          <div class="doctor-image">
-            <img [src]="doctor.DoctorImgUrl" [alt]="doctor.name" class="img-fluid">
-            <div class="doctor-overlay">
-              <div class="social-links">
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fas fa-envelope"></i></a>
-                <a href="#"><i class="fas fa-phone"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="doctor-content">
-            <h4>{{ doctor.name }}</h4>
-            <span class="specialty">{{ doctor.Specialization }}</span>
-            <div class="doctor-meta">
-              <div class="experience">
-                <i class="fas fa-award"></i>
-                <span>{{ doctor.YearsOfExperience }}+ Years Experience</span>
-              </div>
-              <div class="department">
-                <i class="fas fa-building"></i>
-                <span>{{ doctor.Specialization }} Dept.</span>
-              </div>
-            </div>
-            <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}" class="btn-appointment">
-              Book Appointment
-            </a>
-          </div>
+<!-- Doctor Details Modal (Redesigned) -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-card card" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+    
+    <div class="modal-header-info">
+      <div class="modal-photo-container">
+        <img [src]="selectedDoctor?.DoctorImgUrl" [alt]="selectedDoctor?.name" class="modal-doctor-img">
+      </div>
+      <div class="flex-1">
+        <h2>{{ selectedDoctor?.name }}</h2>
+        <p class="text-primary font-semibold">{{ selectedDoctor?.Specialization }}</p>
+        <div class="modal-badges mt-2">
+          <span class="badge-item"><i class="fas fa-star text-warning"></i> 4.9</span>
+          <span class="badge-item"><i class="fas fa-clock text-sub"></i> 15 yrs exp</span>
+          <span class="badge-item"><i class="fas fa-hospital text-sub"></i> Cairo Clinic</span>
         </div>
       </div>
     </div>
 
-    <div *ngIf="filteredDoctors.length === 0" class="text-center py-5">
-      <h3>No doctors found matching your criteria.</h3>
+    <div class="modal-stats-grid my-8">
+      <div class="stat-box card">
+        <span class="stat-num">320+</span>
+        <span class="stat-name">Patients</span>
+      </div>
+      <div class="stat-box card">
+        <span class="stat-num">4.9</span>
+        <span class="stat-name">Rating</span>
+      </div>
+      <div class="stat-box card">
+        <span class="stat-num">{{ selectedDoctor?.YearsOfExperience }}yr</span>
+        <span class="stat-name">Experience</span>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- Doctor Details Modal -->
-<div class="doctor-details-modal" [class.active]="showModal" (click)="closeModal($event)">
-  <div class="modal-content" *ngIf="selectedDoctor" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>{{ selectedDoctor.name }}</h2>
-      <button class="modal-close" type="button" (click)="closeModal()">
-        <i class="fas fa-times"></i>
+    <div class="modal-availability">
+      <h3 class="mb-4 font-bold text-xs tracking-widest uppercase text-muted">AVAILABLE SLOTS — TODAY</h3>
+      <div class="slots-grid">
+        <button 
+          *ngFor="let slot of ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM']" 
+          class="slot-btn"
+          [class.selected]="selectedTimeSlot === slot"
+          [disabled]="slot === '9:00 AM' || slot === '12:00 PM'"
+          (click)="selectTimeSlot(slot)"
+        >
+          {{ slot }}
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer-actions mt-10">
+      <button class="btn btn-outline w-full" (click)="closeModal()">View Full Profile</button>
+      <button 
+        class="btn btn-primary w-full" 
+        [routerLink]="['/appointment']" 
+        [queryParams]="{doctorId: selectedDoctor?.id, timeSlot: selectedTimeSlot}"
+        [disabled]="!selectedTimeSlot"
+      >
+        Book Appointment <i class="fas fa-arrow-right"></i>
       </button>
-    </div>
-    <div class="modal-body">
-      <div class="doctor-modal-content">
-        <div class="doctor-modal-image">
-          <img [src]="selectedDoctor.DoctorImgUrl" [alt]="selectedDoctor.name">
-        </div>
-        <div class="doctor-modal-info">
-          <div class="doctor-specialty">
-            <i class="fas fa-stethoscope"></i>
-            {{ selectedDoctor.Specialization }}
-          </div>
-          <div class="doctor-experience">
-            <i class="fas fa-award"></i>
-            {{ selectedDoctor.YearsOfExperience }}+ years experience
-          </div>
-
-          <div class="doctor-availability" *ngIf="timeSlots.length > 0">
-            <h3>Select Time Slot:</h3>
-            <div class="availability-slots">
-              <div
-                *ngFor="let slot of timeSlots"
-                class="time-slot"
-                [class.selected]="selectedTimeSlot === slot"
-                (click)="selectTimeSlot(slot)">
-                {{ slot }}
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <a
-              [routerLink]="['/appointment']"
-              [queryParams]="{doctorId: selectedDoctor.id, timeSlot: selectedTimeSlot}"
-              class="btn btn-primary"
-              [class.disabled]="!selectedTimeSlot">
-              Book Appointment
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

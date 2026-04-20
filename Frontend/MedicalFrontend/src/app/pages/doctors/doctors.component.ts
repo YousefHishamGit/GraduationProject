@@ -22,60 +22,16 @@ interface Doctor {
 })
 export class DoctorsComponent implements OnInit {
   doctors: Doctor[] = [
-    {
-      id: 1,
-      name: 'Dr. Sarah Johnson',
-      DoctorImgUrl: '/assets/img/person/person-f-11.webp',
-      Specialization: 'Cardiologist',
-      YearsOfExperience: 15,
-      department: 'cardiology',
-      available: true
-    },
-    {
-      id: 2,
-      name: 'Dr. Michael Brown',
-      DoctorImgUrl: '/assets/img/person/person-m-12.webp',
-      Specialization: 'Neurologist',
-      YearsOfExperience: 12,
-      department: 'neurology',
-      available: true
-    },
-    {
-      id: 3,
-      name: 'Dr. Lisa Miller',
-      DoctorImgUrl: '/assets/img/person/person-f-12.webp',
-      Specialization: 'Orthopedic Surgeon',
-      YearsOfExperience: 10,
-      department: 'orthopedics',
-      available: true
-    },
-    {
-      id: 4,
-      name: 'Dr. David Wilson',
-      DoctorImgUrl: '/assets/img/person/person-m-13.webp',
-      Specialization: 'Pediatrician',
-      YearsOfExperience: 18,
-      department: 'pediatrics',
-      available: true
-    },
-    {
-      id: 5,
-      name: 'Dr. Jennifer Lee',
-      DoctorImgUrl: '/assets/img/person/person-f-13.webp',
-      Specialization: 'Dermatologist',
-      YearsOfExperience: 8,
-      department: 'dermatology',
-      available: false
-    },
-    {
-      id: 6,
-      name: 'Dr. Robert Chen',
-      DoctorImgUrl: '/assets/img/person/person-m-7.webp',
-      Specialization: 'General Surgeon',
-      YearsOfExperience: 14,
-      department: 'surgery',
-      available: true
-    }
+    { id: 1, name: 'Dr. Sarah Johnson', DoctorImgUrl: '/assets/img/person/person-f-11.webp', Specialization: 'Cardiologist', YearsOfExperience: 15, department: 'Cardiology', available: true },
+    { id: 2, name: 'Dr. Michael Brown', DoctorImgUrl: '/assets/img/person/person-m-12.webp', Specialization: 'Neurologist', YearsOfExperience: 12, department: 'Neurology', available: true },
+    { id: 3, name: 'Dr. Lisa Miller', DoctorImgUrl: '/assets/img/person/person-f-12.webp', Specialization: 'Orthopedic Surgeon', YearsOfExperience: 10, department: 'Orthopedics', available: true },
+    { id: 4, name: 'Dr. David Wilson', DoctorImgUrl: '/assets/img/person/person-m-13.webp', Specialization: 'Pediatrician', YearsOfExperience: 18, department: 'Pediatrics', available: true },
+    { id: 5, name: 'Dr. Jennifer Lee', DoctorImgUrl: '/assets/img/person/person-f-13.webp', Specialization: 'Dermatologist', YearsOfExperience: 8, department: 'Dermatology', available: false },
+    { id: 6, name: 'Dr. Robert Chen', DoctorImgUrl: '/assets/img/person/person-m-7.webp', Specialization: 'General Surgeon', YearsOfExperience: 14, department: 'Surgery', available: true },
+    { id: 7, name: 'Dr. Emily Davis', DoctorImgUrl: '/assets/img/person/person-f-5.webp', Specialization: 'Ophthalmologist', YearsOfExperience: 11, department: 'Ophthalmology', available: true },
+    { id: 8, name: 'Dr. James Smith', DoctorImgUrl: '/assets/img/person/person-m-3.webp', Specialization: 'Dentist', YearsOfExperience: 9, department: 'Dentistry', available: true },
+    { id: 9, name: 'Dr. Maria Garcia', DoctorImgUrl: '/assets/img/person/person-f-9.webp', Specialization: 'Internal Medicine', YearsOfExperience: 16, department: 'Internal Medicine', available: true },
+    { id: 10, name: 'Dr. John Doe', DoctorImgUrl: '/assets/img/person/person-m-9.webp', Specialization: 'Psychiatrist', YearsOfExperience: 13, department: 'Mental Health', available: false }
   ];
 
   filteredDoctors: Doctor[] = [];
@@ -92,6 +48,10 @@ export class DoctorsComponent implements OnInit {
     '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
   ];
 
+  get uniqueDepartments() {
+    return [...new Set(this.doctors.map(d => d.department))].filter(Boolean);
+  }
+
   ngOnInit() {
     this.filteredDoctors = [...this.doctors];
   }
@@ -102,7 +62,8 @@ export class DoctorsComponent implements OnInit {
         doctor.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         doctor.Specialization.toLowerCase().includes(this.searchTerm.toLowerCase());
 
-      const matchesDepartment = !this.departmentFilter || doctor.department === this.departmentFilter;
+      const matchesDepartment = !this.departmentFilter || 
+        doctor.department?.toLowerCase() === this.departmentFilter.toLowerCase();
 
       const matchesExperience = !this.experienceFilter ||
         doctor.YearsOfExperience >= parseInt(this.experienceFilter);

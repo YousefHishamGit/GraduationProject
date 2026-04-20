@@ -17,17 +17,11 @@
             <label for="email">Email Address</label>
             <div class="input-with-icon">
               <i class="fas fa-envelope"></i>
-              <input
-                type="email"
-                id="email"
-                [ngModel]="email()"
-                (ngModelChange)="email.set($event)"
-                name="email"
-                placeholder="Enter your email"
-                required>
+              <input type="email" id="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email"
+                placeholder="Enter your email" required>
             </div>
             @if (errorMessage()) {
-              <span class="text-danger">{{ errorMessage() }}</span>
+            <span class="text-danger">{{ errorMessage() }}</span>
             }
           </div>
 
@@ -35,14 +29,8 @@
             <label for="password">Password</label>
             <div class="input-with-icon">
               <i class="fas fa-lock"></i>
-              <input
-                [type]="showPassword() ? 'text' : 'password'"
-                id="password"
-                [ngModel]="password()"
-                (ngModelChange)="password.set($event)"
-                name="password"
-                placeholder="Enter your password"
-                required>
+              <input [type]="showPassword() ? 'text' : 'password'" id="password" [ngModel]="password()"
+                (ngModelChange)="password.set($event)" name="password" placeholder="Enter your password" required>
               <button type="button" class="password-toggle" (click)="togglePassword()">
                 <i [class]="showPassword() ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
@@ -51,7 +39,8 @@
 
           <div class="remember-forgot">
             <div class="remember-me">
-              <input type="checkbox" id="remember" [ngModel]="remember()" (ngModelChange)="remember.set($event)" name="remember">
+              <input type="checkbox" id="remember" [ngModel]="remember()" (ngModelChange)="remember.set($event)"
+                name="remember">
               <label for="remember">Remember me</label>
             </div>
             <a href="#" class="forgot-password">Forgot Password?</a>
@@ -85,7 +74,8 @@
 
       <div class="login-features-section">
         <h2 class="features-title">Clinic Management System</h2>
-        <p class="features-description">Streamline your healthcare operations with our comprehensive management solution.</p>
+        <p class="features-description">Streamline your healthcare operations with our comprehensive management
+          solution.</p>
 
         <div class="features-grid">
           <div class="feature-card">

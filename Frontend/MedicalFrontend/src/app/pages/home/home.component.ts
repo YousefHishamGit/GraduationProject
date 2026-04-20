@@ -24,8 +24,8 @@ export class HomeComponent {
   ];
 
   doctors = [
-    { image: '/assets/img/person/person-f-11.webp', name: 'Dr. Sarah Johnson', specialty: 'Cardiologist', experience: '15+ years experience', link: '/doctors' },
-    { image: '/assets/img/person/person-m-12.webp', name: 'Dr. Michael Brown', specialty: 'Neurologist', experience: '12+ years experience', link: '/doctors' },
-    { image: '/assets/img/person/person-f-12.webp', name: 'Dr. Lisa Miller', specialty: 'Orthopedic Surgeon', experience: '10+ years experience', link: '/doctors' }
+    { id: 1, image: '/assets/img/person/person-m-7.webp', name: 'Dr. Ahmed Hassan', specialty: 'Cardiologist', experience: '15+ years experience' },
+    { id: 2, image: '/assets/img/person/person-f-11.webp', name: 'Dr. Sara Mohamed', specialty: 'Neurologist', experience: '12+ years experience' },
+    { id: 3, image: '/assets/img/person/person-m-3.webp', name: 'Dr. Khaled Ali', specialty: 'Orthopedics', experience: '10+ years experience' }
   ];
 }

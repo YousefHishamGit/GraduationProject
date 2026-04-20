@@ -1,0 +1,113 @@
+<div class="specialty-page" *ngIf="article() as data">
+  <!-- Hero Section -->
+  <section class="specialty-hero" [style.backgroundImage]="'url(' + data.heroImage + ')'">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="breadcrumb mb-6">
+        <a routerLink="/departments">Departments</a>
+        <i class="fas fa-chevron-right mx-3"></i>
+        <span>{{ data.name }}</span>
+      </div>
+      <h1 class="text-hero font-bold mb-6 scale-in">{{ data.name }}</h1>
+      <p class="text-xl max-w-2xl fade-in">{{ data.introduction }}</p>
+    </div>
+  </section>
+
+  <!-- Article Body -->
+  <div class="container article-container py-24">
+    <div class="article-grid">
+      <!-- Main Content -->
+      <div class="main-article">
+        <!-- Common Diseases -->
+        <section class="article-section mb-20 fade-up">
+          <div class="section-title-wrap mb-10">
+            <span class="badge mb-4">Diagnosis & Conditions</span>
+            <h2 class="text-3xl font-bold">Common Conditions We Treat</h2>
+          </div>
+          <div class="diseases-grid">
+            <div class="card disease-card" *ngFor="let disease of data.diseases">
+              <div class="card-glow"></div>
+              <h3 class="text-xl font-bold mb-4 text-primary">{{ disease.name }}</h3>
+              <p class="text-sub">{{ disease.desc }}</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Symptoms -->
+        <section class="article-section mb-20 fade-up">
+          <div class="section-title-wrap mb-10">
+            <span class="badge mb-4">Identification</span>
+            <h2 class="text-3xl font-bold">Recognizing the Symptoms</h2>
+          </div>
+          <div class="symptoms-card card glass">
+            <p class="mb-8 text-lg">If you notice any of the following signs, it's recommended to consult with our specialized team for a proper evaluation:</p>
+            <ul class="symptom-list">
+              <li *ngFor="let symptom of data.symptoms">
+                <div class="check-icon"><i class="fas fa-circle-exclamation"></i></div>
+                <span>{{ symptom }}</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="article-section mb-20 fade-up">
+          <div class="section-title-wrap mb-10">
+            <span class="badge mb-4">Our Centers</span>
+            <h2 class="text-3xl font-bold">Facilities Gallery</h2>
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item" *ngFor="let img of data.gallery">
+              <img [src]="img" alt="Facility Image">
+              <div class="img-overlay">
+                <i class="fas fa-expand"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="article-sidebar">
+        <!-- Emergency Advice -->
+        <div class="emergency-guide card bg-surface mb-8">
+          <div class="emergency-header mb-6">
+            <div class="pulse-icon"><i class="fas fa-truck-medical"></i></div>
+            <h3 class="text-xl font-bold">Emergency Advice</h3>
+          </div>
+          <p class="text-sub mb-8">{{ data.emergencyAdvice }}</p>
+          <a [routerLink]="['/appointment']" [queryParams]="{department: 'emergency'}" class="btn btn-primary w-full">Quick Appointment</a>
+        </div>
+
+        <!-- Appointment Callout -->
+        <div class="sidebar-promo card accent-border">
+          <h3>Expert Consultation</h3>
+          <p class="text-sm text-sub mb-6">Schedule a visit with our world-renowned specialists today.</p>
+          <button class="btn btn-outline w-full" routerLink="/doctors" [queryParams]="{department: data.id}">Find a Specialist</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Final CTA -->
+  <section class="final-cta py-24 bg-surface mt-20">
+    <div class="container text-center">
+      <div class="cta-card glass card max-w-4xl mx-auto py-16">
+        <h2 class="text-4xl font-bold mb-6">Your Health is Our Priority</h2>
+        <p class="text-xl text-sub mb-10">Don't wait for symptoms to worsen. Take the first step towards a healthier life.</p>
+        <div class="flex-center gap-6">
+          <button class="btn btn-primary btn-lg" routerLink="/appointment">Book for {{ data.name }}</button>
+          <button class="btn btn-outline btn-lg" routerLink="/doctors">View All Doctors</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="container py-40 text-center" *ngIf="!article()">
+  <div class="loading-state">
+    <div class="spinner mb-6"></div>
+    <h2>Loading Medical Article...</h2>
+    <p class="mt-4"><a routerLink="/departments" class="text-primary">Return to Departments</a></p>
+  </div>
+</div>

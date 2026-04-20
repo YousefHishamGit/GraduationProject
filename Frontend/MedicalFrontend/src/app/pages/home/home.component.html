@@ -1,82 +1,137 @@
-<section class="hero">
-  <div class="container">
+<section class="hero-section section">
+  <div class="container hero-container">
     <div class="hero-content">
-      <div class="hero-text">
-        <h1>Excellence in Healthcare With Compassionate Care</h1>
-        <p>We provide premium medical services with advanced technology and experienced professionals.</p>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <h3>25+</h3>
-            <p>Years Experience</p>
-          </div>
-          <div class="stat-item">
-            <h3>5000+</h3>
-            <p>Patients Treated</p>
-          </div>
-          <div class="stat-item">
-            <h3>50+</h3>
-            <p>Medical Experts</p>
-          </div>
+      <span class="badge">Trusted Medical Care</span>
+      <h1 class="hero-title text-gradient">Excellence in Healthcare With Compassionate Care</h1>
+      <p class="hero-description">Premium medical services with advanced technology and experienced professionals.</p>
+      
+      <div class="hero-cta">
+        <a routerLink="/appointment" class="btn btn-primary">Book Appointment</a>
+        <a routerLink="/services" class="btn btn-outline">Learn More</a>
+      </div>
+
+      <div class="hero-stats-bar card">
+        <div class="stat-item">
+          <span class="stat-value">25+</span>
+          <span class="stat-label">Years Exp.</span>
         </div>
-        <div class="hero-actions">
-          <a routerLink="/appointment" class="btn btn-primary">Book Appointment</a>
-          <a routerLink="/about" class="btn btn-secondary">Learn More</a>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">5k+</span>
+          <span class="stat-label">Patients</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">50+</span>
+          <span class="stat-label">Experts</span>
         </div>
       </div>
-      <div class="hero-image">
-        <img src="/assets/img/health/facilities-6.webp" alt="Healthcare">
+    </div>
+
+    <div class="hero-visual">
+      <div class="doctor-image-wrapper">
+        <!-- Using relative path for assets -->
+        <img src="assets/images/hero_doctor_1776622489067.png" alt="Featured Physician" class="hero-doctor-img">
       </div>
     </div>
   </div>
 </section>
 
-<section class="services">
+<section class="services-section section">
   <div class="container">
-    <h2 class="section-title">Our Services</h2>
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Comprehensive healthcare solutions tailored to your individual needs.</p>
+      </div>
+      <a routerLink="/services" class="view-all">View all <i class="fas fa-arrow-right"></i></a>
+    </div>
+
     <div class="services-grid">
-      <a *ngFor="let service of services" [routerLink]="service.link" class="service-card">
-        <div class="service-icon">
-          <i [class]="service.icon"></i>
-        </div>
-        <h3>{{ service.title }}</h3>
-        <p>{{ service.description }}</p>
-      </a>
-    </div>
-    <div class="text-center">
-      <a routerLink="/services" class="btn btn-primary">View All Services</a>
+      <div class="card service-card">
+        <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
+        <h3>Cardiology</h3>
+        <p>Heart & vascular care</p>
+      </div>
+      <div class="card service-card">
+        <div class="service-icon"><i class="fas fa-brain"></i></div>
+        <h3>Neurology</h3>
+        <p>Brain & nerve care</p>
+      </div>
+      <div class="card service-card">
+        <div class="service-icon"><i class="fas fa-bone"></i></div>
+        <h3>Orthopedics</h3>
+        <p>Bones & joints</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="departments-preview">
+<section class="departments-section section bg-surface">
   <div class="container">
-    <h2 class="section-title">Medical Departments</h2>
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Departments</h2>
+        <p class="section-subtitle">Specialized centers of excellence equipped with the latest technology.</p>
+      </div>
+      <a routerLink="/departments" class="view-all">Explore <i class="fas fa-arrow-right"></i></a>
+    </div>
+
     <div class="departments-grid">
-      <a *ngFor="let dept of departments" [routerLink]="dept.link" class="department-card">
-        <img [src]="dept.image" [alt]="dept.title">
-        <h3>{{ dept.title }}</h3>
-        <p>{{ dept.description }}</p>
-      </a>
-    </div>
-    <div class="text-center">
-      <a routerLink="/departments" class="btn btn-primary">View All Departments</a>
+      <div class="card dept-card">
+        <img src="assets/images/icon_cardiology_1776622787980.png" alt="Cardiology" class="dept-icon">
+        <h3>Cardiology</h3>
+      </div>
+      <div class="card dept-card">
+        <img src="assets/images/icon_neurology_3d_1776659667339.png" alt="Neurology" class="dept-icon">
+        <h3>Neurology</h3>
+      </div>
+      <div class="card dept-card">
+        <img src="assets/images/icon_orthopedics_3d_1776659765427.png" alt="Orthopedics" class="dept-icon">
+        <h3>Orthopedics</h3>
+      </div>
+      <div class="card dept-card">
+        <div class="icon-placeholder"><i class="fas fa-eye"></i></div>
+        <h3>Ophthalmology</h3>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="doctors-preview">
+<section class="featured-doctors section">
   <div class="container">
-    <h2 class="section-title">Our Doctors</h2>
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Featured Doctors</h2>
+        <p class="section-subtitle">A team of dedicated professionals committed to your well-being.</p>
+      </div>
+      <a routerLink="/doctors" class="view-all">Meet all <i class="fas fa-arrow-right"></i></a>
+    </div>
+
     <div class="doctors-grid">
-      <a *ngFor="let doctor of doctors" [routerLink]="doctor.link" class="doctor-card">
-        <img [src]="doctor.image" [alt]="doctor.name">
+      <div class="card doctor-card" *ngFor="let doctor of doctors">
+        <div class="doctor-photo-frame">
+          <img [src]="doctor.image" [alt]="doctor.name" class="home-doctor-img">
+        </div>
         <h3>{{ doctor.name }}</h3>
         <p>{{ doctor.specialty }}</p>
-        <p>{{ doctor.experience }}</p>
-      </a>
+        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}" class="btn btn-outline btn-sm">Book Now</a>
+      </div>
     </div>
-    <div class="text-center">
-      <a routerLink="/doctors" class="btn btn-primary">View All Doctors</a>
-    </div>
+  </div>
+</section>
+
+<section class="ai-assistant section">
+  <div class="container">
+    <a routerLink="/chatbot" class="ai-banner card">
+      <div class="ai-icon-box">
+        <i class="fas fa-comment-dots"></i>
+      </div>
+      <div class="ai-text">
+        <h3>AI Health Assistant</h3>
+        <p>Ask me anything about your health</p>
+      </div>
+      <i class="fas fa-chevron-right arrow-icon"></i>
+    </a>
   </div>
 </section>

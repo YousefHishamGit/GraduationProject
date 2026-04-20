@@ -1,147 +1,184 @@
-<section class="appointment-section">
-  <div class="container">
-    <h1 class="page-title">Book an Appointment</h1>
+<div class="appointment-page" [class.emergency-mode]="isEmergency()">
+  <div class="container py-24">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb mb-8" *ngIf="!isSuccess()">
+      <a routerLink="/">Home</a> / <span>Appointment</span>
+    </nav>
 
-    <!-- Steps -->
-    <div class="steps">
-      @for (step of [1, 2, 3]; track step) {
-        <div class="step" [class.active]="currentStep() >= step" [class.completed]="currentStep() > step">
-          <span class="step-number">{{ step }}</span>
-          <span class="step-label">{{ getStepLabel(step) }}</span>
+    <!-- Main Booking Card -->
+    <div class="card appointment-card glass" *ngIf="!isSuccess()">
+      
+      <!-- Emergency Warning Header -->
+      <div class="emergency-header mb-10" *ngIf="isEmergency()">
+        <div class="emergency-pulse-icon">
+          <i class="fas fa-truck-medical"></i>
         </div>
-      }
+        <div class="emergency-text">
+          <h2 class="text-3xl font-bold">URGENT EMERGENCY ADMISSION</h2>
+          <p class="text-lg">One-click priority dispatch. Skip the line.</p>
+        </div>
+      </div>
+
+      <!-- Steps Progress (Standard Only) -->
+      <div class="steps-bar mb-12" *ngIf="!isEmergency()">
+        <div class="step" [class.active]="currentStep() >= 1" [class.complete]="currentStep() > 1">
+          <div class="step-icon">1</div>
+          <span class="step-label">Patient Info</span>
+        </div>
+        <div class="step-line" [class.active]="currentStep() >= 2"></div>
+        <div class="step" [class.active]="currentStep() >= 2" [class.complete]="currentStep() > 2">
+          <div class="step-icon">2</div>
+          <span class="step-label">Schedule</span>
+        </div>
+        <div class="step-line" [class.active]="currentStep() >= 3"></div>
+        <div class="step" [class.active]="currentStep() >= 3">
+          <div class="step-icon">3</div>
+          <span class="step-label">Confirmation</span>
+        </div>
+      </div>
+
+      <!-- FORM CONTENT -->
+      <form (ngSubmit)="confirmBooking()" class="appointment-form">
+        
+        <!-- ========================================== -->
+        <!-- EMERGENCY WORKFLOW                         -->
+        <!-- ========================================== -->
+        <div class="emergency-workflow fade-in" *ngIf="isEmergency()">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="form-group">
+              <label class="form-label">Full Name of Person in Need</label>
+              <input type="text" [(ngModel)]="formData.firstName" name="fullName" required class="form-input urgent-input" placeholder="e.g., Ahmed Hisham">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Active Contact Number</label>
+              <input type="tel" [(ngModel)]="formData.phone" name="phone" required class="form-input urgent-input" placeholder="+20 1XX XXX XXXX">
+            </div>
+          </div>
+
+          <div class="form-group mb-12">
+            <label class="form-label">Emergency Description (Optional)</label>
+            <textarea [(ngModel)]="formData.message" name="condition" class="form-input urgent-input" rows="4" placeholder="Briefly describe the condition (e.g., Severe pain, Difficulty breathing)"></textarea>
+          </div>
+
+          <div class="emergency-footer">
+            <button type="submit" class="btn btn-emergency-submit w-full">
+              <i class="fas fa-bullhorn mr-4"></i> CALL IMMEDIATE EMERGENCY RESPONSE
+            </button>
+            <p class="text-center mt-6 text-sub">Our ER team will be notified of your arrival instantly.</p>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- STANDARD WORKFLOW                          -->
+        <!-- ========================================== -->
+        <div class="standard-workflow" *ngIf="!isEmergency()">
+          <!-- Step 1: Personal -->
+          <div class="form-step fade-in" *ngIf="currentStep() === 1">
+            <h2 class="text-2xl font-bold mb-8">Personal Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" [(ngModel)]="formData.firstName" name="fName" class="form-input" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" [(ngModel)]="formData.lastName" name="lName" class="form-input" placeholder="Doe">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" [(ngModel)]="formData.phone" name="pPhone" class="form-input" placeholder="+20...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" [(ngModel)]="formData.email" name="pEmail" class="form-input" placeholder="j@example.com">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Schedule -->
+          <div class="form-step fade-in" *ngIf="currentStep() === 2">
+            <h2 class="text-2xl font-bold mb-8">Date & Time</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+              <div class="form-group">
+                <label class="form-label">Department</label>
+                <select [ngModel]="selectedDepartment()" (ngModelChange)="onDepartmentChange($event)" name="dept" class="form-input">
+                  <option value="">Choose Department</option>
+                  <option *ngFor="let d of departments()" [value]="d.id">{{ d.name }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Specialist</label>
+                <select [(ngModel)]="formData.doctorId" name="doc" class="form-input" [disabled]="!selectedDepartment()">
+                  <option value="">Select Doctor</option>
+                  <option *ngFor="let doc of availableDoctors()" [value]="doc.id">{{ doc.name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <label class="form-label mb-4 block">Select Date</label>
+              <input type="date" [(ngModel)]="formData.appointmentDate" [min]="minDate()" name="aDate" class="form-input">
+            </div>
+
+            <div>
+              <label class="form-label mb-4 block">Available Slots</label>
+              <div class="slots-grid">
+                <button type="button" *ngFor="let slot of ['09:00 AM', '10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM']" 
+                        class="slot-btn" [class.active]="selectedTimeSlot() === slot" (click)="selectTimeSlot(slot)">
+                  {{ slot }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Review -->
+          <div class="form-step fade-in" *ngIf="currentStep() === 3">
+            <h2 class="text-2xl font-bold mb-8">Final Review</h2>
+            <div class="review-box card bg-surface">
+              <div class="review-row">
+                <span class="r-label">Name:</span>
+                <span class="r-value">{{ formData.firstName }} {{ formData.lastName }}</span>
+              </div>
+              <div class="review-row">
+                <span class="r-label">Department:</span>
+                <span class="r-value">{{ getDepartmentName(selectedDepartment()) }}</span>
+              </div>
+              <div class="review-row">
+                <span class="r-label">Doctor:</span>
+                <span class="r-value">{{ getDoctorName(formData.doctorId) }}</span>
+              </div>
+              <div class="review-row">
+                <span class="r-label">Time:</span>
+                <span class="r-value">{{ formData.appointmentDate }} &#64; {{ selectedTimeSlot() }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions mt-16 flex justify-between">
+            <button type="button" class="btn btn-outline" (click)="prevStep()" *ngIf="currentStep() > 1">Back</button>
+            <span class="flex-1"></span>
+            <button type="button" class="btn btn-primary" (click)="nextStep()" *ngIf="currentStep() < 3" [disabled]="!validateStep()">Continue</button>
+            <button type="submit" class="btn btn-primary btn-glow" *ngIf="currentStep() === 3">Confirm Booking</button>
+          </div>
+        </div>
+
+      </form>
     </div>
 
-    <form id="appointmentForm" class="appointment-form" (ngSubmit)="onSubmit()">
-      <!-- Step 1: Personal Info -->
-      @if (currentStep() === 1) {
-        <div class="form-step active">
-          <h2>Step 1: Your Personal Details</h2>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="firstName">First Name *</label>
-              <input type="text" id="firstName" [(ngModel)]="formData.firstName" name="firstName" required>
-            </div>
-            <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" [(ngModel)]="formData.lastName" name="lastName">
-            </div>
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" [(ngModel)]="formData.email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone *</label>
-              <input type="tel" id="phone" [(ngModel)]="formData.phone" name="phone" required>
-            </div>
-            <div class="form-group">
-              <label for="address">Address</label>
-              <input type="text" id="address" [(ngModel)]="formData.address" name="address">
-            </div>
-            <div class="form-group">
-              <label for="allergies">Allergies</label>
-              <input type="text" id="allergies" [(ngModel)]="formData.allergies" name="allergies">
-            </div>
-            <div class="form-group">
-              <label for="bloodType">Blood Type</label>
-              <input type="text" id="bloodType" [(ngModel)]="formData.bloodType" name="bloodType">
-            </div>
-            <div class="form-group">
-              <label for="emergencyContactPhone">Emergency Contact Phone</label>
-              <input type="tel" id="emergencyContactPhone" [(ngModel)]="formData.emergencyContactPhone" name="emergencyContactPhone">
-            </div>
-            <div class="form-group">
-              <label for="medicalHistory">Medical History</label>
-              <input type="text" id="medicalHistory" [(ngModel)]="formData.medicalHistory" name="medicalHistory">
-            </div>
-            <div class="form-group">
-              <label for="age">Age</label>
-              <input type="number" id="age" [(ngModel)]="formData.age" name="age" min="0" max="120">
-            </div>
-          </div>
-        </div>
-      }
-
-      <!-- Step 2: Appointment Details -->
-      @if (currentStep() === 2) {
-        <div class="form-step active">
-          <h2>Step 2: Choose Your Specialist</h2>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="department">Department *</label>
-              <select id="department" [ngModel]="selectedDepartment()" (ngModelChange)="onDepartmentChange($event)" name="department" required>
-                <option value="">Select Department</option>
-                @for (dept of departments(); track dept.id) {
-                  <option [value]="dept.id">{{ dept.name }}</option>
-                }
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="doctor">Doctor *</label>
-              <select id="doctor" [(ngModel)]="formData.doctorId" name="doctor" required [disabled]="!availableDoctors().length">
-                <option value="">Select Doctor</option>
-                @for (doc of availableDoctors(); track doc.id) {
-                  <option [value]="doc.id">{{ doc.name }} - {{ doc.specialization }}</option>
-                }
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="appointmentDate">Appointment Date *</label>
-              <input type="date" id="appointmentDate" [(ngModel)]="formData.appointmentDate" name="appointmentDate" [min]="minDate()" required>
-            </div>
-            <div class="form-group full-width">
-              <label for="message">Message (Optional)</label>
-              <textarea id="message" [(ngModel)]="formData.message" name="message" rows="5" placeholder="Please describe your symptoms or reason for visit"></textarea>
-            </div>
-          </div>
-        </div>
-      }
-
-      <!-- Step 3: Confirmation -->
-      @if (currentStep() === 3) {
-        <div class="form-step active">
-          <h2>Step 3: Confirm Your Details</h2>
-          <p>Please review your information below before submitting.</p>
-          <div class="confirmation-details">
-            <div class="detail-row">
-              <span class="detail-label">Name:</span>
-              <span class="detail-value">{{ formData.firstName }} {{ formData.lastName }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Email:</span>
-              <span class="detail-value">{{ formData.email }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Phone:</span>
-              <span class="detail-value">{{ formData.phone }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Department:</span>
-              <span class="detail-value">{{ getDepartmentName(selectedDepartment()) }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Doctor:</span>
-              <span class="detail-value">{{ getDoctorName(formData.doctorId) }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Date:</span>
-              <span class="detail-value">{{ formData.appointmentDate | date:'longDate' }}</span>
-            </div>
-          </div>
-          <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary btn-lg">Confirm &amp; Book</button>
-          </div>
-        </div>
-      }
-
-      <div class="form-navigation">
-        @if (currentStep() > 1) {
-          <button type="button" class="btn btn-secondary" (click)="prevStep()">Previous</button>
-        }
-        @if (currentStep() < 3) {
-          <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
-        }
+    <!-- Success Screen -->
+    <div class="card success-card text-center py-24 fade-in" *ngIf="isSuccess()">
+      <div class="success-icon mb-10" [class.emergency-icon]="isEmergency()">
+        <i class="fas" [class.fa-check-circle]="!isEmergency()" [class.fa-truck-medical]="isEmergency()"></i>
       </div>
-    </form>
+      <h2 class="text-4xl font-bold mb-6">{{ isEmergency() ? 'EMERGENCY NOTIFIED' : 'Booking Successful!' }}</h2>
+      <p class="text-xl text-sub mb-12 max-w-lg mx-auto">
+        {{ isEmergency() ? 'Our emergency response team is standing by. Please proceed to the ER entrance immediately.' : 'Your appointment has been scheduled. Check your email for details.' }}
+      </p>
+      <button class="btn btn-outline btn-lg" routerLink="/home" (click)="resetForm()">Return Home</button>
+    </div>
+
   </div>
-</section>
+</div>

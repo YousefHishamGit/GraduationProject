@@ -1,43 +1,51 @@
 <div class="success-page">
-  <div class="success-card">
-    <div class="success-icon">
-      <i class="fas fa-check-circle"></i>
-    </div>
-    <h1>Appointment Confirmed!</h1>
-    <p>
-      Thank you for booking. Your appointment has been scheduled successfully.
-    </p>
+  <div class="container py-20 flex-center">
+    <div class="card success-card text-center scale-in">
+      <div class="success-glow-ring mb-8">
+        <div class="ring-outer"></div>
+        <div class="ring-inner">
+          <i class="fas fa-check"></i>
+        </div>
+      </div>
 
-    <div class="appointment-details">
-      <h3>Appointment Details</h3>
-      <div class="detail-item">
-        <span class="detail-label">Appointment ID:</span>
-        <span class="detail-value">APT-{{ appointment()?.id }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="detail-label">Patient Name:</span>
-        <span class="detail-value">{{ appointment()?.firstName }} {{ appointment()?.lastName }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="detail-label">Date &amp; Time:</span>
-        <span class="detail-value">{{ appointment()?.appointmentDate | date:'mediumDate' }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="detail-label">Status:</span>
-        <span class="detail-value status-confirmed">Confirmed</span>
-      </div>
-    </div>
+      <h1 class="text-3xl font-bold mb-4">Appointment Confirmed</h1>
+      <p class="text-sub mb-8 max-w-sm mx-auto">
+        Thank you for choosing our clinic. Your appointment has been successfully scheduled and added to our system.
+      </p>
 
-    <div class="note">
-      <i class="fas fa-info-circle"></i>
-      Please arrive 15 minutes before your appointment time. Bring your ID and insurance card.
-    </div>
+      <div class="appointment-summary card mb-8">
+        <div class="summary-header mb-6">
+          <span class="id-tag">APT-{{ appointment()?.id || '28491' }}</span>
+          <span class="status-pill">Scheduled</span>
+        </div>
+        
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="label">Patient</span>
+            <span class="value">{{ appointment()?.firstName }} {{ appointment()?.lastName }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Date</span>
+            <span class="value">{{ appointment()?.appointmentDate | date:'fullDate' }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Facility</span>
+            <span class="value">Main Health Center</span>
+          </div>
+        </div>
+      </div>
 
-    <div class="actions">
-      <a routerLink="/" class="btn btn-primary">Back to Home</a>
-      <button type="button" class="btn btn-secondary" (click)="print()">
-        <i class="fas fa-print"></i> Print
-      </button>
+      <div class="info-banner mb-8">
+        <i class="fas fa-circle-info"></i>
+        <span>Please arrive 15 minutes before your time with your ID card.</span>
+      </div>
+
+      <div class="action-group">
+        <button class="btn btn-primary btn-lg" routerLink="/">Return to Dashboard</button>
+        <button class="btn btn-outline btn-lg" (click)="print()">
+          <i class="fas fa-print mr-2"></i> Print Summary
+        </button>
+      </div>
     </div>
   </div>
 </div>
