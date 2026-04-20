@@ -1,124 +1,45 @@
-<div class="chatbot-page">
-  <div class="chatbot-layout">
-    <!-- Sidebar: Resources & History -->
-    <aside class="chat-sidebar card">
-      <div class="sidebar-header mb-8">
-        <div class="logo-box mini-logo">
-          <i class="fas fa-atom"></i>
-        </div>
-        <h2 class="text-lg font-bold">AI Health Hub</h2>
+<div class="chat-wrapper">
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="avatar">🏥</div>
+      <div class="bot-info">
+        <h3>Health Assistant</h3>
+        <p>Online</p>
       </div>
+    </div>
 
-      <div class="resource-section mb-12">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Quick Diagnostic Tools</h3>
-        <div class="resource-list">
-          <div class="resource-item" [class.active]="activeTool() === 'chat' || activeTool() === 'symptoms'" (click)="setTool('chat')">
-            <i class="fas fa-comment-medical"></i>
-            <span>Symptom Checker</span>
+    <div class="chat-messages" #chatMessages>
+      @for (message of messages(); track $index) {
+        <div class="message" [class.user-message]="message.sender === 'user'" [class.bot-message]="message.sender === 'bot'">
+          <div class="avatar">
+            {{ message.sender === 'bot' ? '🏥' : '🙂' }}
           </div>
-          <div class="resource-item" [class.active]="activeTool() === 'insights'" (click)="setTool('insights')">
-            <i class="fas fa-file-medical"></i>
-            <span>Health Insights</span>
-          </div>
-          <div class="resource-item" [class.active]="activeTool() === 'history'" (click)="setTool('history')">
-            <i class="fas fa-clock"></i>
-            <span>Chat History</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="helper-card card">
-        <i class="fas fa-shield-heart text-primary mb-4 text-xl"></i>
-        <h4 class="text-sm font-bold mb-2">Privacy First</h4>
-        <p class="text-xs text-muted">Your health data is encrypted and handled according to medical privacy standards.</p>
-      </div>
-    </aside>
-
-    <!-- Main Chat Studio -->
-    <main class="chat-studio card">
-      <div class="studio-header">
-        <div class="bot-avatar-glow">
-          <div class="avatar-ring pulsing"></div>
-          <div class="ai-icon-box atom-glow">
-            <i class="fas fa-atom"></i>
+          <div class="message-content">
+            @if (message.isTyping) {
+              <span class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            } @else {
+              <div [innerHTML]="formatMessage(message.text)"></div>
+            }
           </div>
         </div>
-        <div class="studio-info">
-          <h3>Health Assistant AI</h3>
-          <span class="status-badge"><span class="dot"></span> Neural Engine Online</span>
-        </div>
-        <div class="studio-actions">
-          <button class="icon-btn" title="Clear Chat" (click)="messages.set([])" *ngIf="activeTool() === 'chat'"><i class="fas fa-trash-alt"></i></button>
-          <button class="icon-btn" title="Settings"><i class="fas fa-cog"></i></button>
-        </div>
-      </div>
+      }
+    </div>
 
-      <!-- TOOL VIEWPORT -->
-      <div class="messages-viewport" #chatMessages [ngSwitch]="activeTool()">
-        
-        <!-- CHAT / SYMPTOMS VIEW -->
-        <div *ngSwitchCase="'chat'" class="fade-in">
-          <div *ngFor="let message of messages()" class="message-row" [class.user]="message.sender === 'user'">
-            <div class="message-bubble">
-              <div class="sender-tag" *ngIf="message.sender === 'bot'">AI Assistant</div>
-              <div class="message-text" *ngIf="!message.isTyping" [innerHTML]="formatMessage(message.text)"></div>
-              <div class="typing-indicator" *ngIf="message.isTyping">
-                <span></span><span></span><span></span>
-              </div>
-              <span class="time">Just now</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- INSIGHTS VIEW -->
-        <div *ngSwitchCase="'insights'" class="fade-in insights-grid">
-          <div class="insight-card card glass" *ngFor="let insight of healthInsights()">
-            <div class="insight-icon"><i [class]="insight.icon"></i></div>
-            <h4 class="font-bold mb-2">{{ insight.title }}</h4>
-            <p class="text-sm text-sub">{{ insight.desc }}</p>
-          </div>
-        </div>
-
-        <!-- HISTORY VIEW -->
-        <div *ngSwitchCase="'history'" class="fade-in history-list">
-          <div class="history-item card mb-4" *ngFor="let entry of chatHistory()">
-            <div class="history-info">
-              <span class="date">{{ entry.date }}</span>
-              <p class="preview">{{ entry.preview }}</p>
-            </div>
-            <i class="fas fa-chevron-right text-muted"></i>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- FOOTER: Only for Chat -->
-      <div class="studio-footer" *ngIf="activeTool() === 'chat'">
-        <form class="input-container card" (ngSubmit)="sendMessage()">
-          <input 
-            type="text" 
-            [ngModel]="userInput()" 
-            (ngModelChange)="userInput.set($event)"
-            name="userInput"
-            placeholder="Describe your symptoms or ask a medical question..."
-            class="studio-input"
-            autocomplete="off"
-            required
-          >
-          <div class="input-actions">
-            <button type="button" class="tool-btn"><i class="fas fa-microphone"></i></button>
-            <button type="submit" class="send-btn btn-primary">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-        </form>
-        <p class="disclaimer">AI responses are for information only. Always consult a professional for medical diagnosis.</p>
-      </div>
-
-      <!-- BACK TO CHAT BUTTON: for other tools -->
-      <div class="studio-footer text-center" *ngIf="activeTool() !== 'chat'">
-        <button class="btn btn-primary" (click)="setTool('chat')">Return to Chat Studio</button>
-      </div>
-    </main>
+    <form class="chat-input-form" (ngSubmit)="sendMessage()">
+      <input
+        type="text"
+        [ngModel]="userInput()"
+        (ngModelChange)="userInput.set($event)"
+        name="userInput"
+        class="chat-input"
+        placeholder="Type your message here..."
+        required
+        autocomplete="off">
+      <button type="submit" class="send-button">➤</button>
+    </form>
   </div>
 </div>

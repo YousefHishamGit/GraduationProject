@@ -1,120 +1,122 @@
-<div class="dashboard-layout">
-  <!-- Sidebar -->
-  <aside class="sidebar glass">
-    <div class="sidebar-header">
-      <div class="logo">
-        <div class="logo-box"><i class="fas fa-plus"></i></div>
-        <span class="logo-text">MediClinic</span>
-      </div>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a href="javascript:void(0)" class="nav-item active">
-        <i class="fas fa-th-large"></i> <span>Overview</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="fas fa-calendar-check"></i> <span>My Appointments</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="fas fa-user-md"></i> <span>My Doctors</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="fas fa-folder-open"></i> <span>Medical Records</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-item">
-        <i class="fas fa-user-circle"></i> <span>Profile</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <a href="javascript:void(0)" class="nav-item logout">
-        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-      </a>
-    </div>
-  </aside>
-
-  <!-- Main Content Area -->
-  <main class="main-content">
-    <header class="content-header">
-      <h1 class="welcome-text">Good morning, {{ patient()?.fullName?.split(' ')?.[0] || 'Ahmed' }} 👋</h1>
-    </header>
-
-    <div class="dashboard-content">
-      <!-- Stats Summary -->
-      <div class="stats-row">
-        <div class="stat-card card">
-          <span class="stat-num">3</span>
-          <span class="stat-label">Upcoming</span>
+<div class="dashboard-container">
+  <div class="content">
+    <div class="container mt-4">
+      <div class="card shadow-lg p-4 rounded">
+        <div class="row mb-3">
+          <div class="col-sm-7 col-6">
+            <h4 class="page-title">My Profile</h4>
+          </div>
+          <div class="col-sm-5 col-6 text-right">
+            <a routerLink="/" class="btn btn-primary btn-rounded">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
+          </div>
         </div>
-        <div class="stat-card card">
-          <span class="stat-num">12</span>
-          <span class="stat-label">Records</span>
-        </div>
-        <div class="stat-card card">
-          <span class="stat-num">2</span>
-          <span class="stat-label">Doctors</span>
-        </div>
-      </div>
 
-      <!-- Main Activity Sections -->
-      <div class="activity-grid">
-        <!-- Appointments -->
-        <section class="activity-section mt-10">
-          <h2 class="section-tag">UPCOMING APPOINTMENTS</h2>
-          <div class="activity-list mt-6">
-            <div class="activity-item card" *ngFor="let apt of appointments() | slice:0:3">
-              <div class="item-icon"><i class="fas fa-user-md"></i></div>
-              <div class="item-info">
-                <h3>{{ apt.doctorName }}</h3>
-                <p>{{ apt.appointmentDate | date:'MMMM d - h:mm a' }}</p>
-              </div>
-              <div class="item-action">
-                <span class="status-chip" [class.success]="apt.status === 'Confirmed'">{{ apt.status }}</span>
+        <div class="card-box profile-header mb-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="profile-view d-flex align-items-center">
+                <div class="profile-img-wrap mr-3">
+                  <img class="avatar" [src]="patient()?.image" [alt]="patient()?.fullName">
+                </div>
+                <div class="profile-basic flex-fill">
+                  <h3 class="user-name">{{ patient()?.fullName }}</h3>
+                  <div class="staff-id">Patient ID : PA-{{ patient()?.id }}</div>
+                </div>
+                <div class="ml-auto">
+                  <ul class="personal-info list-unstyled">
+                    <li><b>Phone:</b> <a [href]="'tel:' + patient()?.phone">{{ patient()?.phone }}</a></li>
+                    <li><b>Email:</b> <a [href]="'mailto:' + patient()?.email">{{ patient()?.email }}</a></li>
+                    <li><b>Birthday:</b> {{ patient()?.birthDate | date }}</li>
+                    <li><b>Address:</b> {{ patient()?.address }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            @if (appointments().length === 0) {
-              <div class="activity-item card">
-                <div class="item-icon"><i class="fas fa-user-md"></i></div>
-                <div class="item-info">
-                  <h3>Dr. Ahmed Hassan</h3>
-                  <p>June 1 - 11:00 AM</p>
-                </div>
-                <div class="item-action">
-                  <span class="status-chip success">Confirmed</span>
+        <div class="profile-tabs">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="activeTab() === 'about'" (click)="setTab('about'); $event.preventDefault()" href="javascript:void(0)">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments'); $event.preventDefault()" href="javascript:void(0)">Appointments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="activeTab() === 'medical'" (click)="setTab('medical'); $event.preventDefault()" href="javascript:void(0)">Medical History</a>
+            </li>
+          </ul>
+
+          <div class="tab-content mt-3">
+            @if (activeTab() === 'about') {
+              <div class="tab-pane active">
+                <div class="card-box">
+                  <h3 class="card-title">Patient Information</h3>
+                  <ul class="list-unstyled">
+                    <li><b>Blood Type:</b> {{ patient()?.bloodType }}</li>
+                    <li><b>Allergies:</b> {{ patient()?.allergies }}</li>
+                    <li><b>Emergency Contact:</b> {{ patient()?.emergencyContactPhone }}</li>
+                  </ul>
                 </div>
               </div>
-              <div class="activity-item card">
-                <div class="item-icon"><i class="fas fa-user-md"></i></div>
-                <div class="item-info">
-                  <h3>Dr. Sara Mohamed</h3>
-                  <p>June 12 - 2:30 PM</p>
+            }
+
+            @if (activeTab() === 'appointments') {
+              <div class="tab-pane active">
+                <div class="card-box">
+                  <h3 class="card-title">My Appointments</h3>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Doctor</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (apt of appointments(); track apt.id) {
+                          <tr>
+                            <td>{{ apt.doctorName }}</td>
+                            <td>{{ apt.appointmentDate | date:'dd/MM/yyyy' }}</td>
+                            <td>
+                              <span class="badge" [class.bg-success]="apt.status === 'Confirmed'"
+                                    [class.bg-warning]="apt.status === 'Pending'"
+                                    [class.bg-danger]="apt.status === 'Cancelled'">
+                                {{ apt.status }}
+                              </span>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-sm btn-primary">View</button>
+                            </td>
+                          </tr>
+                        } @empty {
+                          <tr>
+                            <td colspan="4" class="text-center">No appointments found.</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="item-action">
-                  <span class="status-chip warning">Pending</span>
+              </div>
+            }
+
+            @if (activeTab() === 'medical') {
+              <div class="tab-pane active">
+                <div class="card-box">
+                  <h3 class="card-title">Medical History</h3>
+                  <p>{{ patient()?.medicalHistory || 'No medical history recorded.' }}</p>
                 </div>
               </div>
             }
           </div>
-        </section>
-
-        <!-- Records -->
-        <section class="activity-section mt-10">
-          <h2 class="section-tag">RECENT RECORDS</h2>
-          <div class="activity-list mt-6">
-            <div class="activity-item card">
-              <div class="item-icon record"><i class="fas fa-vial"></i></div>
-              <div class="item-info">
-                <h3>Blood Test results</h3>
-                <p>May 20 - Dr. Hassan</p>
-              </div>
-              <div class="item-action">
-                <span class="status-chip info">Normal</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>

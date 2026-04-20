@@ -1,114 +1,177 @@
-<div class="about-page">
-  <div class="container py-20">
-    <!-- Hero Section -->
-    <div class="about-hero mb-24">
-      <div class="section-badge mb-4">Our Legacy</div>
-      <h1 class="text-hero font-bold mb-6">Pioneering Medical Excellence Since 1995</h1>
-      <p class="text-lg text-sub max-w-3xl">Dedicated to providing compassionate, state-of-the-art healthcare that puts patients first. Our mission is to heal, comfort, and advance medical science.</p>
+<!-- ══════════════════════════════════════════
+   PAGE TITLE / HERO BANNER
+══════════════════════════════════════════ -->
+<div class="page-hero" aria-label="About page header">
+    <div class="page-hero-bg" aria-hidden="true">
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
     </div>
-
-    <!-- Visual Storytelling -->
-    <div class="story-grid mb-24">
-      <div class="story-visual">
-        <div class="image-stack">
-          <img src="/assets/img/health/surgery-2.webp" alt="Medical Facility" class="img-main">
-          <div class="img-accent card">
-            <i class="fas fa-microscope text-3xl text-primary mb-4"></i>
-            <h3>Advanced Clinical Research</h3>
-            <p class="text-xs text-muted">Constantly integrating the latest medical breakthroughs into our practice.</p>
-          </div>
+    <div class="container">
+        <div class="page-hero-inner">
+            <span class="page-hero-label">
+                <i class="fas fa-hospital" aria-hidden="true"></i>
+                Our Story
+            </span>
+            <h1 class="page-hero-title">About Us</h1>
+            <p class="page-hero-desc">
+                We are committed to delivering high-quality healthcare with compassion,
+                trust, and innovation — ensuring every patient receives the best possible care.
+            </p>
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <ol>
+                    <li><a routerLink="/">Home</a></li>
+                    <li aria-current="page">About</li>
+                </ol>
+            </nav>
         </div>
-      </div>
-      <div class="story-info">
-        <h2 class="text-3xl font-bold mb-8">Redefining the Patient Experience</h2>
-        <div class="story-points">
-          <div class="point mb-8">
-            <div class="point-header mb-2">
-              <span class="num">01</span>
-              <h3>Compassionate Care</h3>
-            </div>
-            <p class="text-sub">We believe that healing starts with empathy. Our team is trained to provide not just medical treatment, but emotional support.</p>
-          </div>
-          <div class="point mb-8">
-            <div class="point-header mb-2">
-              <span class="num">02</span>
-              <h3>Cutting-Edge Tech</h3>
-            </div>
-            <p class="text-sub">From AI-driven diagnostics to robotic surgical assistants, we invest in technology that saves lives.</p>
-          </div>
-          <div class="point">
-            <div class="point-header mb-2">
-              <span class="num">03</span>
-              <h3>Global Expertise</h3>
-            </div>
-            <p class="text-sub">Our practitioners come from world-renowned medical institutions, bringing international standards to your doorstep.</p>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <!-- Stats Bar -->
-    <div class="stats-counter card mb-24">
-      <div class="stat-box">
-        <span class="val">25+</span>
-        <span class="lab">Years of Excellence</span>
-      </div>
-      <div class="divider"></div>
-      <div class="stat-box">
-        <span class="val">200+</span>
-        <span class="lab">Expert Doctors</span>
-      </div>
-      <div class="divider"></div>
-      <div class="stat-box">
-        <span class="val">50k+</span>
-        <span class="lab">Happy Patients</span>
-      </div>
-      <div class="divider"></div>
-      <div class="stat-box">
-        <span class="val">15</span>
-        <span class="lab">Specialized Centers</span>
-      </div>
-    </div>
-
-    <!-- Values Grid -->
-    <div class="values-section mb-24">
-      <div class="section-header text-center mb-16">
-        <h2 class="text-2xl font-bold">Our Core Values</h2>
-        <p class="text-sub">The principles that guide our every decision and interaction.</p>
-      </div>
-      <div class="values-grid">
-        <div class="card value-card">
-          <div class="value-icon"><i class="fas fa-shield-halved"></i></div>
-          <h3>Integrity</h3>
-          <p class="text-sm text-sub">Upholding the highest ethical standards in every medical procedure and patient interaction.</p>
-        </div>
-        <div class="card value-card">
-          <div class="value-icon"><i class="fas fa-user-doctor"></i></div>
-          <h3>Expertise</h3>
-          <p class="text-sm text-sub">Continuous learning and specialization to ensure we provide the best possible care.</p>
-        </div>
-        <div class="card value-card">
-          <div class="value-icon"><i class="fas fa-hand-holding-heart"></i></div>
-          <h3>Accessibility</h3>
-          <p class="text-sm text-sub">Making premium healthcare accessible to all through efficient systems and insurance partnerships.</p>
-        </div>
-        <div class="card value-card">
-          <div class="value-icon"><i class="fas fa-flask-vial"></i></div>
-          <h3>Innovation</h3>
-          <p class="text-sm text-sub">Embracing the future of medicine to improve outcomes and patient comfort.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Call to Action -->
-    <div class="about-cta card text-center">
-      <h2 class="text-2xl font-bold mb-4">Start Your Journey to Recovery Today</h2>
-      <p class="text-sub mb-8 max-w-xl mx-auto">Book an appointment with our specialists and experience the difference of clinical excellence.</p>
-      <div class="cta-btns">
-        <button class="btn btn-primary btn-lg" routerLink="/appointment">Book Appointment</button>
-        <button class="btn btn-outline btn-lg" routerLink="/doctors">Meet Our Doctors</button>
-      </div>
-    </div>
-
-  </div>
 </div>
+
+<!-- ══════════════════════════════════════════
+   ABOUT SECTION
+══════════════════════════════════════════ -->
+<section class="about-section" aria-labelledby="about-heading">
+    <div class="container">
+        <div class="about-grid">
+
+            <!-- Left: Text -->
+            <div class="about-text" data-aos="fade-right" data-aos-delay="100">
+                <span class="section-label">Who We Are</span>
+                <h2 id="about-heading">Compassionate Care<br>for Every Family</h2>
+                <p class="lead-text">
+                    For over two decades, we have been dedicated to providing exceptional healthcare
+                    services to our community. Our commitment goes beyond medical treatment — we
+                    believe in building lasting relationships with our patients and their families.
+                </p>
+                <p class="body-text">
+                    We combine medical expertise with a compassionate touch, ensuring that every
+                    patient feels cared for and respected. Our specialists advance healthcare
+                    standards by embracing the latest innovations and best practices.
+                </p>
+
+                <!-- Stats -->
+                <div class="stats-row" aria-label="Hospital statistics">
+                    <div class="stat-pill" *ngFor="let stat of stats">
+                        <strong class="stat-num" [attr.data-purecounter-start]="0"
+                            [attr.data-purecounter-end]="stat.end" data-purecounter-duration="2">{{ stat.end }}</strong>
+                        <span class="stat-suf">{{ stat.suffix }}</span>
+                        <span class="stat-lbl">{{ stat.label }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Images -->
+            <div class="about-images" data-aos="fade-left" data-aos-delay="200" aria-hidden="true">
+                <div class="about-img-main-wrap">
+                    <img src="assets/img/health/facilities-6.webp" class="about-img-main"
+                        alt="State-of-the-art hospital facilities" loading="eager" width="560" height="480">
+                    <div class="about-img-accent" data-aos="zoom-in" data-aos-delay="400">
+                        <img src="assets/img/health/staff-8.webp" alt="Our dedicated medical team" loading="lazy"
+                            width="200" height="200">
+                    </div>
+                    <div class="about-img-badge">
+                        <i class="fas fa-shield-heart" aria-hidden="true"></i>
+                        <span>ISO Certified<br><strong>Hospital</strong></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   CORE VALUES
+══════════════════════════════════════════ -->
+<section class="values-section" aria-labelledby="values-heading">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">What Drives Us</span>
+            <h2 class="section-title" id="values-heading">Our Core Values</h2>
+            <p class="section-subtitle">These principles guide everything we do in our commitment to exceptional
+                healthcare</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card" *ngFor="let val of coreValues" [style.--delay]="val.delay + 'ms'" data-aos="fade-up"
+                [attr.data-aos-delay]="val.delay + 100">
+                <div class="value-icon" aria-hidden="true">
+                    <i [class]="val.icon"></i>
+                </div>
+                <h3>{{ val.title }}</h3>
+                <p>{{ val.description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   LEADERSHIP TEAM
+══════════════════════════════════════════ -->
+<section class="team-section" aria-labelledby="team-heading">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Meet the Experts</span>
+            <h2 class="section-title" id="team-heading">Leadership Team</h2>
+            <p class="section-subtitle">Experienced professionals committed to your health and wellbeing</p>
+        </div>
+
+        <div class="team-grid">
+            <article class="team-card" *ngFor="let member of team; let i = index" [style.--delay]="i * 80 + 'ms'"
+                data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+                <div class="team-img-wrap">
+                    <img [src]="member.image" [alt]="member.name + ', ' + member.specialty" loading="lazy" width="300"
+                        height="300">
+                    <div class="team-overlay" aria-hidden="true">
+                        <div class="team-social">
+                            <a href="#" aria-label="LinkedIn profile" tabindex="-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" aria-label="Email" tabindex="-1">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <h3>{{ member.name }}</h3>
+                    <span class="team-role">{{ member.role }}</span>
+                    <div class="team-meta">
+                        <span class="team-specialty">
+                            <i class="fas fa-stethoscope" aria-hidden="true"></i>
+                            {{ member.specialty }}
+                        </span>
+                        <span class="team-exp">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            {{ member.experience }}
+                        </span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+   CERTIFICATIONS
+══════════════════════════════════════════ -->
+<section class="certs-section" aria-labelledby="certs-heading">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Trusted & Verified</span>
+            <h2 class="section-title" id="certs-heading">Accreditations &amp; Certifications</h2>
+            <p class="section-subtitle">Recognized by leading healthcare organizations for our commitment to quality
+                care</p>
+        </div>
+
+        <div class="certs-grid">
+            <div class="cert-card" *ngFor="let cert of certifications; let i = index" [style.--delay]="i * 80 + 'ms'"
+                data-aos="zoom-in" [attr.data-aos-delay]="i * 100">
+                <div class="cert-icon" aria-hidden="true">
+                    <i [class]="cert.icon"></i>
+                </div>
+                <p>{{ cert.label }}</p>
+            </div>
+        </div>
+    </div>
+</section>

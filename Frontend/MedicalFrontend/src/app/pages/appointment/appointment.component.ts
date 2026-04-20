@@ -25,8 +25,6 @@ interface Department {
 export class AppointmentComponent implements OnInit {
   currentStep = signal<number>(1);
   selectedDepartment = signal<string>('');
-  isSuccess = signal<boolean>(false);
-  selectedTimeSlot = signal<string>('');
 
   formData = {
     firstName: '',
@@ -46,47 +44,38 @@ export class AppointmentComponent implements OnInit {
 
   departments = signal<Department[]>([
     {
-      id: 'cardiology',
+      id: '1',
       name: 'Cardiology',
       doctors: [
-        { id: 1, name: 'Dr. Ahmed Hassan', specialization: 'Cardiologist' },
-        { id: 2, name: 'Dr. Mohamed Chen', specialization: 'Heart Surgeon' }
+        { id: 1, name: 'Dr. Sarah Johnson', specialization: 'Cardiologist' },
+        { id: 2, name: 'Dr. Michael Chen', specialization: 'Heart Surgeon' }
       ]
     },
     {
-      id: 'neurology',
+      id: '2',
       name: 'Neurology',
       doctors: [
-        { id: 3, name: 'Dr. Sara Mohamed', specialization: 'Neurologist' },
+        { id: 3, name: 'Dr. Robert Wilson', specialization: 'Neurologist' },
         { id: 4, name: 'Dr. Lisa Martinez', specialization: 'Neurosurgeon' }
       ]
     },
     {
-      id: 'orthopedics',
+      id: '3',
       name: 'Orthopedics',
       doctors: [
-        { id: 5, name: 'Dr. Khaled Ali', specialization: 'Orthopedic Surgeon' },
+        { id: 5, name: 'Dr. David Brown', specialization: 'Orthopedic Surgeon' },
         { id: 6, name: 'Dr. Emily Davis', specialization: 'Sports Medicine' }
       ]
     },
     {
-      id: 'pediatrics',
+      id: '4',
       name: 'Pediatrics',
       doctors: [
         { id: 7, name: 'Dr. Jennifer Lee', specialization: 'Pediatrician' },
         { id: 8, name: 'Dr. Thomas Clark', specialization: 'Child Specialist' }
       ]
-    },
-    {
-      id: 'emergency',
-      name: 'Emergency (Urgent)',
-      doctors: [
-        { id: 99, name: 'Emergency Response Team', specialization: 'ER Specialist' }
-      ]
     }
   ]);
-
-  isEmergency = computed(() => this.selectedDepartment() === 'emergency');
 
   availableDoctors = computed(() => {
     const dept = this.departments().find(d => d.id === this.selectedDepartment());
@@ -99,21 +88,11 @@ export class AppointmentComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      // Prioritize department query param for emergency link
-      if (params['department']) {
-        const deptId = params['department'].toLowerCase();
-        this.selectedDepartment.set(deptId);
-        
-        // Auto-select ER team if emergency
-        if (deptId === 'emergency') {
-          this.formData.doctorId = '99';
-          this.formData.appointmentDate = new Date().toISOString().split('T')[0];
-          this.selectedTimeSlot.set('Immediate');
-        }
-      }
-
       if (params['doctorId']) {
         this.formData.doctorId = params['doctorId'];
+      }
+      if (params['department']) {
+        this.selectedDepartment.set(params['department']);
       }
     });
   }
@@ -126,10 +105,6 @@ export class AppointmentComponent implements OnInit {
   onDepartmentChange(value: string) {
     this.selectedDepartment.set(value);
     this.formData.doctorId = '';
-  }
-
-  selectTimeSlot(slot: string) {
-    this.selectedTimeSlot.set(slot);
   }
 
   getDepartmentName(id: string): string {
@@ -165,30 +140,16 @@ export class AppointmentComponent implements OnInit {
     return true;
   }
 
-  confirmBooking() {
-    this.onSubmit();
-    this.isSuccess.set(true);
-  }
-
-  resetForm() {
-    this.isSuccess.set(false);
-    this.formData.firstName = '';
-    this.formData.lastName = '';
-    this.formData.email = '';
-    // reset other fields if needed
-  }
-
   onSubmit() {
     const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
     appointments.push({
       ...this.formData,
       id: Date.now(),
       departmentId: this.selectedDepartment(),
-      timeSlot: this.selectedTimeSlot(),
       status: 'Scheduled',
       createdAt: new Date().toISOString()
     });
     localStorage.setItem('appointments', JSON.stringify(appointments));
-    // Navigation removed to show the success state in-place as per design
+    this.router.navigate(['/appointment-success']);
   }
 }

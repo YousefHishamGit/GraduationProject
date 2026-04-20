@@ -18,46 +18,19 @@ interface Message {
 export class ChatbotComponent implements AfterViewChecked {
   @ViewChild('chatMessages') private chatMessagesContainer!: ElementRef;
 
-  activeTool = signal<'chat' | 'symptoms' | 'insights' | 'history'>('chat');
-  
   messages = signal<Message[]>([
     { sender: 'bot', text: "Hello! I'm your Health Assistant. How can I help you today?" }
   ]);
-  
   userInput = signal<string>('');
-
-  healthInsights = signal([
-    { icon: 'fas fa-heartbeat', title: 'Cardiovascular Health', desc: 'A 30-minute daily walk can reduce heart disease risk by up to 30%.' },
-    { icon: 'fas fa-brain', title: 'Mental Wellness', desc: 'Consistent sleep patterns improve cognitive function and emotional regulation.' },
-    { icon: 'fas fa-apple-whole', title: 'Nutrition Tip', desc: 'Increasing fiber intake supports digestive health and blood sugar stability.' },
-    { icon: 'fas fa-droplet', title: 'Hydration', desc: 'Drinking water upon waking boosts metabolism and helps brain alertness.' }
-  ]);
-
-  chatHistory = signal([
-    { id: 1, date: 'Yesterday', preview: 'Checking symptoms for seasonal flu...', active: false },
-    { id: 2, date: '3 days ago', preview: 'Question about cardiology department availability', active: false },
-    { id: 3, date: 'Last week', preview: 'Scheduling a pediatric consultation', active: false }
-  ]);
 
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
 
-  setTool(tool: 'chat' | 'symptoms' | 'insights' | 'history') {
-    this.activeTool.set(tool);
-    if (tool === 'symptoms' && this.messages().length === 1) {
-      this.messages.set([
-        { sender: 'bot', text: "Welcome to the **Symptom Checker**. Please describe what you're feeling, when it started, and if there are any specific triggers." }
-      ]);
-    }
-  }
-
   scrollToBottom(): void {
     try {
-      if (this.chatMessagesContainer) {
-        this.chatMessagesContainer.nativeElement.scrollTop =
-          this.chatMessagesContainer.nativeElement.scrollHeight;
-      }
+      this.chatMessagesContainer.nativeElement.scrollTop =
+        this.chatMessagesContainer.nativeElement.scrollHeight;
     } catch (err) {}
   }
 
@@ -75,14 +48,12 @@ export class ChatbotComponent implements AfterViewChecked {
     this.messages.update(msgs => [...msgs, { sender: 'user', text: message }]);
     this.userInput.set('');
 
-    // Typing effect
     this.messages.update(msgs => [...msgs, { sender: 'bot', text: '', isTyping: true }]);
 
     setTimeout(() => {
       this.messages.update(msgs => {
         const filtered = msgs.filter(m => !m.isTyping);
-        const response = this.generateResponse(message);
-        return [...filtered, { sender: 'bot', text: response }];
+        return [...filtered, { sender: 'bot', text: this.generateResponse(message) }];
       });
     }, 1000);
   }
