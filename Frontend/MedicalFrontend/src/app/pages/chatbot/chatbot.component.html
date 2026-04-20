@@ -3,8 +3,8 @@
     <!-- Sidebar: Resources & History -->
     <aside class="chat-sidebar card">
       <div class="sidebar-header mb-8">
-        <div class="logo-box mini">
-          <i class="fas fa-microchip"></i>
+        <div class="logo-box mini-logo">
+          <i class="fas fa-atom"></i>
         </div>
         <h2 class="text-lg font-bold">AI Health Hub</h2>
       </div>
@@ -12,15 +12,15 @@
       <div class="resource-section mb-12">
         <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Quick Diagnostic Tools</h3>
         <div class="resource-list">
-          <div class="resource-item active">
+          <div class="resource-item" [class.active]="activeTool() === 'chat' || activeTool() === 'symptoms'" (click)="setTool('chat')">
             <i class="fas fa-comment-medical"></i>
             <span>Symptom Checker</span>
           </div>
-          <div class="resource-item">
+          <div class="resource-item" [class.active]="activeTool() === 'insights'" (click)="setTool('insights')">
             <i class="fas fa-file-medical"></i>
             <span>Health Insights</span>
           </div>
-          <div class="resource-item">
+          <div class="resource-item" [class.active]="activeTool() === 'history'" (click)="setTool('history')">
             <i class="fas fa-clock"></i>
             <span>Chat History</span>
           </div>
@@ -39,41 +39,61 @@
       <div class="studio-header">
         <div class="bot-avatar-glow">
           <div class="avatar-ring pulsing"></div>
-          <img src="/assets/images/medical-icons-grid.png" alt="AI Assistant" class="avatar-img" style="object-fit: none; object-position: -64px 0; width: 40px; height: 40px;">
+          <div class="ai-icon-box atom-glow">
+            <i class="fas fa-atom"></i>
+          </div>
         </div>
         <div class="studio-info">
           <h3>Health Assistant AI</h3>
           <span class="status-badge"><span class="dot"></span> Neural Engine Online</span>
         </div>
         <div class="studio-actions">
-          <button class="icon-btn" title="Clear Chat"><i class="fas fa-trash-alt"></i></button>
+          <button class="icon-btn" title="Clear Chat" (click)="messages.set([])" *ngIf="activeTool() === 'chat'"><i class="fas fa-trash-alt"></i></button>
           <button class="icon-btn" title="Settings"><i class="fas fa-cog"></i></button>
         </div>
       </div>
 
-      <div class="messages-viewport" #chatMessages>
-        <div class="welcome-banner text-center" *ngIf="messages().length === 0">
-          <i class="fas fa-robot text-hero text-primary opacity-20 mb-6"></i>
-          <h2 class="text-2xl font-bold mb-4">How can I assist you today?</h2>
-          <p class="text-sub max-w-sm mx-auto">Ask about symptoms, medical procedures, or clinic information.</p>
-        </div>
-
-        <div *ngFor="let message of messages()" class="message-row" [class.user]="message.sender === 'user'">
-          <div class="message-bubble">
-            <div class="sender-tag" *ngIf="message.sender === 'bot'">AI Assistant</div>
-            
-            <div class="message-text" *ngIf="!message.isTyping" [innerHTML]="formatMessage(message.text)"></div>
-            
-            <div class="typing-indicator" *ngIf="message.isTyping">
-              <span></span><span></span><span></span>
+      <!-- TOOL VIEWPORT -->
+      <div class="messages-viewport" #chatMessages [ngSwitch]="activeTool()">
+        
+        <!-- CHAT / SYMPTOMS VIEW -->
+        <div *ngSwitchCase="'chat'" class="fade-in">
+          <div *ngFor="let message of messages()" class="message-row" [class.user]="message.sender === 'user'">
+            <div class="message-bubble">
+              <div class="sender-tag" *ngIf="message.sender === 'bot'">AI Assistant</div>
+              <div class="message-text" *ngIf="!message.isTyping" [innerHTML]="formatMessage(message.text)"></div>
+              <div class="typing-indicator" *ngIf="message.isTyping">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="time">Just now</span>
             </div>
-            
-            <span class="time">Just now</span>
           </div>
         </div>
+
+        <!-- INSIGHTS VIEW -->
+        <div *ngSwitchCase="'insights'" class="fade-in insights-grid">
+          <div class="insight-card card glass" *ngFor="let insight of healthInsights()">
+            <div class="insight-icon"><i [class]="insight.icon"></i></div>
+            <h4 class="font-bold mb-2">{{ insight.title }}</h4>
+            <p class="text-sm text-sub">{{ insight.desc }}</p>
+          </div>
+        </div>
+
+        <!-- HISTORY VIEW -->
+        <div *ngSwitchCase="'history'" class="fade-in history-list">
+          <div class="history-item card mb-4" *ngFor="let entry of chatHistory()">
+            <div class="history-info">
+              <span class="date">{{ entry.date }}</span>
+              <p class="preview">{{ entry.preview }}</p>
+            </div>
+            <i class="fas fa-chevron-right text-muted"></i>
+          </div>
+        </div>
+
       </div>
 
-      <div class="studio-footer">
+      <!-- FOOTER: Only for Chat -->
+      <div class="studio-footer" *ngIf="activeTool() === 'chat'">
         <form class="input-container card" (ngSubmit)="sendMessage()">
           <input 
             type="text" 
@@ -93,6 +113,11 @@
           </div>
         </form>
         <p class="disclaimer">AI responses are for information only. Always consult a professional for medical diagnosis.</p>
+      </div>
+
+      <!-- BACK TO CHAT BUTTON: for other tools -->
+      <div class="studio-footer text-center" *ngIf="activeTool() !== 'chat'">
+        <button class="btn btn-primary" (click)="setTool('chat')">Return to Chat Studio</button>
       </div>
     </main>
   </div>

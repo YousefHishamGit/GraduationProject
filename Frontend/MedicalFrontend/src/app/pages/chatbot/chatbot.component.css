@@ -91,11 +91,21 @@
   animation: pulseAvatar 2s infinite;
 }
 
-.avatar-img {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  border-radius: 50%;
+.ai-icon-box.atom-glow {
+  background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+  animation: atom-rotate 10s linear infinite;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+}
+
+@keyframes atom-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.mini-logo {
+  color: var(--primary);
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
 }
 
 .status-badge {
@@ -278,9 +288,70 @@
   50% { transform: translateY(-4px); opacity: 1; }
 }
 
-@media (max-width: 900px) {
-  .chat-sidebar { display: none; }
-  .chatbot-layout { grid-template-columns: 1fr; margin: 0; height: 100vh; max-width: 100%; }
-  .chatbot-page { padding: 0; align-items: stretch; }
-  .chat-studio { border-radius: 0; border: none; }
+/* Insights Grid */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.insight-card {
+  padding: var(--space-6) !important;
+  transition: var(--transition);
+  border: 1px solid var(--border);
+}
+
+.insight-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+
+.insight-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-4);
+}
+
+/* History List */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.history-item {
+  padding: var(--space-4) var(--space-6) !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.history-item:hover {
+  background: var(--surface-hover) !important;
+  border-color: var(--primary);
+}
+
+.history-info .date {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.history-info .preview {
+  font-size: var(--text-sm);
+  color: var(--text-main);
+  margin: 0;
 }
