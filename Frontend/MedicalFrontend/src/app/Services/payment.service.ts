@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   PaymentResponseDto,
   CreatePaymentDto
@@ -10,10 +9,8 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
-  private baseUrl = `${environment.apiUrl}/payments`;
-
-  constructor(private http: HttpClient) {}
+export class PaymentService extends BaseService {
+  private baseUrl = this.getBaseUrl('payments');
 
   // GET /api/payments/{id}  [Authorized]
   getById(id: number): Observable<PaymentResponseDto> {
@@ -40,3 +37,4 @@ export class PaymentService {
     return this.http.put<PaymentResponseDto>(`${this.baseUrl}/${id}/refund`, {});
   }
 }
+

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   ReviewResponseDto,
   CreateReviewDto,
@@ -11,10 +10,8 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewService {
-  private baseUrl = `${environment.apiUrl}/reviews`;
-
-  constructor(private http: HttpClient) {}
+export class ReviewService extends BaseService {
+  private baseUrl = this.getBaseUrl('reviews');
 
   // POST /api/reviews  [Patient]
   create(dto: CreateReviewDto): Observable<ReviewResponseDto> {
@@ -31,3 +28,4 @@ export class ReviewService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
+

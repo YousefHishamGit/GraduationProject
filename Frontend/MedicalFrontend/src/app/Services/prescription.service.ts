@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   PrescriptionResponseDto,
   CreatePrescriptionDto,
@@ -11,10 +10,8 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class PrescriptionService {
-  private baseUrl = `${environment.apiUrl}/prescriptions`;
-
-  constructor(private http: HttpClient) {}
+export class PrescriptionService extends BaseService {
+  private baseUrl = this.getBaseUrl('prescriptions');
 
   // GET /api/prescriptions/{id}  [Authorized]
   getById(id: number): Observable<PrescriptionResponseDto> {
@@ -41,3 +38,4 @@ export class PrescriptionService {
     return this.http.get<PrescriptionResponseDto[]>(`${this.baseUrl}/medical-record/${medicalRecordId}`);
   }
 }
+

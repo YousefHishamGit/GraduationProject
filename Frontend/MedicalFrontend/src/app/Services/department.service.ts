@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   DepartmentResponseDto,
   CreateDepartmentDto,
@@ -12,10 +11,8 @@ import { DoctorResponseDto } from '../interfaces/doctor.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class DepartmentService {
-  private baseUrl = `${environment.apiUrl}/departments`;
-
-  constructor(private http: HttpClient) {}
+export class DepartmentService extends BaseService {
+  private baseUrl = this.getBaseUrl('departments');
 
   // GET /api/departments
   getAll(): Observable<DepartmentResponseDto[]> {
@@ -47,3 +44,4 @@ export class DepartmentService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
+

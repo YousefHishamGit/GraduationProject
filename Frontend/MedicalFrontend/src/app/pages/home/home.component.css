@@ -1,39 +1,37 @@
 /* ══════════════════════════════════════════════
    CSS CUSTOM PROPERTIES
 ══════════════════════════════════════════════ */
+
 :root {
     --accent: #0ea5e9;
     --accent-dark: #0284c7;
     --accent-soft: rgba(14, 165, 233, 0.10);
     --accent-glow: rgba(14, 165, 233, 0.35);
-
     --heading: #0c1a2e;
     --body: #475569;
     --muted: #94a3b8;
     --surface: #ffffff;
     --surface-alt: #f8fafc;
     --border: rgba(15, 23, 42, 0.08);
-
     --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
     --shadow-md: 0 8px 28px rgba(15, 23, 42, 0.09);
     --shadow-lg: 0 20px 56px rgba(15, 23, 42, 0.13);
     --shadow-accent: 0 8px 28px rgba(14, 165, 233, 0.35);
-
     --radius-sm: 0.6rem;
     --radius-md: 1rem;
     --radius-lg: 1.5rem;
     --radius-xl: 2rem;
     --radius-pill: 999px;
-
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
     --font-display: 'Playfair Display', Georgia, serif;
     --font-body: 'DM Sans', system-ui, sans-serif;
 }
 
+
 /* ══════════════════════════════════════════════
    BASE
 ══════════════════════════════════════════════ */
+
 *,
 *::before,
 *::after {
@@ -51,9 +49,11 @@ section {
     padding: 0 1.5rem;
 }
 
+
 /* ══════════════════════════════════════════════
    SECTION HEADER
 ══════════════════════════════════════════════ */
+
 .section-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -96,9 +96,11 @@ section {
     margin-top: 2.75rem;
 }
 
+
 /* ══════════════════════════════════════════════
    BUTTONS
 ══════════════════════════════════════════════ */
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -138,9 +140,11 @@ section {
     border-color: var(--accent);
 }
 
+
 /* ══════════════════════════════════════════════
    HERO
 ══════════════════════════════════════════════ */
+
 .hero {
     position: relative;
     padding: 6rem 0 5rem;
@@ -148,7 +152,9 @@ section {
     overflow: hidden;
 }
 
+
 /* Decorative shapes */
+
 .hero-bg-shapes {
     pointer-events: none;
     position: absolute;
@@ -196,7 +202,9 @@ section {
     align-items: center;
 }
 
+
 /* Badge */
+
 .hero-badge {
     display: inline-flex;
     align-items: center;
@@ -211,7 +219,9 @@ section {
     border: 1px solid rgba(14, 165, 233, 0.2);
 }
 
+
 /* Heading */
+
 .hero-text h1 {
     font-family: var(--font-display);
     font-size: clamp(2rem, 4vw, 3rem);
@@ -234,7 +244,9 @@ section {
     max-width: 500px;
 }
 
+
 /* Stats */
+
 .hero-stats {
     display: flex;
     gap: 0;
@@ -273,14 +285,18 @@ section {
     white-space: nowrap;
 }
 
+
 /* Actions */
+
 .hero-actions {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
+
 /* Image */
+
 .hero-image-wrap {
     position: relative;
     display: flex;
@@ -330,9 +346,11 @@ section {
     font-size: 0.9rem;
 }
 
+
 /* ══════════════════════════════════════════════
    SERVICES
 ══════════════════════════════════════════════ */
+
 .services {
     background: var(--surface);
 }
@@ -437,9 +455,11 @@ section {
     transform: translateX(3px);
 }
 
+
 /* ══════════════════════════════════════════════
    DEPARTMENTS
 ══════════════════════════════════════════════ */
+
 .departments {
     background: var(--surface-alt);
     position: relative;
@@ -534,9 +554,11 @@ section {
     margin: 0;
 }
 
+
 /* ══════════════════════════════════════════════
    DOCTORS
 ══════════════════════════════════════════════ */
+
 .doctors {
     background: var(--surface);
 }
@@ -631,110 +653,100 @@ section {
     gap: 0.65rem;
 }
 
+
 /* ══════════════════════════════════════════════
    ANIMATION
 ══════════════════════════════════════════════ */
+
 @keyframes fadeUp {
     from {
         opacity: 0;
         transform: translateY(22px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+
 /* ══════════════════════════════════════════════
    RESPONSIVE — TABLET (≤ 992px)
 ══════════════════════════════════════════════ */
+
 @media (max-width: 992px) {
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 3rem;
     }
-
     .hero-image-wrap {
         order: -1;
         justify-content: center;
     }
-
     .hero-image-card img {
         max-width: 400px;
         height: 420px;
     }
-
     .hero-image-badge {
         left: 50%;
         transform: translateX(-50%);
         white-space: nowrap;
     }
-
     .hero-desc {
         margin-inline: auto;
     }
-
     .hero-stats {
         margin-inline: auto;
     }
-
     .hero-actions {
         justify-content: center;
     }
 }
 
+
 /* ══════════════════════════════════════════════
    RESPONSIVE — MOBILE (≤ 600px)
 ══════════════════════════════════════════════ */
+
 @media (max-width: 600px) {
     section {
         padding: 3.5rem 0;
     }
-
     .hero {
         padding: 4rem 0 3.5rem;
     }
-
     .hero-text h1 {
         font-size: 1.9rem;
     }
-
     .hero-image-card img {
         max-width: 100%;
         height: 300px;
     }
-
     .hero-stats {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         width: 100%;
     }
-
     .stat-item {
         flex: 1;
         min-width: 90px;
     }
-
     .hero-actions {
         flex-direction: column;
         align-items: center;
     }
-
     .btn {
         width: 100%;
         max-width: 280px;
         justify-content: center;
     }
-
     .services-grid,
     .departments-grid,
     .doctors-grid {
         grid-template-columns: 1fr;
     }
-
     .section-title {
         font-size: 1.55rem;
     }

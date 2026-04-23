@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   DoctorResponseDto,
   CreateDoctorDto,
@@ -20,11 +20,8 @@ import { ReviewResponseDto } from '../interfaces/review.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService {
-  private baseUrl = `${environment.apiUrl}/doctors`;
-  private apiUrl  = `${environment.apiUrl}`;
-
-  constructor(private http: HttpClient) {}
+export class DoctorService extends BaseService {
+  private baseUrl = this.getBaseUrl('doctors');
 
   // ─── Doctors ──────────────────────────────────────────────
 
@@ -78,12 +75,12 @@ export class DoctorService {
 
   // GET /api/doctors/{doctorId}/schedule
   getSchedule(doctorId: number): Observable<DoctorScheduleResponseDto[]> {
-    return this.http.get<DoctorScheduleResponseDto[]>(`${this.apiUrl}/doctors/${doctorId}/schedule`);
+    return this.http.get<DoctorScheduleResponseDto[]>(`${this.baseUrl}/${doctorId}/schedule`);
   }
 
   // POST /api/doctors/{doctorId}/schedule
   createSchedule(doctorId: number, dto: CreateDoctorScheduleDto): Observable<DoctorScheduleResponseDto> {
-    return this.http.post<DoctorScheduleResponseDto>(`${this.apiUrl}/doctors/${doctorId}/schedule`, dto);
+    return this.http.post<DoctorScheduleResponseDto>(`${this.baseUrl}/${doctorId}/schedule`, dto);
   }
 
   // GET /api/schedule/{id}
@@ -105,12 +102,12 @@ export class DoctorService {
 
   // GET /api/doctors/{doctorId}/leaves
   getLeaves(doctorId: number): Observable<DoctorLeaveResponseDto[]> {
-    return this.http.get<DoctorLeaveResponseDto[]>(`${this.apiUrl}/doctors/${doctorId}/leaves`);
+    return this.http.get<DoctorLeaveResponseDto[]>(`${this.baseUrl}/${doctorId}/leaves`);
   }
 
   // POST /api/doctors/{doctorId}/leaves
   createLeave(doctorId: number, dto: CreateDoctorLeaveDto): Observable<DoctorLeaveResponseDto> {
-    return this.http.post<DoctorLeaveResponseDto>(`${this.apiUrl}/doctors/${doctorId}/leaves`, dto);
+    return this.http.post<DoctorLeaveResponseDto>(`${this.baseUrl}/${doctorId}/leaves`, dto);
   }
 
   // GET /api/leaves/{id}
@@ -133,7 +130,7 @@ export class DoctorService {
   // GET /api/doctors/{doctorId}/timeslots?date=
   getAvailableTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
     const params = new HttpParams().set('date', date);
-    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/doctors/${doctorId}/timeslots`, { params });
+    return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params });
   }
 
   // POST /api/timeslots?doctorId=
@@ -146,15 +143,5 @@ export class DoctorService {
   deleteTimeSlot(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/timeslots/${id}`);
   }
-
-  // ─── Helper ───────────────────────────────────────────────
-  private toFormData(obj: any): FormData {
-    const formData = new FormData();
-    Object.keys(obj).forEach(key => {
-      if (obj[key] !== undefined && obj[key] !== null) {
-        formData.append(key, obj[key]);
-      }
-    });
-    return formData;
-  }
 }
+

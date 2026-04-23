@@ -14,8 +14,7 @@
             </span>
             <h1 class="page-hero-title">About Us</h1>
             <p class="page-hero-desc">
-                We are committed to delivering high-quality healthcare with compassion,
-                trust, and innovation — ensuring every patient receives the best possible care.
+                We are committed to delivering high-quality healthcare with compassion, trust, and innovation — ensuring every patient receives the best possible care.
             </p>
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <ol>
@@ -39,21 +38,16 @@
                 <span class="section-label">Who We Are</span>
                 <h2 id="about-heading">Compassionate Care<br>for Every Family</h2>
                 <p class="lead-text">
-                    For over two decades, we have been dedicated to providing exceptional healthcare
-                    services to our community. Our commitment goes beyond medical treatment — we
-                    believe in building lasting relationships with our patients and their families.
+                    For over two decades, we have been dedicated to providing exceptional healthcare services to our community. Our commitment goes beyond medical treatment — we believe in building lasting relationships with our patients and their families.
                 </p>
                 <p class="body-text">
-                    We combine medical expertise with a compassionate touch, ensuring that every
-                    patient feels cared for and respected. Our specialists advance healthcare
-                    standards by embracing the latest innovations and best practices.
+                    We combine medical expertise with a compassionate touch, ensuring that every patient feels cared for and respected. Our specialists advance healthcare standards by embracing the latest innovations and best practices.
                 </p>
 
                 <!-- Stats -->
                 <div class="stats-row" aria-label="Hospital statistics">
                     <div class="stat-pill" *ngFor="let stat of stats">
-                        <strong class="stat-num" [attr.data-purecounter-start]="0"
-                            [attr.data-purecounter-end]="stat.end" data-purecounter-duration="2">{{ stat.end }}</strong>
+                        <strong class="stat-num" [attr.data-purecounter-start]="0" [attr.data-purecounter-end]="stat.end" data-purecounter-duration="2">{{ stat.end }}</strong>
                         <span class="stat-suf">{{ stat.suffix }}</span>
                         <span class="stat-lbl">{{ stat.label }}</span>
                     </div>
@@ -63,11 +57,9 @@
             <!-- Right: Images -->
             <div class="about-images" data-aos="fade-left" data-aos-delay="200" aria-hidden="true">
                 <div class="about-img-main-wrap">
-                    <img src="assets/img/health/facilities-6.webp" class="about-img-main"
-                        alt="State-of-the-art hospital facilities" loading="eager" width="560" height="480">
+                    <img src="assets/img/health/facilities-6.webp" class="about-img-main" alt="State-of-the-art hospital facilities" loading="eager" width="560" height="480">
                     <div class="about-img-accent" data-aos="zoom-in" data-aos-delay="400">
-                        <img src="assets/img/health/staff-8.webp" alt="Our dedicated medical team" loading="lazy"
-                            width="200" height="200">
+                        <img src="assets/img/health/staff-8.webp" alt="Our dedicated medical team" loading="lazy" width="200" height="200">
                     </div>
                     <div class="about-img-badge">
                         <i class="fas fa-shield-heart" aria-hidden="true"></i>
@@ -88,13 +80,12 @@
         <div class="section-header" data-aos="fade-up">
             <span class="section-label">What Drives Us</span>
             <h2 class="section-title" id="values-heading">Our Core Values</h2>
-            <p class="section-subtitle">These principles guide everything we do in our commitment to exceptional
-                healthcare</p>
+            <p class="section-subtitle">These principles guide everything we do in our commitment to exceptional healthcare
+            </p>
         </div>
 
         <div class="values-grid">
-            <div class="value-card" *ngFor="let val of coreValues" [style.--delay]="val.delay + 'ms'" data-aos="fade-up"
-                [attr.data-aos-delay]="val.delay + 100">
+            <div class="value-card" *ngFor="let val of coreValues" [style.--delay]="val.delay + 'ms'" data-aos="fade-up" [attr.data-aos-delay]="val.delay + 100">
                 <div class="value-icon" aria-hidden="true">
                     <i [class]="val.icon"></i>
                 </div>
@@ -117,11 +108,9 @@
         </div>
 
         <div class="team-grid">
-            <article class="team-card" *ngFor="let member of team; let i = index" [style.--delay]="i * 80 + 'ms'"
-                data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+            <article class="team-card" *ngFor="let member of team; let i = index" [style.--delay]="i * 80 + 'ms'" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
                 <div class="team-img-wrap">
-                    <img [src]="member.image" [alt]="member.name + ', ' + member.specialty" loading="lazy" width="300"
-                        height="300">
+                    <img [src]="member.image" [alt]="member.name + ', ' + member.specialty" loading="lazy" width="300" height="300">
                     <div class="team-overlay" aria-hidden="true">
                         <div class="team-social">
                             <a href="#" aria-label="LinkedIn profile" tabindex="-1">
@@ -160,13 +149,12 @@
         <div class="section-header" data-aos="fade-up">
             <span class="section-label">Trusted & Verified</span>
             <h2 class="section-title" id="certs-heading">Accreditations &amp; Certifications</h2>
-            <p class="section-subtitle">Recognized by leading healthcare organizations for our commitment to quality
-                care</p>
+            <p class="section-subtitle">Recognized by leading healthcare organizations for our commitment to quality care
+            </p>
         </div>
 
         <div class="certs-grid">
-            <div class="cert-card" *ngFor="let cert of certifications; let i = index" [style.--delay]="i * 80 + 'ms'"
-                data-aos="zoom-in" [attr.data-aos-delay]="i * 100">
+            <div class="cert-card" *ngFor="let cert of certifications; let i = index" [style.--delay]="i * 80 + 'ms'" data-aos="zoom-in" [attr.data-aos-delay]="i * 100">
                 <div class="cert-icon" aria-hidden="true">
                     <i [class]="cert.icon"></i>
                 </div>

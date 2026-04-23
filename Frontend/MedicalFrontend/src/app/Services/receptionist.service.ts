@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   ReceptionistResponseDto,
   CreateReceptionistDto,
@@ -11,10 +10,8 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ReceptionistService {
-  private baseUrl = `${environment.apiUrl}/receptionists`;
-
-  constructor(private http: HttpClient) {}
+export class ReceptionistService extends BaseService {
+  private baseUrl = this.getBaseUrl('receptionists');
 
   // GET /api/receptionists  [Admin]
   getAll(): Observable<ReceptionistResponseDto[]> {
@@ -28,25 +25,13 @@ export class ReceptionistService {
 
   // POST /api/receptionists  [Admin] — uses FormData
   create(dto: CreateReceptionistDto): Observable<ReceptionistResponseDto> {
-    const formData = new FormData();
-    Object.keys(dto).forEach(key => {
-      const value = (dto as any)[key];
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    });
+    const formData = this.toFormData(dto);
     return this.http.post<ReceptionistResponseDto>(this.baseUrl, formData);
   }
 
   // PUT /api/receptionists/{id}  [Admin] — uses FormData
   update(id: number, dto: UpdateReceptionistDto): Observable<ReceptionistResponseDto> {
-    const formData = new FormData();
-    Object.keys(dto).forEach(key => {
-      const value = (dto as any)[key];
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    });
+    const formData = this.toFormData(dto);
     return this.http.put<ReceptionistResponseDto>(`${this.baseUrl}/${id}`, formData);
   }
 
@@ -55,3 +40,4 @@ export class ReceptionistService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
+

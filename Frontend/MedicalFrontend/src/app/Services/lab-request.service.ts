@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
 import {
   LabRequestResponseDto,
   CreateLabRequestDto,
@@ -12,10 +11,8 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class LabRequestService {
-  private baseUrl = `${environment.apiUrl}/lab-requests`;
-
-  constructor(private http: HttpClient) {}
+export class LabRequestService extends BaseService {
+  private baseUrl = this.getBaseUrl('lab-requests');
 
   // GET /api/lab-requests/{id}  [Authorized]
   getById(id: number): Observable<LabRequestResponseDto> {
@@ -47,3 +44,4 @@ export class LabRequestService {
     return this.http.put<LabRequestResponseDto>(`${this.baseUrl}/${id}/upload-result`, dto);
   }
 }
+
