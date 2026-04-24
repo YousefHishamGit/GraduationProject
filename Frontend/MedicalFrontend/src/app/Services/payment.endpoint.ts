@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   PaymentResponseDto,
   CreatePaymentDto
@@ -9,7 +9,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService extends BaseService {
+export class PaymentEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('payments');
 
   // GET /api/payments/{id}  [Authorized]

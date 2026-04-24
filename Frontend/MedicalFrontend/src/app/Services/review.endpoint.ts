@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   ReviewResponseDto,
   CreateReviewDto,
@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewService extends BaseService {
+export class ReviewEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('reviews');
 
   // POST /api/reviews  [Patient]

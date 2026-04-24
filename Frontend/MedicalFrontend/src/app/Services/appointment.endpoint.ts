@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   AppointmentResponseDto,
   CreateAppointmentDto,
@@ -11,7 +11,6 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class AppointmentService extends BaseService {
   private baseUrl = this.getBaseUrl('appointments');
 
   // GET /api/appointments  [Admin only]

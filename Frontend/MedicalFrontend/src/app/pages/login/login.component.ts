@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EndPoints } from '../../Services/endpoints';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,16 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  private endpoint = inject(EndPoints);
+  private router = inject(Router);
+
   email = signal<string>('');
   password = signal<string>('');
   remember = signal<boolean>(false);
   showPassword = signal<boolean>(false);
   errorMessage = signal<string>('');
 
-  constructor(private router: Router) {
+  constructor() {
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
       this.router.navigate(['/']);
@@ -31,23 +35,28 @@ export class LoginComponent {
   onSubmit() {
     const emailVal = this.email();
     const passwordVal = this.password();
+    
     if (!emailVal || !passwordVal) {
       this.errorMessage.set('Please fill in all fields');
       return;
     }
 
-    const userData = {
-      email: emailVal,
-      name: emailVal.split('@')[0],
-      role: 'Patient',
-      loginTime: new Date().toISOString()
-    };
+    this.errorMessage.set('');
 
-    localStorage.setItem('currentUser', JSON.stringify(userData));
+    this.endpoint.auth.login({ email: emailVal, password: passwordVal }).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        localStorage.setItem('token', response.token);
 
-    const returnUrl = localStorage.getItem('returnUrl') || '/';
-    localStorage.removeItem('returnUrl');
-
-    this.router.navigate([returnUrl]);
+        const returnUrl = localStorage.getItem('returnUrl') || '/';
+        localStorage.removeItem('returnUrl');
+        this.router.navigate([returnUrl]);
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        this.errorMessage.set(err.error?.message || 'Invalid email or password. Please try again.');
+      }
+    });
   }
 }

@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EndPoints } from '../../Services/endpoints';
+import { DoctorResponseDto } from '../../interfaces/doctor.interface';
 
 interface Doctor {
   id: number;
   name: string;
-  DoctorImgUrl: string;
-  Specialization: string;
-  YearsOfExperience: number;
-  department?: string;
-  available?: boolean;
+  specialization: string;
+  experience: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  availability: string;
+  consultationFee: number;
+  departmentId: number;
 }
 
 @Component({
@@ -21,113 +26,53 @@ interface Doctor {
   styleUrls: ['./doctors.component.css']
 })
 export class DoctorsComponent implements OnInit {
-  doctors: Doctor[] = [
-    {
-      id: 1,
-      name: 'Dr. Sarah Johnson',
-      DoctorImgUrl: '/assets/img/person/person-f-11.webp',
-      Specialization: 'Cardiologist',
-      YearsOfExperience: 15,
-      department: 'cardiology',
-      available: true
-    },
-    {
-      id: 2,
-      name: 'Dr. Michael Brown',
-      DoctorImgUrl: '/assets/img/person/person-m-12.webp',
-      Specialization: 'Neurologist',
-      YearsOfExperience: 12,
-      department: 'neurology',
-      available: true
-    },
-    {
-      id: 3,
-      name: 'Dr. Lisa Miller',
-      DoctorImgUrl: '/assets/img/person/person-f-12.webp',
-      Specialization: 'Orthopedic Surgeon',
-      YearsOfExperience: 10,
-      department: 'orthopedics',
-      available: true
-    },
-    {
-      id: 4,
-      name: 'Dr. David Wilson',
-      DoctorImgUrl: '/assets/img/person/person-m-13.webp',
-      Specialization: 'Pediatrician',
-      YearsOfExperience: 18,
-      department: 'pediatrics',
-      available: true
-    },
-    {
-      id: 5,
-      name: 'Dr. Jennifer Lee',
-      DoctorImgUrl: '/assets/img/person/person-f-13.webp',
-      Specialization: 'Dermatologist',
-      YearsOfExperience: 8,
-      department: 'dermatology',
-      available: false
-    },
-    {
-      id: 6,
-      name: 'Dr. Robert Chen',
-      DoctorImgUrl: '/assets/img/person/person-m-7.webp',
-      Specialization: 'General Surgeon',
-      YearsOfExperience: 14,
-      department: 'surgery',
-      available: true
-    }
-  ];
+  private endpoint = inject(EndPoints);
 
-  filteredDoctors: Doctor[] = [];
-  searchTerm = '';
-  departmentFilter = '';
-  experienceFilter = '';
+  searchQuery = signal<string>('');
+  selectedSpecialty = signal<string>('All Specialties');
+  
+  allDoctors = signal<Doctor[]>([]);
 
-  showModal = false;
-  selectedDoctor: Doctor | null = null;
-  selectedTimeSlot: string | null = null;
+  specialties = computed(() => {
+    const specs = new Set(this.allDoctors().map(d => d.specialization));
+    return ['All Specialties', ...Array.from(specs)];
+  });
 
-  timeSlots = [
-    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-    '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'
-  ];
+  filteredDoctors = computed(() => {
+    return this.allDoctors().filter(doctor => {
+      const matchesSearch = doctor.name.toLowerCase().includes(this.searchQuery().toLowerCase()) ||
+                          doctor.specialization.toLowerCase().includes(this.searchQuery().toLowerCase());
+      const matchesSpecialty = this.selectedSpecialty() === 'All Specialties' || 
+                             doctor.specialization === this.selectedSpecialty();
+      return matchesSearch && matchesSpecialty;
+    });
+  });
 
   ngOnInit() {
-    this.filteredDoctors = [...this.doctors];
+    this.loadDoctors();
   }
 
-  filterDoctors() {
-    this.filteredDoctors = this.doctors.filter(doctor => {
-      const matchesSearch = !this.searchTerm ||
-        doctor.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        doctor.Specialization.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      const matchesDepartment = !this.departmentFilter || doctor.department === this.departmentFilter;
-
-      const matchesExperience = !this.experienceFilter ||
-        doctor.YearsOfExperience >= parseInt(this.experienceFilter);
-
-      return matchesSearch && matchesDepartment && matchesExperience;
+  loadDoctors() {
+    this.endpoint.doctors.getAll().subscribe({
+      next: (data) => {
+        this.allDoctors.set(data.map(d => ({
+          id: d.id,
+          name: d.fullName,
+          specialization: d.specialization,
+          experience: d.yearsOfExperience,
+          rating: 4.8, // Mock for now
+          reviews: 120, // Mock for now
+          image: d.imgPath || '/assets/img/person/person-f-11.webp',
+          availability: d.status,
+          consultationFee: d.consultationFee,
+          departmentId: d.departmentId
+        })));
+      },
+      error: (err) => console.error('Error loading doctors', err)
     });
   }
 
-  viewDoctorDetails(doctor: Doctor) {
-    this.selectedDoctor = doctor;
-    this.selectedTimeSlot = null;
-    this.showModal = true;
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeModal(event?: MouseEvent) {
-    if (!event || event.target === event.currentTarget) {
-      this.showModal = false;
-      this.selectedDoctor = null;
-      this.selectedTimeSlot = null;
-      document.body.style.overflow = 'auto';
-    }
-  }
-
-  selectTimeSlot(slot: string) {
-    this.selectedTimeSlot = slot;
+  setSpecialty(specialty: string) {
+    this.selectedSpecialty.set(specialty);
   }
 }

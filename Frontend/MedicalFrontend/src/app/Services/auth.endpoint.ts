@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   LoginDto,
   RegisterPatientDto,
@@ -11,7 +11,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService extends BaseService {
+export class AuthEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('auth');
 
   // POST /api/auth/register/patient

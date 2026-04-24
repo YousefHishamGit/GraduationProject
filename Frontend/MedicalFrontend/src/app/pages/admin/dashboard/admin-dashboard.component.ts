@@ -1,6 +1,7 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { EndPoints } from '../../../Services/endpoints';
 
 interface Stat {
   title: string;
@@ -26,28 +27,55 @@ interface Appointment {
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  private endpoint = inject(EndPoints);
+
   stats = signal<Stat[]>([
-    { title: 'Total Doctors', value: 48, icon: 'fas fa-user-md', color: '#0d6efd', change: '+5 this month' },
-    { title: 'Total Patients', value: 1245, icon: 'fas fa-users', color: '#17a2b8', change: '+124 this month' },
-    { title: "Today's Appointments", value: 324, icon: 'fas fa-calendar-check', color: '#28a745', change: '12 pending' },
-    { title: 'Monthly Revenue', value: 45230, icon: 'fas fa-dollar-sign', color: '#ffc107', change: '+12% from last month' }
+    { title: 'Total Doctors', value: 0, icon: 'fas fa-user-md', color: '#0d6efd', change: 'Loading...' },
+    { title: 'Total Patients', value: 0, icon: 'fas fa-users', color: '#17a2b8', change: 'Loading...' },
+    { title: "Today's Appointments", value: 0, icon: 'fas fa-calendar-check', color: '#28a745', change: 'Loading...' },
+    { title: 'Monthly Revenue', value: 0, icon: 'fas fa-dollar-sign', color: '#ffc107', change: 'Loading...' }
   ]);
 
   recentAppointments = signal<Appointment[]>([]);
 
   ngOnInit() {
-    this.loadAppointments();
+    this.loadStats();
+    this.loadRecentAppointments();
   }
 
-  loadAppointments() {
-    const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-    const mapped = appointments.slice(-5).map((apt: any) => ({
-      patient: `${apt.firstName || ''} ${apt.lastName || ''}`.trim() || 'Unknown',
-      doctor: `Dr. ${apt.doctorId || 'Unknown'}`,
-      date: apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleDateString() : 'N/A',
-      time: apt.appointmentDate ? new Date(apt.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
-      status: apt.status || 'Scheduled'
-    }));
-    this.recentAppointments.set(mapped);
+  loadStats() {
+    this.endpoint.doctors.getAll().subscribe(doctors => {
+      this.updateStat('Total Doctors', doctors.length, `+${doctors.length} active`);
+    });
+
+    this.endpoint.patients.getAll().subscribe(patients => {
+      this.updateStat('Total Patients', patients.length, `+${patients.length} total`);
+    });
+
+    this.endpoint.appointments.getAll().subscribe(appointments => {
+      const today = new Date().toISOString().split('T')[0];
+      const todayCount = appointments.filter(a => a.appointmentDate.startsWith(today)).length;
+      this.updateStat("Today's Appointments", todayCount, `${appointments.length} total`);
+    });
+  }
+
+  updateStat(title: string, value: number, change: string) {
+    this.stats.update(current => current.map(s => s.title === title ? { ...s, value, change } : s));
+  }
+
+  loadRecentAppointments() {
+    this.endpoint.appointments.getAll().subscribe({
+      next: (data) => {
+        const mapped = data.slice(-5).map(a => ({
+          patient: `Patient #${a.patientId}`,
+          doctor: `Doctor #${a.doctorId}`,
+          date: new Date(a.appointmentDate).toLocaleDateString(),
+          time: new Date(a.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          status: a.status
+        }));
+        this.recentAppointments.set(mapped);
+      },
+      error: (err) => console.error('Error loading appointments', err)
+    });
   }
 }

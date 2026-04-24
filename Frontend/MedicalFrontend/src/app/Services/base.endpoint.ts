@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export abstract class BaseService {
+export abstract class BaseEndpoint {
   protected http = inject(HttpClient);
   protected readonly apiUrl = environment.apiUrl;
 

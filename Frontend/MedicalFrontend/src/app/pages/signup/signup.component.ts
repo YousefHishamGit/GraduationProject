@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EndPoints } from '../../Services/endpoints';
+import { RegisterPatientDto } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-signup',
@@ -11,14 +13,15 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
+  private endpoint = inject(EndPoints);
+  private router = inject(Router);
+
   username = signal<string>('');
   email = signal<string>('');
   password = signal<string>('');
   confirmPassword = signal<string>('');
   agreedToTerms = signal<boolean>(false);
   errorMessage = signal<string>('');
-
-  constructor(private router: Router) {}
 
   onSubmit() {
     this.errorMessage.set('');
@@ -33,14 +36,27 @@ export class SignupComponent {
       return;
     }
 
-    const userData = {
-      username: this.username(),
+    const registrationData: RegisterPatientDto = {
+      firstName: this.username().split(' ')[0] || this.username(),
+      lastName: this.username().split(' ')[1] || 'User',
+      nationalID: '12345678901234',
+      birthDate: '2000-01-01',
+      gender: 1,
       email: this.email(),
-      createdAt: new Date().toISOString()
+      password: this.password(),
+      phone: '0123456789'
     };
 
-    localStorage.setItem('pendingUser', JSON.stringify(userData));
-
-    this.router.navigate(['/registration-confirmation']);
+    this.endpoint.auth.registerPatient(registrationData).subscribe({
+      next: (response) => {
+        console.log('Registration successful', response);
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        this.router.navigate(['/registration-confirmation']);
+      },
+      error: (err) => {
+        console.error('Registration failed', err);
+        this.errorMessage.set(err.error?.message || 'Registration failed. Please try again.');
+      }
+    });
   }
 }

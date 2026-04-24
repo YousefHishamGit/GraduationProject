@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   DoctorResponseDto,
   CreateDoctorDto,
@@ -20,7 +20,7 @@ import { ReviewResponseDto } from '../interfaces/review.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService extends BaseService {
+export class DoctorEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('doctors');
 
   // ─── Doctors ──────────────────────────────────────────────
@@ -144,4 +144,3 @@ export class DoctorService extends BaseService {
     return this.http.delete<void>(`${this.apiUrl}/timeslots/${id}`);
   }
 }
-

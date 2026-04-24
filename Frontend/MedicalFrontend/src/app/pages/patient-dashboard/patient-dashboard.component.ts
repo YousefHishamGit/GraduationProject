@@ -1,6 +1,7 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { EndPoints } from '../../Services/endpoints';
 
 interface Patient {
   id: number;
@@ -35,51 +36,54 @@ interface Appointment {
   styleUrls: ['./patient-dashboard.component.css']
 })
 export class PatientDashboardComponent implements OnInit {
+  private endpoint = inject(EndPoints);
+
   activeTab = signal<string>('about');
   patient = signal<Patient | null>(null);
   appointments = signal<Appointment[]>([]);
 
   ngOnInit() {
-    this.loadPatientData();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const patientId = currentUser.userId ? parseInt(currentUser.userId) : 1;
+
+    this.loadPatientData(patientId);
   }
 
-  loadPatientData() {
-    this.patient.set({
-      id: 1,
-      fullName: 'John Doe',
-      email: 'john.doe@email.com',
-      phone: '+1 (555) 987-6543',
-      birthDate: '1985-03-15',
-      address: '123 Patient Street, Health City',
-      bloodType: 'O+',
-      allergies: 'Penicillin, Peanuts',
-      emergencyContactPhone: '+1 (555) 123-4567',
-      medicalHistory: 'No major surgeries. Hypertension diagnosed 2020. Regular checkups.',
-      image: '/assets/img/person/person-m-3.webp'
+  loadPatientData(id: number) {
+    this.endpoint.patients.getById(id).subscribe({
+      next: (p) => {
+        this.patient.set({
+          id: p.id,
+          fullName: p.fullName,
+          email: 'patient@email.com',
+          phone: p.phone,
+          birthDate: p.birthDate,
+          address: p.address || 'N/A',
+          bloodType: 'N/A',
+          allergies: 'N/A',
+          emergencyContactPhone: 'N/A',
+          medicalHistory: 'N/A',
+          image: '/assets/img/person/person-m-3.webp'
+        });
+      },
+      error: (err) => console.error('Error loading patient profile', err)
     });
 
-    this.appointments.set([
-      {
-        id: 1,
-        firstName: 'John',
-        lastName: 'Doe',
-        appointmentDate: '2024-02-25T09:00:00',
-        status: 'Confirmed',
-        phone: '+1 (555) 987-6543',
-        email: 'john.doe@email.com',
-        doctorName: 'Dr. Sarah Johnson'
+    this.endpoint.appointments.getByPatient(id).subscribe({
+      next: (data) => {
+        this.appointments.set(data.map(a => ({
+          id: a.id,
+          firstName: 'Patient',
+          lastName: `#${a.patientId}`,
+          appointmentDate: a.appointmentDate,
+          status: a.status,
+          phone: 'N/A',
+          email: 'N/A',
+          doctorName: `Doctor #${a.doctorId}`
+        })));
       },
-      {
-        id: 2,
-        firstName: 'John',
-        lastName: 'Doe',
-        appointmentDate: '2024-03-10T14:30:00',
-        status: 'Pending',
-        phone: '+1 (555) 987-6543',
-        email: 'john.doe@email.com',
-        doctorName: 'Dr. Michael Brown'
-      }
-    ]);
+      error: (err) => console.error('Error loading appointments', err)
+    });
   }
 
   setTab(tab: string) {

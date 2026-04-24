@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   MedicalRecordResponseDto,
   CreateMedicalRecordDto,
@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class MedicalRecordService extends BaseService {
+export class MedicalRecordEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('medical-records');
 
   // GET /api/medical-records/{id}  [Authorized]

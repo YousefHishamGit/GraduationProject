@@ -1,7 +1,8 @@
-import { Component, signal, computed, OnInit } from '@angular/core';
+import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EndPoints } from '../../Services/endpoints';
 
 interface Doctor {
   id: number;
@@ -23,9 +24,13 @@ interface Department {
   styleUrls: ['./appointment.component.css']
 })
 export class AppointmentComponent implements OnInit {
+  private endpoint = inject(EndPoints);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   currentStep = signal<number>(1);
   selectedDepartment = signal<string>('');
-
+  
   formData = {
     firstName: '',
     lastName: '',
@@ -42,69 +47,62 @@ export class AppointmentComponent implements OnInit {
     message: ''
   };
 
-  departments = signal<Department[]>([
-    {
-      id: '1',
-      name: 'Cardiology',
-      doctors: [
-        { id: 1, name: 'Dr. Sarah Johnson', specialization: 'Cardiologist' },
-        { id: 2, name: 'Dr. Michael Chen', specialization: 'Heart Surgeon' }
-      ]
-    },
-    {
-      id: '2',
-      name: 'Neurology',
-      doctors: [
-        { id: 3, name: 'Dr. Robert Wilson', specialization: 'Neurologist' },
-        { id: 4, name: 'Dr. Lisa Martinez', specialization: 'Neurosurgeon' }
-      ]
-    },
-    {
-      id: '3',
-      name: 'Orthopedics',
-      doctors: [
-        { id: 5, name: 'Dr. David Brown', specialization: 'Orthopedic Surgeon' },
-        { id: 6, name: 'Dr. Emily Davis', specialization: 'Sports Medicine' }
-      ]
-    },
-    {
-      id: '4',
-      name: 'Pediatrics',
-      doctors: [
-        { id: 7, name: 'Dr. Jennifer Lee', specialization: 'Pediatrician' },
-        { id: 8, name: 'Dr. Thomas Clark', specialization: 'Child Specialist' }
-      ]
-    }
-  ]);
+  departments = signal<Department[]>([]);
 
-  availableDoctors = computed(() => {
-    const dept = this.departments().find(d => d.id === this.selectedDepartment());
-    return dept ? dept.doctors : [];
-  });
+  availableDoctors = signal<Doctor[]>([]);
 
   minDate = computed(() => new Date().toISOString().split('T')[0]);
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
-
   ngOnInit() {
+    this.loadDepartments();
+    
     this.route.queryParams.subscribe(params => {
       if (params['doctorId']) {
         this.formData.doctorId = params['doctorId'];
       }
       if (params['department']) {
         this.selectedDepartment.set(params['department']);
+        this.onDepartmentChange(params['department']);
       }
     });
   }
 
-  getStepLabel(step: number): string {
-    const labels = ['Personal Info', 'Appointment Details', 'Confirmation'];
-    return labels[step - 1];
+  loadDepartments() {
+    this.endpoint.departments.getAll().subscribe({
+      next: (data) => {
+        this.departments.set(data.map(d => ({
+          id: d.id.toString(),
+          name: d.departmentName,
+          doctors: []
+        })));
+      },
+      error: (err) => console.error('Error loading departments', err)
+    });
   }
 
   onDepartmentChange(value: string) {
     this.selectedDepartment.set(value);
     this.formData.doctorId = '';
+    
+    if (value) {
+      this.endpoint.doctors.getByDepartment(parseInt(value)).subscribe({
+        next: (data) => {
+          this.availableDoctors.set(data.map(d => ({
+            id: d.id,
+            name: d.fullName,
+            specialization: d.specialization
+          })));
+        },
+        error: (err) => console.error('Error loading doctors', err)
+      });
+    } else {
+      this.availableDoctors.set([]);
+    }
+  }
+
+  getStepLabel(step: number): string {
+    const labels = ['Personal Info', 'Appointment Details', 'Confirmation'];
+    return labels[step - 1];
   }
 
   getDepartmentName(id: string): string {
@@ -113,11 +111,8 @@ export class AppointmentComponent implements OnInit {
   }
 
   getDoctorName(id: string): string {
-    for (const dept of this.departments()) {
-      const doc = dept.doctors.find(d => d.id.toString() === id);
-      if (doc) return doc.name;
-    }
-    return 'Not selected';
+    const doc = this.availableDoctors().find(d => d.id.toString() === id);
+    return doc?.name || 'Not selected';
   }
 
   nextStep() {
@@ -141,15 +136,27 @@ export class AppointmentComponent implements OnInit {
   }
 
   onSubmit() {
-    const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-    appointments.push({
-      ...this.formData,
-      id: Date.now(),
-      departmentId: this.selectedDepartment(),
-      status: 'Scheduled',
-      createdAt: new Date().toISOString()
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const patientId = currentUser.id || 1;
+
+    const dto = {
+      patientId: patientId,
+      doctorId: parseInt(this.formData.doctorId),
+      timeSlotId: 1,
+      appointmentDate: this.formData.appointmentDate,
+      type: 'Routine',
+      notes: this.formData.message
+    };
+
+    this.endpoint.appointments.create(dto).subscribe({
+      next: (res) => {
+        console.log('Appointment created successfully', res);
+        this.router.navigate(['/appointment-success']);
+      },
+      error: (err) => {
+        console.error('Error creating appointment', err);
+        alert('Failed to book appointment. Please try again.');
+      }
     });
-    localStorage.setItem('appointments', JSON.stringify(appointments));
-    this.router.navigate(['/appointment-success']);
   }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {}
+    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {}
   },
   "projects": {
-    "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
         "packagesPath": "C:\\Users\\Tito\\.nuget\\packages\\",
-        "outputPath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
+        "outputPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

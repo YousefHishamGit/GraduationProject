@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from './base.service';
+import { BaseEndpoint } from './base.endpoint';
 import {
   DepartmentResponseDto,
   CreateDepartmentDto,
@@ -11,7 +11,7 @@ import { DoctorResponseDto } from '../interfaces/doctor.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class DepartmentService extends BaseService {
+export class DepartmentEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('departments');
 
   // GET /api/departments
