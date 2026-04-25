@@ -29,25 +29,25 @@
             <div class="search-box">
                 <input type="text" [(ngModel)]="searchTerm" (input)="filterDoctors()" placeholder="Search doctors by name or specialty...">
                 <button class="search-btn">
-          <i class="fas fa-search"></i>
-        </button>
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
             <div class="filter-options">
                 <select [(ngModel)]="departmentFilter" (change)="filterDoctors()">
-          <option value="">All Departments</option>
-          <option value="cardiology">Cardiology</option>
-          <option value="neurology">Neurology</option>
-          <option value="orthopedics">Orthopedics</option>
-          <option value="pediatrics">Pediatrics</option>
-          <option value="dermatology">Dermatology</option>
-          <option value="surgery">Surgery</option>
-        </select>
+                    <option value="">All Departments</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="neurology">Neurology</option>
+                    <option value="orthopedics">Orthopedics</option>
+                    <option value="pediatrics">Pediatrics</option>
+                    <option value="dermatology">Dermatology</option>
+                    <option value="surgery">Surgery</option>
+                </select>
                 <select [(ngModel)]="experienceFilter" (change)="filterDoctors()">
-          <option value="">All Experience</option>
-          <option value="5">5+ Years</option>
-          <option value="10">10+ Years</option>
-          <option value="15">15+ Years</option>
-        </select>
+                    <option value="">All Experience</option>
+                    <option value="5">5+ Years</option>
+                    <option value="10">10+ Years</option>
+                    <option value="15">15+ Years</option>
+                </select>
             </div>
         </div>
     </div>
@@ -57,7 +57,8 @@
 <section id="doctors" class="doctors section">
     <div class="container">
         <div class="row gy-4">
-            <div class="col-lg-3 col-md-6" *ngFor="let doctor of filteredDoctors; let i = index">
+            @for (doctor of filteredDoctors(); track doctor.id; let i = $index) {
+            <div class="col-lg-3 col-md-6">
                 <div class="doctor-card" (click)="viewDoctorDetails(doctor)">
                     <div class="doctor-image">
                         <img [src]="doctor.DoctorImgUrl" [alt]="doctor.name" class="img-fluid">
@@ -83,27 +84,31 @@
                             </div>
                         </div>
                         <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}" class="btn-appointment">
-              Book Appointment
-            </a>
+                                Book Appointment
+                            </a>
                     </div>
                 </div>
             </div>
+            }
         </div>
 
-        <div *ngIf="filteredDoctors.length === 0" class="text-center py-5">
+        @if (filteredDoctors().length === 0) {
+        <div class="text-center py-5">
             <h3>No doctors found matching your criteria.</h3>
         </div>
+        }
     </div>
 </section>
 
 <!-- Doctor Details Modal -->
 <div class="doctor-details-modal" [class.active]="showModal" (click)="closeModal($event)">
-    <div class="modal-content" *ngIf="selectedDoctor" (click)="$event.stopPropagation()">
+    @if (selectedDoctor) {
+    <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
             <h2>{{ selectedDoctor.name }}</h2>
             <button class="modal-close" type="button" (click)="closeModal()">
-        <i class="fas fa-times"></i>
-      </button>
+                    <i class="fas fa-times"></i>
+                </button>
         </div>
         <div class="modal-body">
             <div class="doctor-modal-content">
@@ -118,22 +123,27 @@
                         <i class="fas fa-award"></i> {{ selectedDoctor.YearsOfExperience }}+ years experience
                     </div>
 
-                    <div class="doctor-availability" *ngIf="timeSlots.length > 0">
+                    @if (timeSlots.length > 0) {
+                    <div class="doctor-availability">
                         <h3>Select Time Slot:</h3>
                         <div class="availability-slots">
-                            <div *ngFor="let slot of timeSlots" class="time-slot" [class.selected]="selectedTimeSlot === slot" (click)="selectTimeSlot(slot)">
+                            @for (slot of timeSlots; track slot) {
+                            <div class="time-slot" [class.selected]="selectedTimeSlot === slot" (click)="selectTimeSlot(slot)">
                                 {{ slot }}
                             </div>
+                            }
                         </div>
                     </div>
+                    }
 
                     <div class="modal-actions">
                         <a [routerLink]="['/appointment']" [queryParams]="{doctorId: selectedDoctor.id, timeSlot: selectedTimeSlot}" class="btn btn-primary" [class.disabled]="!selectedTimeSlot">
-              Book Appointment
-            </a>
+                                Book Appointment
+                            </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    }
 </div>

@@ -6,36 +6,83 @@
         </div>
 
         <form (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" [ngModel]="username()" (ngModelChange)="username.set($event)" name="username" placeholder="Enter your username" required>
+            <!-- Name -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" placeholder="First name" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" placeholder="Last name" required>
+                </div>
             </div>
 
+            <!-- Email -->
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="Enter your email" required>
+                <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Enter your email" required>
             </div>
 
+            <!-- National ID -->
+            <div class="form-group">
+                <label for="nationalID">National ID</label>
+                <input type="text" id="nationalID" [(ngModel)]="nationalID" name="nationalID" placeholder="Enter your national ID" required>
+            </div>
+
+            <!-- Birth Date -->
+            <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input type="date" id="birthDate" [(ngModel)]="birthDate" name="birthDate" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" [(ngModel)]="address" name="address" placeholder="Enter your address">
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" [(ngModel)]="gender" name="gender" required>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" [(ngModel)]="phone" name="phone" placeholder="Enter your phone" required>
+            </div>
+
+            <!-- Password -->
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" placeholder="Create a password" required>
+                <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Create a password" required>
             </div>
 
+            <!-- Confirm Password -->
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" [ngModel]="confirmPassword()" (ngModelChange)="confirmPassword.set($event)" name="confirmPassword" placeholder="Confirm your password" required> @if (errorMessage()) {
-                <span class="text-danger">{{ errorMessage() }}</span> }
+                <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
             </div>
 
+            @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+            }
+
+            <!-- Terms -->
             <div class="form-check">
-                <input type="checkbox" id="terms" [ngModel]="agreedToTerms()" (ngModelChange)="agreedToTerms.set($event)" name="terms" required>
+                <input type="checkbox" id="terms" [(ngModel)]="agreedToTerms" name="terms" required>
                 <label for="terms">I agree to the <a href="#" class="text-primary">terms and conditions</a></label>
             </div>
 
-            <button type="submit" class="btn btn-custom w-100">Sign Up</button>
+            <button type="submit" class="btn btn-custom w-100" [disabled]="isLoading">
+                {{ isLoading ? 'Signing up...' : 'Sign Up' }}
+            </button>
         </form>
 
-        <div class="text-muted">
+        <div class="text-muted mt-3">
             Already have an account? <a routerLink="/login" class="text-primary">Sign In</a>
         </div>
     </div>

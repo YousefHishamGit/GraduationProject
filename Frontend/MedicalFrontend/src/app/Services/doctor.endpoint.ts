@@ -133,6 +133,11 @@ export class DoctorEndpoint extends BaseEndpoint {
     return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params });
   }
 
+  // GET /api/doctors/{doctorId}/timeslots
+getTimeSlots(doctorId: number): Observable<TimeSlotResponseDto[]> {
+  return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`);
+}
+
   // POST /api/timeslots?doctorId=
   generateTimeSlots(doctorId: number, dto: GenerateTimeSlotsDto): Observable<TimeSlotResponseDto[]> {
     const params = new HttpParams().set('doctorId', doctorId.toString());

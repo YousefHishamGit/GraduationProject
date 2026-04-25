@@ -16,6 +16,15 @@ interface Category {
   services: Service[];
 }
 
+interface SpecialService {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  features: string[];
+  serviceParam: string;
+}
+
 @Component({
   selector: 'app-services',
   standalone: true,
@@ -29,6 +38,41 @@ export class ServicesComponent implements OnInit {
   activeCategory = signal<string>('medical');
   categories = signal<Category[]>([]);
 
+  specialServices = signal<SpecialService[]>([
+    {
+      id: 1,
+      title: 'Advanced Cardiac Care',
+      description: 'State-of-the-art cardiac diagnostics and treatment.',
+      image: '/assets/img/health/cardiology-1.webp',
+      features: ['ECG & Echo', 'Cardiac Surgery', 'Rehabilitation'],
+      serviceParam: 'cardiology'
+    },
+    {
+      id: 2,
+      title: 'Neurology & Brain Health',
+      description: 'Comprehensive neurological care and diagnostics.',
+      image: '/assets/img/health/neurology-2.webp',
+      features: ['MRI & CT Scan', 'Stroke Care', 'Memory Clinic'],
+      serviceParam: 'neurology'
+    },
+    {
+      id: 3,
+      title: 'Orthopedic Excellence',
+      description: 'Advanced bone and joint treatment services.',
+      image: '/assets/img/health/orthopedics-1.webp',
+      features: ['Joint Replacement', 'Sports Medicine', 'Physiotherapy'],
+      serviceParam: 'orthopedics'
+    },
+    {
+      id: 4,
+      title: 'Pediatric Care',
+      description: 'Specialized healthcare for children of all ages.',
+      image: '/assets/img/health/pediatrics-3.webp',
+      features: ['Vaccination', 'Growth Monitoring', 'Child Psychology'],
+      serviceParam: 'pediatrics'
+    }
+  ]);
+
   ngOnInit() {
     this.loadServices();
   }
@@ -36,7 +80,6 @@ export class ServicesComponent implements OnInit {
   loadServices() {
     this.endpoint.departments.getAll().subscribe({
       next: (data) => {
-        // Map departments to medical category for now
         this.categories.set([
           {
             id: 'medical',

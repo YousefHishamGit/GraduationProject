@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "MedicalTriageSystem",
-    "version": "1.0"
+    "title": "MedicalTriage API",
+    "version": "v1"
   },
   "paths": {
     "/api/admin/dashboard/stats": {
@@ -5813,6 +5813,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter your JWT token",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

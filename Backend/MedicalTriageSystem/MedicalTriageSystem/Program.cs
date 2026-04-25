@@ -1,4 +1,3 @@
-
 using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Implementation;
 using BusinessLogicLayer.Services.Interfaces;
@@ -10,7 +9,6 @@ using MedicalTriageSystem.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -22,18 +20,49 @@ namespace MedicalTriageSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            // ?? Controllers ???????????????????????????????????????
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
-          builder.Services.AddAuthentication(options =>
-           {
+            // ?? Swagger ???????????????????????????????????????????
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new() { Title = "MedicalTriage API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new()
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "Enter your JWT token"
+                });
+                c.AddSecurityRequirement(new()
+                {
+                    {
+                        new() { Reference = new() { Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme, Id = "Bearer" } },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+
+            // ?? CORS ??????????????????????????????????????????????
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+            // ?? JWT Authentication ????????????????????????????????
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-             })
+            })
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -49,55 +78,57 @@ namespace MedicalTriageSystem
                 };
             });
 
+            // ?? Identity ??????????????????????????????????????????
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<MedicalTriageDbContext>()
+                .AddDefaultTokenProviders();
 
+            // ?? Database ??????????????????????????????????????????
+            builder.Services.AddDbContext<MedicalTriageDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // ?? Repositories & UnitOfWork ?????????????????????????
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // ?? Services ??????????????????????????????????????????
+            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
+            builder.Services.AddScoped<IPersonService, PersonService>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
             builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
-            builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));
-            builder.Services.AddIdentity<User, IdentityRole>()
-                        .AddEntityFrameworkStores<MedicalTriageDbContext>()
-                        .AddDefaultTokenProviders();
-            builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
-            builder.Services.AddScoped<IPersonService, PersonService>();
             builder.Services.AddScoped<ILabRequestService, LabRequestService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
-            builder.Services.AddScoped<IAdminService, AdminService>();
-            builder.Services.AddScoped<IPatientService, PatientService>();
-            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
+
+            // ?? AI Service ????????????????????????????????????????
             builder.Services.AddHttpClient<IAIService, AIService>();
             builder.Services.AddScoped<IAIService, AIService>();
 
+            // ?? AutoMapper ????????????????????????????????????????
+            builder.Services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 
-
-            builder.Services.AddDbContext<MedicalTriageDbContext>(options =>
-             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-           
-
+            // ?????????????????????????????????????????????????????
             var app = builder.Build();
+            // ?????????????????????????????????????????????????????
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
             }
 
-            
+            // ?? Middleware ????????????????????????????????????????
             app.UseMiddleware<ErrorHandlingMiddleware>();
-
+            app.UseCors("AllowAngular");        // ? ??? Authentication
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
-
             app.Run();
         }
     }

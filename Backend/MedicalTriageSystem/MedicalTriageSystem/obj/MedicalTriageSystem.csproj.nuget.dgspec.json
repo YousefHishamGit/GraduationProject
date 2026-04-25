@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj": {}
+    "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj": {}
   },
   "projects": {
-    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+    "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "projectUniqueName": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
         "projectName": "BusinessLogicLayer",
-        "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
-        "packagesPath": "C:\\Users\\Tito\\.nuget\\packages\\",
-        "outputPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\obj\\",
+        "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "packagesPath": "C:\\Users\\JOE\\.nuget\\packages\\",
+        "outputPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Tito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\JOE\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj"
+              "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj"
               }
             }
           }
@@ -79,24 +79,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.310/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
-        "packagesPath": "C:\\Users\\Tito\\.nuget\\packages\\",
-        "outputPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
+        "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\JOE\\.nuget\\packages\\",
+        "outputPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Tito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\JOE\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -154,24 +154,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.310/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj": {
+    "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj",
+        "projectUniqueName": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj",
         "projectName": "MedicalTriageSystem",
-        "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj",
-        "packagesPath": "C:\\Users\\Tito\\.nuget\\packages\\",
-        "outputPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\obj\\",
+        "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\MedicalTriageSystem.csproj",
+        "packagesPath": "C:\\Users\\JOE\\.nuget\\packages\\",
+        "outputPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Tito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\JOE\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -186,8 +186,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
-                "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+              "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+                "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
               }
             }
           }
@@ -246,7 +246,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.310/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

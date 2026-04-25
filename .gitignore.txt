@@ -1,12 +1,13 @@
-# Python
-venv/
-__pycache__/
-*.pyc
-
-# AI models
-*.pkl
-
-# .NET
-bin/
-obj/
+# Visual Studio
+**/.vs/
 .vs/
+
+# Build results
+**/bin/
+**/obj/
+
+# Python
+**/__pycache__/
+**/*.pyc
+venv/
+*.pkl
