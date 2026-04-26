@@ -69,6 +69,20 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<PrescriptionResponseDto>(updated);
         }
 
+        public async Task<IEnumerable<PrescriptionResponseDto>> GetByPatientIdAsync(int patientId)
+        {
+            var records = await _unitOfWork.MedicalRecords.GetByPatientIdAsync(patientId);
+            var prescriptions = new List<Prescription>();
+
+            foreach (var record in records)
+            {
+                var recordPrescriptions = await _unitOfWork.Prescriptions
+                    .GetByMedicalRecordIdAsync(record.Id);
+                prescriptions.AddRange(recordPrescriptions);
+            }
+
+            return _mapper.Map<IEnumerable<PrescriptionResponseDto>>(prescriptions);
+        }
         public async Task<bool> DeleteAsync(int id)
         {
             var entity = await _unitOfWork.Prescriptions.GetByIdAsync(id);

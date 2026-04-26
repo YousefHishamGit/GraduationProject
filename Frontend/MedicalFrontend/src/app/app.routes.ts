@@ -13,21 +13,54 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
 import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
 import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
+import { authGuard } from './guard/auth.guard';
+import { roleGuard } from './guard/role.guard';
 
 export const routes: Routes = [
+  // ── Public Routes ─────────────────────────────────────
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'departments', component: DepartmentsComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'doctors', component: DoctorsComponent },
-  { path: 'doctor-dashboard', component: DoctorDashboardComponent },
-  { path: 'appointment', component: AppointmentComponent },
-  { path: 'appointment-success', component: AppointmentSuccessComponent },
-  { path: 'chatbot', component: ChatbotComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'registration-confirmation', component: RegistrationConfirmationComponent },
-  { path: 'patient-dashboard', component: PatientDashboardComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent },
+
+  // ── Protected Routes ──────────────────────────────────
+  {
+    path: 'appointment',
+    component: AppointmentComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'appointment-success',
+    component: AppointmentSuccessComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'chatbot',
+    component: ChatbotComponent,
+    canActivate: [authGuard]
+  },
+
+  // ── Role-based Routes ─────────────────────────────────
+  {
+    path: 'patient-dashboard',
+    component: PatientDashboardComponent,
+    canActivate: [authGuard, roleGuard(['Patient'])]
+  },
+  {
+    path: 'doctor-dashboard',
+    component: DoctorDashboardComponent,
+    canActivate: [authGuard, roleGuard(['Doctor'])]
+  },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [authGuard, roleGuard(['Admin'])]
+  },
+
+  // ── Fallback ──────────────────────────────────────────
   { path: '**', redirectTo: '' }
 ];

@@ -20,6 +20,13 @@ namespace DataAccessLayer.Repositories.Implementation
                 .Include(p => p.Person)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+        public async Task<Patient?> GetByUserIdAsync(string userId)
+        {
+            return await _dbContext.Patients
+                .Include(p => p.Person)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.UserId == userId);
+        }
 
         public async Task<IEnumerable<Patient>> GetAllWithPersonAsync()
         {

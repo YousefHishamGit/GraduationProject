@@ -6,5 +6,6 @@ namespace DataAccessLayer.Repositories.Interfaces
     {
         Task<Patient?> GetPatientWithPersonAsync(int id);
         Task<IEnumerable<Patient>> GetAllWithPersonAsync();
+        Task<Patient?> GetByUserIdAsync(string userId);
     }
 }

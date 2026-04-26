@@ -1,122 +1,311 @@
-<div class="dashboard-container">
-  <div class="content">
-    <div class="container mt-4">
-      <div class="card shadow-lg p-4 rounded">
-        <div class="row mb-3">
-          <div class="col-sm-7 col-6">
-            <h4 class="page-title">My Profile</h4>
-          </div>
-          <div class="col-sm-5 col-6 text-right">
-            <a routerLink="/" class="btn btn-primary btn-rounded">
-              <i class="fas fa-arrow-left"></i> Back
-            </a>
-          </div>
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-hospital-alt"></i>
+            <span>ClinicCare</span>
         </div>
 
-        <div class="card-box profile-header mb-4">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="profile-view d-flex align-items-center">
-                <div class="profile-img-wrap mr-3">
-                  <img class="avatar" [src]="patient()?.image" [alt]="patient()?.fullName">
-                </div>
-                <div class="profile-basic flex-fill">
-                  <h3 class="user-name">{{ patient()?.fullName }}</h3>
-                  <div class="staff-id">Patient ID : PA-{{ patient()?.id }}</div>
-                </div>
-                <div class="ml-auto">
-                  <ul class="personal-info list-unstyled">
-                    <li><b>Phone:</b> <a [href]="'tel:' + patient()?.phone">{{ patient()?.phone }}</a></li>
-                    <li><b>Email:</b> <a [href]="'mailto:' + patient()?.email">{{ patient()?.email }}</a></li>
-                    <li><b>Birthday:</b> {{ patient()?.birthDate | date }}</li>
-                    <li><b>Address:</b> {{ patient()?.address }}</li>
-                  </ul>
-                </div>
-              </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img [src]="patient()?.image || '/assets/img/person/person-m-3.webp'" alt="avatar">
             </div>
-          </div>
+            <div class="user-info">
+                <h4>{{ userName() }}</h4>
+                <span class="role-badge">Patient</span>
+            </div>
         </div>
 
-        <div class="profile-tabs">
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a class="nav-link" [class.active]="activeTab() === 'about'" (click)="setTab('about'); $event.preventDefault()" href="javascript:void(0)">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments'); $event.preventDefault()" href="javascript:void(0)">Appointments</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [class.active]="activeTab() === 'medical'" (click)="setTab('medical'); $event.preventDefault()" href="javascript:void(0)">Medical History</a>
-            </li>
-          </ul>
+        <nav class="sidebar-nav">
+            <a href="javascript:void(0)" class="nav-item" [class.active]="activeTab() === 'about'" (click)="setTab('about')">
+                <i class="fas fa-user"></i> My Profile
+            </a>
+            <a href="javascript:void(0)" class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
+                <i class="fas fa-calendar-check"></i> Appointments @if (appointments().length > 0) {
+                <span class="nav-badge">{{ appointments().length }}</span> }
+            </a>
+            <a href="javascript:void(0)" class="nav-item" [class.active]="activeTab() === 'medical'" (click)="setTab('medical')">
+                <i class="fas fa-file-medical"></i> Medical History
+            </a>
+            <a href="javascript:void(0)" class="nav-item" [class.active]="activeTab() === 'prescriptions'" (click)="setTab('prescriptions')">
+                <i class="fas fa-prescription-bottle"></i> Prescriptions @if (prescriptions().length > 0) {
+                <span class="nav-badge">{{ prescriptions().length }}</span> }
+            </a>
+            <a href="javascript:void(0)" class="nav-item" [class.active]="activeTab() === 'lab'" (click)="setTab('lab')">
+                <i class="fas fa-flask"></i> Lab Tests @if (labRequests().length > 0) {
+                <span class="nav-badge">{{ labRequests().length }}</span> }
+            </a>
+            <a routerLink="/appointment" class="nav-item">
+                <i class="fas fa-plus-circle"></i> Book Appointment
+            </a>
+            <a routerLink="/chatbot" class="nav-item">
+                <i class="fas fa-robot"></i> AI Diagnosis
+            </a>
+        </nav>
 
-          <div class="tab-content mt-3">
-            @if (activeTab() === 'about') {
-              <div class="tab-pane active">
-                <div class="card-box">
-                  <h3 class="card-title">Patient Information</h3>
-                  <ul class="list-unstyled">
-                    <li><b>Blood Type:</b> {{ patient()?.bloodType }}</li>
-                    <li><b>Allergies:</b> {{ patient()?.allergies }}</li>
-                    <li><b>Emergency Contact:</b> {{ patient()?.emergencyContactPhone }}</li>
-                  </ul>
+        <div class="sidebar-footer">
+            <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <h2>Patient Dashboard</h2>
+                <p>Welcome back, {{ userName() }}!</p>
+            </div>
+            <div class="top-bar-right">
+                <a routerLink="/appointment" class="btn-book">
+                    <i class="fas fa-calendar-plus"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        @if (isLoading()) {
+        <div class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading your data...</p>
+        </div>
+        }
+
+        <!-- Profile Tab -->
+        @if (!isLoading() && activeTab() === 'about') {
+        <div class="content-section">
+
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-cover"></div>
+                <div class="profile-body">
+                    <div class="profile-avatar">
+                        <img [src]="patient()?.image" alt="avatar">
+                    </div>
+                    <div class="profile-details">
+                        <h2>{{ patient()?.fullName }}</h2>
+                        <p class="profile-id">Patient ID: PA-{{ patient()?.id }}</p>
+                    </div>
                 </div>
-              </div>
-            }
+            </div>
 
-            @if (activeTab() === 'appointments') {
-              <div class="tab-pane active">
-                <div class="card-box">
-                  <h3 class="card-title">My Appointments</h3>
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
+            <!-- Info Cards -->
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-address-card"></i> Personal Info</h3>
+                    <ul>
+                        <li>
+                            <span class="info-label">Email</span>
+                            <span class="info-value">{{ patient()?.email }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Phone</span>
+                            <span class="info-value">{{ patient()?.phone }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Gender</span>
+                            <span class="info-value">{{ patient()?.gender }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Birthday</span>
+                            <span class="info-value">{{ patient()?.birthDate | date }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Address</span>
+                            <span class="info-value">{{ patient()?.address }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-heartbeat"></i> Medical Info</h3>
+                    <ul>
+                        <li>
+                            <span class="info-label">Blood Type</span>
+                            <span class="info-value blood-type">{{ patient()?.bloodType }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Allergies</span>
+                            <span class="info-value">{{ patient()?.allergies }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-phone-alt"></i> Emergency Contact</h3>
+                    <ul>
+                        <li>
+                            <span class="info-label">Name</span>
+                            <span class="info-value">{{ patient()?.emergencyContactName }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Phone</span>
+                            <span class="info-value">{{ patient()?.emergencyContactPhone }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- Appointments Tab -->
+        @if (!isLoading() && activeTab() === 'appointments') {
+        <div class="content-section">
+            <div class="section-header">
+                <h3>My Appointments</h3>
+                <a routerLink="/appointment" class="btn-primary-sm">
+                    <i class="fas fa-plus"></i> New Appointment
+                </a>
+            </div>
+
+            <div class="appointments-table">
+                <table>
+                    <thead>
                         <tr>
-                          <th>Doctor</th>
-                          <th>Date</th>
-                          <th>Status</th>
-                          <th>Actions</th>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                        @for (apt of appointments(); track apt.id) {
-                          <tr>
+                    </thead>
+                    <tbody>
+                        @for (apt of appointments(); track apt.id; let i = $index) {
+                        <tr>
+                            <td>{{ i + 1 }}</td>
                             <td>{{ apt.doctorName }}</td>
-                            <td>{{ apt.appointmentDate | date:'dd/MM/yyyy' }}</td>
+                            <td>{{ apt.appointmentDate | date:'dd MMM yyyy' }}</td>
+                            <td>{{ apt.type }}</td>
                             <td>
-                              <span class="badge" [class.bg-success]="apt.status === 'Confirmed'"
-                                    [class.bg-warning]="apt.status === 'Pending'"
-                                    [class.bg-danger]="apt.status === 'Cancelled'">
-                                {{ apt.status }}
-                              </span>
+                                <span class="badge" [class]="getStatusClass(apt.status)">
+                      {{ apt.status }}
+                    </span>
                             </td>
-                            <td>
-                              <button type="button" class="btn btn-sm btn-primary">View</button>
-                            </td>
-                          </tr>
+                        </tr>
                         } @empty {
-                          <tr>
-                            <td colspan="4" class="text-center">No appointments found.</td>
-                          </tr>
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                <i class="fas fa-calendar-times"></i>
+                                <p>No appointments found</p>
+                                <a routerLink="/appointment">Book your first appointment</a>
+                            </td>
+                        </tr>
                         }
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (activeTab() === 'medical') {
-              <div class="tab-pane active">
-                <div class="card-box">
-                  <h3 class="card-title">Medical History</h3>
-                  <p>{{ patient()?.medicalHistory || 'No medical history recorded.' }}</p>
-                </div>
-              </div>
-            }
-          </div>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+        }
+
+        <!-- Medical History Tab -->
+        @if (!isLoading() && activeTab() === 'medical') {
+        <div class="content-section">
+            <div class="section-header">
+                <h3>Medical Records</h3>
+            </div>
+            <div class="medical-card">
+                <i class="fas fa-file-medical-alt"></i>
+                <p><strong>Summary:</strong> {{ patient()?.medicalHistory }}</p>
+            </div>
+
+            @if (medicalRecords().length > 0) {
+            <div class="records-list">
+                <h4>Previous Records</h4>
+                @for (record of medicalRecords(); track record.id) {
+                <div class="record-item">
+                    <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
+                    <p><strong>Treatment:</strong> {{ record.treatment }}</p>
+                    <p><strong>Date:</strong> {{ record.recordDate | date: 'dd MMM yyyy' }}</p>
+                </div>
+                }
+            </div>
+            } @else {
+            <p class="empty-state">No medical records found</p>
+            }
+        </div>
+        }
+
+        <!-- Prescriptions Tab -->
+        @if (!isLoading() && activeTab() === 'prescriptions') {
+        <div class="content-section">
+            <div class="section-header">
+                <h3>Prescriptions</h3>
+            </div>
+
+            @if (prescriptions().length > 0) {
+            <div class="prescriptions-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Medication</th>
+                            <th>Dosage</th>
+                            <th>Frequency</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (prescription of prescriptions(); track prescription.id) {
+                        <tr>
+                            <td>{{ prescription.medicationName }}</td>
+                            <td>{{ prescription.dosage }}</td>
+                            <td>{{ prescription.frequency }}</td>
+                            <td>{{ prescription.startDate | date: 'dd MMM yyyy' }}</td>
+                            <td>{{ prescription.endDate ? (prescription.endDate | date: 'dd MMM yyyy') : 'Ongoing' }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            } @else {
+            <p class="empty-state">No prescriptions found</p>
+            }
+        </div>
+        }
+
+        <!-- Lab Tests Tab -->
+        @if (!isLoading() && activeTab() === 'lab') {
+        <div class="content-section">
+            <div class="section-header">
+                <h3>Lab Tests</h3>
+            </div>
+
+            @if (labRequests().length > 0) {
+            <div class="lab-tests-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Request Date</th>
+                            <th>Status</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (lab of labRequests(); track lab.id) {
+                        <tr>
+                            <td>{{ lab.testName }}</td>
+                            <td>{{ lab.requestDate | date: 'dd MMM yyyy' }}</td>
+                            <td>
+                                <span class="badge" [class]="getStatusClass(lab.status)">
+                                    {{ lab.status }}
+                                </span>
+                            </td>
+                            <td>{{ lab.result ? lab.result : '—' }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            } @else {
+            <p class="empty-state">No lab tests found</p>
+            }
+        </div>
+        }
+
+    </main>
 </div>

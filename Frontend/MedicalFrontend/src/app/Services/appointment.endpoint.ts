@@ -51,7 +51,7 @@ export class AppointmentEndpoint extends BaseEndpoint {  // ← ناقص ده
     return this.http.get<AppointmentResponseDto[]>(`${this.baseUrl}/doctor/${doctorId}`);
   }
 
-  getByPatient(patientId: number): Observable<AppointmentResponseDto[]> {
+  getByPatient(patientId: number | string): Observable<AppointmentResponseDto[]> {
     return this.http.get<AppointmentResponseDto[]>(`${this.baseUrl}/patient/${patientId}`);
   }
 }

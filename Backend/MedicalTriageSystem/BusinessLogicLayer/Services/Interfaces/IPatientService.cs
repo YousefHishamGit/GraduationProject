@@ -10,7 +10,9 @@ namespace BusinessLogicLayer.Services.Interfaces
     {
         Task<IEnumerable<PatientResponseDto>> GetAllPatientsAsync();
         Task<PatientResponseDto?> GetPatientByIdAsync(int id);
+        Task<PatientResponseDto?> GetPatientByUserIdAsync(string userId);
         Task<PatientResponseDto> UpdatePatientAsync(int id, UpdatePatientDto dto);
+        Task<PatientResponseDto?> GetByUserIdAsync(string userId);
 
         Task<IEnumerable<AppointmentResponseDto>> GetPatientAppointmentsAsync(int patientId);
         Task<IEnumerable<MedicalRecordResponseDto>> GetPatientMedicalRecordsAsync(int patientId);

@@ -18,12 +18,10 @@ export class PatientEndpoint extends BaseEndpoint {
     return this.http.get<PatientResponseDto[]>(this.baseUrl);
   }
 
-  // GET /api/patients/{id}
-  getById(id: number): Observable<PatientResponseDto> {
-    return this.http.get<PatientResponseDto>(`${this.baseUrl}/${id}`);
+  // GET /api/patients/by-user/{userId}
+  getByUserId(userId: string): Observable<PatientResponseDto> {
+    return this.http.get<PatientResponseDto>(`${this.baseUrl}/by-user/${userId}`);
   }
-
-  // PUT /api/patients/{id}
   update(id: number, dto: UpdatePatientDto): Observable<PatientResponseDto> {
     return this.http.put<PatientResponseDto>(`${this.baseUrl}/${id}`, dto);
   }

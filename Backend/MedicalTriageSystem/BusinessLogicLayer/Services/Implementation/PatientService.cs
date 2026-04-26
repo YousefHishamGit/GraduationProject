@@ -37,6 +37,22 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<PatientResponseDto>(patient);
         }
 
+        public async Task<PatientResponseDto?> GetPatientByUserIdAsync(string userId)
+        {
+            // البحث عن Patient باستخدام UserId من AspNetUsers
+            var patients = await _unitOfWork.Patients.GetAllWithPersonAsync();
+            var patientByUserId = patients.FirstOrDefault(p => p.UserId == userId);
+
+            if (patientByUserId == null) return null;
+            return _mapper.Map<PatientResponseDto>(patientByUserId);
+        }
+        public async Task<PatientResponseDto?> GetByUserIdAsync(string userId)
+        {
+            var patient = await _unitOfWork.Patients.GetByUserIdAsync(userId);
+            if (patient == null) return null;
+            return _mapper.Map<PatientResponseDto>(patient);
+        }
+
         public async Task<PatientResponseDto> UpdatePatientAsync(int id, UpdatePatientDto dto)
         {
             var patient = await _unitOfWork.Patients.GetByIdAsync(id);

@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DTOs.Patient;
 using BusinessLogicLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace YourApiNamespace.Controllers
 {
@@ -30,6 +32,8 @@ namespace YourApiNamespace.Controllers
 				return NotFound();
 			return Ok(patient);
 		}
+
+		
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdatePatient(int id, [FromBody] UpdatePatientDto dto)
@@ -61,8 +65,18 @@ namespace YourApiNamespace.Controllers
 			var records = await _patientService.GetPatientMedicalRecordsAsync(id);
 			return Ok(records);
 		}
+        [HttpGet("by-user/{userId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(PatientResponseDto), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetByUserId(string userId)
+        {
+            var patient = await _patientService.GetByUserIdAsync(userId);
+            if (patient == null) return NotFound();
+            return Ok(patient);
+        }
 
-		[HttpGet("{id}/prescriptions")]
+        [HttpGet("{id}/prescriptions")]
 		public async Task<IActionResult> GetPatientPrescriptions(int id)
 		{
 			var prescriptions = await _patientService.GetPatientPrescriptionsAsync(id);

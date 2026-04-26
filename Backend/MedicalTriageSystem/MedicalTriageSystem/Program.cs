@@ -1,4 +1,4 @@
-using BusinessLogicLayer;
+﻿using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Implementation;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data;
@@ -20,10 +20,10 @@ namespace MedicalTriageSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // ?? Controllers ???????????????????????????????????????
+            // ── Controllers ───────────────────────────────────────
             builder.Services.AddControllers();
 
-            // ?? Swagger ???????????????????????????????????????????
+            // ── Swagger ───────────────────────────────────────────
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
@@ -46,7 +46,7 @@ namespace MedicalTriageSystem
                 });
             });
 
-            // ?? CORS ??????????????????????????????????????????????
+            // ── CORS ──────────────────────────────────────────────
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngular", policy =>
@@ -57,11 +57,23 @@ namespace MedicalTriageSystem
                 });
             });
 
-            // ?? JWT Authentication ????????????????????????????????
+            // ── Identity ← لازم قبل AddAuthentication ────────────
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddEntityFrameworkStores<MedicalTriageDbContext>()
+            .AddDefaultTokenProviders();
+
+            // ── JWT ← لازم بعد AddIdentity عشان يـ override الـ Default ──
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
@@ -78,19 +90,29 @@ namespace MedicalTriageSystem
                 };
             });
 
-            // ?? Identity ??????????????????????????????????????????
-            builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<MedicalTriageDbContext>()
-                .AddDefaultTokenProviders();
+            // ── يوقف Cookie Redirect ──────────────────────────────
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.StatusCode = 403;
+                    return Task.CompletedTask;
+                };
+            });
 
-            // ?? Database ??????????????????????????????????????????
+            // ── Database ──────────────────────────────────────────
             builder.Services.AddDbContext<MedicalTriageDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // ?? Repositories & UnitOfWork ?????????????????????????
+            // ── Repositories & UnitOfWork ─────────────────────────
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // ?? Services ??????????????????????????????????????????
+            // ── Services ──────────────────────────────────────────
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<IPatientService, PatientService>();
@@ -104,16 +126,16 @@ namespace MedicalTriageSystem
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
 
-            // ?? AI Service ????????????????????????????????????????
+            // ── AI Service ────────────────────────────────────────
             builder.Services.AddHttpClient<IAIService, AIService>();
             builder.Services.AddScoped<IAIService, AIService>();
 
-            // ?? AutoMapper ????????????????????????????????????????
+            // ── AutoMapper ────────────────────────────────────────
             builder.Services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 
-            // ?????????????????????????????????????????????????????
+            // ─────────────────────────────────────────────────────
             var app = builder.Build();
-            // ?????????????????????????????????????????????????????
+            // ─────────────────────────────────────────────────────
 
             if (app.Environment.IsDevelopment())
             {
@@ -121,9 +143,9 @@ namespace MedicalTriageSystem
                 app.UseSwaggerUI();
             }
 
-            // ?? Middleware ????????????????????????????????????????
+            // ── Middleware ────────────────────────────────────────
             app.UseMiddleware<ErrorHandlingMiddleware>();
-            app.UseCors("AllowAngular");        // ? ??? Authentication
+            app.UseCors("AllowAngular");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

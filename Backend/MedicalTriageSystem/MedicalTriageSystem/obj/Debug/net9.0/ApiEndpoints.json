@@ -1767,6 +1767,41 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "YourApiNamespace.Controllers.PatientsController",
+    "Method": "GetByUserId",
+    "RelativePath": "api/Patients/by-user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BusinessLogicLayer.DTOs.Patient.PatientResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
     "ContainingType": "MedicalTriageSystem.Controllers.PaymentsController",
     "Method": "Create",
     "RelativePath": "api/payments",
@@ -2198,6 +2233,32 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BusinessLogicLayer.DTOs.Prescription.PrescriptionResponseDto, BusinessLogicLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MedicalTriageSystem.Controllers.PrescriptionsController",
+    "Method": "GetByPatient",
+    "RelativePath": "api/prescriptions/patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
         "Type": "System.Int32",
         "IsRequired": true
       }

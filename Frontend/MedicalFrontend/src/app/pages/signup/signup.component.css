@@ -1,130 +1,260 @@
 .signup-page {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f0f4f8;
     padding: 20px;
 }
 
-.registration-form {
-    background: white;
-    color: var(--dark);
-    padding: 2.5rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
+.signup-wrapper {
+    display: flex;
     width: 100%;
+    max-width: 1000px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    min-height: 600px;
+}
+
+
+/* ── Left Panel ── */
+
+.signup-left {
+    width: 38%;
+    background: linear-gradient(135deg, #1a6fc4, #0d47a1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+.brand i {
+    font-size: 1.5rem;
+}
+
+.left-content h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.left-content p {
+    opacity: 0.85;
+    margin-bottom: 35px;
+    line-height: 1.6;
+}
+
+.perks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.perks li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+}
+
+.perks li i {
+    color: #64b5f6;
+}
+
+
+/* ── Right Panel ── */
+
+.signup-right {
+    width: 62%;
+    padding: 40px;
 }
 
 .form-header {
-    text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
 }
 
 .form-header h2 {
-    font-weight: bold;
-    color: var(--dark);
     font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 5px;
 }
 
 .form-header p {
-    font-size: 0.95rem;
-    color: var(--text-light);
+    color: #666;
+    font-size: 0.9rem;
+}
+
+
+/* ── Form ── */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    transition: all 0.3s;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-}
-
-.text-danger {
-    color: var(--danger);
-    font-size: 0.875rem;
-    margin-top: 5px;
-    display: block;
-}
-
-.form-check {
+.input-wrap {
+    position: relative;
     display: flex;
     align-items: center;
+}
+
+.input-wrap i {
+    position: absolute;
+    left: 12px;
+    color: #1a6fc4;
+    font-size: 0.85rem;
+}
+
+.input-wrap input,
+.input-wrap select {
+    width: 100%;
+    padding: 10px 12px 10px 36px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #333;
+    transition: border-color 0.2s;
+    background: #fafafa;
+    outline: none;
+}
+
+.input-wrap input:focus,
+.input-wrap select:focus {
+    border-color: #1a6fc4;
+    background: white;
+}
+
+
+/* ── Error ── */
+
+.alert-error {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* ── Terms ── */
+
+.terms-check {
+    display: flex;
+    align-items: flex-start;
     gap: 10px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #555;
 }
 
-.form-check input {
-    width: auto;
+.terms-check input {
+    margin-top: 3px;
+    accent-color: #1a6fc4;
 }
 
-.form-check label {
-    margin: 0;
+.terms-check a {
+    color: #1a6fc4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+/* ── Submit Button ── */
+
+.btn-submit {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #1a6fc4, #0d47a1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 111, 196, 0.4);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* ── Sign In Link ── */
+
+.signin-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
     font-size: 0.9rem;
 }
 
-.text-primary {
-    color: var(--primary);
+.signin-link a {
+    color: #1a6fc4;
+    font-weight: 700;
     text-decoration: none;
 }
 
-.btn-custom {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
 
-.btn-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
-}
+/* ── Responsive ── */
 
-.text-muted {
-    font-size: 0.95rem;
-    text-align: center;
-    margin-top: 1.5rem;
-    color: var(--text-light);
-}
-
-.text-muted a {
-    color: var(--primary);
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.w-100 {
-    width: 100%;
-}
-
-@media (max-width: 576px) {
-    .registration-form {
-        padding: 2rem 1.5rem;
+@media (max-width: 768px) {
+    .signup-wrapper {
+        flex-direction: column;
+    }
+    .signup-left {
+        width: 100%;
+        padding: 30px;
+    }
+    .signup-right {
+        width: 100%;
+        padding: 30px;
+        max-height: none;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
     }
 }

@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,48 +15,55 @@ export class LoginComponent {
   private endpoint = inject(EndPoints);
   private router = inject(Router);
 
-  email = signal<string>('');
-  password = signal<string>('');
-  remember = signal<boolean>(false);
-  showPassword = signal<boolean>(false);
-  errorMessage = signal<string>('');
+  email = '';
+  password = '';
+  remember = false;
+  showPassword = false;
+  errorMessage = '';
+  isLoading = false;
 
   constructor() {
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
-      this.router.navigate(['/']);
+      this.redirectBasedOnRole(JSON.parse(currentUser).role);
     }
   }
 
   togglePassword() {
-    this.showPassword.update(v => !v);
+    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
-    const emailVal = this.email();
-    const passwordVal = this.password();
-    
-    if (!emailVal || !passwordVal) {
-      this.errorMessage.set('Please fill in all fields');
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Please fill in all fields';
       return;
     }
 
-    this.errorMessage.set('');
+    this.errorMessage = '';
+    this.isLoading = true;
 
-    this.endpoint.auth.login({ email: emailVal, password: passwordVal }).subscribe({
+    this.endpoint.auth.login({
+      email: this.email,
+      password: this.password
+    }).subscribe({
       next: (response) => {
-        console.log('Login successful', response);
-        localStorage.setItem('currentUser', JSON.stringify(response));
         localStorage.setItem('token', response.token);
-
-        const returnUrl = localStorage.getItem('returnUrl') || '/';
-        localStorage.removeItem('returnUrl');
-        this.router.navigate([returnUrl]);
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        this.redirectBasedOnRole(response.role);
       },
       error: (err) => {
-        console.error('Login failed', err);
-        this.errorMessage.set(err.error?.message || 'Invalid email or password. Please try again.');
+        this.errorMessage = err.error?.message || 'Invalid email or password.';
+        this.isLoading = false;
       }
     });
+  }
+
+  private redirectBasedOnRole(role: string) {
+    switch (role) {
+      case 'Admin': this.router.navigate(['/admin-dashboard']); break;
+      case 'Doctor': this.router.navigate(['/doctor-dashboard']); break;
+      case 'Patient': this.router.navigate(['/patient-dashboard']); break;
+      default: this.router.navigate(['/']);
+    }
   }
 }

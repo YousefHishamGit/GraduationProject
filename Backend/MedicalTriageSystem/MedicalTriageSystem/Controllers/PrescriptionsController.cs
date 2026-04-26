@@ -76,6 +76,14 @@ namespace MedicalTriageSystem.Controllers
             var prescriptions = await _prescriptionService.GetByMedicalRecordIdAsync(id);
             return Ok(prescriptions);
         }
+        [HttpGet("patient/{patientId}")]
+        [Authorize]
+        [ProducesResponseType(typeof(IEnumerable<PrescriptionResponseDto>), 200)]
+        public async Task<IActionResult> GetByPatient(int patientId)
+        {
+            var prescriptions = await _prescriptionService.GetByPatientIdAsync(patientId);
+            return Ok(prescriptions);
+        }
     }
 }
 
