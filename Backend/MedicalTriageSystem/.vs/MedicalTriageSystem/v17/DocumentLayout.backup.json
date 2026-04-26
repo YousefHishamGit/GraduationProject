@@ -469,6 +469,14 @@
           "SelectedChildIndex": 6,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "IPrescriptionService.cs",
@@ -478,8 +486,7 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IPrescriptionService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T18:36:04.38Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T18:36:04.38Z"
             },
             {
               "$type": "Document",
@@ -491,16 +498,7 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Implementation\\PatientRepository.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T18:34:42.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+              "WhenOpened": "2026-04-26T18:34:42.151Z"
             },
             {
               "$type": "Document",
@@ -512,8 +510,7 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\PrescriptionService.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAIAwwFQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:30:37.424Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:30:37.424Z"
             },
             {
               "$type": "Document",
@@ -525,8 +522,7 @@
               "RelativeToolTip": "MedicalTriageSystem\\Controllers\\PatientController.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAQwCQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T14:08:08.792Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T14:08:08.792Z"
             },
             {
               "$type": "Document",
@@ -551,8 +547,7 @@
               "RelativeToolTip": "DataAccessLayer\\Repositories\\Interfaces\\IPatientRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T18:34:33.992Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T18:34:33.992Z"
             },
             {
               "$type": "Document",
@@ -564,8 +559,7 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\PatientService.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAIA7wDUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T14:10:36.91Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T14:10:36.91Z"
             },
             {
               "$type": "Document",
@@ -577,8 +571,7 @@
               "RelativeToolTip": "MedicalTriageSystem\\Controllers\\PrescriptionsController.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAADwv1UAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T23:29:12.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T23:29:12.203Z"
             },
             {
               "$type": "Document",
@@ -590,8 +583,7 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Interfaces\\IPatientService.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T18:34:07.163Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-26T18:34:07.163Z"
             },
             {
               "$type": "Document",
