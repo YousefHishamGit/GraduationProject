@@ -30,3 +30,5 @@ D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLay
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\refint\BusinessLogicLayer.dll
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.pdb
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\ref\BusinessLogicLayer.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLayer\bin\Debug\net9.0\BusinessLogicLayer.runtimeconfig.json
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\BusinessLogicLayer\obj\Debug\net9.0\BusinessLogicLayer.genruntimeconfig.cache

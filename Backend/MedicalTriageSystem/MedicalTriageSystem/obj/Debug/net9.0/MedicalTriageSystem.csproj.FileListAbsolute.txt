@@ -357,3 +357,4 @@ D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSys
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.pdb
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.genruntimeconfig.cache
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\ref\MedicalTriageSystem.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
