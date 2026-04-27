@@ -13,25 +13,21 @@
     </div>
 
     <div class="sidebar-menu">
-      <a href="javascript:void(0)" class="menu-item" [class.active]="activeMenu === 'dashboard'" (click)="setActiveMenu('dashboard')">
+      <a (click)="setActiveTab('dashboard')" [class.active]="activeTab === 'dashboard'" class="menu-item">
         <i class="fas fa-dashboard"></i>
         <span>Dashboard</span>
       </a>
-      <a href="javascript:void(0)" class="menu-item" [class.active]="activeMenu === 'appointments'" (click)="setActiveMenu('appointments')">
+      <a (click)="setActiveTab('bookings')" [class.active]="activeTab === 'bookings'" class="menu-item">
         <i class="fas fa-calendar-check"></i>
-        <span>Appointments</span>
+        <span>Bookings</span>
       </a>
-      <a href="javascript:void(0)" class="menu-item" [class.active]="activeMenu === 'patients'" (click)="setActiveMenu('patients')">
+      <a (click)="setActiveTab('patients')" [class.active]="activeTab === 'patients'" class="menu-item">
         <i class="fas fa-users"></i>
         <span>Patients</span>
       </a>
-      <a href="javascript:void(0)" class="menu-item" [class.active]="activeMenu === 'slots'" (click)="setActiveMenu('slots')">
-        <i class="fas fa-clock"></i>
-        <span>Available Slots</span>
-      </a>
-      <a href="javascript:void(0)" class="menu-item" [class.active]="activeMenu === 'profile'" (click)="setActiveMenu('profile')">
-        <i class="fas fa-user-circle"></i>
-        <span>My Profile</span>
+      <a (click)="setActiveTab('appointments')" [class.active]="activeTab === 'appointments'" class="menu-item">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Appointments</span>
       </a>
       <a routerLink="/" class="menu-item">
         <i class="fas fa-sign-out-alt"></i>
@@ -45,13 +41,13 @@
     <div class="top-bar">
       <div class="search-bar">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search patients or appointments..." [(ngModel)]="searchQuery" (input)="filterPatients()">
+        <input type="text" placeholder="Search patients or appointments...">
       </div>
 
       <div class="user-menu">
         <div class="notification-icon">
           <i class="fas fa-bell"></i>
-          <span class="notification-badge">5</span>
+          <span class="notification-badge">{{ getTotalAppointments() }}</span>
         </div>
         <div class="user-profile">
           <span>Today: {{ currentDate }}</span>
@@ -60,369 +56,285 @@
     </div>
 
     <div class="content-area">
-      <!-- Dashboard Overview -->
-      <div *ngIf="activeMenu === 'dashboard'" class="view-content">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon bg-soft-primary"><i class="fas fa-users"></i></div>
-            <div class="stat-details">
-              <h3>{{ stats.totalPatients }}</h3>
-              <span>Total Patients</span>
+      <div class="container mt-4">
+        <!-- Dashboard Overview -->
+        <div *ngIf="activeTab === 'dashboard'" class="dashboard-overview">
+          <h3 class="section-title mb-4">Dashboard Overview</h3>
+          
+          <!-- Statistics Cards -->
+          <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="stat-card patients-card">
+                <div class="stat-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number">{{ getTotalPatients() }}</h4>
+                  <p class="stat-label">Total Patients</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-soft-success"><i class="fas fa-calendar-day"></i></div>
-            <div class="stat-details">
-              <h3>{{ stats.todayAppointments }}</h3>
-              <span>Today's Appts</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-soft-warning"><i class="fas fa-clock"></i></div>
-            <div class="stat-details">
-              <h3>{{ stats.pendingBookings }}</h3>
-              <span>Pending Bookings</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-soft-info"><i class="fas fa-check-circle"></i></div>
-            <div class="stat-details">
-              <h3>{{ stats.availableSlots }}</h3>
-              <span>Available Slots</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="row mt-4">
-          <div class="col-md-8">
-            <div class="card-box">
-              <h3 class="card-title">Recent Appointments</h3>
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="stat-card appointments-card">
+                <div class="stat-icon">
+                  <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number">{{ getTotalAppointments() }}</h4>
+                  <p class="stat-label">Total Appointments</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="stat-card available-card">
+                <div class="stat-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number">{{ getAvailableSlots() }}</h4>
+                  <p class="stat-label">Available Slots</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+              <div class="stat-card booked-card">
+                <div class="stat-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number">{{ getBookedSlots() }}</h4>
+                  <p class="stat-label">Booked Slots</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Appointments -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-alt"></i> Upcoming Appointments
+              </h5>
+            </div>
+            <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover mb-0">
                   <thead>
                     <tr>
-                      <th>Patient</th>
-                      <th>Time</th>
+                      <th>Patient ID</th>
+                      <th>Appointment Date</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let apt of appointments.slice(0, 5)">
-                      <td>{{ apt.firstName }} {{ apt.lastName }}</td>
-                      <td>{{ apt.appointmentDate | date:'shortTime' }}</td>
-                      <td><span class="badge" [ngClass]="{'bg-success': apt.status === 'Confirmed', 'bg-warning': apt.status === 'Pending'}">{{ apt.status }}</span></td>
+                    <tr *ngFor="let appointment of getUpcomingAppointments()">
+                      <td>
+                        <span class="badge badge-primary">#{{ appointment.patientName }}</span>
+                      </td>
+                      <td>{{ appointment.appointmentDate | date: 'short' }}</td>
+                      <td>
+                        <span [ngClass]="'badge badge-' + (appointment.status === 'Confirmed' ? 'success' : 'warning')">
+                          {{ appointment.status }}
+                        </span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary">View</button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card-box">
-              <h3 class="card-title">New Patients</h3>
-              <ul class="patient-list">
-                <li *ngFor="let p of patients.slice(0, 5)" class="d-flex align-items-center mb-3">
-                  <div class="patient-avatar-sm me-3">{{ getInitials(p.name) }}</div>
-                  <div>
-                    <p class="mb-0 fw-bold">{{ p.name }}</p>
-                    <small class="text-muted">Last Visit: {{ p.lastVisit | date }}</small>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Appointments View -->
-      <div *ngIf="activeMenu === 'appointments'" class="view-content">
-        <div class="card-box">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="card-title mb-0">All Appointments</h3>
-            <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Booking</button>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Patient Name</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let apt of appointments">
-                  <td>#{{ apt.id }}</td>
-                  <td>{{ apt.firstName }} {{ apt.lastName }}</td>
-                  <td>{{ apt.appointmentDate | date:'dd/MM/yyyy' }}</td>
-                  <td>{{ apt.appointmentDate | date:'shortTime' }}</td>
-                  <td><span class="badge" [ngClass]="{'bg-success': apt.status === 'Confirmed', 'bg-warning': apt.status === 'Pending'}">{{ apt.status }}</span></td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-eye"></i></button>
-                    <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Patients View -->
-      <div *ngIf="activeMenu === 'patients'" class="view-content">
-        <div class="card-box">
-          <h3 class="card-title">My Patients</h3>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Patient ID</th>
-                  <th>Name</th>
-                  <th>Total Visits</th>
-                  <th>Last Visit</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let p of filteredPatients">
-                  <td>#{{ p.id }}</td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div class="patient-avatar-sm me-2">{{ getInitials(p.name) }}</div>
-                      <span>{{ p.name }}</span>
-                    </div>
-                  </td>
-                  <td>{{ p.appointmentsCount }}</td>
-                  <td>{{ p.lastVisit | date }}</td>
-                  <td><span class="badge bg-success">{{ p.status }}</span></td>
-                  <td><button class="btn btn-sm btn-outline-primary" (click)="loadMedicalHistory(p.id)">View Records</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Medical Records View -->
-      <div *ngIf="activeMenu === 'medical-records'" class="view-content">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card-box">
-              <h3 class="card-title">Select Patient</h3>
-              <ul class="patient-list scrollable">
-                <li *ngFor="let p of patients" 
-                    class="d-flex align-items-center mb-3 p-2 rounded selectable" 
-                    [class.active]="p.id === selectedPatientId"
-                    (click)="loadMedicalHistory(p.id)">
-                  <div class="patient-avatar-sm me-3">{{ getInitials(p.name) }}</div>
-                  <div>
-                    <p class="mb-0 fw-bold">{{ p.name }}</p>
-                    <small>ID: #{{ p.id }}</small>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-8">
-            <div class="card-box mb-4">
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="card-title mb-0">Medical Records - Patient #{{ selectedPatientId }}</h3>
-                <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Record</button>
+              <div *ngIf="getUpcomingAppointments().length === 0" class="text-center text-muted py-4">
+                <p>No upcoming appointments</p>
               </div>
-              <div class="records-timeline">
-                <div *ngIf="isLoadingRecords" class="text-center py-5">
-                  <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
-                  <p class="mt-2">Loading medical records...</p>
+            </div>
+          </div>
+
+          <!-- Doctor Profile Card -->
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-user-md"></i> Doctor Profile
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 text-center">
+                  <img [src]="doctor()?.image" [alt]="doctor()?.name || 'Doctor'" [title]="doctor()?.name || 'Doctor'" class="img-fluid rounded-circle mb-3 doctor-profile-img">
+                  <h5>{{ doctor()?.name }}</h5>
+                  <p class="text-muted">{{ doctor()?.specialization }}</p>
                 </div>
-                
-                <div *ngIf="!isLoadingRecords">
-                  <div *ngFor="let record of medicalRecords" class="timeline-item">
-                    <div class="timeline-date">{{ record.createdAt | date:'dd MMM yyyy' }}</div>
-                    <div class="timeline-content">
-                      <h4>{{ record.diagnosis }}</h4>
-                      <p>{{ record.treatmentPlan }}</p>
-                      <small class="text-muted">Notes: {{ record.notes }}</small>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-sm-6 mb-3">
+                      <strong>License Number:</strong>
+                      <p>{{ doctor()?.licenseNumber }}</p>
                     </div>
-                  </div>
-                  <div *ngIf="medicalRecords.length === 0" class="text-center py-4">
-                    <p class="text-muted">No medical records found for this patient.</p>
+                    <div class="col-sm-6 mb-3">
+                      <strong>Phone:</strong>
+                      <p>{{ doctor()?.phone }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <strong>Years of Experience:</strong>
+                      <p>{{ doctor()?.yearsOfExperience }} years</p>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <strong>Consultation Fee:</strong>
+                      <p>${{ doctor()?.consultationFee }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <strong>Hire Date:</strong>
+                      <p>{{ doctor()?.hireDate | date: 'mediumDate' }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      <strong>Status:</strong>
+                      <p>
+                        <span [ngClass]="'badge badge-' + (doctor()?.status === 'Active' ? 'success' : 'danger')">
+                          {{ doctor()?.status }}
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div class="card-box">
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="card-title mb-0">Prescriptions</h3>
-                <button class="btn btn-outline-primary btn-sm"><i class="fas fa-prescription"></i> New Prescription</button>
-              </div>
+        <!-- Bookings Tab -->
+        <div *ngIf="activeTab === 'bookings'" class="bookings-section">
+          <h3 class="section-title mb-4">Appointments Bookings</h3>
+          <div class="card shadow-sm">
+            <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-sm">
+                <table class="table table-striped table-hover mb-0">
                   <thead>
                     <tr>
-                      <th>Medication</th>
-                      <th>Dosage</th>
-                      <th>Duration</th>
-                      <th>Date</th>
+                      <th>#</th>
+                      <th>Patient ID</th>
+                      <th>Appointment Date</th>
+                      <th>Status</th>
+                      <th>Time Slot</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let pr of prescriptions">
-                      <td>{{ pr.medicationName }}</td>
-                      <td>{{ pr.dosage }}</td>
-                      <td>{{ pr.duration }} days</td>
-                      <td>{{ pr.createdAt | date }}</td>
-                    </tr>
-                    <tr *ngIf="prescriptions.length === 0">
-                      <td colspan="4" class="text-center text-muted">No prescriptions found.</td>
+                    <tr *ngFor="let appointment of appointments(); let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        <span class="badge badge-info">#{{ appointment.patientName }}</span>
+                      </td>
+                      <td>{{ appointment.appointmentDate | date: 'mediumDate' }}</td>
+                      <td>
+                        <span [ngClass]="'badge badge-' + (appointment.status === 'Confirmed' ? 'success' : appointment.status === 'Pending' ? 'warning' : 'danger')">
+                          {{ appointment.status }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary">Slot {{ appointment.timeSlotId }}</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary me-2">Confirm</button>
+                        <button class="btn btn-sm btn-danger">Cancel</button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+              <div *ngIf="appointments().length === 0" class="text-center text-muted py-4">
+                <p>No bookings found</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Available Slots View -->
-      <div *ngIf="activeMenu === 'slots'" class="view-content">
-        <div class="card-box">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="card-title mb-0">My Available Slots</h3>
-            <button class="btn btn-primary"><i class="fas fa-magic"></i> Generate Slots</button>
-          </div>
-          <div class="slots-grid">
-            <div *ngFor="let slot of availableSlots" class="slot-card" [class.booked]="slot.isBooked">
-              <div class="slot-time">{{ slot.startTime }} - {{ slot.endTime }}</div>
-              <div class="slot-date">{{ slot.date | date }}</div>
-              <span class="slot-status">{{ slot.isBooked ? 'Booked' : 'Available' }}</span>
+        <!-- Patients Tab -->
+        <div *ngIf="activeTab === 'patients'" class="patients-section">
+          <h3 class="section-title mb-4">My Patients ({{ getTotalPatients() }})</h3>
+          <div class="row">
+            <div *ngFor="let patient of patients()" class="col-md-4 col-sm-6 mb-3">
+              <div class="card patient-card shadow-sm h-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-3">
+                    <img [src]="patient.imgPath || '/assets/img/person/person-default.webp'" 
+                         [alt]="patient.fullName" 
+                         [title]="patient.fullName"
+                         class="rounded-circle me-3 patient-img">
+                    <div>
+                      <h6 class="mb-0">{{ patient.fullName }}</h6>
+                      <small class="text-muted">ID: #{{ patient.id }}</small>
+                    </div>
+                  </div>
+                  
+                  <div class="patient-info mb-2">
+                    <small>
+                      <strong>Gender:</strong> {{ patient.gender || 'N/A' }}
+                    </small>
+                  </div>
+                  <div class="patient-info mb-2">
+                    <small>
+                      <strong>Blood Type:</strong> {{ patient.bloodType || 'N/A' }}
+                    </small>
+                  </div>
+                  <div class="patient-info mb-3">
+                    <small>
+                      <strong>Phone:</strong> {{ patient.phone }}
+                    </small>
+                  </div>
+                  
+                  <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
+                </div>
+              </div>
             </div>
-            <div *ngIf="availableSlots.length === 0" class="text-center w-100 py-5">
-              <i class="fas fa-clock fa-3x text-muted mb-3"></i>
-              <p>No available slots found. Please generate new slots.</p>
+            
+            <div *ngIf="patients().length === 0" class="col-12">
+              <div class="alert alert-info text-center">
+                <p>No patients found</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Profile View (Existing Content) -->
-      <div *ngIf="activeMenu === 'profile'" class="view-content">
-        <div class="card shadow-lg p-4 rounded">
-          <div class="content">
-            <div class="row mb-3">
-              <div class="col-sm-7 col-6">
-                <h4 class="page-title">My Profile</h4>
+        <!-- Available Appointments Tab -->
+        <div *ngIf="activeTab === 'appointments'" class="available-appointments-section">
+          <h3 class="section-title mb-4">Available Time Slots</h3>
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Slot Start Time</th>
+                      <th>Slot End Time</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let slot of availableSlots(); let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ slot.slotStart | date: 'short' }}</td>
+                      <td>{{ slot.slotEnd | date: 'short' }}</td>
+                      <td>
+                        <span [ngClass]="'badge ' + (slot.isBooked ? 'badge-danger' : 'badge-success')">
+                          {{ slot.isBooked ? 'Booked' : 'Available' }}
+                        </span>
+                      </td>
+                      <td>
+                        <button *ngIf="!slot.isBooked" class="btn btn-sm btn-success">Open for Booking</button>
+                        <button *ngIf="slot.isBooked" class="btn btn-sm btn-secondary" disabled>Booked</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
-
-            <!-- Profile Info -->
-            <div class="card-box profile-header mb-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="profile-view">
-                    <div class="doctor-image-container">
-                      <img class="doctor-avatar-large" [src]="doctor()?.image" [alt]="doctor()?.name">
-                    </div>
-
-                    <div class="profile-info-section">
-                      <div class="profile-basic">
-                        <h3 class="user-name m-t-0 mb-0">{{ doctor()?.name }}</h3>
-                        <small class="text-muted">{{ doctor()?.specialization }}</small>
-                        <div class="staff-id">Employee ID : DR-{{ doctor()?.id }}</div>
-                      </div>
-
-                      <div class="personal-info-grid">
-                        <div class="info-item">
-                          <i class="fas fa-phone text-primary"></i>
-                          <div>
-                            <small class="text-muted">Phone</small>
-                            <p class="mb-0"><a [href]="'tel:' + doctor()?.phone">{{ doctor()?.phone }}</a></p>
-                          </div>
-                        </div>
-                        <div class="info-item">
-                          <i class="fas fa-envelope text-primary"></i>
-                          <div>
-                            <small class="text-muted">Email</small>
-                            <p class="mb-0"><a [href]="'mailto:' + doctor()?.email">{{ doctor()?.email }}</a></p>
-                          </div>
-                        </div>
-                        <div class="info-item">
-                          <i class="fas fa-calendar text-primary"></i>
-                          <div>
-                            <small class="text-muted">Birthday</small>
-                            <p class="mb-0">{{ doctor()?.birthDate | date }}</p>
-                          </div>
-                        </div>
-                        <div class="info-item">
-                          <i class="fas fa-map-marker-alt text-primary"></i>
-                          <div>
-                            <small class="text-muted">Address</small>
-                            <p class="mb-0">{{ doctor()?.address }}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tabs Section -->
-            <div class="profile-tabs">
-              <ul class="nav nav-tabs nav-tabs-bottom">
-                <li class="nav-item">
-                  <a class="nav-link" [class.active]="activeTab === 'about'"
-                     (click)="setActiveTab('about'); $event.preventDefault()" href="javascript:void(0)">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" [class.active]="activeTab === 'profile'"
-                     (click)="setActiveTab('profile'); $event.preventDefault()" href="javascript:void(0)">Profile</a>
-                </li>
-              </ul>
-
-              <div class="tab-content mt-3">
-                <!-- About -->
-                <div class="tab-pane" [class.show]="activeTab === 'about'" [class.active]="activeTab === 'about'">
-                  <div class="card-box">
-                    <h3 class="card-title">Doctor Information</h3>
-                    <div class="info-grid">
-                      <div class="info-row">
-                        <span class="info-label">License Number:</span>
-                        <span class="info-value">{{ doctor()?.licenseNumber }}</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">Years of Experience:</span>
-                        <span class="info-value">{{ doctor()?.yearsOfExperience }} years</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">Hire Date:</span>
-                        <span class="info-value">{{ doctor()?.hireDate | date }}</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">Status:</span>
-                        <span class="badge bg-success">{{ doctor()?.status }}</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">Consultation Fee:</span>
-                        <span class="info-value text-success fw-bold">${{ doctor()?.consultationFee }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Profile Edit -->
-                <div class="tab-pane" [class.show]="activeTab === 'profile'" [class.active]="activeTab === 'profile'">
-                  <div class="card-box">
-                    <p class="text-muted">Profile details can be edited here.</p>
-                    <button type="button" class="btn btn-primary">
-                      <i class="fas fa-edit me-2"></i>Edit Profile
-                    </button>
-                  </div>
-                </div>
+              <div *ngIf="availableSlots().length === 0" class="text-center text-muted py-4">
+                <p>No time slots available</p>
               </div>
             </div>
           </div>

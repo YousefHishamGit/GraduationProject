@@ -16,6 +16,7 @@ import {
   GenerateTimeSlotsDto
 } from '../interfaces/doctor.interface';
 import { ReviewResponseDto } from '../interfaces/review.interface';
+import { PatientResponseDto } from '../interfaces/patient.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,11 @@ export class DoctorEndpoint extends BaseEndpoint {
   // GET /api/doctors/{id}/reviews
   getReviews(id: number): Observable<ReviewResponseDto[]> {
     return this.http.get<ReviewResponseDto[]>(`${this.baseUrl}/${id}/reviews`);
+  }
+
+  // GET /api/doctors/{doctorId}/patients
+  getPatients(doctorId: number): Observable<PatientResponseDto[]> {
+    return this.http.get<PatientResponseDto[]>(`${this.baseUrl}/${doctorId}/patients`);
   }
 
   // ─── Schedule ─────────────────────────────────────────────
