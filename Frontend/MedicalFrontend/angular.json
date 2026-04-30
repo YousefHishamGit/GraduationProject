@@ -32,10 +32,13 @@
               }
             ],
             "styles": [
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
               "src/styles.css",
               "src/assets/css/main.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {

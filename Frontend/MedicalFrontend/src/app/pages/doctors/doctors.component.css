@@ -102,33 +102,6 @@
 
 /* Grid helpers */
 
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -15px;
-}
-
-.col-lg-3,
-.col-md-6 {
-    padding: 0 15px;
-    box-sizing: border-box;
-}
-
-.col-lg-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-
-.col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-
-.col-lg-8 {
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-}
-
 .gy-4>* {
     margin-bottom: 1.5rem;
 }
@@ -468,10 +441,6 @@
 /* Responsive */
 
 @media (max-width: 992px) {
-    .col-lg-3 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
 }
 
 @media (max-width: 768px) {
@@ -487,23 +456,9 @@
     .doctor-modal-image img {
         height: 200px;
     }
-    .col-md-6,
-    .col-lg-3 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    .col-lg-8 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+
 }
 
 @media (max-width: 480px) {
-    .row {
-        margin: 0;
-    }
-    .col-lg-3,
-    .col-md-6 {
-        padding: 0;
-    }
+
 }

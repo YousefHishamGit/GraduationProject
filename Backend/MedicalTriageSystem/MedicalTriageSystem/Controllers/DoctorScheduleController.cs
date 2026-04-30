@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace YourApiNamespace.Controllers
 {
     [ApiController]
     [Route("api")]
+    [Authorize]
     public class DoctorScheduleController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
@@ -16,6 +18,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpGet("doctors/{doctorId}/schedule")]
+        [Authorize(Roles = "Admin,Doctor,Patient,Receptionist")]
         public async Task<IActionResult> GetDoctorSchedules(int doctorId)
         {
             var schedules = await _doctorService.GetDoctorScheduleAsync(doctorId);
@@ -23,6 +26,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpPost("doctors/{doctorId}/schedule")]
+        [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> CreateSchedule(int doctorId, [FromBody] CreateDoctorScheduleDto dto)
         {
             if (!ModelState.IsValid)
@@ -40,6 +44,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpGet("schedule/{id}")]
+        [Authorize(Roles = "Admin,Doctor,Patient,Receptionist")]
         public async Task<IActionResult> GetScheduleById(int id)
         {
             var schedule = await _doctorService.GetScheduleByIdAsync(id); 
@@ -49,6 +54,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpPut("schedule/{id}")]
+        [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> UpdateSchedule(int id, [FromBody] UpdateDoctorScheduleDto dto)
         {
             if (!ModelState.IsValid)
@@ -68,6 +74,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpDelete("schedule/{id}")]
+        [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> DeleteSchedule(int id)
         {
             var deleted = await _doctorService.DeleteScheduleAsync(id);

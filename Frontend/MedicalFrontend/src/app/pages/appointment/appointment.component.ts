@@ -3,11 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../Services/endpoints';
+import { AuthService } from '../../Services/auth.service';
 
 interface Doctor {
   id: number;
   name: string;
   specialization: string;
+}
+
+interface TimeSlot {
+  id: number;
+  slotStart: string;
+  slotEnd: string;
+  isBooked: boolean;
 }
 
 interface Department {
@@ -27,6 +35,7 @@ export class AppointmentComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
 
   currentStep = signal<number>(1);
   selectedDepartment = signal<string>('');
@@ -50,6 +59,8 @@ export class AppointmentComponent implements OnInit {
   departments = signal<Department[]>([]);
 
   availableDoctors = signal<Doctor[]>([]);
+  availableTimeSlots = signal<TimeSlot[]>([]);
+  selectedTimeSlotId = signal<string>('');
 
   minDate = computed(() => new Date().toISOString().split('T')[0]);
 
@@ -60,10 +71,14 @@ export class AppointmentComponent implements OnInit {
       if (params['doctorId']) {
         this.formData.doctorId = params['doctorId'];
       }
+      if (params['timeSlotId']) {
+        this.selectedTimeSlotId.set(params['timeSlotId']);
+      }
       if (params['department']) {
         this.selectedDepartment.set(params['department']);
         this.onDepartmentChange(params['department']);
       }
+      this.loadTimeSlotsIfReady();
     });
   }
 
@@ -92,12 +107,46 @@ export class AppointmentComponent implements OnInit {
             name: d.fullName,
             specialization: d.specialization
           })));
+          this.loadTimeSlotsIfReady();
         },
         error: (err) => console.error('Error loading doctors', err)
       });
     } else {
       this.availableDoctors.set([]);
+      this.availableTimeSlots.set([]);
+      this.selectedTimeSlotId.set('');
     }
+  }
+
+  onDoctorChange() {
+    this.loadTimeSlotsIfReady();
+  }
+
+  onAppointmentDateChange() {
+    this.loadTimeSlotsIfReady();
+  }
+
+  private loadTimeSlotsIfReady() {
+    const doctorId = Number(this.formData.doctorId);
+    const date = this.formData.appointmentDate;
+
+    if (!doctorId || !date) {
+      this.availableTimeSlots.set([]);
+      this.selectedTimeSlotId.set('');
+      return;
+    }
+
+    this.endpoint.doctors.getAvailableTimeSlots(doctorId, date).subscribe({
+      next: (slots) => {
+        this.availableTimeSlots.set(slots.filter(s => !s.isBooked));
+        const slotExists = slots.some(s => s.id.toString() === this.selectedTimeSlotId());
+        if (!slotExists) this.selectedTimeSlotId.set('');
+      },
+      error: () => {
+        this.availableTimeSlots.set([]);
+        this.selectedTimeSlotId.set('');
+      }
+    });
   }
 
   getStepLabel(step: number): string {
@@ -130,33 +179,35 @@ export class AppointmentComponent implements OnInit {
       return !!(this.formData.firstName && this.formData.email && this.formData.phone);
     }
     if (this.currentStep() === 2) {
-      return !!(this.selectedDepartment() && this.formData.doctorId && this.formData.appointmentDate);
+      return !!(this.selectedDepartment() && this.formData.doctorId && this.formData.appointmentDate && this.selectedTimeSlotId());
     }
     return true;
   }
 
   onSubmit() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const patientId = currentUser.id || 1;
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId) {
+      alert('Please login first.');
+      return;
+    }
 
-    const dto = {
-      patientId: patientId,
-      doctorId: parseInt(this.formData.doctorId),
-      timeSlotId: 1,
-      appointmentDate: this.formData.appointmentDate,
-      type: 'Routine',
-      notes: this.formData.message
-    };
+    this.endpoint.patients.getByUserId(userId).subscribe({
+      next: (patient) => {
+        const dto = {
+          patientId: patient.id,
+          doctorId: parseInt(this.formData.doctorId),
+          timeSlotId: parseInt(this.selectedTimeSlotId()),
+          appointmentDate: this.formData.appointmentDate,
+          type: 'Routine',
+          notes: this.formData.message
+        };
 
-    this.endpoint.appointments.create(dto).subscribe({
-      next: (res) => {
-        console.log('Appointment created successfully', res);
-        this.router.navigate(['/appointment-success']);
+        this.endpoint.appointments.create(dto).subscribe({
+          next: () => this.router.navigate(['/appointment-success']),
+          error: () => alert('Failed to book appointment. Please try again.')
+        });
       },
-      error: (err) => {
-        console.error('Error creating appointment', err);
-        alert('Failed to book appointment. Please try again.');
-      }
+      error: () => alert('Could not load patient profile. Please login again.')
     });
   }
 }

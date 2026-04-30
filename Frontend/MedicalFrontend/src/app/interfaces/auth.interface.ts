@@ -39,6 +39,18 @@ export interface RegisterDoctorDto {
   bio?: string;
 }
 
+export interface RegisterAdminDto {
+  firstName: string;
+  lastName: string;
+  nationalID: string;
+  birthDate: string;
+  gender: number;
+  address?: string;
+  phone?: string;
+  email: string;
+  password: string;
+}
+
 export interface AuthResponseDto {
   token: string;
   userId: string;

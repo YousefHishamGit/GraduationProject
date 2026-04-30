@@ -2,6 +2,7 @@ export interface DoctorResponseDto {
   id: number;
   fullName: string;
   phone: string;
+  address?: string;
   gender: string;
   departmentName: string;
   licenseNumber: string;

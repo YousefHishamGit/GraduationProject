@@ -80,7 +80,7 @@
                             </div>
                             <div class="department">
                                 <i class="fas fa-building"></i>
-                                <span>{{ doctor.Specialization }} Dept.</span>
+                                <span>{{ doctor.departmentName }}</span>
                             </div>
                         </div>
                         <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}" class="btn-appointment">
@@ -122,6 +122,12 @@
                     <div class="doctor-experience">
                         <i class="fas fa-award"></i> {{ selectedDoctor.YearsOfExperience }}+ years experience
                     </div>
+                    <div class="doctor-experience">
+                        <i class="fas fa-building"></i> {{ selectedDoctor.departmentName }}
+                    </div>
+                    <div class="doctor-experience">
+                        <i class="fas fa-map-marker-alt"></i> {{ selectedDoctor.location }}
+                    </div>
 
                     @if (timeSlots.length > 0) {
                     <div class="doctor-availability">
@@ -129,7 +135,7 @@
                         <div class="availability-slots">
                             @for (slot of timeSlots; track slot) {
                             <div class="time-slot" [class.selected]="selectedTimeSlot === slot" (click)="selectTimeSlot(slot)">
-                                {{ slot }}
+                                {{ slot.slotStart | date:'shortTime' }} - {{ slot.slotEnd | date:'shortTime' }}
                             </div>
                             }
                         </div>
@@ -137,7 +143,7 @@
                     }
 
                     <div class="modal-actions">
-                        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: selectedDoctor.id, timeSlot: selectedTimeSlot}" class="btn btn-primary" [class.disabled]="!selectedTimeSlot">
+                        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: selectedDoctor.id, timeSlotId: selectedTimeSlot?.id}" class="btn btn-primary" [class.disabled]="!selectedTimeSlot">
                                 Book Appointment
                             </a>
                     </div>

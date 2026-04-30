@@ -142,7 +142,18 @@
                         </span>
                       </td>
                       <td>
-                        <button class="btn btn-sm btn-outline-primary">View</button>
+                        <button
+                          class="btn btn-sm btn-success me-2"
+                          [disabled]="!canConfirm(appointment.status) || processingAppointmentId() === appointment.id"
+                          (click)="confirmAppointment(appointment.id)">
+                          Confirm
+                        </button>
+                        <button
+                          class="btn btn-sm btn-info"
+                          [disabled]="!canComplete(appointment.status) || processingAppointmentId() === appointment.id"
+                          (click)="completeAppointment(appointment.id)">
+                          Complete
+                        </button>
                       </td>
                     </tr>
                   </tbody>
@@ -238,8 +249,32 @@
                         <span class="badge badge-secondary">Slot {{ appointment.timeSlotId }}</span>
                       </td>
                       <td>
-                        <button class="btn btn-sm btn-primary me-2">Confirm</button>
-                        <button class="btn btn-sm btn-danger">Cancel</button>
+                        <button
+                          class="btn btn-sm btn-primary me-2 mb-1"
+                          [disabled]="!canConfirm(appointment.status) || processingAppointmentId() === appointment.id"
+                          (click)="confirmAppointment(appointment.id)">
+                          Confirm
+                        </button>
+                        <button
+                          class="btn btn-sm btn-success me-2 mb-1"
+                          [disabled]="!canComplete(appointment.status) || processingAppointmentId() === appointment.id"
+                          (click)="completeAppointment(appointment.id)">
+                          Complete
+                        </button>
+                        <div class="d-flex flex-column gap-1">
+                          <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            [(ngModel)]="cancelReasons[appointment.id]"
+                            [ngModelOptions]="{ standalone: true }"
+                            placeholder="Cancellation reason" />
+                          <button
+                            class="btn btn-sm btn-danger"
+                            [disabled]="!canCancel(appointment.status) || processingAppointmentId() === appointment.id"
+                            (click)="cancelAppointment(appointment.id)">
+                            Cancel
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -302,6 +337,28 @@
         <!-- Available Appointments Tab -->
         <div *ngIf="activeTab === 'appointments'" class="available-appointments-section">
           <h3 class="section-title mb-4">Available Time Slots</h3>
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <div class="row g-2 align-items-end">
+                <div class="col-md-4">
+                  <label class="form-label">Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    [(ngModel)]="slotDate"
+                    [ngModelOptions]="{ standalone: true }" />
+                </div>
+                <div class="col-md-3">
+                  <button
+                    class="btn btn-primary w-100"
+                    [disabled]="!slotDate || processingSlotAction()"
+                    (click)="generateSlotsForDate()">
+                    Generate Slots
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="card shadow-sm">
             <div class="card-body">
               <div class="table-responsive">
@@ -326,7 +383,13 @@
                         </span>
                       </td>
                       <td>
-                        <button *ngIf="!slot.isBooked" class="btn btn-sm btn-success">Open for Booking</button>
+                        <button
+                          *ngIf="!slot.isBooked"
+                          class="btn btn-sm btn-outline-danger"
+                          [disabled]="processingSlotAction()"
+                          (click)="removeSlot(slot.id)">
+                          Remove Slot
+                        </button>
                         <button *ngIf="slot.isBooked" class="btn btn-sm btn-secondary" disabled>Booked</button>
                       </td>
                     </tr>

@@ -38,6 +38,17 @@ namespace MedicalTriageSystem.Controllers
             return CreatedAtAction(nameof(RegisterDoctor), response);
         }
 
+        [HttpPost("register/admin")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(AuthResponseDto), 201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterAdminDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var response = await _authService.RegisterAdminAsync(dto);
+            return CreatedAtAction(nameof(RegisterAdmin), response);
+        }
+
         [HttpPost("login")]
         [ProducesResponseType(typeof(AuthResponseDto), 200)]
         [ProducesResponseType(400)]

@@ -36,6 +36,11 @@ export class DoctorEndpoint extends BaseEndpoint {
     return this.http.get<DoctorResponseDto>(`${this.baseUrl}/${id}`);
   }
 
+  // GET /api/doctors/by-user/{userId}
+  getByUserId(userId: string): Observable<DoctorResponseDto> {
+    return this.http.get<DoctorResponseDto>(`${this.baseUrl}/by-user/${userId}`);
+  }
+
   // GET /api/doctors/department/{departmentId}
   getByDepartment(departmentId: number): Observable<DoctorResponseDto[]> {
     return this.http.get<DoctorResponseDto[]>(`${this.baseUrl}/department/${departmentId}`);

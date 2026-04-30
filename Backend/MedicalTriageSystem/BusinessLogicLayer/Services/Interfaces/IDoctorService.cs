@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.DTOs.Doctor;
+using BusinessLogicLayer.DTOs.Patient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace BusinessLogicLayer.Services.Interfaces
     {
         Task<IEnumerable<DoctorResponseDto>> GetAllDoctorsAsync();
         Task<DoctorResponseDto?> GetDoctorByIdAsync(int id);
+        Task<DoctorResponseDto?> GetDoctorByUserIdAsync(string userId);
         Task<IEnumerable<DoctorResponseDto>> GetDoctorsByDepartmentAsync(int departmentId);
         Task<IEnumerable<DoctorResponseDto>> SearchAsync(string? name, int? departmentId, string? specialization);
         Task<DoctorResponseDto> CreateDoctorAsync(CreateDoctorDto dto);
@@ -19,6 +21,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<IEnumerable<DoctorScheduleResponseDto>> GetDoctorScheduleAsync(int doctorId);
         Task<IEnumerable<DoctorLeaveResponseDto>> GetDoctorLeavesAsync(int doctorId);
         Task<IEnumerable<TimeSlotResponseDto>> GetDoctorTimeSlotsAsync(int doctorId);
+        Task<IEnumerable<PatientResponseDto>> GetPatientsByDoctorAsync(int doctorId);
         Task<IEnumerable<DTOs.Review.ReviewResponseDto>> GetDoctorReviewsAsync(int doctorId);
         Task<DoctorScheduleResponseDto> CreateScheduleAsync(int doctorId, CreateDoctorScheduleDto dto);
         Task<DoctorScheduleResponseDto?> UpdateScheduleAsync(int scheduleId, UpdateDoctorScheduleDto dto);

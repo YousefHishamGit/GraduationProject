@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace YourApiNamespace.Controllers
 {
     [ApiController]
     [Route("api")]
+    [Authorize]
     public class TimeSlotController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
@@ -16,6 +18,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpGet("doctors/{doctorId}/timeslots")]
+        [Authorize(Roles = "Admin,Doctor,Patient,Receptionist")]
         public async Task<IActionResult> GetAvailableTimeSlots(int doctorId, [FromQuery] DateTime date)
         {
             var slots = await _doctorService.GetAvailableTimeSlotsByDateAsync(doctorId, date);
@@ -23,6 +26,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpPost("timeslots")]
+        [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> GenerateTimeSlots([FromBody] GenerateTimeSlotsDto dto, [FromQuery] int doctorId)
         {
             if (!ModelState.IsValid)
@@ -40,6 +44,7 @@ namespace YourApiNamespace.Controllers
         }
 
         [HttpDelete("timeslots/{id}")]
+        [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> DeleteTimeSlot(int id)
         {
             try

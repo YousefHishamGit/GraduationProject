@@ -19,6 +19,7 @@ export class AdminDashboardComponent implements OnInit {
   isLoading = signal<boolean>(true);
   showAddDoctorModal = signal<boolean>(false);
   showAddDepartmentModal = signal<boolean>(false);
+  showAddAdminModal = signal<boolean>(false);
   isSubmitting = signal<boolean>(false);
   successMessage = signal<string>('');
   errorMessage = signal<string>('');
@@ -62,6 +63,18 @@ export class AdminDashboardComponent implements OnInit {
   newDepartment = {
     departmentName: '',
     description: ''
+  };
+
+  newAdmin = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    nationalID: '',
+    birthDate: '',
+    gender: 0,
+    phone: '',
+    address: ''
   };
 
   ngOnInit() {
@@ -166,6 +179,31 @@ export class AdminDashboardComponent implements OnInit {
     this.resetDepartmentForm();
   }
 
+  openAddAdminModal() {
+    this.showAddAdminModal.set(true);
+    this.successMessage.set('');
+    this.errorMessage.set('');
+  }
+
+  closeAdminModal() {
+    this.showAddAdminModal.set(false);
+    this.resetAdminForm();
+  }
+
+  resetAdminForm() {
+    this.newAdmin = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      nationalID: '',
+      birthDate: '',
+      gender: 0,
+      phone: '',
+      address: ''
+    };
+  }
+
   resetDepartmentForm() {
     this.newDepartment = {
       departmentName: '',
@@ -186,6 +224,23 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (err) => {
         this.errorMessage.set(err.error?.message || 'Failed to add department.');
+        this.isSubmitting.set(false);
+      }
+    });
+  }
+
+  addAdmin() {
+    this.errorMessage.set('');
+    this.isSubmitting.set(true);
+
+    this.endpoint.auth.registerAdmin(this.newAdmin as any).subscribe({
+      next: () => {
+        this.successMessage.set('Admin added successfully!');
+        this.isSubmitting.set(false);
+        setTimeout(() => this.closeAdminModal(), 1500);
+      },
+      error: (err) => {
+        this.errorMessage.set(err.error?.message || 'Failed to add admin.');
         this.isSubmitting.set(false);
       }
     });

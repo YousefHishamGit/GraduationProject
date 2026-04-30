@@ -8,6 +8,7 @@ namespace YourApiNamespace.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
+	[Authorize]
 	public class PatientsController : ControllerBase
 	{
 		private readonly IPatientService _patientService;
@@ -18,6 +19,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin,Doctor,Receptionist")]
 		public async Task<IActionResult> GetAllPatients()
 		{
 			var patients = await _patientService.GetAllPatientsAsync();
@@ -25,6 +27,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpGet("{id}")]
+		[Authorize(Roles = "Admin,Doctor,Receptionist,Patient")]
 		public async Task<IActionResult> GetPatientById(int id)
 		{
 			var patient = await _patientService.GetPatientByIdAsync(id);
@@ -36,6 +39,7 @@ namespace YourApiNamespace.Controllers
 		
 
 		[HttpPut("{id}")]
+		[Authorize(Roles = "Admin,Patient")]
 		public async Task<IActionResult> UpdatePatient(int id, [FromBody] UpdatePatientDto dto)
 		{
 			if (!ModelState.IsValid)

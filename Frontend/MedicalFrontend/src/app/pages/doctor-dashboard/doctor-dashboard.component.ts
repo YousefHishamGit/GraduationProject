@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../Services/endpoints';
 import { forkJoin } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 interface Appointment {
   id: number;
@@ -49,7 +50,7 @@ interface Doctor {
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './doctor-dashboard.component.html',
   styleUrls: ['./doctor-dashboard.component.css']
 })
@@ -63,6 +64,11 @@ export class DoctorDashboardComponent implements OnInit {
   
   activeTab = 'dashboard';
   isLoading = signal(true);
+  doctorId = signal<number | null>(null);
+  processingAppointmentId = signal<number | null>(null);
+  processingSlotAction = signal<boolean>(false);
+  cancelReasons: Record<number, string> = {};
+  slotDate = '';
 
   currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -73,9 +79,19 @@ export class DoctorDashboardComponent implements OnInit {
 
   ngOnInit() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const doctorId = currentUser.userId ? parseInt(currentUser.userId) : 1;
+    const userId = currentUser.userId as string | undefined;
+    if (!userId) {
+      this.isLoading.set(false);
+      return;
+    }
 
-    this.loadDashboardData(doctorId);
+    this.endpoint.doctors.getByUserId(userId).subscribe({
+      next: (doctor) => {
+        this.doctorId.set(doctor.id);
+        this.loadDashboardData(doctor.id);
+      },
+      error: () => this.isLoading.set(false)
+    });
   }
 
   loadDashboardData(doctorId: number) {
@@ -170,5 +186,72 @@ export class DoctorDashboardComponent implements OnInit {
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
+  }
+
+  confirmAppointment(appointmentId: number) {
+    this.processingAppointmentId.set(appointmentId);
+    this.endpoint.appointments.confirm(appointmentId).subscribe({
+      next: () => this.reloadCurrentDoctorData(),
+      error: () => this.processingAppointmentId.set(null)
+    });
+  }
+
+  completeAppointment(appointmentId: number) {
+    this.processingAppointmentId.set(appointmentId);
+    this.endpoint.appointments.complete(appointmentId).subscribe({
+      next: () => this.reloadCurrentDoctorData(),
+      error: () => this.processingAppointmentId.set(null)
+    });
+  }
+
+  cancelAppointment(appointmentId: number) {
+    this.processingAppointmentId.set(appointmentId);
+    const reason = this.cancelReasons[appointmentId] || 'Cancelled by doctor';
+    this.endpoint.appointments.cancel(appointmentId, { reason }).subscribe({
+      next: () => {
+        delete this.cancelReasons[appointmentId];
+        this.reloadCurrentDoctorData();
+      },
+      error: () => this.processingAppointmentId.set(null)
+    });
+  }
+
+  generateSlotsForDate() {
+    const doctorId = this.doctorId();
+    if (!doctorId || !this.slotDate) return;
+
+    this.processingSlotAction.set(true);
+    this.endpoint.doctors.generateTimeSlots(doctorId, { date: this.slotDate }).subscribe({
+      next: () => this.reloadCurrentDoctorData(),
+      error: () => this.processingSlotAction.set(false)
+    });
+  }
+
+  removeSlot(slotId: number) {
+    this.processingSlotAction.set(true);
+    this.endpoint.doctors.deleteTimeSlot(slotId).subscribe({
+      next: () => this.reloadCurrentDoctorData(),
+      error: () => this.processingSlotAction.set(false)
+    });
+  }
+
+  canConfirm(status: string): boolean {
+    return status === 'Pending';
+  }
+
+  canComplete(status: string): boolean {
+    return status === 'Confirmed';
+  }
+
+  canCancel(status: string): boolean {
+    return status === 'Pending' || status === 'Confirmed';
+  }
+
+  private reloadCurrentDoctorData() {
+    const id = this.doctorId();
+    if (!id) return;
+    this.processingAppointmentId.set(null);
+    this.processingSlotAction.set(false);
+    this.loadDashboardData(id);
   }
 }

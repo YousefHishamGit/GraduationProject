@@ -11,6 +11,7 @@ namespace BusinessLogicLayer.Services.Interfaces
     {
         Task<AuthResponseDto> RegisterPatientAsync(RegisterPatientDto dto);
         Task<AuthResponseDto> RegisterDoctorAsync(RegisterDoctorDto dto);
+        Task<AuthResponseDto> RegisterAdminAsync(RegisterAdminDto dto);
         Task<AuthResponseDto> LoginAsync(LoginDto dto);
         Task LogoutAsync(string userId);
     }

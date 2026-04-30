@@ -28,6 +28,7 @@ namespace BusinessLogicLayer
         {
             CreateMap<RegisterPatientDto, Person>();
             CreateMap<RegisterDoctorDto, Person>();
+            CreateMap<RegisterAdminDto, Person>();
             DoctorMap();
             ReservationMap();
             PersonMap();
@@ -66,6 +67,8 @@ namespace BusinessLogicLayer
                     opt => opt.MapFrom(src => $"{src.Person.FirstName} {src.Person.LastName}"))
                 .ForMember(dest => dest.Phone,
                     opt => opt.MapFrom(src => src.Person.Phone))
+                .ForMember(dest => dest.Address,
+                    opt => opt.MapFrom(src => src.Person.Address))
                 .ForMember(dest => dest.Gender,
                     opt => opt.MapFrom(src => src.Person.Gender))
                 .ForMember(dest => dest.DepartmentName,

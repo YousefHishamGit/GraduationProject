@@ -31,24 +31,24 @@ export const routes: Routes = [
   {
     path: 'appointment',
     component: AppointmentComponent,
-    canActivate: [authGuard]
+    // canActivate: [authGuard]
   },
   {
     path: 'appointment-success',
     component: AppointmentSuccessComponent,
-    canActivate: [authGuard]
+      // canActivate: [authGuard]
   },
   {
     path: 'chatbot',
     component: ChatbotComponent,
-    canActivate: [authGuard]
+    // canActivate: [authGuard]
   },
 
   // ── Role-based Routes ─────────────────────────────────
   {
     path: 'patient-dashboard',
     component: PatientDashboardComponent,
-    canActivate: [authGuard, roleGuard(['Patient'])]
+    // canActivate: [authGuard, roleGuard(['Patient'])]
   },
   {
     path: 'doctor-dashboard',
@@ -58,7 +58,7 @@ export const routes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate: [authGuard, roleGuard(['Admin'])]
+    // canActivate: [authGuard, roleGuard(['Admin'])]
   },
 
   // ── Fallback ──────────────────────────────────────────

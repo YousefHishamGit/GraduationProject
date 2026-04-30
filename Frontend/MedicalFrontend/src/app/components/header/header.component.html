@@ -22,12 +22,12 @@
             </a>
 
             <div class="nav-links" [class.active]="mobileMenuOpen">
-                <a *ngFor="let nav of navLinks" [routerLink]="nav.path" routerLinkActive="active" [routerLinkActiveOptions]="nav.path === '/' ? { exact: true } : { exact: false }">{{ nav.text }}</a>
+                <a *ngFor="let nav of navLinks" [routerLink]="nav.path" (click)="closeMobileMenu()" routerLinkActive="active" [routerLinkActiveOptions]="nav.path === '/' ? { exact: true } : { exact: false }">{{ nav.text }}</a>
             </div>
 
             <div class="auth-buttons">
-                <a routerLink="/login" class="btn btn-login">Login</a>
-                <a routerLink="/signup" class="btn btn-signup">Sign Up</a>
+                <a routerLink="/login" (click)="closeMobileMenu()" class="btn btn-login">Login</a>
+                <a routerLink="/signup" (click)="closeMobileMenu()" class="btn btn-signup">Sign Up</a>
             </div>
 
             <button class="mobile-menu-btn" (click)="toggleMobileMenu()" type="button">

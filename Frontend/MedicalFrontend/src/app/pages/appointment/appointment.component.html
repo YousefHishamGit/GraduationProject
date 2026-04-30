@@ -78,7 +78,7 @@
             </div>
             <div class="form-group">
               <label for="doctor">Doctor *</label>
-              <select id="doctor" [(ngModel)]="formData.doctorId" name="doctor" required [disabled]="!availableDoctors().length">
+              <select id="doctor" [(ngModel)]="formData.doctorId" (ngModelChange)="onDoctorChange()" name="doctor" required [disabled]="!availableDoctors().length">
                 <option value="">Select Doctor</option>
                 @for (doc of availableDoctors(); track doc.id) {
                   <option [value]="doc.id">{{ doc.name }} - {{ doc.specialization }}</option>
@@ -87,7 +87,24 @@
             </div>
             <div class="form-group">
               <label for="appointmentDate">Appointment Date *</label>
-              <input type="date" id="appointmentDate" [(ngModel)]="formData.appointmentDate" name="appointmentDate" [min]="minDate()" required>
+              <input type="date" id="appointmentDate" [(ngModel)]="formData.appointmentDate" (ngModelChange)="onAppointmentDateChange()" name="appointmentDate" [min]="minDate()" required>
+            </div>
+            <div class="form-group">
+              <label for="timeSlotId">Available Slots *</label>
+              <select
+                id="timeSlotId"
+                name="timeSlotId"
+                required
+                [disabled]="!availableTimeSlots().length"
+                [ngModel]="selectedTimeSlotId()"
+                (ngModelChange)="selectedTimeSlotId.set($event)">
+                <option value="">Select a slot</option>
+                @for (slot of availableTimeSlots(); track slot.id) {
+                  <option [value]="slot.id">
+                    {{ slot.slotStart | date:'shortTime' }} - {{ slot.slotEnd | date:'shortTime' }}
+                  </option>
+                }
+              </select>
             </div>
             <div class="form-group full-width">
               <label for="message">Message (Optional)</label>

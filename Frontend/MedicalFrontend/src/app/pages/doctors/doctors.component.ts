@@ -9,6 +9,8 @@ interface Doctor {
   id: number;
   name: string;
   specialization: string;
+  departmentName: string;
+  location: string;
   experience: number;
   rating: number;
   reviews: number;
@@ -74,6 +76,8 @@ export class DoctorsComponent implements OnInit {
           id: d.id,
           name: d.fullName,
           specialization: d.specialization,
+          departmentName: d.departmentName,
+          location: d.address || 'N/A',
           Specialization: d.specialization,
           experience: d.yearsOfExperience,
           YearsOfExperience: d.yearsOfExperience,

@@ -7,7 +7,7 @@ namespace MedicalTriageSystem.Controllers
 {
     [ApiController]
     [Route("api/ai")]
-    
+    [Authorize]
     public class AIController : ControllerBase
     {
         private readonly IAIService _aiService;

@@ -675,79 +675,459 @@ section {
 ══════════════════════════════════════════════ */
 
 @media (max-width: 992px) {
+    :root {
+        --radius-xl: 1.2rem;
+    }
+
+    section {
+        padding: clamp(2.5rem, 5vw, 4rem) 0;
+    }
+
+    .container {
+        padding: 0 clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .hero {
+        padding: clamp(3rem, 5vw, 5rem) 0;
+    }
+
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 3rem;
+        gap: 2.5rem;
     }
+
     .hero-image-wrap {
         order: -1;
         justify-content: center;
     }
+
     .hero-image-card img {
-        max-width: 400px;
-        height: 420px;
+        max-width: 100%;
+        height: clamp(280px, 50vw, 400px);
     }
+
     .hero-image-badge {
         left: 50%;
         transform: translateX(-50%);
         white-space: nowrap;
+        font-size: clamp(0.7rem, 1.5vw, 0.82rem);
     }
+
+    .hero-text h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+    }
+
     .hero-desc {
         margin-inline: auto;
+        font-size: clamp(0.9rem, 1.5vw, 1.05rem);
     }
+
     .hero-stats {
         margin-inline: auto;
+        width: fit-content;
+        flex-wrap: wrap;
     }
+
+    .stat-item {
+        padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+    }
+
     .hero-actions {
         justify-content: center;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+    }
+
+    .services-grid,
+    .departments-grid,
+    .doctors-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .section-title {
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+    }
+
+    .section-label {
+        font-size: clamp(0.65rem, 1vw, 0.78rem);
+    }
+
+    .dept-img-wrap {
+        height: clamp(150px, 30vw, 200px);
+    }
+
+    .doctor-img-wrap {
+        height: clamp(200px, 40vw, 260px);
     }
 }
 
+/* ══════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 768px)
+══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 clamp(0.75rem, 1.5vw, 1.5rem);
+    }
+
+    .shape-1 {
+        width: 350px;
+        height: 350px;
+    }
+
+    .shape-2 {
+        width: 250px;
+        height: 250px;
+    }
+
+    .shape-3 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .hero-badge {
+        font-size: clamp(0.65rem, 1vw, 0.82rem);
+        padding: clamp(0.3rem, 0.75vw, 0.4rem) clamp(0.75rem, 1.5vw, 1rem);
+    }
+
+    .section-header {
+        margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .btn {
+        padding: clamp(0.4rem, 0.8vw, 0.6rem) clamp(0.9rem, 2vw, 1.5rem);
+        font-size: clamp(0.8rem, 1.5vw, 0.92rem);
+    }
+}
 
 /* ══════════════════════════════════════════════
-   RESPONSIVE — MOBILE (≤ 600px)
+   RESPONSIVE — SMALL MOBILE (≤ 600px)
 ══════════════════════════════════════════════ */
 
 @media (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
+
     section {
-        padding: 3.5rem 0;
+        padding: clamp(2rem, 4vw, 3.5rem) 0;
     }
+
+    .container {
+        padding: 0 1rem;
+    }
+
     .hero {
-        padding: 4rem 0 3.5rem;
+        padding: clamp(2.5rem, 4vw, 4rem) 0;
     }
+
+    .hero-bg-shapes {
+        opacity: 0.5;
+    }
+
+    .shape-1 {
+        width: 250px;
+        height: 250px;
+        top: -80px;
+        right: -80px;
+    }
+
+    .shape-2 {
+        width: 180px;
+        height: 180px;
+        bottom: -60px;
+        left: -60px;
+    }
+
+    .shape-3 {
+        width: 120px;
+        height: 120px;
+    }
+
     .hero-text h1 {
-        font-size: 1.9rem;
+        font-size: clamp(1.5rem, 5vw, 1.9rem);
+        line-height: 1.2;
+        margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
     }
+
+    .accent-text {
+        display: block;
+    }
+
+    .hero-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+        font-size: clamp(0.85rem, 1.2vw, 1rem);
+        line-height: 1.6;
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    }
+
     .hero-image-card img {
         max-width: 100%;
-        height: 300px;
+        height: clamp(220px, 60vw, 300px);
+        border-radius: clamp(0.8rem, 2vw, 1.2rem);
     }
+
+    .hero-image-badge {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: -1rem;
+        z-index: 10;
+        font-size: 0.75rem;
+        padding: 0.7rem 1rem;
+    }
+
+    .hero-image-badge i {
+        font-size: 1.2rem;
+    }
+
+    .stat-value {
+        font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+    }
+
     .hero-stats {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
         width: 100%;
+        max-width: 100%;
+        margin-bottom: clamp(1.5rem, 2vw, 2rem);
+        border-radius: clamp(0.6rem, 1vw, 1rem);
     }
+
     .stat-item {
-        flex: 1;
-        min-width: 90px;
+        padding: clamp(0.6rem, 1vw, 0.9rem) clamp(0.8rem, 1.5vw, 1.2rem);
     }
+
+    .stat-item + .stat-item {
+        border-left: 1px solid var(--border);
+    }
+
     .hero-actions {
         flex-direction: column;
         align-items: center;
+        gap: clamp(0.5rem, 1vw, 0.75rem);
     }
+
     .btn {
         width: 100%;
-        max-width: 280px;
-        justify-content: center;
+        max-width: 100%;
+        padding: clamp(0.45rem, 1vw, 0.6rem) clamp(1rem, 2vw, 1.2rem);
+        font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+        border-radius: clamp(0.5rem, 1.5vw, 0.8rem);
     }
+
+    .btn-ghost {
+        width: 100%;
+    }
+
     .services-grid,
     .departments-grid,
     .doctors-grid {
         grid-template-columns: 1fr;
+        gap: clamp(1rem, 2vw, 1.5rem);
     }
+
+    .service-card,
+    .department-card,
+    .doctor-card {
+        padding: clamp(1.2rem, 2vw, 1.75rem) clamp(1rem, 1.5vw, 1.5rem);
+    }
+
+    .service-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
     .section-title {
-        font-size: 1.55rem;
+        font-size: clamp(1.3rem, 4vw, 1.8rem);
+        margin-bottom: clamp(0.4rem, 0.8vw, 0.65rem);
+    }
+
+    .section-label {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.75rem;
+        margin-bottom: clamp(0.6rem, 1vw, 0.85rem);
+    }
+
+    .section-subtitle {
+        font-size: clamp(0.85rem, 1.3vw, 1rem);
+        line-height: 1.5;
+        max-width: 100%;
+    }
+
+    .section-cta {
+        margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .dept-img-wrap {
+        height: clamp(130px, 40vw, 180px);
+    }
+
+    .dept-info {
+        padding: clamp(0.9rem, 1.5vw, 1.25rem);
+    }
+
+    .dept-info h3 {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    }
+
+    .dept-info p {
+        font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+    }
+
+    .doctor-img-wrap {
+        height: clamp(200px, 50vw, 240px);
+    }
+
+    .doctor-info {
+        padding: clamp(0.9rem, 1.5vw, 1.25rem);
+    }
+
+    .doctor-info h3 {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        margin-bottom: clamp(0.2rem, 0.4vw, 0.3rem);
+    }
+
+    .doctor-specialty {
+        font-size: clamp(0.75rem, 1vw, 0.88rem);
+    }
+
+    .doctor-experience {
+        font-size: clamp(0.7rem, 0.9vw, 0.82rem);
+        margin-bottom: clamp(0.7rem, 1vw, 1rem);
+    }
+
+    .doctor-cta {
+        font-size: clamp(0.75rem, 1vw, 0.85rem);
+    }
+
+    .card-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 0.65rem;
+    }
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — EXTRA SMALL MOBILE (≤ 480px)
+══════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+
+    .container {
+        padding: 0 0.75rem;
+    }
+
+    .hero {
+        padding: 2rem 0;
+    }
+
+    .hero-content {
+        gap: 1.5rem;
+    }
+
+    .hero-text h1 {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .hero-image-card img {
+        height: 200px;
+        border-radius: 0.8rem;
+    }
+
+    .hero-image-badge {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.65rem;
+        gap: 0.5rem;
+    }
+
+    .hero-image-badge i {
+        font-size: 1rem;
+    }
+
+    .hero-image-badge strong {
+        font-size: 0.8rem;
+    }
+
+    .hero-desc {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-badge {
+        font-size: 0.6rem;
+    }
+
+    .hero-actions {
+        gap: 0.5rem;
+    }
+
+    .btn {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+        min-height: 36px;
+    }
+
+    .stat-item {
+        padding: 0.5rem 0.7rem;
+        flex: 1;
+        min-width: 70px;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .stat-label {
+        font-size: 0.55rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .section-label {
+        font-size: 0.6rem;
+    }
+
+    .service-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .service-card h3 {
+        font-size: 1rem;
+    }
+
+    .service-card p {
+        font-size: 0.8rem;
+    }
+
+    .card-arrow {
+        width: 24px;
+        height: 24px;
+    }
+
+    .dept-img-wrap {
+        height: 120px;
+    }
+
+    .doctor-img-wrap {
+        height: 180px;
     }
 }

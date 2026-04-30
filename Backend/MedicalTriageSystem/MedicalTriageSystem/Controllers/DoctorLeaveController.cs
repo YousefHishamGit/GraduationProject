@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace YourApiNamespace.Controllers
 {
 	[ApiController]
 	[Route("api")]
+	[Authorize]
 	public class DoctorLeaveController : ControllerBase
 	{
 		private readonly IDoctorService _doctorService;
@@ -16,6 +18,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpGet("doctors/{doctorId}/leaves")]
+		[Authorize(Roles = "Admin,Doctor")]
 		public async Task<IActionResult> GetDoctorLeaves(int doctorId)
 		{
 			var leaves = await _doctorService.GetDoctorLeavesAsync(doctorId);
@@ -23,6 +26,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpPost("doctors/{doctorId}/leaves")]
+		[Authorize(Roles = "Admin,Doctor")]
 		public async Task<IActionResult> CreateLeave(int doctorId, [FromBody] CreateDoctorLeaveDto dto)
 		{
 			if (!ModelState.IsValid)
@@ -40,6 +44,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpGet("leaves/{id}")]
+		[Authorize(Roles = "Admin,Doctor")]
 		public async Task<IActionResult> GetLeaveById(int id)
 		{
 			var leave = await _doctorService.GetLeaveByIdAsync(id);
@@ -49,6 +54,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpPut("leaves/{id}")]
+		[Authorize(Roles = "Admin,Doctor")]
 		public async Task<IActionResult> UpdateLeave(int id, [FromBody] UpdateDoctorLeaveDto dto)
 		{
 			if (!ModelState.IsValid)
@@ -68,6 +74,7 @@ namespace YourApiNamespace.Controllers
 		}
 
 		[HttpDelete("leaves/{id}")]
+		[Authorize(Roles = "Admin,Doctor")]
 		public async Task<IActionResult> DeleteLeave(int id)
 		{
 			var deleted = await _doctorService.DeleteLeaveAsync(id);

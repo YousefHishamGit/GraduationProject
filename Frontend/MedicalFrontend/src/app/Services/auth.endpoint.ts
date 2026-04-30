@@ -5,6 +5,7 @@ import {
   LoginDto,
   RegisterPatientDto,
   RegisterDoctorDto,
+  RegisterAdminDto,
   AuthResponseDto
 } from '../interfaces/auth.interface';
 
@@ -22,6 +23,10 @@ export class AuthEndpoint extends BaseEndpoint {
 
   registerDoctor(dto: RegisterDoctorDto): Observable<AuthResponseDto> {
     return this.http.post<AuthResponseDto>(`${this.baseUrl}/register/doctor`, dto);
+  }
+
+  registerAdmin(dto: RegisterAdminDto): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.baseUrl}/register/admin`, dto);
   }
 
   logout(): Observable<void> {

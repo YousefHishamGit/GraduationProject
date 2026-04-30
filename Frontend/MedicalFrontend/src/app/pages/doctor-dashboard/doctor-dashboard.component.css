@@ -169,21 +169,7 @@
 .mb-0 { margin-bottom: 0; }
 .m-t-0 { margin-top: 0; }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -15px;
-}
 
-.col-sm-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
-.col-sm-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
-.col-6 { flex: 0 0 50%; max-width: 50%; }
-.col-md-12 { flex: 0 0 100%; max-width: 100%; }
-
-[class^="col-"] {
-  padding: 0 15px;
-  box-sizing: border-box;
-}
 
 .text-right { text-align: right; }
 
@@ -594,15 +580,18 @@
     width: 100%;
     height: auto;
     border-bottom: 1px solid #dee2e6;
+    order: -1;
   }
 
   .main-content {
     margin-left: 0;
+    padding: 15px;
   }
 
   .top-bar {
     flex-direction: column;
     gap: 1rem;
+    padding: 12px 20px;
   }
 
   .search-bar {
@@ -619,19 +608,372 @@
     grid-template-columns: 1fr;
   }
 
-  .col-md-4 { flex: 0 0 100%; }
-  .col-md-3 { flex: 0 0 100%; }
-  .col-sm-6 { flex: 0 0 50%; }
-
-.sidebar-menu {
-  display: flex;
-  flex-wrap: wrap;
-}
+  .sidebar-menu {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
 
   .menu-item {
     flex: 1;
     min-width: 120px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .menu-item i {
+    width: auto;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    width: 100%;
+  }
+
+  .sidebar-header {
+    padding: 15px 10px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .admin-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .admin-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .admin-name h4 {
+    font-size: 0.9rem;
+  }
+
+  .admin-name small {
+    font-size: 0.75rem;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .top-bar {
     padding: 10px 15px;
+    gap: 10px;
+  }
+
+  .top-bar-left h1 {
+    font-size: 1.1rem;
+  }
+
+  .top-bar-left p {
+    font-size: 0.8rem;
+  }
+
+  .search-bar {
+    font-size: 0.85rem;
+  }
+
+  .card-box {
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 15px;
+  }
+
+  .info-label {
+    font-size: 0.85rem;
+  }
+
+  .info-value {
+    font-size: 0.9rem;
+  }
+
+  .doctor-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-width: 3px;
+  }
+
+  .profile-header {
+    padding: 20px;
+  }
+
+  .user-name {
+    font-size: 1.3rem;
+  }
+
+  .user-title {
+    font-size: 0.9rem;
+  }
+
+  .profile-stats {
+    gap: 10px;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: auto;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .table {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+  }
+
+  .patient-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .patient-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 0.8rem;
+  }
+
+  .badge {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    gap: 4px;
+  }
+
+  .btn-sm {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .nav-link {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  .profile-basic {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header {
+    padding: 12px 8px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 1rem;
+  }
+
+  .sidebar-header h2 i {
+    display: none;
+  }
+
+  .admin-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .admin-name h4 {
+    font-size: 0.85rem;
+  }
+
+  .admin-name small {
+    font-size: 0.7rem;
+  }
+
+  .sidebar-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .menu-item {
+    min-width: auto;
+    padding: 8px 5px;
+    font-size: 0.65rem;
+    flex-direction: column;
+    gap: 3px;
+    border-left: none !important;
+  }
+
+  .menu-item i {
+    font-size: 0.9rem;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .top-bar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .top-bar-left h1 {
+    font-size: 1rem;
+  }
+
+  .top-bar-left p {
+    font-size: 0.75rem;
+  }
+
+  .btn-notification,
+  .btn-setting {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .btn-notification i,
+  .btn-setting i {
+    font-size: 1rem;
+  }
+
+  .profile-header {
+    padding: 15px;
+  }
+
+  .doctor-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-width: 2px;
+  }
+
+  .user-name {
+    font-size: 1.1rem;
+  }
+
+  .user-title {
+    font-size: 0.8rem;
+  }
+
+  .profile-stats {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    flex: 0 1 calc(50% - 4px);
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  .card-box {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .info-row {
+    padding: 8px 12px;
+  }
+
+  .info-label {
+    font-size: 0.8rem;
+  }
+
+  .info-value {
+    font-size: 0.85rem;
+  }
+
+  .table {
+    font-size: 0.7rem;
+  }
+
+  .table th {
+    padding: 6px 4px;
+    font-size: 0.65rem;
+  }
+
+  .table td {
+    padding: 6px 4px;
+  }
+
+  .patient-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .patient-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+
+  .badge {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .btn-sm {
+    padding: 3px 6px;
+    font-size: 0.65rem;
+  }
+
+  .nav-link {
+    padding: 10px 12px;
+    font-size: 0.8rem;
   }
 }
 
@@ -859,80 +1201,4 @@
   color: white;
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .profile-view {
-    flex-direction: column;
-    text-align: center;
-    gap: 30px;
-  }
 
-  .doctor-image-container {
-    margin: 0 auto;
-  }
-
-  .profile-basic {
-    text-align: center;
-  }
-
-  .personal-info-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 992px) {
-  .sidebar {
-    width: 100%;
-    position: relative;
-    height: auto;
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-
-  .dashboard-container {
-    flex-direction: column;
-  }
-
-  .doctor-avatar-large {
-    width: 150px;
-    height: 150px;
-  }
-}
-
-@media (max-width: 768px) {
-  .top-bar {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .search-bar {
-    width: 100%;
-  }
-
-  .col-sm-7, .col-sm-5, .col-6 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .doctor-avatar-large {
-    width: 120px;
-    height: 120px;
-    border-width: 4px;
-  }
-
-  .profile-header {
-    padding: 25px;
-  }
-
-  .user-name {
-    font-size: 1.6rem;
-  }
-
-  .personal-info-grid {
-    grid-template-columns: 1fr;
-  }
-}

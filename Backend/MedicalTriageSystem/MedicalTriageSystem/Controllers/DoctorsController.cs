@@ -32,6 +32,15 @@ namespace MedicalTriageSystem.Controllers
             return Ok(doctor);
         }
 
+        [HttpGet("by-user/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> GetByUserId(string userId)
+        {
+            var doctor = await _doctorService.GetDoctorByUserIdAsync(userId);
+            if (doctor == null) return NotFound();
+            return Ok(doctor);
+        }
+
         [HttpGet("department/{departmentId}")]
         public async Task<IActionResult> GetByDepartment(int departmentId)
         {

@@ -117,6 +117,26 @@ namespace BusinessLogicLayer.Services.Implementation
             return GenerateToken(user, person);
         }
 
+        public async Task<AuthResponseDto> RegisterAdminAsync(RegisterAdminDto dto)
+        {
+            var person = _mapper.Map<Person>(dto);
+
+            var user = new User
+            {
+                UserName = dto.Email,
+                Email = dto.Email,
+                Role = UserRole.Admin,
+                Person = person
+            };
+
+            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (!result.Succeeded)
+                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+
+            await _unitOfWork.SaveChangesAsync();
+            return GenerateToken(user, person);
+        }
+
         public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email);

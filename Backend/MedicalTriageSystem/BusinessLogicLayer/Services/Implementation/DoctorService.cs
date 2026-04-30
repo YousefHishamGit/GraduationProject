@@ -34,6 +34,18 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<DoctorResponseDto>(doctor);
         }
 
+        public async Task<DoctorResponseDto?> GetDoctorByUserIdAsync(string userId)
+        {
+            var doctors = await _unitOfWork.Doctors.GetAllAsync(d => d.UserId == userId);
+            var doctor = doctors.FirstOrDefault();
+            if (doctor == null) return null;
+
+            var doctorWithDetails = await _unitOfWork.Doctors.GetDoctorWithDetailsAsync(doctor.Id);
+            if (doctorWithDetails == null) return null;
+
+            return _mapper.Map<DoctorResponseDto>(doctorWithDetails);
+        }
+
         public async Task<IEnumerable<DoctorResponseDto>> GetDoctorsByDepartmentAsync(int departmentId)
         {
             var doctors = await _unitOfWork.Doctors.GetByDepartmentAsync(departmentId);
