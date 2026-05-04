@@ -1,54 +1,37 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EndPoints } from '../../Services/endpoints';
-
-export interface Service {
-  icon: string;
-  title: string;
-  description: string;
-  link: string;
-}
-
-export interface Department {
-  image: string;
-  title: string;
-  description: string;
-  link: string;
-}
-
-export interface Doctor {
-  image: string;
-  name: string;
-  specialty: string;
-  experience: string;
-  link: string;
-}
+import { RouterLink } from '@angular/router';
+import { EndPoints } from '../../services/endpoints';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public endpoint = inject(EndPoints);
+  private endpoint = inject(EndPoints);
 
-  services: Service[] = [
-    { icon: 'fas fa-heartbeat', title: 'Cardiology', description: 'Advanced heart care with modern diagnostic tools.', link: '/services' },
-    { icon: 'fas fa-brain', title: 'Neurology', description: 'Expert care for brain and nervous system disorders.', link: '/services' },
-    { icon: 'fas fa-bone', title: 'Orthopedics', description: 'Specialized bone and joint treatment.', link: '/services' },
-    { icon: 'fas fa-baby', title: 'Pediatrics', description: 'Comprehensive healthcare for children and adolescents.', link: '/services' }
-  ];
-
-  departments: Department[] = [];
-  doctors: Doctor[] = [];
+  departments = signal<any[]>([]);
+  doctors = signal<any[]>([]);
+  isLoadingDepts = signal(true);
+  isLoadingDoctors = signal(true);
 
   stats = [
-    { value: '25+', label: 'Years Experience' },
-    { value: '5000+', label: 'Patients Treated' },
-    { value: '50+', label: 'Medical Experts' }
+    { value: '15+', label: 'Years Experience', icon: 'fas fa-award' },
+    { value: '50+', label: 'Expert Doctors', icon: 'fas fa-user-md' },
+    { value: '10K+', label: 'Happy Patients', icon: 'fas fa-smile' },
+    { value: '24/7', label: 'Emergency Care', icon: 'fas fa-ambulance' }
+  ];
+
+  services = [
+    { icon: 'fas fa-heartbeat', title: 'Cardiology', desc: 'Advanced heart care with cutting-edge diagnostics.', color: '#ef4444' },
+    { icon: 'fas fa-brain', title: 'Neurology', desc: 'Expert treatment for brain & nervous system.', color: '#8b5cf6' },
+    { icon: 'fas fa-bone', title: 'Orthopedics', desc: 'Comprehensive bone and joint treatments.', color: '#f59e0b' },
+    { icon: 'fas fa-baby', title: 'Pediatrics', desc: 'Specialized care for children of all ages.', color: '#10b981' },
+    { icon: 'fas fa-eye', title: 'Ophthalmology', desc: 'Complete eye care and vision solutions.', color: '#3b82f6' },
+    { icon: 'fas fa-robot', title: 'AI Diagnosis', desc: 'Smart symptom analysis powered by AI.', color: '#1a6fc4' }
   ];
 
   ngOnInit() {
@@ -56,32 +39,27 @@ export class HomeComponent implements OnInit {
     this.loadDoctors();
   }
 
-  private loadDepartments() {
+  loadDepartments() {
     this.endpoint.departments.getAll().subscribe({
       next: (data) => {
-        this.departments = data.map(d => ({
-          image: d.imgPath || '/assets/img/health/cardiology-1.webp',
-          title: d.departmentName,
-          description: d.description,
-          link: '/departments'
-        })).slice(0, 3);
+        this.departments.set(data.slice(0, 6));
+        this.isLoadingDepts.set(false);
       },
-      error: (err) => console.error('Error loading departments', err)
+      error: () => this.isLoadingDepts.set(false)
     });
   }
 
-  private loadDoctors() {
+  loadDoctors() {
     this.endpoint.doctors.getAll().subscribe({
       next: (data) => {
-        this.doctors = data.map(d => ({
-          image: d.imgPath || '/assets/img/person/person-f-11.webp',
-          name: d.fullName,
-          specialty: d.specialization,
-          experience: `${d.yearsOfExperience}+ years experience`,
-          link: '/doctors'
-        })).slice(0, 3);
+        this.doctors.set(data.slice(0, 4));
+        this.isLoadingDoctors.set(false);
       },
-      error: (err) => console.error('Error loading doctors', err)
+      error: () => this.isLoadingDoctors.set(false)
     });
+  }
+
+  getDoctorInitials(name: string): string {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 }

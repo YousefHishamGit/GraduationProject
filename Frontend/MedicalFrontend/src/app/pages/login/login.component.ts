@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { EndPoints } from '../../Services/endpoints';
+import { EndPoints } from '../../services/endpoints';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { EndPoints } from '../../Services/endpoints';
 export class LoginComponent {
   private endpoint = inject(EndPoints);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   email = '';
   password = '';
@@ -23,15 +25,12 @@ export class LoginComponent {
   isLoading = false;
 
   constructor() {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      this.redirectBasedOnRole(JSON.parse(currentUser).role);
+    if (this.authService.isLoggedIn()) {
+      this.redirectByRole(this.authService.getRole() || '');
     }
   }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
+  togglePassword() { this.showPassword = !this.showPassword; }
 
   onSubmit() {
     if (!this.email || !this.password) {
@@ -42,14 +41,11 @@ export class LoginComponent {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.endpoint.auth.login({
-      email: this.email,
-      password: this.password
-    }).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('currentUser', JSON.stringify(response));
-        this.redirectBasedOnRole(response.role);
+    this.endpoint.auth.login({ email: this.email, password: this.password }).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('currentUser', JSON.stringify(res));
+        this.redirectByRole(res.role);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Invalid email or password.';
@@ -58,12 +54,12 @@ export class LoginComponent {
     });
   }
 
-  private redirectBasedOnRole(role: string) {
-    switch (role) {
-      case 'Admin': this.router.navigate(['/admin-dashboard']); break;
-      case 'Doctor': this.router.navigate(['/doctor-dashboard']); break;
-      case 'Patient': this.router.navigate(['/patient-dashboard']); break;
-      default: this.router.navigate(['/']);
-    }
+  private redirectByRole(role: string) {
+    const routes: Record<string, string> = {
+      Admin: '/admin',
+      Doctor: '/doctor-dashboard',
+      Patient: '/patient-dashboard'
+    };
+    this.router.navigate([routes[role] || '/']);
   }
 }

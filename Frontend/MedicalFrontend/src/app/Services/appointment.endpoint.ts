@@ -2,17 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseEndpoint } from './base.endpoint';
 import {
-  AppointmentResponseDto,
-  CreateAppointmentDto,
-  UpdateAppointmentDto,
-  CancelAppointmentDto
+  AppointmentResponseDto, CreateAppointmentDto,
+  UpdateAppointmentDto, CancelAppointmentDto
 } from '../interfaces/appointment.interface';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AppointmentEndpoint extends BaseEndpoint {  // ← ناقص ده
-
+@Injectable({ providedIn: 'root' })
+export class AppointmentEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('appointments');
 
   getAll(): Observable<AppointmentResponseDto[]> {
@@ -51,7 +46,7 @@ export class AppointmentEndpoint extends BaseEndpoint {  // ← ناقص ده
     return this.http.get<AppointmentResponseDto[]>(`${this.baseUrl}/doctor/${doctorId}`);
   }
 
-  getByPatient(patientId: number | string): Observable<AppointmentResponseDto[]> {
+  getByPatient(patientId: number): Observable<AppointmentResponseDto[]> {
     return this.http.get<AppointmentResponseDto[]>(`${this.baseUrl}/patient/${patientId}`);
   }
 }

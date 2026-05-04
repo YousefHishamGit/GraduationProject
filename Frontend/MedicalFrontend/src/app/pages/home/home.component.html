@@ -1,166 +1,353 @@
-<!-- ═══════════════════════════════════════════
-     HERO SECTION
-════════════════════════════════════════════ -->
-<section class="hero" aria-label="Welcome to our hospital">
-    <div class="hero-bg-shapes" aria-hidden="true">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+        <div class="hero-dots"></div>
     </div>
 
-    <div class="container">
+    <div class="hero-container">
         <div class="hero-content">
-
-            <div class="hero-text">
-                <span class="hero-badge">
-          <i class="fas fa-shield-alt" aria-hidden="true"></i>
-          Trusted Healthcare Since 1999
-        </span>
-
-                <h1>
-                    Excellence in Healthcare
-                    <span class="accent-text">With Compassionate Care</span>
-                </h1>
-
-                <p class="hero-desc">
-                    We provide premium medical services with advanced technology and experienced professionals dedicated to your wellbeing.
-                </p>
-
-                <div class="hero-stats" aria-label="Hospital statistics">
-                    <div class="stat-item" *ngFor="let stat of stats">
-                        <strong class="stat-value">{{ stat.value }}</strong>
-                        <span class="stat-label">{{ stat.label }}</span>
-                    </div>
-                </div>
-
-                <div class="hero-actions">
-                    <a routerLink="/appointment" class="btn btn-primary">
-                        <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Appointment
-                    </a>
-                    <a routerLink="/about" class="btn btn-ghost">
-            Learn More
-            <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
-                </div>
+            <div class="hero-badge">
+                <i class="fas fa-shield-alt"></i> Trusted Healthcare Since 2010
             </div>
 
-            <div class="hero-image-wrap" aria-hidden="true">
-                <div class="hero-image-card">
-                    <img src="/assets/img/health/facilities-6.webp" alt="Modern hospital facilities and patient care area" loading="eager" width="480" height="540">
-                    <div class="hero-image-badge">
-                        <i class="fas fa-award"></i>
-                        <span>Top Rated <br><strong>Medical Center</strong></span>
+            <h1 class="hero-title">
+                Your Health, <br>
+                <span class="hero-accent">Our Priority</span>
+            </h1>
+
+            <p class="hero-desc">
+                Experience world-class medical care with our team of expert doctors, advanced technology, and compassionate service — all in one place.
+            </p>
+
+            <div class="hero-actions">
+                <a routerLink="/appointment" class="hero-btn-primary">
+                    <i class="fas fa-calendar-check"></i> Book Appointment
+                </a>
+                <a routerLink="/chatbot" class="hero-btn-secondary">
+                    <i class="fas fa-robot"></i> AI Diagnosis
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero-stats">
+                @for (stat of stats; track stat.label) {
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i [class]="stat.icon"></i>
+                    </div>
+                    <div class="stat-text">
+                        <strong>{{ stat.value }}</strong>
+                        <span>{{ stat.label }}</span>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-card-main">
+                <div class="hero-img-wrap">
+                    <img src="/assets/img/health/staff-1.webp" alt="Medical Team" loading="eager">
+                </div>
+                <div class="hero-card-badge badge-1">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Verified Doctors</strong>
+                        <span>All certified specialists</span>
+                    </div>
+                </div>
+                <div class="hero-card-badge badge-2">
+                    <i class="fas fa-star"></i>
+                    <div>
+                        <strong>4.9 / 5.0</strong>
+                        <span>Patient Rating</span>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SERVICES SECTION
-════════════════════════════════════════════ -->
-<section class="services" aria-labelledby="services-heading">
-    <div class="container">
-        <div class="section-header">
+<!-- ══════════════════════════════
+     SERVICES
+══════════════════════════════ -->
+<section class="services-section">
+    <div class="section-container">
+        <div class="section-head">
             <span class="section-label">What We Offer</span>
-            <h2 class="section-title" id="services-heading">Our Services</h2>
-            <p class="section-subtitle">Comprehensive medical care tailored to your needs</p>
+            <h2 class="section-title">Our Specializations</h2>
+            <p class="section-sub">Comprehensive medical care across all major specialties</p>
         </div>
 
         <div class="services-grid">
-            <a *ngFor="let service of services; let i = index" [routerLink]="service.link" class="service-card" [attr.aria-label]="'Learn more about ' + service.title" [style.--delay]="i * 80 + 'ms'">
-                <div class="service-icon" aria-hidden="true">
-                    <i [class]="service.icon"></i>
+            @for (service of services; track service.title; let i = $index) {
+            <div class="service-card" [style.--delay]="i * 80 + 'ms'">
+                <div class="service-icon-wrap" [style.background]="service.color + '15'">
+                    <i [class]="service.icon" [style.color]="service.color"></i>
                 </div>
                 <h3>{{ service.title }}</h3>
-                <p>{{ service.description }}</p>
-                <span class="card-arrow" aria-hidden="true">
-          <i class="fas fa-arrow-right"></i>
-        </span>
-            </a>
-        </div>
-
-        <div class="section-cta">
-            <a routerLink="/services" class="btn btn-primary">
-        View All Services
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-      </a>
+                <p>{{ service.desc }}</p>
+                <a routerLink="/departments" class="service-link">
+            Learn More <i class="fas fa-arrow-right"></i>
+          </a>
+            </div>
+            }
         </div>
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     DEPARTMENTS SECTION
-════════════════════════════════════════════ -->
-<section class="departments" aria-labelledby="departments-heading">
-    <div class="dept-bg" aria-hidden="true"></div>
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Specialized Care</span>
-            <h2 class="section-title" id="departments-heading">Medical Departments</h2>
-            <p class="section-subtitle">World-class specialists across every discipline</p>
+<!-- ══════════════════════════════
+     DEPARTMENTS FROM API
+══════════════════════════════ -->
+<section class="departments-section">
+    <div class="dept-bg-shape"></div>
+    <div class="section-container">
+        <div class="section-head">
+            <span class="section-label">Specialized Units</span>
+            <h2 class="section-title">Medical Departments</h2>
+            <p class="section-sub">World-class specialists across every discipline</p>
         </div>
 
-        <div class="departments-grid">
-            <a *ngFor="let dept of departments; let i = index" [routerLink]="dept.link" class="department-card" [attr.aria-label]="'Explore ' + dept.title + ' department'" [style.--delay]="i * 100 + 'ms'">
-                <div class="dept-img-wrap">
-                    <img [src]="dept.image" [alt]="dept.title + ' department at our hospital'" loading="lazy" width="400" height="220">
-                    <div class="dept-overlay" aria-hidden="true">
+        @if (isLoadingDepts()) {
+        <div class="loading-row">
+            @for (item of [1,2,3]; track item) {
+            <div class="skeleton-card"></div>
+            }
+        </div>
+        } @else if (departments().length > 0) {
+        <div class="dept-grid">
+            @for (dept of departments(); track dept.id; let i = $index) {
+            <a routerLink="/departments" class="dept-card" [style.--delay]="i * 80 + 'ms'">
+                <div class="dept-img">
+                    <img [src]="dept.imgPath || '/assets/img/health/cardiology-1.webp'" [alt]="dept.departmentName" loading="lazy">
+                    <div class="dept-overlay">
                         <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
-                <div class="dept-info">
-                    <h3>{{ dept.title }}</h3>
-                    <p>{{ dept.description }}</p>
+                <div class="dept-body">
+                    <h3>{{ dept.departmentName }}</h3>
+                    <p>{{ dept.description | slice:0:80 }}{{ dept.description?.length > 80 ? '...' : '' }}</p>
                 </div>
             </a>
+            }
         </div>
+        } @else {
+        <div class="dept-grid">
+            @for (service of services.slice(0,3); track service.title) {
+            <a routerLink="/departments" class="dept-card">
+                <div class="dept-img dept-img-placeholder" [style.background]="service.color + '20'">
+                    <i [class]="service.icon" [style.color]="service.color"></i>
+                </div>
+                <div class="dept-body">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.desc }}</p>
+                </div>
+            </a>
+            }
+        </div>
+        }
 
         <div class="section-cta">
-            <a routerLink="/departments" class="btn btn-primary">
-        View All Departments
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            <a routerLink="/departments" class="btn-view-all">
+        View All Departments <i class="fas fa-arrow-right"></i>
       </a>
         </div>
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     DOCTORS SECTION
-════════════════════════════════════════════ -->
-<section class="doctors" aria-labelledby="doctors-heading">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Meet the Team</span>
-            <h2 class="section-title" id="doctors-heading">Our Doctors</h2>
-            <p class="section-subtitle">Experienced professionals committed to your health</p>
+<!-- ══════════════════════════════
+     WHY CHOOSE US
+══════════════════════════════ -->
+<section class="why-section">
+    <div class="section-container">
+        <div class="why-grid">
+            <div class="why-content">
+                <span class="section-label">Why MediCare?</span>
+                <h2 class="section-title" style="text-align:left">Healthcare You Can Trust</h2>
+                <p class="why-desc">
+                    We combine medical excellence with modern technology to deliver personalized care that puts patients first.
+                </p>
+
+                <div class="why-features">
+                    <div class="why-feature">
+                        <div class="why-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div>
+                            <h4>Expert Specialists</h4>
+                            <p>Board-certified doctors with years of experience</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h4>AI-Powered Diagnosis</h4>
+                            <p>Smart symptom checker for preliminary assessment</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <h4>Easy Booking</h4>
+                            <p>Schedule appointments online in minutes</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Secure Records</h4>
+                            <p>Your medical data is safe and always accessible</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a routerLink="/appointment" class="btn-why">
+                    <i class="fas fa-calendar-check"></i> Book Appointment
+                </a>
+            </div>
+
+            <div class="why-visual">
+                <div class="why-img-main">
+                    <img src="/assets/img/health/consultation-4.webp" alt="Doctor consultation" loading="lazy">
+                </div>
+                <div class="why-stat-card card-1">
+                    <i class="fas fa-heartbeat"></i>
+                    <div>
+                        <strong>10,000+</strong>
+                        <span>Patients Treated</span>
+                    </div>
+                </div>
+                <div class="why-stat-card card-2">
+                    <i class="fas fa-trophy"></i>
+                    <div>
+                        <strong>#1 Rated</strong>
+                        <span>Healthcare Provider</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     DOCTORS FROM API
+══════════════════════════════ -->
+<section class="doctors-section">
+    <div class="section-container">
+        <div class="section-head">
+            <span class="section-label">Meet The Team</span>
+            <h2 class="section-title">Our Expert Doctors</h2>
+            <p class="section-sub">Experienced professionals committed to your health</p>
         </div>
 
-        <div class="doctors-grid">
-            <a *ngFor="let doctor of doctors; let i = index" [routerLink]="doctor.link" class="doctor-card" [attr.aria-label]="'View profile of ' + doctor.name + ', ' + doctor.specialty" [style.--delay]="i * 100 + 'ms'">
-                <div class="doctor-img-wrap">
-                    <img [src]="doctor.image" [alt]="doctor.name + ', ' + doctor.specialty" loading="lazy" width="300" height="320">
-                </div>
-                <div class="doctor-info">
-                    <h3>{{ doctor.name }}</h3>
-                    <p class="doctor-specialty">{{ doctor.specialty }}</p>
-                    <p class="doctor-experience">
-                        <i class="fas fa-clock" aria-hidden="true"></i> {{ doctor.experience }}
-                    </p>
-                    <span class="doctor-cta" aria-hidden="true">
-            View Profile <i class="fas fa-arrow-right"></i>
-          </span>
-                </div>
-            </a>
+        @if (isLoadingDoctors()) {
+        <div class="loading-row">
+            @for (item of [1,2,3,4]; track item) {
+            <div class="skeleton-card"></div>
+            }
         </div>
+        } @else if (doctors().length > 0) {
+        <div class="doctors-grid">
+            @for (doc of doctors(); track doc.id; let i = $index) {
+            <div class="doctor-card" [style.--delay]="i * 80 + 'ms'">
+                <div class="doctor-img">
+                    @if (doc.imgPath) {
+                    <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy"> } @else {
+                    <div class="doctor-initials">
+                        {{ getDoctorInitials(doc.fullName) }}
+                    </div>
+                    }
+                    <div class="doctor-hover">
+                        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doc.id}" class="doc-book-btn">Book Now</a>
+                    </div>
+                </div>
+                <div class="doctor-body">
+                    <h3>{{ doc.fullName }}</h3>
+                    <span class="doc-specialty">{{ doc.specialization }}</span>
+                    <div class="doc-meta">
+                        <span><i class="fas fa-building"></i> {{ doc.departmentName }}</span>
+                        <span><i class="fas fa-clock"></i> {{ doc.yearsOfExperience }}+ yrs</span>
+                    </div>
+                    <div class="doc-fee">
+                        <i class="fas fa-dollar-sign"></i> {{ doc.consultationFee }} EGP
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        } @else {
+        <div class="empty-state">
+            <i class="fas fa-user-md"></i>
+            <p>No doctors available yet.</p>
+        </div>
+        }
 
         <div class="section-cta">
-            <a routerLink="/doctors" class="btn btn-primary">
-        View All Doctors
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            <a routerLink="/doctors" class="btn-view-all">
+        View All Doctors <i class="fas fa-arrow-right"></i>
       </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     AI BANNER
+══════════════════════════════ -->
+<section class="ai-section">
+    <div class="section-container">
+        <div class="ai-card">
+            <div class="ai-content">
+                <div class="ai-icon-big">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-text">
+                    <h2>Try Our AI Diagnosis Assistant</h2>
+                    <p>Describe your symptoms and get instant preliminary assessment with specialist recommendations</p>
+                </div>
+                <a routerLink="/chatbot" class="ai-cta-btn">
+                    <i class="fas fa-robot"></i> Try AI Now
+                </a>
+            </div>
+            <div class="ai-shapes">
+                <div class="ai-shape ai-s1"></div>
+                <div class="ai-shape ai-s2"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     CTA
+══════════════════════════════ -->
+<section class="cta-section">
+    <div class="section-container">
+        <div class="cta-card">
+            <div class="cta-bg-shapes">
+                <div class="cta-shape-1"></div>
+                <div class="cta-shape-2"></div>
+            </div>
+            <div class="cta-content">
+                <h2>Ready to Take Care of Your Health?</h2>
+                <p>Book an appointment with our expert doctors today and take the first step towards better health.</p>
+                <div class="cta-actions">
+                    <a routerLink="/appointment" class="cta-btn-primary">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </a>
+                    <a routerLink="/doctors" class="cta-btn-outline">
+                        <i class="fas fa-user-md"></i> Meet Our Doctors
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>

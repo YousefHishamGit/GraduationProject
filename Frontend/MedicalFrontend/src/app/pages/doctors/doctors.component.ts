@@ -1,27 +1,9 @@
-import { Component, signal, computed, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { EndPoints } from '../../Services/endpoints';
+import { EndPoints } from '../../services/endpoints';
 import { DoctorResponseDto } from '../../interfaces/doctor.interface';
-
-interface Doctor {
-  id: number;
-  name: string;
-  specialization: string;
-  departmentName: string;
-  location: string;
-  experience: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  availability: string;
-  consultationFee: number;
-  departmentId: number;
-  DoctorImgUrl: string;
-  Specialization: string;
-  YearsOfExperience: number;
-}
 
 @Component({
   selector: 'app-doctors',
@@ -33,97 +15,122 @@ interface Doctor {
 export class DoctorsComponent implements OnInit {
   private endpoint = inject(EndPoints);
 
-  // Search & Filter
+  allDoctors = signal<DoctorResponseDto[]>([]);
+  departments = signal<any[]>([]);
+  isLoading = signal(true);
+
   searchTerm = '';
-  departmentFilter = '';
-  experienceFilter = '';
-  searchQuery = signal<string>('');
-  selectedSpecialty = signal<string>('All Specialties');
+  selectedDept = '';
+  selectedSpec = '';
+  selectedExp = '';
 
-  // Modal
-  showModal = false;
-  selectedDoctor: Doctor | null = null;
-  timeSlots: any[] = [];
-  selectedTimeSlot: any = null;
-
-  allDoctors = signal<Doctor[]>([]);
-
-  specialties = computed(() => {
+  specializations = computed(() => {
     const specs = new Set(this.allDoctors().map(d => d.specialization));
-    return ['All Specialties', ...Array.from(specs)];
+    return Array.from(specs).sort();
   });
 
   filteredDoctors = computed(() => {
-    return this.allDoctors().filter(doctor => {
-      const matchesSearch = doctor.name.toLowerCase()
-        .includes(this.searchQuery().toLowerCase()) ||
-        doctor.specialization.toLowerCase()
-        .includes(this.searchQuery().toLowerCase());
-      const matchesSpecialty = this.selectedSpecialty() === 'All Specialties' ||
-        doctor.specialization === this.selectedSpecialty();
-      return matchesSearch && matchesSpecialty;
+    return this.allDoctors().filter(doc => {
+      const matchSearch = !this.searchTerm ||
+        doc.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        doc.specialization.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+      const matchDept = !this.selectedDept ||
+        doc.departmentName === this.selectedDept;
+
+      const matchSpec = !this.selectedSpec ||
+        doc.specialization === this.selectedSpec;
+
+      const matchExp = !this.selectedExp ||
+        (this.selectedExp === '5' && doc.yearsOfExperience >= 5) ||
+        (this.selectedExp === '10' && doc.yearsOfExperience >= 10) ||
+        (this.selectedExp === '15' && doc.yearsOfExperience >= 15);
+
+      return matchSearch && matchDept && matchSpec && matchExp;
     });
   });
 
+  // Modal
+  selectedDoctor = signal<DoctorResponseDto | null>(null);
+  timeSlots = signal<any[]>([]);
+  reviews = signal<any[]>([]);
+  rating = signal<number>(0);
+  showModal = signal(false);
+  modalTab = signal<'info' | 'slots' | 'reviews'>('info');
+
   ngOnInit() {
     this.loadDoctors();
+    this.loadDepartments();
   }
 
   loadDoctors() {
     this.endpoint.doctors.getAll().subscribe({
       next: (data) => {
-        this.allDoctors.set(data.map(d => ({
-          id: d.id,
-          name: d.fullName,
-          specialization: d.specialization,
-          departmentName: d.departmentName,
-          location: d.address || 'N/A',
-          Specialization: d.specialization,
-          experience: d.yearsOfExperience,
-          YearsOfExperience: d.yearsOfExperience,
-          rating: 4.8,
-          reviews: 120,
-          image: d.imgPath || '/assets/img/person/person-f-11.webp',
-          DoctorImgUrl: d.imgPath || '/assets/img/person/person-f-11.webp',
-          availability: d.status,
-          consultationFee: d.consultationFee,
-          departmentId: 0
-        })));
+        this.allDoctors.set(data);
+        this.isLoading.set(false);
       },
-      error: (err) => console.error('Error loading doctors', err)
+      error: () => this.isLoading.set(false)
     });
   }
 
-  filterDoctors() {
-    this.searchQuery.set(this.searchTerm);
-  }
-
-  setSpecialty(specialty: string) {
-    this.selectedSpecialty.set(specialty);
-  }
-
-  viewDoctorDetails(doctor: Doctor) {
-    this.selectedDoctor = doctor;
-    this.showModal = true;
-    this.loadTimeSlots(doctor.id);
-  }
-
-  loadTimeSlots(doctorId: number) {
-    this.endpoint.doctors.getTimeSlots(doctorId).subscribe({
-      next: (data) => this.timeSlots = data,
-      error: (err) => console.error('Error loading time slots', err)
+  loadDepartments() {
+    this.endpoint.departments.getAll().subscribe({
+      next: (data) => this.departments.set(data)
     });
   }
 
-  selectTimeSlot(slot: any) {
-    this.selectedTimeSlot = slot;
+  openDoctor(doc: DoctorResponseDto) {
+    this.selectedDoctor.set(doc);
+    this.showModal.set(true);
+    this.modalTab.set('info');
+    this.loadDoctorDetails(doc.id);
   }
 
-  closeModal(event?: Event) {
-    if (!event || event.target === event.currentTarget) {
-      this.showModal = false;
-      this.selectedDoctor = null;
-      this.selectedTimeSlot = null;
-    }
+  loadDoctorDetails(id: number) {
+    this.endpoint.doctors.getTimeSlots(id).subscribe({
+      next: (data) => this.timeSlots.set(data.filter(s => !s.isBooked).slice(0, 8))
+    });
+
+    this.endpoint.doctors.getReviews(id).subscribe({
+      next: (data) => {
+        this.reviews.set(data);
+        if (data.length > 0) {
+          const avg = data.reduce((s, r) => s + r.rating, 0) / data.length;
+          this.rating.set(Math.round(avg * 10) / 10);
+        }
+      }
+    });
+  }
+
+  closeModal() {
+    this.showModal.set(false);
+    this.selectedDoctor.set(null);
+  }
+
+  clearFilters() {
+    this.searchTerm = '';
+    this.selectedDept = '';
+    this.selectedSpec = '';
+    this.selectedExp = '';
+  }
+
+  getInitials(name: string): string {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  getStars(rating: number): number[] {
+    return Array(5).fill(0).map((_, i) => i < Math.round(rating) ? 1 : 0);
+  }
+
+  formatTime(time: string): string {
+    if (!time) return '';
+    const date = new Date(time);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  formatDate(time: string): string {
+    if (!time) return '';
+    const date = new Date(time);
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
   }
 }

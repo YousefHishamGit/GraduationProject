@@ -1,23 +1,24 @@
 export interface PatientResponseDto {
   id: number;
   fullName: string;
-  birthDate: string;
-  gender: string;
   phone: string;
-  address: string;
+  gender: string;
+  email: string;
   bloodType?: string;
   allergies?: string;
   medicalHistory?: string;
   emergencyContactName?: string;
   emergencyContactPhone?: string;
   imgPath?: string;
+  birthDate: string;
+  address?: string;
 }
 
 export interface UpdatePatientDto {
+  phone?: string;
+  address?: string;
   allergies?: string;
   medicalHistory?: string;
   emergencyContactName?: string;
   emergencyContactPhone?: string;
-  imgPath?: string;
-  bloodType?: number;
 }

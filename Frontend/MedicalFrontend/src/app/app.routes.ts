@@ -1,64 +1,59 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
-import { DepartmentsComponent } from './pages/departments/departments.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { DoctorsComponent } from './pages/doctors/doctors.component';
-import { DoctorDashboardComponent } from './pages/doctor-dashboard/doctor-dashboard.component';
-import { AppointmentComponent } from './pages/appointment/appointment.component';
-import { AppointmentSuccessComponent } from './pages/appointment-success/appointment-success.component';
-import { ChatbotComponent } from './pages/chatbot/chatbot.component';
-import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
-import { RegistrationConfirmationComponent } from './pages/registration-confirmation/registration-confirmation.component';
-import { PatientDashboardComponent } from './pages/patient-dashboard/patient-dashboard.component';
-import { AdminDashboardComponent } from './pages/admin/dashboard/admin-dashboard.component';
 import { authGuard } from './guard/auth.guard';
 import { roleGuard } from './guard/role.guard';
 
 export const routes: Routes = [
-  // ── Public Routes ─────────────────────────────────────
-  { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'departments', component: DepartmentsComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: 'doctors', component: DoctorsComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'registration-confirmation', component: RegistrationConfirmationComponent },
-
-  // ── Protected Routes ──────────────────────────────────
+  // ── Public ───────────────────────────────────────────
   {
-    path: 'appointment',
-    component: AppointmentComponent,
-    // canActivate: [authGuard]
+    path: '',
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
-    path: 'appointment-success',
-    component: AppointmentSuccessComponent,
-      // canActivate: [authGuard]
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   },
   {
-    path: 'chatbot',
-    component: ChatbotComponent,
-    // canActivate: [authGuard]
+    path: 'signup',
+    loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent)
+  },
+  {
+    path: 'doctors',
+    loadComponent: () => import('./pages/doctors/doctors.component').then(m => m.DoctorsComponent)
+  },
+  {
+    path: 'departments',
+    loadComponent: () => import('./pages/departments/departments.component').then(m => m.DepartmentsComponent)
   },
 
-  // ── Role-based Routes ─────────────────────────────────
+  // ── Patient ───────────────────────────────────────────
   {
     path: 'patient-dashboard',
-    component: PatientDashboardComponent,
+    loadComponent: () => import('./pages/patient-dashboard/patient-dashboard.component').then(m => m.PatientDashboardComponent),
     // canActivate: [authGuard, roleGuard(['Patient'])]
   },
   {
-    path: 'doctor-dashboard',
-    component: DoctorDashboardComponent,
-    canActivate: [authGuard, roleGuard(['Doctor'])]
+    path: 'appointment',
+    loadComponent: () => import('./pages/appointment/appointment.component').then(m => m.AppointmentComponent),
+    canActivate: [authGuard]
   },
   {
-    path: 'admin-dashboard',
-    component: AdminDashboardComponent,
-    // canActivate: [authGuard, roleGuard(['Admin'])]
+    path: 'chatbot',
+    loadComponent: () => import('./pages/chatbot/chatbot.component').then(m => m.ChatbotComponent),
+    canActivate: [authGuard]
+  },
+
+  // ── Doctor ────────────────────────────────────────────
+  {
+    path: 'doctor-dashboard',
+    loadComponent: () => import('./pages/doctor-dashboard/doctor-dashboard.component').then(m => m.DoctorDashboardComponent),
+    canActivate: [authGuard, roleGuard(['Doctor'])]
+  },
+
+  // ── Admin ─────────────────────────────────────────────
+  {
+    path: 'admin',
+    loadComponent: () => import('./pages/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [authGuard, roleGuard(['Admin'])]
   },
 
   // ── Fallback ──────────────────────────────────────────

@@ -1,156 +1,294 @@
 <div class="signup-page">
-    <div class="signup-wrapper">
 
-        <!-- Left Panel -->
-        <div class="signup-left">
-            <div class="brand">
-                <i class="fas fa-hospital-alt"></i>
-                <span>ClinicCare</span>
+    <!-- Left Panel -->
+    <div class="signup-left">
+        <div class="left-inner">
+            <a routerLink="/" class="back-home">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+
+            <div class="left-logo">
+                <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                <span>MediCare</span>
             </div>
+
             <div class="left-content">
-                <h1>Join Us Today</h1>
-                <p>Create your account and get access to world-class healthcare services.</p>
-                <ul class="perks">
-                    <li><i class="fas fa-check-circle"></i> Book appointments instantly</li>
-                    <li><i class="fas fa-check-circle"></i> Access your medical records</li>
-                    <li><i class="fas fa-check-circle"></i> AI-powered health diagnosis</li>
-                    <li><i class="fas fa-check-circle"></i> 24/7 support available</li>
-                </ul>
+                <h1>Join MediCare</h1>
+                <p>Create your account and access world-class healthcare services.</p>
+
+                <!-- Steps Info -->
+                <div class="steps-info">
+                    <div class="step-info" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1">
+                        <div class="si-num">1</div>
+                        <div class="si-text">
+                            <strong>Personal Info</strong>
+                            <span>Name, ID, Date of birth</span>
+                        </div>
+                    </div>
+                    <div class="step-info" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2">
+                        <div class="si-num">2</div>
+                        <div class="si-text">
+                            <strong>Account Setup</strong>
+                            <span>Email & password</span>
+                        </div>
+                    </div>
+                    <div class="step-info" [class.active]="currentStep() >= 3">
+                        <div class="si-num">3</div>
+                        <div class="si-text">
+                            <strong>Medical Info</strong>
+                            <span>Health details</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="left-note">
+                <i class="fas fa-lock"></i>
+                <p>Your data is encrypted and protected by our security systems.</p>
             </div>
         </div>
+    </div>
 
-        <!-- Right Panel -->
-        <div class="signup-right">
-            <div class="form-container">
-                <div class="form-header">
-                    <h2>Create Account</h2>
-                    <p>Fill in your details to get started</p>
+    <!-- Right Panel -->
+    <div class="signup-right">
+        <div class="form-box">
+
+            <!-- Header -->
+            <div class="form-header">
+                <div class="step-indicator">
+                    Step {{ currentStep() }} of {{ totalSteps }}
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="getStepProgress()"></div>
+                </div>
+            </div>
+
+            @if (errorMessage) {
+            <div class="error-msg">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+            </div>
+            }
+
+            <!-- ═══ STEP 1: Personal ═══ -->
+            @if (currentStep() === 1) {
+            <div class="step-content">
+                <div class="step-title">
+                    <h2>Personal Information</h2>
+                    <p>Tell us about yourself</p>
                 </div>
 
-                <form (ngSubmit)="onSubmit()">
-
-                    <!-- Name Row -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-user"></i>
-                                <input type="text" [(ngModel)]="firstName" name="firstName" placeholder="John" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-user"></i>
-                                <input type="text" [(ngModel)]="lastName" name="lastName" placeholder="Doe" required>
-                            </div>
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>First Name <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-user field-icon"></i>
+                            <input type="text" [(ngModel)]="firstName" name="firstName" placeholder="John" required>
                         </div>
                     </div>
-
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <div class="input-wrap">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" [(ngModel)]="email" name="email" placeholder="john@example.com" required>
+                    <div class="field-group">
+                        <label>Last Name <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-user field-icon"></i>
+                            <input type="text" [(ngModel)]="lastName" name="lastName" placeholder="Doe" required>
                         </div>
                     </div>
+                </div>
 
-                    <!-- National ID & Phone -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>National ID</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-id-card"></i>
-                                <input type="text" [(ngModel)]="nationalID" name="nationalID" placeholder="14 digits" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-phone"></i>
-                                <input type="tel" [(ngModel)]="phone" name="phone" placeholder="01xxxxxxxxx" required>
-                            </div>
+                <div class="field-group">
+                    <label>National ID <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <i class="fas fa-id-card field-icon"></i>
+                        <input type="text" [(ngModel)]="nationalID" name="nationalID" placeholder="14-digit national ID" maxlength="14" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>Date of Birth <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-calendar field-icon"></i>
+                            <input type="date" [(ngModel)]="birthDate" name="birthDate" required>
                         </div>
                     </div>
-
-                    <!-- Birth Date & Gender -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Birth Date</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-calendar"></i>
-                                <input type="date" [(ngModel)]="birthDate" name="birthDate" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-venus-mars"></i>
-                                <select [(ngModel)]="gender" name="gender" required>
-                  <option value="0">Male</option>
-                  <option value="1">Female</option>
+                    <div class="field-group">
+                        <label>Gender <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-venus-mars field-icon"></i>
+                            <select [(ngModel)]="gender" name="gender">
+                  <option [value]="0">Male</option>
+                  <option [value]="1">Female</option>
                 </select>
-                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Address -->
-                    <div class="form-group">
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>Phone Number</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-phone field-icon"></i>
+                            <input type="tel" [(ngModel)]="phone" name="phone" placeholder="01xxxxxxxxx">
+                        </div>
+                    </div>
+                    <div class="field-group">
                         <label>Address</label>
-                        <div class="input-wrap">
-                            <i class="fas fa-map-marker-alt"></i>
+                        <div class="field-wrap">
+                            <i class="fas fa-map-marker-alt field-icon"></i>
                             <input type="text" [(ngModel)]="address" name="address" placeholder="Cairo, Egypt">
                         </div>
                     </div>
+                </div>
 
-                    <!-- Password Row -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Password</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" [(ngModel)]="password" name="password" placeholder="Min 8 characters" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm Password</label>
-                            <div class="input-wrap">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Repeat password" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    @if (errorMessage) {
-                    <div class="alert-error">
-                        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
-                    </div>
-                    }
-
-                    <!-- Terms -->
-                    <div class="terms-check">
-                        <input type="checkbox" id="terms" [(ngModel)]="agreedToTerms" name="terms">
-                        <label for="terms">
-              I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
-            </label>
-                    </div>
-
-                    <button type="submit" class="btn-submit" [disabled]="isLoading">
-            @if (isLoading) {
-              <i class="fas fa-spinner fa-spin"></i> Creating Account...
-            } @else {
-              <i class="fas fa-user-plus"></i> Create Account
-            }
+                <button type="button" class="next-btn" (click)="nextStep()">
+            Next Step <i class="fas fa-arrow-right"></i>
           </button>
 
-                </form>
-
                 <div class="signin-link">
-                    Already have an account? <a routerLink="/login">Sign In</a>
+                    Already have an account? <a routerLink="/login">Sign in</a>
                 </div>
             </div>
-        </div>
+            }
 
+            <!-- ═══ STEP 2: Account ═══ -->
+            @if (currentStep() === 2) {
+            <div class="step-content">
+                <div class="step-title">
+                    <h2>Account Setup</h2>
+                    <p>Create your login credentials</p>
+                </div>
+
+                <div class="field-group">
+                    <label>Email Address <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <i class="fas fa-envelope field-icon"></i>
+                        <input type="email" [(ngModel)]="email" name="email" placeholder="your@email.com" autocomplete="email" required>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Password <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <i class="fas fa-lock field-icon"></i>
+                        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="Min 8 characters" required>
+                        <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+                    </div>
+                    <div class="password-hints">
+                        <span [class.valid]="password.length >= 8">
+                <i class="fas fa-check"></i> 8+ characters
+              </span>
+                        <span [class.valid]="password.match('[A-Z]')">
+                <i class="fas fa-check"></i> Uppercase
+              </span>
+                        <span [class.valid]="password.match('[0-9]')">
+                <i class="fas fa-check"></i> Number
+              </span>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Confirm Password <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <i class="fas fa-lock field-icon"></i>
+                        <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Repeat password" required>
+                        <button type="button" class="eye-btn" (click)="showConfirm = !showConfirm">
+                <i [class]="showConfirm ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+                    </div>
+                    @if (confirmPassword && password !== confirmPassword) {
+                    <span class="field-error">Passwords do not match</span> }
+                </div>
+
+                <div class="step-nav">
+                    <button type="button" class="back-btn" (click)="prevStep()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+                    <button type="button" class="next-btn" (click)="nextStep()">
+              Next Step <i class="fas fa-arrow-right"></i>
+            </button>
+                </div>
+            </div>
+            }
+
+            <!-- ═══ STEP 3: Medical ═══ -->
+            @if (currentStep() === 3) {
+            <div class="step-content">
+                <div class="step-title">
+                    <h2>Medical Information</h2>
+                    <p>Help us provide better care <span class="optional-tag">Optional</span></p>
+                </div>
+
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>Blood Type</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-tint field-icon"></i>
+                            <select [(ngModel)]="bloodType" name="bloodType">
+                  <option value="">Select blood type</option>
+                  @for (bt of bloodTypes; track bt.value) {
+                    <option [value]="bt.value">{{ bt.label }}</option>
+                  }
+                </select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Emergency Contact Name</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-user-friends field-icon"></i>
+                            <input type="text" [(ngModel)]="emergencyContactName" name="emergencyContactName" placeholder="Contact person name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Emergency Contact Phone</label>
+                    <div class="field-wrap">
+                        <i class="fas fa-phone-alt field-icon"></i>
+                        <input type="tel" [(ngModel)]="emergencyContactPhone" name="emergencyContactPhone" placeholder="Emergency phone number">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Known Allergies</label>
+                    <div class="field-wrap textarea-wrap">
+                        <i class="fas fa-allergies field-icon field-icon-top"></i>
+                        <textarea [(ngModel)]="allergies" name="allergies" rows="2" placeholder="e.g. Penicillin, Peanuts, Dust..."></textarea>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Medical History</label>
+                    <div class="field-wrap textarea-wrap">
+                        <i class="fas fa-notes-medical field-icon field-icon-top"></i>
+                        <textarea [(ngModel)]="medicalHistory" name="medicalHistory" rows="2" placeholder="e.g. Diabetes, Hypertension..."></textarea>
+                    </div>
+                </div>
+
+                <div class="terms-check">
+                    <input type="checkbox" id="terms" [(ngModel)]="agreedToTerms" name="terms">
+                    <label for="terms">
+              I agree to the <a href="#">Terms of Service</a> and
+              <a href="#">Privacy Policy</a>
+            </label>
+                </div>
+
+                <div class="step-nav">
+                    <button type="button" class="back-btn" (click)="prevStep()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+                    <button type="button" class="submit-btn" (click)="onSubmit()" [disabled]="isLoading">
+              @if (isLoading) {
+                <i class="fas fa-spinner fa-spin"></i> Creating...
+              } @else {
+                <i class="fas fa-check"></i> Create Account
+              }
+            </button>
+                </div>
+            </div>
+            }
+
+        </div>
     </div>
+
 </div>

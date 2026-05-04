@@ -9,11 +9,11 @@ export interface DepartmentResponseDto {
 export interface CreateDepartmentDto {
   departmentName: string;
   description: string;
-  image?: string;
+  imgPath?: string;
 }
 
 export interface UpdateDepartmentDto {
   departmentName?: string;
   description?: string;
-  image?: string;
+  imgPath?: string;
 }

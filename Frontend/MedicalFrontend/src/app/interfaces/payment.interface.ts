@@ -12,10 +12,5 @@ export interface CreatePaymentDto {
   appointmentId: number;
   amount: number;
   currency: string;
-  method: number;
-}
-
-export interface UpdatePaymentDto {
-  status?: number;
-  paidAt?: string;
+  method: string;
 }

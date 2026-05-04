@@ -1,35 +1,59 @@
-import { Component, signal, computed, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { EndPoints } from '../../Services/endpoints';
-
-interface Department {
-  id: number;
-  name: string;
-  description: string;
-  icon: string;
-  image: string;
-  doctorCount: number;
-  services: string[];
-}
+import { FormsModule } from '@angular/forms';
+import { EndPoints } from '../../services/endpoints';
 
 @Component({
   selector: 'app-departments',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './departments.component.html',
   styleUrls: ['./departments.component.css']
 })
 export class DepartmentsComponent implements OnInit {
   private endpoint = inject(EndPoints);
 
-  departments = signal<Department[]>([]);
-  activeTab: number | null = null;
+  departments = signal<any[]>([]);
+  selectedDept = signal<any>(null);
+  deptDoctors = signal<any[]>([]);
+  isLoading = signal(true);
+  isLoadingDoctors = signal(false);
+  searchTerm = '';
 
-  // alias عشان الـ HTML بيستخدم allDepartments
-  get allDepartments() {
-    return this.departments();
-  }
+  filteredDepts = computed(() => {
+    if (!this.searchTerm) return this.departments();
+    return this.departments().filter(d =>
+      d.departmentName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      d.description?.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  });
+
+  deptIcons: Record<string, string> = {
+    'Cardiology': 'fas fa-heartbeat',
+    'Neurology': 'fas fa-brain',
+    'Orthopedics': 'fas fa-bone',
+    'Pediatrics': 'fas fa-baby',
+    'Dermatology': 'fas fa-allergies',
+    'Ophthalmology': 'fas fa-eye',
+    'Gynecology': 'fas fa-venus',
+    'Urology': 'fas fa-kidneys',
+    'Oncology': 'fas fa-ribbon',
+    'Emergency': 'fas fa-ambulance',
+    'Psychiatry': 'fas fa-head-side-brain',
+    'ENT': 'fas fa-ear',
+    'Gastroenterology': 'fas fa-stomach',
+    'Endocrinology': 'fas fa-dna',
+    'Rheumatology': 'fas fa-hand-dots',
+    'Pulmonology': 'fas fa-lungs',
+    'General Medicine': 'fas fa-stethoscope'
+  };
+
+  deptColors: string[] = [
+    '#ef4444', '#8b5cf6', '#f59e0b', '#10b981',
+    '#3b82f6', '#1a6fc4', '#ec4899', '#06b6d4',
+    '#84cc16', '#f97316', '#6366f1', '#14b8a6'
+  ];
 
   ngOnInit() {
     this.loadDepartments();
@@ -38,41 +62,37 @@ export class DepartmentsComponent implements OnInit {
   loadDepartments() {
     this.endpoint.departments.getAll().subscribe({
       next: (data) => {
-        const mapped = data.map(d => ({
-          id: d.id,
-          name: d.departmentName,
-          description: d.description,
-          icon: this.getIconForDepartment(d.departmentName),
-          image: d.imgPath || '/assets/img/health/cardiology-1.webp',
-          doctorCount: 0,
-          services: ['General Consultation', 'Specialized Care', 'Follow-up']
-        }));
-        this.departments.set(mapped);
-        if (mapped.length > 0) this.activeTab = mapped[0].id;
+        this.departments.set(data);
+        if (data.length > 0) this.selectDept(data[0]);
+        this.isLoading.set(false);
       },
-      error: (err) => console.error('Error loading departments', err)
+      error: () => this.isLoading.set(false)
     });
   }
 
-  setActiveTab(id: number) {
-    this.activeTab = id;
+  selectDept(dept: any) {
+    this.selectedDept.set(dept);
+    this.deptDoctors.set([]);
+    this.isLoadingDoctors.set(true);
+
+    this.endpoint.departments.getDoctors(dept.id).subscribe({
+      next: (docs) => {
+        this.deptDoctors.set(docs);
+        this.isLoadingDoctors.set(false);
+      },
+      error: () => this.isLoadingDoctors.set(false)
+    });
   }
 
-  scrollToDepartment(id: number) {
-    this.activeTab = id;
-    const el = document.getElementById(id.toString());
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  getIcon(name: string): string {
+    return this.deptIcons[name] || 'fas fa-hospital-user';
   }
 
-  getIconForDepartment(name: string): string {
-    const icons: { [key: string]: string } = {
-      'Cardiology': 'fas fa-heartbeat',
-      'Neurology': 'fas fa-brain',
-      'Orthopedics': 'fas fa-bone',
-      'Pediatrics': 'fas fa-baby',
-      'Dermatology': 'fas fa-allergies',
-      'Ophthalmology': 'fas fa-eye'
-    };
-    return icons[name] || 'fas fa-hospital-user';
+  getColor(index: number): string {
+    return this.deptColors[index % this.deptColors.length];
+  }
+
+  getInitials(name: string): string {
+    return name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'DR';
   }
 }

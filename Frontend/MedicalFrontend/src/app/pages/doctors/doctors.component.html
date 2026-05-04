@@ -1,155 +1,298 @@
 <!-- Page Title -->
-<div class="page-title">
-    <div class="heading">
-        <div class="container">
-            <div class="row d-flex justify-content-center text-center">
-                <div class="col-lg-8">
-                    <h1 class="heading-title">Doctors</h1>
-                    <p class="mb-0">
-                        Meet our team of highly qualified and experienced medical professionals, dedicated to providing compassionate care and innovative treatments to every patient.
-                    </p>
-                </div>
-            </div>
-        </div>
+<div class="page-hero">
+    <div class="page-hero-bg">
+        <div class="ph-shape-1"></div>
+        <div class="ph-shape-2"></div>
     </div>
-    <nav class="breadcrumbs">
-        <div class="container">
-            <ol>
-                <li><a routerLink="/">Home</a></li>
-                <li class="current">Doctors</li>
-            </ol>
-        </div>
-    </nav>
+    <div class="page-hero-content">
+        <span class="page-label">Our Medical Team</span>
+        <h1>Find Your Doctor</h1>
+        <p>Browse our team of certified specialists and book your appointment today</p>
+    </div>
 </div>
 
-<!-- Search Section -->
-<section class="doctors-search">
-    <div class="container">
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" [(ngModel)]="searchTerm" (input)="filterDoctors()" placeholder="Search doctors by name or specialty...">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            <div class="filter-options">
-                <select [(ngModel)]="departmentFilter" (change)="filterDoctors()">
-                    <option value="">All Departments</option>
-                    <option value="cardiology">Cardiology</option>
-                    <option value="neurology">Neurology</option>
-                    <option value="orthopedics">Orthopedics</option>
-                    <option value="pediatrics">Pediatrics</option>
-                    <option value="dermatology">Dermatology</option>
-                    <option value="surgery">Surgery</option>
-                </select>
-                <select [(ngModel)]="experienceFilter" (change)="filterDoctors()">
-                    <option value="">All Experience</option>
-                    <option value="5">5+ Years</option>
-                    <option value="10">10+ Years</option>
-                    <option value="15">15+ Years</option>
-                </select>
-            </div>
+<!-- Search & Filter -->
+<section class="filter-section">
+    <div class="filter-container">
+
+        <!-- Search -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or specialty..."> @if (searchTerm) {
+            <button class="clear-search" (click)="searchTerm = ''">
+          <i class="fas fa-times"></i>
+        </button> }
         </div>
+
+        <!-- Filters -->
+        <div class="filters-row">
+            <select [(ngModel)]="selectedDept" class="filter-select">
+        <option value="">All Departments</option>
+        @for (dept of departments(); track dept.id) {
+          <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
+        }
+      </select>
+
+            <select [(ngModel)]="selectedSpec" class="filter-select">
+        <option value="">All Specialties</option>
+        @for (spec of specializations(); track spec) {
+          <option [value]="spec">{{ spec }}</option>
+        }
+      </select>
+
+            <select [(ngModel)]="selectedExp" class="filter-select">
+        <option value="">Any Experience</option>
+        <option value="5">5+ Years</option>
+        <option value="10">10+ Years</option>
+        <option value="15">15+ Years</option>
+      </select> @if (searchTerm || selectedDept || selectedSpec || selectedExp) {
+            <button class="clear-btn" (click)="clearFilters()">
+          <i class="fas fa-times"></i> Clear
+        </button> }
+        </div>
+
+        <!-- Results Count -->
+        <div class="results-count">
+            <span>
+        Showing <strong>{{ filteredDoctors().length }}</strong> of
+        <strong>{{ allDoctors().length }}</strong> doctors
+      </span>
+        </div>
+
     </div>
 </section>
 
-<!-- Doctors Section -->
-<section id="doctors" class="doctors section">
-    <div class="container">
-        <div class="row gy-4">
-            @for (doctor of filteredDoctors(); track doctor.id; let i = $index) {
-            <div class="col-lg-3 col-md-6">
-                <div class="doctor-card" (click)="viewDoctorDetails(doctor)">
-                    <div class="doctor-image">
-                        <img [src]="doctor.DoctorImgUrl" [alt]="doctor.name" class="img-fluid">
-                        <div class="doctor-overlay">
-                            <div class="social-links">
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                                <a href="#"><i class="fas fa-phone"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="doctor-content">
-                        <h4>{{ doctor.name }}</h4>
-                        <span class="specialty">{{ doctor.Specialization }}</span>
-                        <div class="doctor-meta">
-                            <div class="experience">
-                                <i class="fas fa-award"></i>
-                                <span>{{ doctor.YearsOfExperience }}+ Years Experience</span>
-                            </div>
-                            <div class="department">
-                                <i class="fas fa-building"></i>
-                                <span>{{ doctor.departmentName }}</span>
-                            </div>
-                        </div>
-                        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doctor.id}" class="btn-appointment">
-                                Book Appointment
-                            </a>
-                    </div>
+<!-- Doctors Grid -->
+<section class="doctors-main">
+    <div class="doctors-container">
+
+        @if (isLoading()) {
+        <div class="skeleton-grid">
+            @for (item of [1,2,3,4,5,6]; track item) {
+            <div class="skeleton-card">
+                <div class="sk-img"></div>
+                <div class="sk-body">
+                    <div class="sk-line sk-lg"></div>
+                    <div class="sk-line sk-sm"></div>
+                    <div class="sk-line sk-md"></div>
                 </div>
             </div>
             }
         </div>
+        } @else if (filteredDoctors().length > 0) {
+        <div class="doctors-grid">
+            @for (doc of filteredDoctors(); track doc.id; let i = $index) {
+            <div class="doctor-card" [style.--delay]="i * 60 + 'ms'" (click)="openDoctor(doc)">
 
-        @if (filteredDoctors().length === 0) {
-        <div class="text-center py-5">
-            <h3>No doctors found matching your criteria.</h3>
+                <!-- Image -->
+                <div class="doc-img-wrap">
+                    @if (doc.imgPath) {
+                    <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy"> } @else {
+                    <div class="doc-initials">{{ getInitials(doc.fullName) }}</div>
+                    }
+                    <div class="doc-status" [class.active]="doc.status === 'Active'">
+                        {{ doc.status === 'Active' ? 'Available' : doc.status }}
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="doc-body">
+                    <h3>{{ doc.fullName }}</h3>
+                    <span class="doc-spec">{{ doc.specialization }}</span>
+
+                    <div class="doc-tags">
+                        <span class="doc-tag">
+                  <i class="fas fa-building"></i> {{ doc.departmentName }}
+                </span>
+                        <span class="doc-tag">
+                  <i class="fas fa-clock"></i> {{ doc.yearsOfExperience }}+ yrs
+                </span>
+                    </div>
+
+                    <div class="doc-footer">
+                        <span class="doc-fee">
+                  <i class="fas fa-dollar-sign"></i>
+                  {{ doc.consultationFee }} EGP
+                </span>
+                        <button class="doc-book-btn">
+                  Book Now <i class="fas fa-arrow-right"></i>
+                </button>
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>
+        } @else {
+        <div class="no-results">
+            <div class="no-results-icon">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <h3>No Doctors Found</h3>
+            <p>Try adjusting your search or filters</p>
+            <button class="clear-filters-btn" (click)="clearFilters()">
+          Clear All Filters
+        </button>
         </div>
         }
+
     </div>
 </section>
 
-<!-- Doctor Details Modal -->
-<div class="doctor-details-modal" [class.active]="showModal" (click)="closeModal($event)">
-    @if (selectedDoctor) {
-    <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-            <h2>{{ selectedDoctor.name }}</h2>
-            <button class="modal-close" type="button" (click)="closeModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+<!-- Doctor Modal -->
+@if (showModal()) {
+<div class="modal-backdrop" (click)="closeModal()">
+    <div class="doctor-modal" (click)="$event.stopPropagation()">
+
+        <!-- Modal Header -->
+        <div class="modal-head">
+            <button class="modal-close" (click)="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
         </div>
-        <div class="modal-body">
-            <div class="doctor-modal-content">
-                <div class="doctor-modal-image">
-                    <img [src]="selectedDoctor.DoctorImgUrl" [alt]="selectedDoctor.name">
-                </div>
-                <div class="doctor-modal-info">
-                    <div class="doctor-specialty">
-                        <i class="fas fa-stethoscope"></i> {{ selectedDoctor.Specialization }}
-                    </div>
-                    <div class="doctor-experience">
-                        <i class="fas fa-award"></i> {{ selectedDoctor.YearsOfExperience }}+ years experience
-                    </div>
-                    <div class="doctor-experience">
-                        <i class="fas fa-building"></i> {{ selectedDoctor.departmentName }}
-                    </div>
-                    <div class="doctor-experience">
-                        <i class="fas fa-map-marker-alt"></i> {{ selectedDoctor.location }}
-                    </div>
 
-                    @if (timeSlots.length > 0) {
-                    <div class="doctor-availability">
-                        <h3>Select Time Slot:</h3>
-                        <div class="availability-slots">
-                            @for (slot of timeSlots; track slot) {
-                            <div class="time-slot" [class.selected]="selectedTimeSlot === slot" (click)="selectTimeSlot(slot)">
-                                {{ slot.slotStart | date:'shortTime' }} - {{ slot.slotEnd | date:'shortTime' }}
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    }
+        @if (selectedDoctor(); as doc) {
 
-                    <div class="modal-actions">
-                        <a [routerLink]="['/appointment']" [queryParams]="{doctorId: selectedDoctor.id, timeSlotId: selectedTimeSlot?.id}" class="btn btn-primary" [class.disabled]="!selectedTimeSlot">
-                                Book Appointment
-                            </a>
-                    </div>
+        <!-- Doctor Profile -->
+        <div class="modal-profile">
+            <div class="modal-img">
+                @if (doc.imgPath) {
+                <img [src]="doc.imgPath" [alt]="doc.fullName"> } @else {
+                <div class="modal-initials">{{ getInitials(doc.fullName) }}</div>
+                }
+            </div>
+            <div class="modal-info">
+                <h2>{{ doc.fullName }}</h2>
+                <p class="modal-spec">{{ doc.specialization }}</p>
+                <div class="modal-meta">
+                    <span><i class="fas fa-building"></i> {{ doc.departmentName }}</span>
+                    <span><i class="fas fa-clock"></i> {{ doc.yearsOfExperience }}+ years</span>
+                    <span><i class="fas fa-dollar-sign"></i> {{ doc.consultationFee }} EGP</span>
                 </div>
+                @if (rating() > 0) {
+                <div class="modal-rating">
+                    @for (star of getStars(rating()); track $index) {
+                    <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                    <span>{{ rating() }} ({{ reviews().length }} reviews)</span>
+                </div>
+                }
             </div>
         </div>
+
+        <!-- Tabs -->
+        <div class="modal-tabs">
+            <button class="modal-tab" [class.active]="modalTab() === 'info'" (click)="modalTab.set('info')">
+            <i class="fas fa-info-circle"></i> Info
+          </button>
+            <button class="modal-tab" [class.active]="modalTab() === 'slots'" (click)="modalTab.set('slots')">
+            <i class="fas fa-calendar"></i> Time Slots
+            @if (timeSlots().length > 0) {
+              <span class="tab-badge">{{ timeSlots().length }}</span>
+            }
+          </button>
+            <button class="modal-tab" [class.active]="modalTab() === 'reviews'" (click)="modalTab.set('reviews')">
+            <i class="fas fa-star"></i> Reviews
+            @if (reviews().length > 0) {
+              <span class="tab-badge">{{ reviews().length }}</span>
+            }
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="modal-tab-content">
+
+            <!-- Info Tab -->
+            @if (modalTab() === 'info') {
+            <div class="tab-pane">
+                @if (doc.bio) {
+                <div class="info-section">
+                    <h4><i class="fas fa-user"></i> About</h4>
+                    <p>{{ doc.bio }}</p>
+                </div>
+                }
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">License</span>
+                        <span class="info-value">{{ doc.licenseNumber }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status</span>
+                        <span class="info-value status-badge">{{ doc.status }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Experience</span>
+                        <span class="info-value">{{ doc.yearsOfExperience }}+ Years</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Consultation</span>
+                        <span class="info-value">{{ doc.consultationFee }} EGP</span>
+                    </div>
+                </div>
+                <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doc.id}" class="book-full-btn" (click)="closeModal()">
+                    <i class="fas fa-calendar-check"></i> Book Appointment
+                </a>
+            </div>
+            }
+
+            <!-- Slots Tab -->
+            @if (modalTab() === 'slots') {
+            <div class="tab-pane">
+                @if (timeSlots().length > 0) {
+                <div class="slots-grid">
+                    @for (slot of timeSlots(); track slot.id) {
+                    <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doc.id, slotId: slot.id}" class="slot-item" (click)="closeModal()">
+                        <div class="slot-date">{{ formatDate(slot.slotStart) }}</div>
+                        <div class="slot-time">{{ formatTime(slot.slotStart) }}</div>
+                        <span class="slot-available">Available</span>
+                    </a>
+                    }
+                </div>
+                } @else {
+                <div class="empty-tab">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>No available slots right now</p>
+                </div>
+                }
+            </div>
+            }
+
+            <!-- Reviews Tab -->
+            @if (modalTab() === 'reviews') {
+            <div class="tab-pane">
+                @if (reviews().length > 0) {
+                <div class="reviews-list">
+                    @for (review of reviews(); track review.id) {
+                    <div class="review-item">
+                        <div class="review-head">
+                            <div class="reviewer-avatar">
+                                {{ review.patientName.charAt(0) }}
+                            </div>
+                            <div>
+                                <strong>{{ review.patientName }}</strong>
+                                <div class="review-stars">
+                                    @for (star of getStars(review.rating); track $index) {
+                                    <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                                </div>
+                            </div>
+                        </div>
+                        @if (review.comment) {
+                        <p class="review-text">{{ review.comment }}</p>
+                        }
+                    </div>
+                    }
+                </div>
+                } @else {
+                <div class="empty-tab">
+                    <i class="fas fa-star"></i>
+                    <p>No reviews yet</p>
+                </div>
+                }
+            </div>
+            }
+
+        </div>
+
+        }
     </div>
-    }
 </div>
+}

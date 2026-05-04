@@ -9,8 +9,8 @@ export interface RegisterPatientDto {
   nationalID: string;
   birthDate: string;
   gender: number;
-  address?: string;
-  phone?: string;
+  address: string;
+  phone: string;
   email: string;
   password: string;
   bloodType?: number;
@@ -26,8 +26,8 @@ export interface RegisterDoctorDto {
   nationalID: string;
   birthDate: string;
   gender: number;
-  address?: string;
-  phone?: string;
+  address: string;
+  phone: string;
   email: string;
   password: string;
   licenseNumber: string;
@@ -37,18 +37,6 @@ export interface RegisterDoctorDto {
   consultationFee: number;
   hireDate: string;
   bio?: string;
-}
-
-export interface RegisterAdminDto {
-  firstName: string;
-  lastName: string;
-  nationalID: string;
-  birthDate: string;
-  gender: number;
-  address?: string;
-  phone?: string;
-  email: string;
-  password: string;
 }
 
 export interface AuthResponseDto {

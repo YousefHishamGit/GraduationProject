@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseEndpoint } from './base.endpoint';
-import {
-  PrescriptionResponseDto,
-  CreatePrescriptionDto,
-  UpdatePrescriptionDto
-} from '../interfaces/prescription.interface';
+import { PrescriptionResponseDto, CreatePrescriptionDto, UpdatePrescriptionDto } from '../interfaces/prescription.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PrescriptionEndpoint extends BaseEndpoint {
