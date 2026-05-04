@@ -1,1 +1,467 @@
-<p>doctor-dashboard works!</p>
+<div class="dashboard-layout">
+
+    <!-- Mobile Toggle -->
+    <button class="sidebar-toggle" (click)="sidebarOpen.set(!sidebarOpen())">
+    <i [class]="sidebarOpen() ? 'fas fa-times' : 'fas fa-bars'"></i>
+  </button> @if (sidebarOpen()) {
+    <div class="sidebar-overlay" (click)="sidebarOpen.set(false)"></div>
+    }
+
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.open]="sidebarOpen()">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon"><i class="fas fa-heartbeat"></i></div>
+            <span>MediCare</span>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                {{ getInitials(currentUser()?.fullName || 'DR') }}
+            </div>
+            <div class="profile-info">
+                <h4>{{ currentUser()?.fullName }}</h4>
+                <span>Doctor</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+                <i class="fas fa-th-large"></i> Overview
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
+                <i class="fas fa-calendar-check"></i> Appointments @if (appointments().length > 0) {
+                <span class="nav-badge">{{ appointments().length }}</span> }
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'schedule'" (click)="setTab('schedule')">
+                <i class="fas fa-clock"></i> My Schedule
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'timeslots'" (click)="setTab('timeslots')">
+                <i class="fas fa-calendar-alt"></i> Time Slots @if (timeSlots().length > 0) {
+                <span class="nav-badge">{{ timeSlots().length }}</span> }
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'reviews'" (click)="setTab('reviews')">
+                <i class="fas fa-star"></i> Reviews @if (reviews().length > 0) {
+                <span class="nav-badge">{{ reviews().length }}</span> }
+            </a>
+
+            <div class="nav-divider"></div>
+
+            <a class="nav-item" routerLink="/doctors">
+                <i class="fas fa-users"></i> View All Doctors
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title">
+                    @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { Appointments } @if (activeTab() === 'schedule') { My Schedule } @if (activeTab() === 'timeslots') { Time Slots } @if (activeTab() === 'reviews') { Patient Reviews }
+                </h1>
+                <p class="page-sub">
+                    Welcome, <strong>Dr. {{ currentUser()?.fullName }}</strong>
+                </p>
+            </div>
+            <div class="topbar-right">
+                @if (doctor()) {
+                <div class="doctor-tag">
+                    <i class="fas fa-stethoscope"></i> {{ doctor()?.specialization }}
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Loading -->
+        @if (isLoading()) {
+        <div class="loading-screen">
+            <div class="loading-spinner"></div>
+            <p>Loading your dashboard...</p>
+        </div>
+        } @else {
+
+        <!-- ═══ OVERVIEW ═══ -->
+        @if (activeTab() === 'overview') {
+        <div class="tab-content fade-in">
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ appointments().length }}</h3>
+                        <p>Total Appointments</p>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ getTodayAppointments().length }}</h3>
+                        <p>Today</p>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ getPendingCount() }}</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ getAvgRating() || '—' }}</h3>
+                        <p>Avg Rating</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Profile + Today -->
+            <div class="overview-grid">
+
+                <!-- Doctor Card -->
+                <div class="doctor-profile-card card">
+                    <div class="dpc-cover"></div>
+                    <div class="dpc-body">
+                        <div class="dpc-avatar">
+                            {{ getInitials(doctor()?.fullName || 'DR') }}
+                        </div>
+                        <h2>Dr. {{ doctor()?.fullName }}</h2>
+                        <p class="dpc-spec">{{ doctor()?.specialization }}</p>
+                        <div class="dpc-meta">
+                            <div class="dpc-meta-item">
+                                <i class="fas fa-building"></i>
+                                <span>{{ doctor()?.departmentName }}</span>
+                            </div>
+                            <div class="dpc-meta-item">
+                                <i class="fas fa-award"></i>
+                                <span>{{ doctor()?.yearsOfExperience }}+ Years Exp.</span>
+                            </div>
+                            <div class="dpc-meta-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>{{ doctor()?.consultationFee }} EGP</span>
+                            </div>
+                        </div>
+                        @if (getAvgRating() > 0) {
+                        <div class="dpc-rating">
+                            @for (star of getStars(getAvgRating()); track $index) {
+                            <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                            <span>{{ getAvgRating() }} ({{ reviews().length }} reviews)</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Today's Appointments -->
+                <div class="today-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-day"></i> Today's Appointments</h3>
+                        <button class="view-all-btn" (click)="setTab('appointments')">View All</button>
+                    </div>
+
+                    @if (getTodayAppointments().length > 0) {
+                    <div class="today-list">
+                        @for (apt of getTodayAppointments(); track apt.id) {
+                        <div class="today-item">
+                            <div class="today-time">
+                                <span>{{ apt.appointmentDate | date:'hh:mm' }}</span>
+                                <span>{{ apt.appointmentDate | date:'a' }}</span>
+                            </div>
+                            <div class="today-info">
+                                <h4>Patient #{{ apt.patientId }}</h4>
+                                <span>{{ apt.type }}</span>
+                            </div>
+                            <span class="badge" [class]="getStatusClass(apt.status)">
+                        {{ apt.status }}
+                      </span>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div class="empty-today">
+                        <i class="fas fa-calendar-check"></i>
+                        <p>No appointments today</p>
+                    </div>
+                    }
+                </div>
+
+            </div>
+
+            <!-- Recent Reviews -->
+            @if (reviews().length > 0) {
+            <div class="recent-reviews card">
+                <div class="card-header">
+                    <h3><i class="fas fa-star"></i> Recent Reviews</h3>
+                    <button class="view-all-btn" (click)="setTab('reviews')">View All</button>
+                </div>
+                <div class="reviews-preview">
+                    @for (review of reviews().slice(0,3); track review.id) {
+                    <div class="review-preview-item">
+                        <div class="rpi-avatar">{{ review.patientName?.charAt(0) }}</div>
+                        <div class="rpi-content">
+                            <div class="rpi-header">
+                                <strong>{{ review.patientName }}</strong>
+                                <div class="rpi-stars">
+                                    @for (star of getStars(review.rating); track $index) {
+                                    <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                                </div>
+                            </div>
+                            @if (review.comment) {
+                            <p>{{ review.comment }}</p>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+
+        </div>
+        }
+
+        <!-- ═══ APPOINTMENTS ═══ -->
+        @if (activeTab() === 'appointments') {
+        <div class="tab-content fade-in">
+            @if (appointments().length > 0) {
+            <div class="table-card card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient</th>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (apt of appointments(); track apt.id; let i = $index) {
+                            <tr>
+                                <td class="row-num">{{ i + 1 }}</td>
+                                <td>
+                                    <div class="table-person">
+                                        <div class="tp-avatar">P</div>
+                                        Patient #{{ apt.patientId }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="date-cell">
+                                        <span class="date-main">{{ apt.appointmentDate | date:'dd MMM yyyy' }}</span>
+                                        <span class="date-time">{{ apt.appointmentDate | date:'hh:mm a' }}</span>
+                                    </div>
+                                </td>
+                                <td><span class="type-tag">{{ apt.type }}</span></td>
+                                <td>
+                                    <span class="badge" [class]="getStatusClass(apt.status)">
+                            {{ apt.status }}
+                          </span>
+                                </td>
+                                <td>
+                                    <div class="action-btns">
+                                        @if (apt.status === 'Pending') {
+                                        <button class="action-btn confirm" (click)="confirmAppointment(apt.id)">
+                                <i class="fas fa-check"></i>
+                              </button> } @if (apt.status === 'Confirmed') {
+                                        <button class="action-btn complete" (click)="completeAppointment(apt.id)">
+                                <i class="fas fa-check-double"></i>
+                              </button>
+                                        <button class="action-btn record" (click)="openRecordModal(apt)">
+                                <i class="fas fa-file-medical"></i>
+                              </button> }
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Appointments Yet</h3>
+                <p>Your appointments will appear here</p>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- ═══ SCHEDULE ═══ -->
+        @if (activeTab() === 'schedule') {
+        <div class="tab-content fade-in">
+            @if (schedule().length > 0) {
+            <div class="schedule-grid">
+                @for (s of schedule(); track s.id) {
+                <div class="schedule-card card">
+                    <div class="sc-day">
+                        <i class="fas fa-calendar-day"></i> {{ getDayName(s.dayOfWeek) }}
+                    </div>
+                    <div class="sc-time">
+                        <div class="sc-time-item">
+                            <span class="sc-label">Start</span>
+                            <span class="sc-value">{{ s.startTime }}</span>
+                        </div>
+                        <div class="sc-divider"><i class="fas fa-arrow-right"></i></div>
+                        <div class="sc-time-item">
+                            <span class="sc-label">End</span>
+                            <span class="sc-value">{{ s.endTime }}</span>
+                        </div>
+                    </div>
+                    <div class="sc-meta">
+                        <span><i class="fas fa-clock"></i> {{ s.slotDurationMinutes }} min slots</span>
+                        <span class="sc-status" [class.available]="s.isAvailable">
+                      {{ s.isAvailable ? 'Available' : 'Unavailable' }}
+                    </span>
+                    </div>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-clock"></i>
+                <h3>No Schedule Set</h3>
+                <p>Your working schedule hasn't been configured yet</p>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- ═══ TIME SLOTS ═══ -->
+        @if (activeTab() === 'timeslots') {
+        <div class="tab-content fade-in">
+            @if (timeSlots().length > 0) {
+            <div class="slots-grid">
+                @for (slot of timeSlots(); track slot.id) {
+                <div class="slot-card card" [class.booked]="slot.isBooked">
+                    <div class="slot-status-dot" [class.booked]="slot.isBooked"></div>
+                    <div class="slot-date">{{ slot.slotStart | date:'dd MMM' }}</div>
+                    <div class="slot-time">{{ slot.slotStart | date:'hh:mm a' }}</div>
+                    <div class="slot-end">to {{ slot.slotEnd | date:'hh:mm a' }}</div>
+                    <span class="slot-badge" [class.booked]="slot.isBooked">
+                    {{ slot.isBooked ? 'Booked' : 'Free' }}
+                  </span>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>No Time Slots</h3>
+                <p>No time slots have been generated yet</p>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- ═══ REVIEWS ═══ -->
+        @if (activeTab() === 'reviews') {
+        <div class="tab-content fade-in">
+            @if (reviews().length > 0) {
+            <div class="reviews-summary">
+                <div class="rs-score">
+                    <span class="rs-number">{{ getAvgRating() }}</span>
+                    <div class="rs-stars">
+                        @for (star of getStars(getAvgRating()); track $index) {
+                        <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                    </div>
+                    <span class="rs-count">{{ reviews().length }} reviews</span>
+                </div>
+            </div>
+
+            <div class="reviews-list">
+                @for (review of reviews(); track review.id) {
+                <div class="review-card card">
+                    <div class="rc-header">
+                        <div class="rc-avatar">{{ review.patientName?.charAt(0) }}</div>
+                        <div class="rc-info">
+                            <strong>{{ review.patientName }}</strong>
+                            <div class="rc-stars">
+                                @for (star of getStars(review.rating); track $index) {
+                                <i class="fas fa-star" [class.filled]="star === 1"></i> }
+                                <span>{{ review.rating }}/5</span>
+                            </div>
+                        </div>
+                        <span class="rc-date">{{ review.createdOn | date:'dd MMM yyyy' }}</span>
+                    </div>
+                    @if (review.comment) {
+                    <p class="rc-comment">{{ review.comment }}</p>
+                    }
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-star"></i>
+                <h3>No Reviews Yet</h3>
+                <p>Patient reviews will appear here after appointments</p>
+            </div>
+            }
+        </div>
+        } }
+    </main>
+</div>
+
+<!-- Medical Record Modal -->
+@if (showRecordModal()) {
+<div class="modal-backdrop" (click)="closeRecordModal()">
+    <div class="record-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-file-medical"></i> Create Medical Record</h3>
+            <button class="modal-close" (click)="closeRecordModal()">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ successMsg() }}
+            </div>
+            } @if (errorMsg()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+            </div>
+            }
+
+            <div class="field-group">
+                <label>Diagnosis <span class="req">*</span></label>
+                <input type="text" [(ngModel)]="newRecord.diagnosis" placeholder="Enter diagnosis..." class="field-input">
+            </div>
+
+            <div class="field-group">
+                <label>Vital Signs</label>
+                <input type="text" [(ngModel)]="newRecord.vitalSigns" placeholder="BP, Pulse, Temp..." class="field-input">
+            </div>
+
+            <div class="field-group">
+                <label>Notes</label>
+                <textarea [(ngModel)]="newRecord.notes" rows="4" placeholder="Additional notes..." class="field-input"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeRecordModal()">Cancel</button>
+                <button class="submit-btn" (click)="submitRecord()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <i class="fas fa-spinner fa-spin"></i> Saving...
+            } @else {
+              <i class="fas fa-save"></i> Save Record
+            }
+          </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
