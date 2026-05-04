@@ -34,26 +34,26 @@ export const routes: Routes = [
   {
     path: 'appointment',
     loadComponent: () => import('./pages/appointment/appointment.component').then(m => m.AppointmentComponent),
-    canActivate: [authGuard]
+    // canActivate: [authGuard]
   },
   {
     path: 'chatbot',
     loadComponent: () => import('./pages/chatbot/chatbot.component').then(m => m.ChatbotComponent),
-    canActivate: [authGuard]
+    // canActivate: [authGuard]
   },
 
   // ── Doctor ────────────────────────────────────────────
   {
     path: 'doctor-dashboard',
     loadComponent: () => import('./pages/doctor-dashboard/doctor-dashboard.component').then(m => m.DoctorDashboardComponent),
-    canActivate: [authGuard, roleGuard(['Doctor'])]
+    // canActivate: [authGuard, roleGuard(['Doctor'])]
   },
 
   // ── Admin ─────────────────────────────────────────────
   {
     path: 'admin',
     loadComponent: () => import('./pages/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard, roleGuard(['Admin'])]
+    // canActivate: [authGuard, roleGuard(['Admin'])]
   },
 
   // ── Fallback ──────────────────────────────────────────
