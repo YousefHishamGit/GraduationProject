@@ -1,1 +1,387 @@
-<p>appointment works!</p>
+<div class="appointment-page">
+
+    <!-- Hero -->
+    <div class="apt-hero">
+        <div class="apt-hero-bg"></div>
+        <div class="apt-hero-content">
+            <h1><i class="fas fa-calendar-check"></i> Book Appointment</h1>
+            <p>Schedule your visit with our expert doctors in just a few steps</p>
+        </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="steps-bar">
+        <div class="steps-container">
+            <div class="step-item" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1">
+                <div class="step-circle">
+                    @if (currentStep() > 1) { <i class="fas fa-check"></i> }
+                    @else { 1 }
+                </div>
+                <span>Choose Doctor</span>
+            </div>
+            <div class="step-line" [class.done]="currentStep() > 1"></div>
+
+            <div class="step-item" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2">
+                <div class="step-circle">
+                    @if (currentStep() > 2) { <i class="fas fa-check"></i> }
+                    @else { 2 }
+                </div>
+                <span>Select Time</span>
+            </div>
+            <div class="step-line" [class.done]="currentStep() > 2"></div>
+
+            <div class="step-item" [class.active]="currentStep() >= 3">
+                <div class="step-circle">3</div>
+                <span>Confirm</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="apt-main">
+
+        <!-- Error -->
+        @if (errorMsg()) {
+        <div class="alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+        </div>
+        }
+
+        <!-- Success -->
+        @if (successMsg()) {
+        <div class="success-screen">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Appointment Booked!</h2>
+            <p>{{ successMsg() }}</p>
+            <p class="redirect-note">Redirecting to your dashboard...</p>
+        </div>
+        }
+
+        @if (!successMsg()) {
+
+        <!-- ═══ STEP 1: Choose Doctor ═══ -->
+        @if (currentStep() === 1) {
+        <div class="step-content fade-in">
+            <div class="step-title">
+                <h2>Choose Your Doctor</h2>
+                <p>Browse and select from our certified specialists</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-row">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or specialty...">
+                    @if (searchTerm) {
+                    <button (click)="searchTerm = ''">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    }
+                </div>
+
+                <select [(ngModel)]="selectedDeptFilter" class="filter-select">
+                    <option value="">All Departments</option>
+                    @for (dept of departments(); track dept.id) {
+                    <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
+                    }
+                </select>
+
+                @if (searchTerm || selectedDeptFilter) {
+                <button class="clear-btn" (click)="clearFilters()">
+                    <i class="fas fa-times"></i> Clear
+                </button>
+                }
+            </div>
+
+            <div class="results-info">
+                Showing <strong>{{ filteredDoctors().length }}</strong> doctors
+            </div>
+
+            <!-- Loading -->
+            @if (isLoading()) {
+            <div class="doctors-skeleton">
+                @for (i of [1,2,3,4,5,6]; track i) {
+                <div class="sk-doc-card">
+                    <div class="sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk-line sk-lg"></div>
+                        <div class="sk-line sk-sm"></div>
+                        <div class="sk-line sk-md"></div>
+                    </div>
+                </div>
+                }
+            </div>
+            } @else if (filteredDoctors().length > 0) {
+            <div class="doctors-grid">
+                @for (doc of filteredDoctors(); track doc.id) {
+                <div class="doctor-card" [class.selected]="selectedDoctorId() === doc.id" (click)="selectDoctor(doc)">
+
+                    <div class="doc-img-wrap">
+                        @if (doc.imgPath) {
+                        <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy">
+                        } @else {
+                        <div class="doc-initials">{{ getInitials(doc.fullName) }}</div>
+                        }
+                        <div class="doc-status" [class.active]="doc.status === 'Active'">
+                            {{ doc.status === 'Active' ? 'Available' : doc.status }}
+                        </div>
+                    </div>
+
+                    <div class="doc-body">
+                        <h3>{{ doc.fullName }}</h3>
+                        <span class="doc-spec">{{ doc.specialization }}</span>
+                        <div class="doc-tags">
+                            <span><i class="fas fa-building"></i> {{ doc.departmentName }}</span>
+                            <span><i class="fas fa-award"></i> {{ doc.yearsOfExperience }}+ yrs</span>
+                        </div>
+                        <div class="doc-fee">
+                            <i class="fas fa-tag"></i> {{ doc.consultationFee }} EGP
+                        </div>
+                    </div>
+
+                    <div class="doc-select-indicator">
+                        @if (selectedDoctorId() === doc.id) {
+                        <i class="fas fa-check-circle"></i>
+                        } @else {
+                        <i class="fas fa-circle"></i>
+                        }
+                    </div>
+
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state">
+                <i class="fas fa-user-md"></i>
+                <h3>No Doctors Found</h3>
+                <p>Try adjusting your search or filters</p>
+                <button (click)="clearFilters()">Clear Filters</button>
+            </div>
+            }
+
+            @if (selectedDoctorId()) {
+            <div class="step-footer">
+                <div class="selected-info">
+                    <i class="fas fa-check-circle"></i>
+                    Selected: <strong>{{ selectedDoctor()?.fullName }}</strong>
+                </div>
+                <button class="next-btn" (click)="nextStep()">
+                    Next: Select Time <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            }
+
+        </div>
+        }
+
+        <!-- ═══ STEP 2: Select Time ═══ -->
+        @if (currentStep() === 2) {
+        <div class="step-content fade-in">
+
+            <div class="step-header-row">
+                <button class="back-link" (click)="prevStep()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="step-title">
+                    <h2>Select Time Slot</h2>
+                    <p>Choose your preferred appointment time with
+                        <strong>{{ selectedDoctor()?.fullName }}</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Doctor Summary -->
+            <div class="doctor-summary">
+                <div class="ds-avatar">
+                    @if (selectedDoctor()?.imgPath) {
+                    <img [src]="selectedDoctor().imgPath" [alt]="selectedDoctor().fullName">
+                    } @else {
+                    <div class="ds-initials">{{ getInitials(selectedDoctor()?.fullName || '') }}</div>
+                    }
+                </div>
+                <div class="ds-info">
+                    <h3>Dr. {{ selectedDoctor()?.fullName }}</h3>
+                    <span>{{ selectedDoctor()?.specialization }}</span>
+                    <span class="ds-fee">{{ selectedDoctor()?.consultationFee }} EGP per session</span>
+                </div>
+            </div>
+
+            <!-- Type Toggle -->
+            <div class="type-toggle">
+                <button class="type-btn" [class.active]="appointmentType() === 'InPerson'"
+                    (click)="appointmentType.set('InPerson')">
+                    <i class="fas fa-hospital"></i> In-Person
+                </button>
+                <button class="type-btn" [class.active]="appointmentType() === 'Online'"
+                    (click)="appointmentType.set('Online')">
+                    <i class="fas fa-video"></i> Online
+                </button>
+            </div>
+
+            <!-- Time Slots -->
+            @if (timeSlots().length > 0) {
+            <div class="slots-section">
+                <h3 class="slots-title">Available Time Slots</h3>
+                <div class="slots-grid">
+                    @for (slot of timeSlots(); track slot.id) {
+                    <button class="slot-item" [class.selected]="selectedSlotId() === slot.id"
+                        (click)="selectSlot(slot)">
+                        <span class="slot-date">{{ formatDate(slot.slotStart) }}</span>
+                        <span class="slot-time">{{ formatTime(slot.slotStart) }}</span>
+                        <span class="slot-end">— {{ formatTime(slot.slotEnd) }}</span>
+                        @if (selectedSlotId() === slot.id) {
+                        <i class="fas fa-check slot-check"></i>
+                        }
+                    </button>
+                    }
+                </div>
+            </div>
+            } @else {
+            <div class="no-slots">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Available Slots</h3>
+                <p>This doctor has no available time slots at the moment.</p>
+                <button class="back-link-btn" (click)="prevStep()">
+                    Choose Another Doctor
+                </button>
+            </div>
+            }
+
+            <!-- Notes -->
+            @if (timeSlots().length > 0) {
+            <div class="notes-section">
+                <label><i class="fas fa-sticky-note"></i> Additional Notes (Optional)</label>
+                <textarea [value]="notes()" (input)="notes.set($any($event.target).value)" rows="3"
+                    placeholder="Any symptoms, concerns, or special requests...">
+              </textarea>
+            </div>
+            }
+
+            @if (selectedSlotId()) {
+            <div class="step-footer">
+                <div class="selected-info">
+                    <i class="fas fa-clock"></i>
+                    {{ formatDate(selectedSlot()?.slotStart) }} at
+                    {{ formatTime(selectedSlot()?.slotStart) }}
+                </div>
+                <button class="next-btn" (click)="nextStep()">
+                    Review & Confirm <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            }
+
+        </div>
+        }
+
+        <!-- ═══ STEP 3: Confirm ═══ -->
+        @if (currentStep() === 3) {
+        <div class="step-content fade-in">
+
+            <div class="step-header-row">
+                <button class="back-link" (click)="prevStep()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="step-title">
+                    <h2>Confirm Appointment</h2>
+                    <p>Review your booking details before confirming</p>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="summary-card">
+
+                <div class="summary-section">
+                    <div class="ss-title"><i class="fas fa-user-md"></i> Doctor</div>
+                    <div class="ss-content">
+                        <div class="summary-doctor">
+                            <div class="sd-avatar">
+                                @if (selectedDoctor()?.imgPath) {
+                                <img [src]="selectedDoctor().imgPath" alt="">
+                                } @else {
+                                <div class="sd-initials">{{ getInitials(selectedDoctor()?.fullName || '') }}</div>
+                                }
+                            </div>
+                            <div>
+                                <h4>Dr. {{ selectedDoctor()?.fullName }}</h4>
+                                <span>{{ selectedDoctor()?.specialization }}</span>
+                                <span class="sd-dept">{{ selectedDoctor()?.departmentName }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-row-grid">
+                    <div class="summary-section">
+                        <div class="ss-title"><i class="fas fa-calendar"></i> Date & Time</div>
+                        <div class="ss-content">
+                            <strong>{{ formatDate(selectedSlot()?.slotStart) }}</strong>
+                            <span>{{ formatTime(selectedSlot()?.slotStart) }} — {{ formatTime(selectedSlot()?.slotEnd)
+                                }}</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-section">
+                        <div class="ss-title"><i class="fas fa-stethoscope"></i> Type</div>
+                        <div class="ss-content">
+                            <span class="type-badge" [class.online]="appointmentType() === 'Online'">
+                                <i [class]="appointmentType() === 'Online' ? 'fas fa-video' : 'fas fa-hospital'"></i>
+                                {{ appointmentType() === 'Online' ? 'Online Consultation' : 'In-Person Visit' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="summary-section">
+                        <div class="ss-title"><i class="fas fa-dollar-sign"></i> Fee</div>
+                        <div class="ss-content">
+                            <strong class="fee-amount">{{ selectedDoctor()?.consultationFee }} EGP</strong>
+                        </div>
+                    </div>
+
+                    <div class="summary-section">
+                        <div class="ss-title"><i class="fas fa-user"></i> Patient</div>
+                        <div class="ss-content">
+                            <strong>{{ patient()?.fullName || 'N/A' }}</strong>
+                            <span>ID: PA-{{ patient()?.id }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                @if (notes()) {
+                <div class="summary-section">
+                    <div class="ss-title"><i class="fas fa-sticky-note"></i> Notes</div>
+                    <div class="ss-content">
+                        <p>{{ notes() }}</p>
+                    </div>
+                </div>
+                }
+
+            </div>
+
+            <!-- Confirm Actions -->
+            <div class="confirm-actions">
+                <button class="cancel-btn" (click)="prevStep()">
+                    <i class="fas fa-edit"></i> Edit Details
+                </button>
+                <button class="confirm-btn" (click)="submitAppointment()" [disabled]="isSubmitting()">
+                    @if (isSubmitting()) {
+                    <i class="fas fa-spinner fa-spin"></i> Booking...
+                    } @else {
+                    <i class="fas fa-calendar-check"></i> Confirm Appointment
+                    }
+                </button>
+            </div>
+
+            <div class="terms-note">
+                <i class="fas fa-info-circle"></i>
+                By confirming, you agree to our cancellation policy.
+                Appointments can be cancelled up to 24 hours before the scheduled time.
+            </div>
+
+        </div>
+        }
+
+        }
+    </div>
+</div>

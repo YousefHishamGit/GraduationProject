@@ -1,1 +1,197 @@
-<p>chatbot works!</p>
+<div class="chatbot-page">
+
+    <!-- Header -->
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <div class="bot-avatar">
+                <i class="fas fa-robot"></i>
+                <div class="bot-status"></div>
+            </div>
+            <div class="bot-info">
+                <h2>MediCare AI Assistant</h2>
+                <span class="bot-status-text">
+                    <i class="fas fa-circle"></i> Online & Ready
+                </span>
+            </div>
+        </div>
+        <div class="chat-header-right">
+            <button class="clear-btn" (click)="clearChat()" title="Clear chat">
+                <i class="fas fa-trash-alt"></i>
+                <span>Clear</span>
+            </button>
+            <a routerLink="/" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Home</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chat Body -->
+    <div class="chat-body">
+
+        <!-- Messages -->
+        <div class="messages-container">
+
+            @for (msg of messages(); track msg.id) {
+
+            <!-- User Message -->
+            @if (msg.type === 'user') {
+            <div class="message-row user-row">
+                <div class="msg-bubble user-bubble">
+                    <p>{{ msg.text }}</p>
+                    <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
+                </div>
+                <div class="user-avatar-sm">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            }
+
+            <!-- Loading -->
+            @if (msg.type === 'loading') {
+            <div class="message-row bot-row">
+                <div class="bot-avatar-sm">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="msg-bubble bot-bubble loading-bubble">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+            }
+
+            <!-- Bot Message -->
+            @if (msg.type === 'bot') {
+            <div class="message-row bot-row">
+                <div class="bot-avatar-sm">
+                    <i class="fas fa-robot"></i>
+                </div>
+
+                <!-- Welcome -->
+                @if (msg.text === 'welcome') {
+                <div class="msg-bubble bot-bubble welcome-bubble">
+                    <div class="welcome-header">
+                        <i class="fas fa-stethoscope"></i>
+                        <h3>Hello! I'm MediCare AI</h3>
+                    </div>
+                    <p>
+                        I can help you assess your symptoms and suggest the right specialist.
+                        <strong>Describe your symptoms</strong> in detail for the best results.
+                    </p>
+                    <div class="disclaimer">
+                        <i class="fas fa-info-circle"></i>
+                        This is for preliminary guidance only. Always consult a real doctor.
+                    </div>
+                </div>
+                }
+
+                <!-- Error -->
+                @if (msg.text === 'error') {
+                <div class="msg-bubble bot-bubble error-bubble">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Sorry, I couldn't process your request. Please check your connection or try again.</p>
+                </div>
+                }
+
+                <!-- AI Result -->
+                @if (msg.result) {
+                <div class="msg-bubble bot-bubble result-bubble">
+
+                    <!-- Specialty Badge -->
+                    <div class="result-header">
+                        <div class="specialty-badge">
+                            <i class="fas fa-user-md"></i>
+                            <span>{{ msg.result.recommendedSpecialty }}</span>
+                        </div>
+                        <span class="result-time">{{ msg.time | date:'hh:mm a' }}</span>
+                    </div>
+
+                    <!-- Urgency -->
+                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgencyMessage)">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>{{ msg.result.urgencyMessage }}</span>
+                    </div>
+
+                    <!-- Diagnosis -->
+                    <div class="result-section">
+                        <div class="rs-label">
+                            <i class="fas fa-clipboard-list"></i> Diagnosis
+                        </div>
+                        <div class="rs-content">{{ msg.result.diagnosis }}</div>
+                    </div>
+
+                    <!-- Tips -->
+                    @if (msg.result.tips && msg.result.tips.length > 0) {
+                    <div class="result-section">
+                        <div class="rs-label">
+                            <i class="fas fa-lightbulb"></i> Health Tips
+                        </div>
+                        <ul class="tips-list">
+                            @for (tip of msg.result.tips; track $index) {
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                {{ tip }}
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                    }
+
+                    <!-- Book Button -->
+                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommendedSpecialty}"
+                        class="book-specialist-btn">
+                        <i class="fas fa-calendar-check"></i>
+                        Book a {{ msg.result.recommendedSpecialty }} Specialist
+                    </a>
+
+                </div>
+                }
+
+            </div>
+            }
+
+            }
+
+            <div #messagesEnd></div>
+        </div>
+
+        <!-- Suggestions -->
+        @if (messages().length <= 1) { <div class="suggestions-section">
+            <p class="suggestions-label">
+                <i class="fas fa-magic"></i> Try asking about:
+            </p>
+            <div class="suggestions-grid">
+                @for (s of suggestions; track s) {
+                <button class="suggestion-chip" (click)="sendMessage(s)">
+                    <i class="fas fa-comment-medical"></i>
+                    {{ s }}
+                </button>
+                }
+            </div>
+    </div>
+    }
+
+</div>
+
+<!-- Input Area -->
+<div class="chat-footer">
+    <div class="input-container">
+        <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()"
+            placeholder="Describe your symptoms here... (Press Enter to send)" rows="1" class="chat-input">
+      </textarea>
+        <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
+            @if (isLoading()) {
+            <i class="fas fa-spinner fa-spin"></i>
+            } @else {
+            <i class="fas fa-paper-plane"></i>
+            }
+        </button>
+    </div>
+    <p class="footer-note">
+        <i class="fas fa-shield-alt"></i>
+        For emergency situations, call <strong>123</strong> immediately.
+    </p>
+</div>
+
+</div>

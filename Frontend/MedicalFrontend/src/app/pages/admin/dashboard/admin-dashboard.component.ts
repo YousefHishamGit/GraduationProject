@@ -27,10 +27,10 @@ export class AdminDashboardComponent implements OnInit {
   patients = signal<any[]>([]);
   appointments = signal<any[]>([]);
   departments = signal<any[]>([]);
-  confirmedCount   = computed(() => this.appointments().filter(a => a.status === 'Confirmed').length);
-pendingCount     = computed(() => this.appointments().filter(a => a.status === 'Pending').length);
-completedCount   = computed(() => this.appointments().filter(a => a.status === 'Completed').length);
-cancelledCount   = computed(() => this.appointments().filter(a => a.status === 'Cancelled').length);
+  confirmedCount = computed(() => this.appointments().filter(a => a.status === 'Confirmed').length);
+  pendingCount = computed(() => this.appointments().filter(a => a.status === 'Pending').length);
+  completedCount = computed(() => this.appointments().filter(a => a.status === 'Completed').length);
+  cancelledCount = computed(() => this.appointments().filter(a => a.status === 'Cancelled').length);
 
   // Modals
   showDoctorModal = signal(false);
@@ -65,17 +65,17 @@ cancelledCount   = computed(() => this.appointments().filter(a => a.status === '
 
     this.endpoint.doctors.getAll().subscribe({
       next: (d) => this.doctors.set(d),
-      error: () => {}
+      error: () => { }
     });
 
     this.endpoint.patients.getAll().subscribe({
       next: (p) => this.patients.set(p),
-      error: () => {}
+      error: () => { }
     });
 
     this.endpoint.departments.getAll().subscribe({
       next: (d) => this.departments.set(d),
-      error: () => {}
+      error: () => { }
     });
 
     this.endpoint.appointments.getAll().subscribe({
