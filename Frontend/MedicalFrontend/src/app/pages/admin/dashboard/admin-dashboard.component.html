@@ -1,0 +1,632 @@
+<div class="dashboard-layout">
+
+    <!-- Mobile Toggle -->
+    <button class="sidebar-toggle" (click)="sidebarOpen.set(!sidebarOpen())" aria-label="Toggle sidebar navigation" [attr.aria-expanded]="sidebarOpen()">
+        <i [class]="sidebarOpen() ? 'fas fa-times' : 'fas fa-bars'"></i>
+        <span class="sr-only">{{ sidebarOpen() ? 'Close' : 'Open' }} Navigation</span>
+    </button> @if (sidebarOpen()) {
+    <div class="sidebar-overlay" (click)="sidebarOpen.set(false)"></div>
+    }
+
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.open]="sidebarOpen()">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon"><i class="fas fa-shield-alt"></i></div>
+            <span>Admin Panel</span>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                {{ getInitials(currentUser()?.fullName || 'AD') }}
+            </div>
+            <div class="profile-info">
+                <h4>{{ currentUser()?.fullName }}</h4>
+                <span>Administrator</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="setTab('dashboard')">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'doctors'" (click)="setTab('doctors')">
+                <i class="fas fa-user-md"></i> Doctors
+                <span class="nav-badge">{{ doctors().length }}</span>
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'patients'" (click)="setTab('patients')">
+                <i class="fas fa-users"></i> Patients
+                <span class="nav-badge">{{ patients().length }}</span>
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
+                <i class="fas fa-calendar-check"></i> Appointments
+                <span class="nav-badge">{{ appointments().length }}</span>
+            </a>
+            <a class="nav-item" [class.active]="activeTab() === 'departments'" (click)="setTab('departments')">
+                <i class="fas fa-building"></i> Departments
+                <span class="nav-badge">{{ departments().length }}</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title">
+                    @if (activeTab() === 'dashboard') { Dashboard Overview } @else if (activeTab() === 'doctors') { Doctors Management } @else if (activeTab() === 'patients') { Patients } @else if (activeTab() === 'appointments') { Appointments } @else if (activeTab() ===
+                    'departments') { Departments }
+                </h1>
+                <p class="page-sub">MediCare Administration Panel</p>
+            </div>
+            <div class="topbar-actions">
+                @if (activeTab() === 'doctors') {
+                <button class="action-btn-primary" (click)="openDoctorModal()">
+                        <i class="fas fa-user-plus"></i> Add Doctor
+                    </button> } @if (activeTab() === 'departments') {
+                <button class="action-btn-primary" (click)="openDeptModal()">
+                        <i class="fas fa-plus"></i> Add Department
+                    </button> }
+            </div>
+        </div>
+
+        <!-- Loading -->
+        @if (isLoading()) {
+        <div class="loading-screen">
+            <div class="loading-spinner"></div>
+            <p>Loading data...</p>
+        </div>
+        } @else {
+
+        <!-- ═══ DASHBOARD ═══ -->
+        @if (activeTab() === 'dashboard') {
+        <div class="tab-content fade-in">
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card blue" (click)="setTab('doctors')">
+                    <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ doctors().length }}</h3>
+                        <p>Total Doctors</p>
+                    </div>
+                    <i class="fas fa-arrow-right stat-arrow"></i>
+                </div>
+                <div class="stat-card green" (click)="setTab('patients')">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ patients().length }}</h3>
+                        <p>Total Patients</p>
+                    </div>
+                    <i class="fas fa-arrow-right stat-arrow"></i>
+                </div>
+                <div class="stat-card orange" (click)="setTab('appointments')">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ getTodayAppointments() }}</h3>
+                        <p>Today's Appointments</p>
+                    </div>
+                    <i class="fas fa-arrow-right stat-arrow"></i>
+                </div>
+                <div class="stat-card purple" (click)="setTab('departments')">
+                    <div class="stat-icon"><i class="fas fa-building"></i></div>
+                    <div class="stat-info">
+                        <h3>{{ departments().length }}</h3>
+                        <p>Departments</p>
+                    </div>
+                    <i class="fas fa-arrow-right stat-arrow"></i>
+                </div>
+            </div>
+
+            <!-- Overview Row -->
+            <div class="overview-row">
+
+                <!-- Recent Appointments -->
+                <div class="overview-card card">
+                    <div class="oc-header">
+                        <h3><i class="fas fa-calendar"></i> Recent Appointments</h3>
+                        <button class="view-all-btn" (click)="setTab('appointments')">
+                  View All
+                </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (apt of appointments().slice(0, 5); track apt.id) {
+                                <tr>
+                                    <td>Patient #{{ apt.patientId }}</td>
+                                    <td>Doctor #{{ apt.doctorId }}</td>
+                                    <td>{{ apt.appointmentDate | date:'dd MMM' }}</td>
+                                    <td>
+                                        <span class="badge" [class]="getStatusClass(apt.status)">
+                            {{ apt.status }}
+                          </span>
+                                    </td>
+                                </tr>
+                                } @empty {
+                                <tr>
+                                    <td colspan="4" class="empty-cell">No appointments yet</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats-col">
+
+                    <!-- Appointment Status -->
+                    <div class="qs-card card">
+                        <h3><i class="fas fa-chart-pie"></i> Appointment Status</h3>
+                        <div class="status-breakdown">
+                            <div class="sb-item">
+                                <div class="sb-dot green"></div>
+                                <span>Confirmed</span>
+                                <strong>
+                      {{ confirmedCount() }}
+                    </strong>
+                            </div>
+                            <div class="sb-item">
+                                <div class="sb-dot yellow"></div>
+                                <span>Pending</span>
+                                <strong>
+                      {{  pendingCount()  }}
+                    </strong>
+                            </div>
+                            <div class="sb-item">
+                                <div class="sb-dot blue"></div>
+                                <span>Completed</span>
+                                <strong>
+                      {{ completedCount() }}
+                    </strong>
+                            </div>
+                            <div class="sb-item">
+                                <div class="sb-dot red"></div>
+                                <span>Cancelled</span>
+                                <strong>
+                      {{ cancelledCount() }}
+                    </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="qs-card card">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        <div class="qa-list">
+                            <button class="qa-btn" (click)="openDoctorModal()">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add Doctor</span>
+                  </button>
+                            <button class="qa-btn" (click)="openDeptModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Department</span>
+                  </button>
+                            <button class="qa-btn" (click)="setTab('patients')">
+                    <i class="fas fa-users"></i>
+                    <span>View Patients</span>
+                  </button>
+                            <button class="qa-btn" (click)="setTab('appointments')">
+                    <i class="fas fa-calendar"></i>
+                    <span>All Appointments</span>
+                  </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        }
+
+        <!-- ═══ DOCTORS ═══ -->
+        @if (activeTab() === 'doctors') {
+        <div class="tab-content fade-in">
+            <div class="table-card card">
+                <div class="table-header">
+                    <h3>All Doctors ({{ doctors().length }})</h3>
+                    <button class="add-btn" (click)="openDoctorModal()">
+                <i class="fas fa-plus"></i> Add Doctor
+              </button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Doctor</th>
+                                <th>Specialization</th>
+                                <th>Department</th>
+                                <th>Experience</th>
+                                <th>Fee</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (doc of doctors(); track doc.id; let i = $index) {
+                            <tr>
+                                <td class="row-num">{{ i + 1 }}</td>
+                                <td>
+                                    <div class="person-cell">
+                                        <div class="person-avatar doc">
+                                            {{ getInitials(doc.fullName) }}
+                                        </div>
+                                        <div>
+                                            <strong>{{ doc.fullName }}</strong>
+                                            <span class="person-sub">{{ doc.phone }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ doc.specialization }}</td>
+                                <td>{{ doc.departmentName }}</td>
+                                <td>{{ doc.yearsOfExperience }} yrs</td>
+                                <td>{{ doc.consultationFee }} EGP</td>
+                                <td>
+                                    <span class="badge" [class]="getStatusClass(doc.status)">
+                          {{ doc.status }}
+                        </span>
+                                </td>
+                                <td>
+                                    <button class="del-btn" (click)="deleteDoctor(doc.id)" title="Delete doctor" aria-label="Delete doctor">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                                </td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="8" class="empty-cell">No doctors found</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- ═══ PATIENTS ═══ -->
+        @if (activeTab() === 'patients') {
+        <div class="tab-content fade-in">
+            <div class="table-card card">
+                <div class="table-header">
+                    <h3>All Patients ({{ patients().length }})</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient</th>
+                                <th>Phone</th>
+                                <th>Gender</th>
+                                <th>Blood Type</th>
+                                <th>Allergies</th>
+                                <th>Emergency Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (p of patients(); track p.id; let i = $index) {
+                            <tr>
+                                <td class="row-num">{{ i + 1 }}</td>
+                                <td>
+                                    <div class="person-cell">
+                                        <div class="person-avatar pat">
+                                            {{ getInitials(p.fullName) }}
+                                        </div>
+                                        <div>
+                                            <strong>{{ p.fullName }}</strong>
+                                            <span class="person-sub">ID: PA-{{ p.id }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ p.phone || '—' }}</td>
+                                <td>{{ p.gender || '—' }}</td>
+                                <td>
+                                    @if (p.bloodType) {
+                                    <span class="blood-tag">{{ p.bloodType }}</span> } @else { — }
+                                </td>
+                                <td class="ellipsis-cell">{{ p.allergies || '—' }}</td>
+                                <td>{{ p.emergencyContactPhone || '—' }}</td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="7" class="empty-cell">No patients found</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- ═══ APPOINTMENTS ═══ -->
+        @if (activeTab() === 'appointments') {
+        <div class="tab-content fade-in">
+            <div class="table-card card">
+                <div class="table-header">
+                    <h3>All Appointments ({{ appointments().length }})</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (apt of appointments(); track apt.id; let i = $index) {
+                            <tr>
+                                <td class="row-num">{{ i + 1 }}</td>
+                                <td>Patient #{{ apt.patientId }}</td>
+                                <td>Doctor #{{ apt.doctorId }}</td>
+                                <td>
+                                    <div class="date-cell">
+                                        <span>{{ apt.appointmentDate | date:'dd MMM yyyy' }}</span>
+                                        <span class="time-sub">{{ apt.appointmentDate | date:'hh:mm a' }}</span>
+                                    </div>
+                                </td>
+                                <td><span class="type-tag">{{ apt.type }}</span></td>
+                                <td>
+                                    <span class="badge" [class]="getStatusClass(apt.status)">
+                          {{ apt.status }}
+                        </span>
+                                </td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="6" class="empty-cell">No appointments found</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- ═══ DEPARTMENTS ═══ -->
+        @if (activeTab() === 'departments') {
+        <div class="tab-content fade-in">
+            <div class="dept-header-row">
+                <h3>All Departments ({{ departments().length }})</h3>
+                <button class="add-btn" (click)="openDeptModal()">
+              <i class="fas fa-plus"></i> Add Department
+            </button>
+            </div>
+
+            @if (departments().length > 0) {
+            <div class="dept-grid">
+                @for (dept of departments(); track dept.id; let i = $index) {
+                <div class="dept-card card">
+                    <div class="dept-card-icon" [style.background]="'hsl(' + (i * 35) + ', 70%, 92%)'">
+                        <i class="fas fa-hospital-user" [style.color]="'hsl(' + (i * 35) + ', 60%, 40%)'"></i>
+                    </div>
+                    <div class="dept-card-info">
+                        <h4>{{ dept.departmentName }}</h4>
+                        <p>{{ dept.description | slice:0:80 }}...</p>
+                    </div>
+                    <div class="dept-card-footer">
+                        <span class="dept-id">ID: {{ dept.id }}</span>
+                        <span class="dept-status" [class.deleted]="dept.isDeleted">
+                      {{ dept.isDeleted ? 'Inactive' : 'Active' }}
+                    </span>
+                    </div>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-building"></i>
+                <h3>No Departments Yet</h3>
+                <p>Add your first department to get started</p>
+                <button class="empty-btn" (click)="openDeptModal()">
+                <i class="fas fa-plus"></i> Add Department
+              </button>
+            </div>
+            }
+        </div>
+        } }
+    </main>
+</div>
+
+<!-- ═══ ADD DOCTOR MODAL ═══ -->
+@if (showDoctorModal()) {
+<div class="modal-backdrop" (click)="closeDoctorModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-user-plus"></i> Add New Doctor</h3>
+            <button class="modal-close" (click)="closeDoctorModal()" title="Close" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+
+            @if (successMsg()) {
+            <div class="msg-success"><i class="fas fa-check-circle"></i> {{ successMsg() }}</div>
+            } @if (errorMsg()) {
+            <div class="msg-error"><i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}</div>
+            }
+
+            <div class="modal-section-title">Personal Info</div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>First Name <span class="req">*</span></label>
+                    <input type="text" [(ngModel)]="newDoctor.firstName" class="field-input" placeholder="First name">
+                </div>
+                <div class="field-group">
+                    <label>Last Name <span class="req">*</span></label>
+                    <input type="text" [(ngModel)]="newDoctor.lastName" class="field-input" placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>Email <span class="req">*</span></label>
+                    <input type="email" [(ngModel)]="newDoctor.email" class="field-input" placeholder="doctor@email.com">
+                </div>
+                <div class="field-group">
+                    <label>Password <span class="req">*</span></label>
+                    <input type="password" [(ngModel)]="newDoctor.password" class="field-input" placeholder="Min 8 chars">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>National ID <span class="req">*</span></label>
+                    <input type="text" [(ngModel)]="newDoctor.nationalID" class="field-input" placeholder="14 digits">
+                </div>
+                <div class="field-group">
+                    <label>Phone</label>
+                    <input type="tel" [(ngModel)]="newDoctor.phone" class="field-input" placeholder="01xxxxxxxxx">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>Birth Date <span class="req">*</span></label>
+                    <input type="date" [(ngModel)]="newDoctor.birthDate" class="field-input" title="Birth Date">
+                </div>
+                <div class="field-group">
+                    <label>Gender</label>
+                    <select [(ngModel)]="newDoctor.gender" class="field-input" title="Gender">
+              <option [value]="0">Male</option>
+              <option [value]="1">Female</option>
+            </select>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>Address</label>
+                <input type="text" [(ngModel)]="newDoctor.address" class="field-input" placeholder="Cairo, Egypt">
+            </div>
+
+            <div class="modal-section-title">Professional Info</div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>License Number <span class="req">*</span></label>
+                    <input type="text" [(ngModel)]="newDoctor.licenseNumber" class="field-input" placeholder="LIC-XXXX">
+                </div>
+                <div class="field-group">
+                    <label>Specialization <span class="req">*</span></label>
+                    <input type="text" [(ngModel)]="newDoctor.specialization" class="field-input" placeholder="e.g. Cardiology">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>Department</label>
+                    <select [(ngModel)]="newDoctor.departmentId" class="field-input" title="Department">
+              <option [value]="0">Select Department</option>
+              @for (dept of departments(); track dept.id) {
+                <option [value]="dept.id">{{ dept.departmentName }}</option>
+              }
+            </select>
+                </div>
+                <div class="field-group">
+                    <label>Years of Experience</label>
+                    <input type="number" [(ngModel)]="newDoctor.yearsOfExperience" class="field-input" min="0" title="Years of Experience">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>Consultation Fee (EGP)</label>
+                    <input type="number" [(ngModel)]="newDoctor.consultationFee" class="field-input" min="0" title="Consultation Fee">
+                </div>
+                <div class="field-group">
+                    <label>Hire Date</label>
+                    <input type="date" [(ngModel)]="newDoctor.hireDate" class="field-input" title="Hire Date">
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>Bio</label>
+                <textarea [(ngModel)]="newDoctor.bio" class="field-input" rows="3" placeholder="Brief professional bio..."></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeDoctorModal()">Cancel</button>
+                <button class="submit-btn" (click)="submitDoctor()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <i class="fas fa-spinner fa-spin"></i> Adding...
+            } @else {
+              <i class="fas fa-user-plus"></i> Add Doctor
+            }
+          </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ═══ ADD DEPARTMENT MODAL ═══ -->
+@if (showDeptModal()) {
+<div class="modal-backdrop" (click)="closeDeptModal()">
+    <div class="modal-box modal-sm" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-building"></i> Add Department</h3>
+            <button class="modal-close" (click)="closeDeptModal()" title="Close" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success"><i class="fas fa-check-circle"></i> {{ successMsg() }}</div>
+            } @if (errorMsg()) {
+            <div class="msg-error"><i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}</div>
+            }
+
+            <div class="field-group">
+                <label>Department Name <span class="req">*</span></label>
+                <input type="text" [(ngModel)]="newDept.departmentName" class="field-input" placeholder="e.g. Cardiology">
+            </div>
+
+            <div class="field-group">
+                <label>Description</label>
+                <textarea [(ngModel)]="newDept.description" class="field-input" rows="4" placeholder="Brief description of the department..."></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeDeptModal()">Cancel</button>
+                <button class="submit-btn" (click)="submitDept()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <i class="fas fa-spinner fa-spin"></i> Creating...
+            } @else {
+              <i class="fas fa-plus"></i> Create Department
+            }
+          </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

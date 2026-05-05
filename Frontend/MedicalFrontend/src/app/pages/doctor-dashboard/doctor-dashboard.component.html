@@ -1,7 +1,7 @@
 <div class="dashboard-layout">
 
     <!-- Mobile Toggle -->
-    <button class="sidebar-toggle" (click)="sidebarOpen.set(!sidebarOpen())">
+    <button class="sidebar-toggle" (click)="sidebarOpen.set(!sidebarOpen())" [title]="sidebarOpen() ? 'Close sidebar' : 'Open sidebar'" [attr.aria-label]="sidebarOpen() ? 'Close sidebar' : 'Open sidebar'">
     <i [class]="sidebarOpen() ? 'fas fa-times' : 'fas fa-bars'"></i>
   </button> @if (sidebarOpen()) {
     <div class="sidebar-overlay" (click)="sidebarOpen.set(false)"></div>
@@ -419,7 +419,7 @@
 
         <div class="modal-head">
             <h3><i class="fas fa-file-medical"></i> Create Medical Record</h3>
-            <button class="modal-close" (click)="closeRecordModal()">
+            <button class="modal-close" (click)="closeRecordModal()" title="Close" aria-label="Close modal">
           <i class="fas fa-times"></i>
         </button>
         </div>
