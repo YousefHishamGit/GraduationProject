@@ -65,6 +65,7 @@ export class DepartmentsComponent implements OnInit {
         this.departments.set(data);
         if (data.length > 0) this.selectDept(data[0]);
         this.isLoading.set(false);
+        console.log(data)
       },
       error: () => this.isLoading.set(false)
     });

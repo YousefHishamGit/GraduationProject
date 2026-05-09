@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using BusinessLogicLayer.DTOs.Doctor;
+﻿using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace YourApiNamespace.Controllers
 {
     [ApiController]
-    [Route("api")]
-    [Authorize]
+    [Route("api/timeslots")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TimeSlotController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
@@ -17,47 +17,32 @@ namespace YourApiNamespace.Controllers
             _doctorService = doctorService;
         }
 
-        [HttpGet("doctors/{doctorId}/timeslots")]
-        [Authorize(Roles = "Admin,Doctor,Patient,Receptionist")]
-        public async Task<IActionResult> GetAvailableTimeSlots(int doctorId, [FromQuery] DateTime date)
+        // GET /api/timeslots/doctor/{doctorId}/available
+        // ← اللي بيستخدمه الـ Patient لحجز موعد
+        [HttpGet("doctor/{doctorId}/available")]
+        public async Task<IActionResult> GetAvailable(int doctorId)
         {
-            var slots = await _doctorService.GetAvailableTimeSlotsByDateAsync(doctorId, date);
+            var slots = await _doctorService.GetAvailableTimeSlotsAsync(doctorId);
             return Ok(slots);
         }
 
-        [HttpPost("timeslots")]
+        // GET /api/timeslots/doctor/{doctorId}
+        // ← للـ Doctor/Admin يشوف كل الـ Slots
+        [HttpGet("doctor/{doctorId}")]
         [Authorize(Roles = "Admin,Doctor")]
-        public async Task<IActionResult> GenerateTimeSlots([FromBody] GenerateTimeSlotsDto dto, [FromQuery] int doctorId)
+        public async Task<IActionResult> GetAll(int doctorId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var slots = await _doctorService.GenerateTimeSlotsAsync(doctorId, dto);
-                return Ok(slots);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+            var slots = await _doctorService.GetAllTimeSlotsAsync(doctorId);
+            return Ok(slots);
         }
 
-        [HttpDelete("timeslots/{id}")]
-        [Authorize(Roles = "Admin,Doctor")]
-        public async Task<IActionResult> DeleteTimeSlot(int id)
+        // GET /api/timeslots/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            try
-            {
-                var deleted = await _doctorService.DeleteTimeSlotAsync(id);
-                if (!deleted)
-                    return NotFound();
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+            var slot = await _doctorService.GetTimeSlotByIdAsync(id);
+            if (slot == null) return NotFound();
+            return Ok(slot);
         }
     }
 }

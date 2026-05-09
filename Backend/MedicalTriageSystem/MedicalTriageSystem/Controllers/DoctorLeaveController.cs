@@ -17,13 +17,13 @@ namespace YourApiNamespace.Controllers
 			_doctorService = doctorService;
 		}
 
-		[HttpGet("doctors/{doctorId}/leaves")]
-		[Authorize(Roles = "Admin,Doctor")]
-		public async Task<IActionResult> GetDoctorLeaves(int doctorId)
-		{
-			var leaves = await _doctorService.GetDoctorLeavesAsync(doctorId);
-			return Ok(leaves);
-		}
+		//[HttpGet("doctors/{doctorId}/leaves")]
+		//[Authorize(Roles = "Admin,Doctor")]
+		//public async Task<IActionResult> GetDoctorLeaves(int doctorId)
+		//{
+		//	var leaves = await _doctorService.GetDoctorLeavesAsync(doctorId);
+		//	return Ok(leaves);
+		//}
 
 		[HttpPost("doctors/{doctorId}/leaves")]
 		[Authorize(Roles = "Admin,Doctor")]

@@ -16,7 +16,7 @@ namespace MedicalTriageSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -125,6 +125,9 @@ namespace MedicalTriageSystem
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            
+
 
             // ?? AI Service ????????????????????????????????????????
             builder.Services.AddHttpClient<IAIService, AIService>();

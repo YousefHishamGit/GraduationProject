@@ -48,6 +48,13 @@ namespace BusinessLogicLayer
         {
 
             CreateMap<CreateDoctorDto, Person>();
+            CreateMap<TimeSlot, TimeSlotResponseDto>();
+
+            CreateMap<DoctorSchedule, DoctorScheduleResponseDto>()
+                .ForMember(dest => dest.StartTime,
+                    opt => opt.MapFrom(src => src.StartTime.ToString(@"hh\:mm")))
+                .ForMember(dest => dest.EndTime,
+                    opt => opt.MapFrom(src => src.EndTime.ToString(@"hh\:mm")));
 
 
             CreateMap<CreateDoctorDto, Doctor>()

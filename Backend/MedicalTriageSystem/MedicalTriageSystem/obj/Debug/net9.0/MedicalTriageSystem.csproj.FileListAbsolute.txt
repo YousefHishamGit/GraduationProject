@@ -170,7 +170,6 @@ E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\ne
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.build.json.cache
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.development.json
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalT.635B0231.Up2Date
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.dll
 E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\refint\MedicalTriageSystem.dll
@@ -357,3 +356,4 @@ D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSys
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.pdb
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\MedicalTriageSystem.genruntimeconfig.cache
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\ref\MedicalTriageSystem.dll
+E:\gradutionProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

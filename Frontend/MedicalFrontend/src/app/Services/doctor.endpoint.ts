@@ -22,6 +22,10 @@ export class DoctorEndpoint extends BaseEndpoint {
     return this.http.get<DoctorResponseDto>(`${this.baseUrl}/${id}`);
   }
 
+  getByUserId(userId: string): Observable<DoctorResponseDto> {
+    return this.http.get<DoctorResponseDto>(`${this.baseUrl}/by-user/${userId}`);
+  }
+
   getByDepartment(departmentId: number): Observable<DoctorResponseDto[]> {
     return this.http.get<DoctorResponseDto[]>(`${this.baseUrl}/department/${departmentId}`);
   }
@@ -54,15 +58,24 @@ export class DoctorEndpoint extends BaseEndpoint {
     return this.http.get<DoctorScheduleResponseDto[]>(`${this.baseUrl}/${doctorId}/schedule`);
   }
 
+  createSchedule(doctorId: number, dto: CreateDoctorScheduleDto): Observable<DoctorScheduleResponseDto> {
+    return this.http.post<DoctorScheduleResponseDto>(`${this.apiUrl}/doctors/${doctorId}/schedule`, dto);
+  }
+
+  updateSchedule(scheduleId: number, dto: UpdateDoctorScheduleDto): Observable<DoctorScheduleResponseDto> {
+    return this.http.put<DoctorScheduleResponseDto>(`${this.apiUrl}/schedule/${scheduleId}`, dto);
+  }
+
+  deleteSchedule(scheduleId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/schedule/${scheduleId}`);
+  }
+
   getLeaves(doctorId: number): Observable<DoctorLeaveResponseDto[]> {
     return this.http.get<DoctorLeaveResponseDto[]>(`${this.baseUrl}/${doctorId}/leaves`);
   }
 
-  getTimeSlots(doctorId: number): Observable<TimeSlotResponseDto[]> {
-    return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`);
-  }
-
-  getAvailableTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
+  /** Slots for one calendar day, computed from weekly schedule (not stored in DB). */
+  getTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
     const params = new HttpParams().set('date', date);
     return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params });
   }

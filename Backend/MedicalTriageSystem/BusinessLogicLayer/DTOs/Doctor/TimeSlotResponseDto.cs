@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.DTOs.Doctor
     public class TimeSlotResponseDto
     {
         public int Id { get; set; }
+        public int DoctorId { get; set; }
         public DateTime SlotStart { get; set; }
         public DateTime SlotEnd { get; set; }
         public bool IsBooked { get; set; }

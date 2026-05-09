@@ -93,17 +93,7 @@ namespace MedicalTriageSystem.Controllers
 
 
         
-        [HttpGet("{id}/schedule")]
-        [ProducesResponseType(typeof(IEnumerable<DoctorScheduleResponseDto>), 200)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetSchedule(int id)
-        {
-            var doctor = await _doctorService.GetDoctorByIdAsync(id);
-            if (doctor == null) return NotFound();
-
-            var schedule = await _doctorService.GetDoctorScheduleAsync(id);
-            return Ok(schedule);
-        }
+       
 
        
         [HttpGet("{id}/leaves")]

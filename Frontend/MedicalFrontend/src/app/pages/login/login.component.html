@@ -60,7 +60,7 @@
                 <p>Don't have an account? <a routerLink="/signup">Create one now</a></p>
             </div>
 
-            <form (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()" novalidate>
 
                 <div class="field-group">
                     <label>Email Address</label>
@@ -73,7 +73,7 @@
                 <div class="field-group">
                     <label>
             Password
-            <a href="#" class="forgot-link">Forgot password?</a>
+            <span class="forgot-link" aria-disabled="true">Forgot password?</span>
           </label>
                     <div class="field-wrap">
                         <i class="fas fa-lock field-icon"></i>
@@ -97,7 +97,7 @@
           </label>
                 </div>
 
-                <button type="submit" class="submit-btn" [disabled]="isLoading">
+                <button type="submit" class="submit-btn" [disabled]="isLoading || !email || !password">
           @if (isLoading) {
             <i class="fas fa-spinner fa-spin"></i> Signing in...
           } @else {

@@ -6,7 +6,9 @@
     overflow: hidden;
 }
 
+
 /* ── Header ── */
+
 .chat-header {
     display: flex;
     align-items: center;
@@ -70,12 +72,10 @@
 }
 
 @keyframes pulse {
-
     0%,
     100% {
         opacity: 1;
     }
-
     50% {
         opacity: 0.4;
     }
@@ -121,7 +121,9 @@
     color: white;
 }
 
+
 /* ── Body ── */
+
 .chat-body {
     flex: 1;
     overflow-y: auto;
@@ -131,7 +133,9 @@
     gap: 12px;
 }
 
+
 /* ── Messages ── */
+
 .messages-container {
     display: flex;
     flex-direction: column;
@@ -150,7 +154,6 @@
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -161,7 +164,9 @@
     flex-direction: row-reverse;
 }
 
+
 /* Avatars */
+
 .bot-avatar-sm {
     width: 34px;
     height: 34px;
@@ -188,9 +193,12 @@
     flex-shrink: 0;
 }
 
+
 /* Bubbles */
+
 .msg-bubble {
-    max-width: 75%;
+    width: 30%;
+    max-width: 85%;
     border-radius: 16px;
     padding: 12px 16px;
     position: relative;
@@ -222,7 +230,9 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
+
 /* Loading */
+
 .loading-bubble {
     padding: 14px 18px;
 }
@@ -250,19 +260,19 @@
 }
 
 @keyframes bounce {
-
     0%,
     60%,
     100% {
         transform: translateY(0);
     }
-
     30% {
         transform: translateY(-8px);
     }
 }
 
+
 /* Welcome */
+
 .welcome-bubble {
     padding: 18px 20px;
     max-width: 420px;
@@ -311,7 +321,9 @@
     flex-shrink: 0;
 }
 
+
 /* Error */
+
 .error-bubble {
     display: flex;
     align-items: flex-start;
@@ -331,7 +343,9 @@
     margin: 0;
 }
 
+
 /* Result */
+
 .result-bubble {
     max-width: 520px;
     padding: 0;
@@ -474,7 +488,9 @@
     color: white;
 }
 
+
 /* ── Suggestions ── */
+
 .suggestions-section {
     margin-top: 8px;
 }
@@ -523,7 +539,9 @@
     color: #1a6fc4;
 }
 
+
 /* ── Footer / Input ── */
+
 .chat-footer {
     background: white;
     border-top: 1px solid #f1f5f9;
@@ -611,40 +629,35 @@
     color: #1a6fc4;
 }
 
+
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
+
 @media (max-width: 768px) {
     .chat-header {
         padding: 12px 16px;
     }
-
     .back-btn span,
     .clear-btn span {
         display: none;
     }
-
     .back-btn,
     .clear-btn {
         padding: 8px 10px;
     }
-
     .chat-body {
         padding: 14px;
     }
-
     .msg-bubble {
         max-width: 88%;
     }
-
     .result-bubble {
         max-width: 95%;
     }
-
     .suggestions-grid {
         grid-template-columns: 1fr;
     }
-
     .bot-info h2 {
         font-size: 0.9rem;
     }
@@ -654,11 +667,9 @@
     .chat-footer {
         padding: 10px 12px;
     }
-
     .chat-body {
         padding: 10px;
     }
-
     .suggestions-grid {
         grid-template-columns: 1fr;
     }

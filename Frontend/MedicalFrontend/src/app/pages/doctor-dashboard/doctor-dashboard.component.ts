@@ -4,7 +4,6 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
-
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -16,6 +15,7 @@ export class DoctorDashboardComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private authService = inject(AuthService);
   private router = inject(Router);
+  BookCount:number=0;
 
   activeTab = signal('overview');
   doctor = signal<any>(null);
@@ -23,6 +23,8 @@ export class DoctorDashboardComponent implements OnInit {
   schedule = signal<any[]>([]);
   leaves = signal<any[]>([]);
   timeSlots = signal<any[]>([]);
+  /** yyyy-MM-dd — day shown in Time slots tab (computed from weekly schedule). */
+  timeSlotsPreviewDate = signal<string>(new Date().toISOString().split('T')[0]);
   reviews = signal<any[]>([]);
   isLoading = signal(true);
   sidebarOpen = signal(false);
@@ -30,8 +32,16 @@ export class DoctorDashboardComponent implements OnInit {
 
   // Create Medical Record
   showRecordModal = signal(false);
+  showScheduleModal = signal(false);
   selectedAppointment = signal<any>(null);
   newRecord = { diagnosis: '', notes: '', vitalSigns: '' };
+  newSchedule = {
+    dayOfWeek: 1,
+    startTime: '09:00',
+    endTime: '17:00',
+    slotDurationMinutes: 30,
+    isAvailable: true
+  };
   isSubmitting = signal(false);
   successMsg = signal('');
   errorMsg = signal('');
@@ -42,26 +52,34 @@ export class DoctorDashboardComponent implements OnInit {
     const user = this.authService.getCurrentUser();
     this.currentUser.set(user);
     this.loadDoctor();
+    console.log(this.timeSlots)
   }
 
   loadDoctor() {
     const userId = this.authService.getUserIdFromToken();
     if (!userId) { this.isLoading.set(false); return; }
 
-    this.endpoint.doctors.getAll().subscribe({
-      next: (doctors) => {
-        const doc = doctors.find(d => d.phone !== undefined) || doctors[0];
-        if (!doc) { this.isLoading.set(false); return; }
-        this.doctor.set(doc);
-        this.loadDoctorData(doc.id);
+    this.endpoint.doctors.getByUserId(userId).subscribe({
+      next: (doctor) => {
+        if (!doctor) { this.isLoading.set(false); return; }
+        this.doctor.set(doctor);
+        this.loadDoctorData(doctor.id);
       },
-      error: () => this.isLoading.set(false)
+      error: (err) => {
+        console.error('Error loading doctor:', err);
+        this.isLoading.set(false);
+      }
     });
   }
 
   loadDoctorData(doctorId: number) {
     this.endpoint.appointments.getByDoctor(doctorId).subscribe({
-      next: (data) => this.appointments.set(data),
+      next: (data) => {this.appointments.set(data) 
+        this.BookCount=data.length;
+      }
+      
+       ,
+      
       error: () => {}
     });
 
@@ -75,15 +93,14 @@ export class DoctorDashboardComponent implements OnInit {
       error: () => {}
     });
 
-    this.endpoint.doctors.getTimeSlots(doctorId).subscribe({
-      next: (data) => this.timeSlots.set(data),
-      error: () => {}
-    });
+    this.reloadComputedTimeSlots(doctorId);
 
     this.endpoint.doctors.getReviews(doctorId).subscribe({
       next: (data) => {
         this.reviews.set(data);
         this.isLoading.set(false);
+        console.log(data)
+        console.log(doctorId)
       },
       error: () => this.isLoading.set(false)
     });
@@ -125,6 +142,35 @@ export class DoctorDashboardComponent implements OnInit {
     return this.dayNames[day] || `Day ${day}`;
   }
 
+  getAvailableScheduleCount(): number {
+    return this.schedule().filter(s => s.isAvailable).length;
+  }
+
+  getFreeTimeSlotsCount(): number {
+    return this.timeSlots().filter(s => !s.isBooked).length;
+  }
+
+  getBookedTimeSlotsCount(): number {
+    
+    return this.BookCount;
+  }
+
+  reloadComputedTimeSlots(doctorId: number) {
+    const date = this.timeSlotsPreviewDate();
+    this.endpoint.doctors.getTimeSlots(doctorId, date).subscribe({
+      next: (data) => this.timeSlots.set(data),
+      error: () => this.timeSlots.set([])
+    });
+  }
+
+  onTimeSlotsPreviewDateChange(date: string) {
+    this.timeSlotsPreviewDate.set(date);
+    const doctorId = this.doctor()?.id;
+    if (doctorId) {
+      this.reloadComputedTimeSlots(doctorId);
+    }
+  }
+
   openRecordModal(apt: any) {
     this.selectedAppointment.set(apt);
     this.showRecordModal.set(true);
@@ -136,6 +182,59 @@ export class DoctorDashboardComponent implements OnInit {
   closeRecordModal() {
     this.showRecordModal.set(false);
     this.selectedAppointment.set(null);
+  }
+
+  openScheduleModal() {
+    this.newSchedule = {
+      dayOfWeek: 1,
+      startTime: '09:00',
+      endTime: '17:00',
+      slotDurationMinutes: 30,
+      isAvailable: true
+    };
+    this.successMsg.set('');
+    this.errorMsg.set('');
+    this.showScheduleModal.set(true);
+  }
+
+  closeScheduleModal() {
+    this.showScheduleModal.set(false);
+  }
+
+  submitSchedule() {
+    const doctorId = this.doctor()?.id;
+    if (!doctorId) {
+      this.errorMsg.set('Doctor profile is not loaded yet.');
+      return;
+    }
+    if (!this.newSchedule.startTime || !this.newSchedule.endTime) {
+      this.errorMsg.set('Please provide schedule start and end time.');
+      return;
+    }
+
+    this.isSubmitting.set(true);
+    this.errorMsg.set('');
+    this.successMsg.set('');
+
+    this.endpoint.doctors.createSchedule(doctorId, this.newSchedule).subscribe({
+      next: (created) => {
+        this.schedule.update(items => [...items, created]);
+        this.successMsg.set('Schedule added successfully.');
+        this.isSubmitting.set(false);
+        setTimeout(() => this.closeScheduleModal(), 900);
+      },
+      error: (err) => {
+        this.errorMsg.set(err.error?.message || 'Failed to add schedule.');
+        this.isSubmitting.set(false);
+      }
+    });
+  }
+
+  deleteSchedule(id: number) {
+    this.endpoint.doctors.deleteSchedule(id).subscribe({
+      next: () => this.schedule.update(items => items.filter(s => s.id !== id)),
+      error: (err) => this.errorMsg.set(err.error?.message || 'Failed to delete schedule.')
+    });
   }
 
   submitRecord() {

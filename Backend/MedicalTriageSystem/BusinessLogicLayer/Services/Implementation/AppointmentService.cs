@@ -48,6 +48,22 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<AppointmentResponseDto> CreateAsync(CreateAppointmentDto dto)
         {
+            // 1. ??? ??? TimeSlot
+            var slotRepo = _unitOfWork.GetRepository<TimeSlot>();
+
+            var slot = await slotRepo.GetByIdAsync(dto.TimeSlotId);
+
+            if (slot == null)
+                throw new Exception("Time slot not found");
+
+            if (slot.IsBooked)
+                throw new Exception("This time slot is already booked");
+
+            // 2. ???? ??? slot (??? ????)
+            slot.IsBooked = true;
+            slotRepo.Update(slot);
+
+            // 3. ???? appointment
             var appointment = new Appointment
             {
                 PatientId = dto.PatientId,
@@ -57,16 +73,21 @@ namespace BusinessLogicLayer.Services.Implementation
                 Type = Enum.TryParse<AppointmentType>(dto.Type, true, out var typeEnum)
                     ? typeEnum
                     : AppointmentType.InPerson,
-                Status = AppointmentStatus.Pending,
+                Status = AppointmentStatus.Confirmed, // ?????? ??? Pending
                 Notes = dto.Notes,
                 CreatedOn = DateTime.UtcNow,
                 CreatedBy = "system"
             };
 
             await _unitOfWork.Appointments.AddAsync(appointment);
+
+            // 4. ??? ??? ?? ???
             await _unitOfWork.SaveChangesAsync();
 
-            var created = await _unitOfWork.Appointments.GetByIdWithDetailsAsync(appointment.Id);
+            // 5. ???? ??????
+            var created = await _unitOfWork.Appointments
+                .GetByIdWithDetailsAsync(appointment.Id);
+
             return _mapper.Map<AppointmentResponseDto>(created);
         }
 

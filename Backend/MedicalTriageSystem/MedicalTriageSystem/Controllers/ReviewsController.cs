@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.DTOs.Review;
+using BusinessLogicLayer.DTOs.Review;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +17,14 @@ namespace MedicalTriageSystem.Controllers
             _reviewService = reviewService;
         }
 
-
-
+        // GET /api/reviews/doctor/{doctorId}
+        [HttpGet("doctor/{doctorId}")]
+        [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), 200)]
+        public async Task<IActionResult> GetByDoctor(int doctorId)
+        {
+            var reviews = await _reviewService.GetByDoctorIdAsync(doctorId);
+            return Ok(reviews);
+        }
 
         [HttpPost]
         [Authorize(Roles = "Patient")]

@@ -99,6 +99,7 @@ export class ChatbotComponent implements AfterViewChecked {
           result: res,
           time: new Date()
         }]);
+        console.log(res)
         this.isLoading.set(false);
         this.shouldScroll = true;
       },
@@ -125,7 +126,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
   getUrgencyColor(msg: string): string {
     const lower = msg?.toLowerCase() || '';
-    if (lower.includes('emergency') || lower.includes('urgent')) return 'urgency-red';
+    if (lower.includes('فوراً') || lower.includes('urgent')) return 'urgency-red';
     if (lower.includes('soon') || lower.includes('moderate')) return 'urgency-orange';
     return 'urgency-green';
   }

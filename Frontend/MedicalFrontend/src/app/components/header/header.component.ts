@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
   getDashboardRoute(): string {
     switch (this.userRole()) {
-      case 'Admin': return '/admin';
+      case 'Admin': return '/admin-dashboard';
       case 'Doctor': return '/doctor-dashboard';
       case 'Patient': return '/patient-dashboard';
       default: return '/';

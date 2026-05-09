@@ -299,39 +299,71 @@
 
         <!-- ═══ SCHEDULE ═══ -->
         @if (activeTab() === 'schedule') {
-        <div class="tab-content fade-in">
+        <div class="tab-content fade-in schedule-tab">
+            <div class="tab-header tab-header--schedule">
+                <div class="tab-header-text">
+                    <h2><i class="fas fa-calendar-week" aria-hidden="true"></i> Weekly schedule</h2>
+                    <p>Define recurring working hours. Bookings use these rules to offer time slots.</p>
+                </div>
+                <button type="button" class="add-btn" (click)="openScheduleModal()">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Add schedule
+                </button>
+            </div>
+
             @if (schedule().length > 0) {
+            <div class="schedule-summary-bar" role="status">
+                <div class="summary-pill">
+                    <span class="summary-pill__value">{{ schedule().length }}</span>
+                    <span class="summary-pill__label">Days configured</span>
+                </div>
+                <div class="summary-pill summary-pill--accent">
+                    <span class="summary-pill__value">{{ getAvailableScheduleCount() }}</span>
+                    <span class="summary-pill__label">Open for booking</span>
+                </div>
+            </div>
             <div class="schedule-grid">
                 @for (s of schedule(); track s.id) {
-                <div class="schedule-card card">
-                    <div class="sc-day">
-                        <i class="fas fa-calendar-day"></i> {{ getDayName(s.dayOfWeek) }}
-                    </div>
-                    <div class="sc-time">
-                        <div class="sc-time-item">
-                            <span class="sc-label">Start</span>
-                            <span class="sc-value">{{ s.startTime }}</span>
+                <article class="schedule-card card" [class.schedule-card--closed]="!s.isAvailable">
+                    <div class="schedule-card__accent" aria-hidden="true"></div>
+                    <div class="schedule-card__body">
+                        <header class="sc-day">
+                            <span class="sc-day-icon"><i class="fas fa-calendar-day" aria-hidden="true"></i></span>
+                            <span class="sc-day-name">{{ getDayName(s.dayOfWeek) }}</span>
+                        </header>
+                        <div class="sc-time">
+                            <div class="sc-time-item">
+                                <span class="sc-label">Start</span>
+                                <span class="sc-value">{{ s.startTime }}</span>
+                            </div>
+                            <div class="sc-divider" aria-hidden="true"><i class="fas fa-long-arrow-alt-right"></i></div>
+                            <div class="sc-time-item">
+                                <span class="sc-label">End</span>
+                                <span class="sc-value">{{ s.endTime }}</span>
+                            </div>
                         </div>
-                        <div class="sc-divider"><i class="fas fa-arrow-right"></i></div>
-                        <div class="sc-time-item">
-                            <span class="sc-label">End</span>
-                            <span class="sc-value">{{ s.endTime }}</span>
+                        <div class="sc-meta">
+                            <span class="sc-slot-len"><i class="fas fa-hourglass-half" aria-hidden="true"></i> {{ s.slotDurationMinutes }} min / slot</span>
+                            <span class="sc-status" [class.available]="s.isAvailable">
+                                {{ s.isAvailable ? 'Open' : 'Closed' }}
+                            </span>
+                        </div>
+                        <div class="sc-actions">
+                            <button type="button" class="delete-btn" (click)="deleteSchedule(s.id)" title="Remove this day">
+                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="sc-meta">
-                        <span><i class="fas fa-clock"></i> {{ s.slotDurationMinutes }} min slots</span>
-                        <span class="sc-status" [class.available]="s.isAvailable">
-                      {{ s.isAvailable ? 'Available' : 'Unavailable' }}
-                    </span>
-                    </div>
-                </div>
+                </article>
                 }
             </div>
             } @else {
-            <div class="empty-state card">
-                <i class="fas fa-clock"></i>
-                <h3>No Schedule Set</h3>
-                <p>Your working schedule hasn't been configured yet</p>
+            <div class="empty-state card empty-state--schedule">
+                <div class="empty-state__icon-wrap"><i class="fas fa-calendar-week" aria-hidden="true"></i></div>
+                <h3>No schedule yet</h3>
+                <p>Add at least one weekly pattern so patients can see availability.</p>
+                <button type="button" class="add-btn" (click)="openScheduleModal()">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Create schedule
+                </button>
             </div>
             }
         </div>
@@ -339,26 +371,63 @@
 
         <!-- ═══ TIME SLOTS ═══ -->
         @if (activeTab() === 'timeslots') {
-        <div class="tab-content fade-in">
-            @if (timeSlots().length > 0) {
-            <div class="slots-grid">
-                @for (slot of timeSlots(); track slot.id) {
-                <div class="slot-card card" [class.booked]="slot.isBooked">
-                    <div class="slot-status-dot" [class.booked]="slot.isBooked"></div>
-                    <div class="slot-date">{{ slot.slotStart | date:'dd MMM' }}</div>
-                    <div class="slot-time">{{ slot.slotStart | date:'hh:mm a' }}</div>
-                    <div class="slot-end">to {{ slot.slotEnd | date:'hh:mm a' }}</div>
-                    <span class="slot-badge" [class.booked]="slot.isBooked">
-                    {{ slot.isBooked ? 'Booked' : 'Free' }}
-                  </span>
+        <div class="tab-content fade-in timeslots-tab">
+            <div class="tab-header tab-header--timeslots">
+                <div class="tab-header-text">
+                    <h2><i class="fas fa-stopwatch" aria-hidden="true"></i> Time slots</h2>
+                    <p>Preview for one day: openings are computed from your weekly schedule and existing bookings.</p>
                 </div>
+                <div class="field-group" style="margin: 0; min-width: 200px;">
+                    <input type="date" class="field-input" title="Preview day"
+                        [attr.aria-label]="'Preview time slots for date'"
+                        [ngModel]="timeSlotsPreviewDate()" (ngModelChange)="onTimeSlotsPreviewDateChange($event)">
+                </div>
+            </div>
+
+            @if (timeSlots().length > 0) {
+            <div class="slots-summary-bar" role="status">
+                <div class="summary-pill summary-pill--slots-free">
+                    <span class="summary-pill__value">{{ getFreeTimeSlotsCount() }}</span>
+                    <span class="summary-pill__label">Available</span>
+                </div>
+                <div class="summary-pill summary-pill--slots-booked">
+                    <span class="summary-pill__value">{{ getBookedTimeSlotsCount() }}</span>
+                    <span class="summary-pill__label">Booked</span>
+                </div>
+                <div class="summary-pill">
+                    <span class="summary-pill__value">{{ timeSlots().length }}</span>
+                    <span class="summary-pill__label">Total</span>
+                </div>
+            </div>
+            <div class="slots-grid">
+                @for (slot of timeSlots(); track slot.slotStart) {
+                <article class="slot-card card" [class.booked]="slot.isBooked">
+                    <div class="slot-card__glow" aria-hidden="true"></div>
+                    <span class="slot-status-dot" [class.booked]="slot.isBooked" [attr.title]="slot.isBooked ? 'Booked' : 'Available'"></span>
+                    <div class="slot-card__main">
+                        <div class="slot-date">
+                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                            {{ slot.slotStart | date:'EEE, dd MMM' }}
+                        </div>
+                        <div class="slot-time-block">
+                            <span class="slot-time">{{ slot.slotStart | date:'hh:mm a' }}</span>
+                            <span class="slot-time-sep">–</span>
+                            <span class="slot-time slot-time--end">{{ slot.slotEnd | date:'hh:mm a' }}</span>
+                        </div>
+                    </div>
+                    <div class="slot-card__footer">
+                        <span class="slot-badge" [class.booked]="slot.isBooked">
+                            {{ slot.isBooked ? 'Booked' : 'Free' }}
+                        </span>
+                    </div>
+                </article>
                 }
             </div>
             } @else {
-            <div class="empty-state card">
-                <i class="fas fa-calendar-alt"></i>
-                <h3>No Time Slots</h3>
-                <p>No time slots have been generated yet</p>
+            <div class="empty-state card empty-state--slots">
+                <div class="empty-state__icon-wrap"><i class="fas fa-stopwatch" aria-hidden="true"></i></div>
+                <h3>No slots on this day</h3>
+                <p>Add or open a day in <strong>My Schedule</strong>, or pick another date. Slots are not stored—they are calculated from your weekly hours.</p>
             </div>
             }
         </div>
@@ -457,6 +526,81 @@
               <i class="fas fa-spinner fa-spin"></i> Saving...
             } @else {
               <i class="fas fa-save"></i> Save Record
+            }
+          </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
+
+<!-- Add Schedule Modal -->
+@if (showScheduleModal()) {
+<div class="modal-backdrop" (click)="closeScheduleModal()">
+    <div class="record-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-calendar-plus"></i> Add Work Schedule</h3>
+            <button class="modal-close" (click)="closeScheduleModal()" title="Close" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ successMsg() }}
+            </div>
+            } @if (errorMsg()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+            </div>
+            }
+
+            <div class="field-group">
+                <label>Day of Week <span class="req">*</span></label>
+                <select [(ngModel)]="newSchedule.dayOfWeek" class="field-input">
+                    <option [value]="0">Sunday</option>
+                    <option [value]="1">Monday</option>
+                    <option [value]="2">Tuesday</option>
+                    <option [value]="3">Wednesday</option>
+                    <option [value]="4">Thursday</option>
+                    <option [value]="5">Friday</option>
+                    <option [value]="6">Saturday</option>
+                </select>
+            </div>
+
+            <div class="field-row">
+                <div class="field-group">
+                    <label>Start Time <span class="req">*</span></label>
+                    <input type="time" [(ngModel)]="newSchedule.startTime" class="field-input">
+                </div>
+                <div class="field-group">
+                    <label>End Time <span class="req">*</span></label>
+                    <input type="time" [(ngModel)]="newSchedule.endTime" class="field-input">
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>Slot Duration (minutes)</label>
+                <input type="number" [(ngModel)]="newSchedule.slotDurationMinutes" min="15" step="15" class="field-input">
+            </div>
+
+            <div class="field-group checkbox">
+                <label>
+                    <input type="checkbox" [(ngModel)]="newSchedule.isAvailable">
+                    Available for bookings
+                </label>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeScheduleModal()">Cancel</button>
+                <button class="submit-btn" (click)="submitSchedule()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <i class="fas fa-spinner fa-spin"></i> Saving...
+            } @else {
+              <i class="fas fa-save"></i> Add Schedule
             }
           </button>
             </div>

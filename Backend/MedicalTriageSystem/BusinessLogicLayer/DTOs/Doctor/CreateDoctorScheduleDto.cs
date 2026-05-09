@@ -17,6 +17,6 @@ namespace BusinessLogicLayer.DTOs.Doctor
         [Required, Range(5, 120)]
         public int SlotDurationMinutes { get; set; }
 
-        public bool IsAvailable { get; set; } = true;
+       
     }
 }

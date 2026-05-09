@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-appointment',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, DatePipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.css']
 })
@@ -116,9 +116,10 @@ export class AppointmentComponent implements OnInit {
   }
 
   loadTimeSlots(doctorId: number) {
-    this.endpoint.doctors.getTimeSlots(doctorId).subscribe({
-      next: (slots) => {
-        this.timeSlots.set(slots.filter(s => !s.isBooked));
+    const today = new Date().toISOString().split('T')[0];
+     this.endpoint.doctors.getTimeSlots(doctorId,today).subscribe({
+    next: (slots) => {
+      this.timeSlots.set(slots.slice(0, 8));
       },
       error: () => this.timeSlots.set([])
     });

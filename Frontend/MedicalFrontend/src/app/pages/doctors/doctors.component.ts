@@ -86,21 +86,37 @@ export class DoctorsComponent implements OnInit {
     this.loadDoctorDetails(doc.id);
   }
 
-  loadDoctorDetails(id: number) {
-    this.endpoint.doctors.getTimeSlots(id).subscribe({
-      next: (data) => this.timeSlots.set(data.filter(s => !s.isBooked).slice(0, 8))
-    });
+loadDoctorDetails(id: number) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-    this.endpoint.doctors.getReviews(id).subscribe({
-      next: (data) => {
-        this.reviews.set(data);
-        if (data.length > 0) {
-          const avg = data.reduce((s, r) => s + r.rating, 0) / data.length;
-          this.rating.set(Math.round(avg * 10) / 10);
-        }
+  this.endpoint.doctors.getTimeSlots(id, today.toISOString()).subscribe({
+    next: (data) => {
+      this.timeSlots.set(data.slice(0, 8));
+    },
+    error: (err) => {
+      console.error(err);
+      this.timeSlots.set([]);
+    }
+  });
+
+  this.endpoint.doctors.getReviews(id).subscribe({
+    next: (data) => {
+      this.reviews.set(data);
+
+      if (data?.length > 0) {
+        const avg = data.reduce((s, r) => s + r.rating, 0) / data.length;
+        this.rating.set(Number(avg.toFixed(1)));
+      } else {
+        this.rating.set(0);
       }
-    });
-  }
+    },
+    error: () => {
+      this.reviews.set([]);
+      this.rating.set(0);
+    }
+  });
+}
 
   closeModal() {
     this.showModal.set(false);

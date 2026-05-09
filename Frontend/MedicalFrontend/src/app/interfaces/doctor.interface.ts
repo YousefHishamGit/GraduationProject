@@ -24,7 +24,8 @@ export interface DoctorScheduleResponseDto {
 }
 
 export interface TimeSlotResponseDto {
-  id: number;
+  /** Null when slot is computed from schedule only. */
+  id?: number | null;
   slotStart: string;
   slotEnd: string;
   isBooked: boolean;
@@ -89,8 +90,4 @@ export interface CreateDoctorLeaveDto {
 export interface UpdateDoctorLeaveDto {
   reason?: string;
   isApproved?: boolean;
-}
-
-export interface GenerateTimeSlotsDto {
-  date: string;
 }

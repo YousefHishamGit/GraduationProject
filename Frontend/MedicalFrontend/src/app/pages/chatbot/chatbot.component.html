@@ -80,8 +80,7 @@
                         <strong>Describe your symptoms</strong> in detail for the best results.
                     </p>
                     <div class="disclaimer">
-                        <i class="fas fa-info-circle"></i>
-                        This is for preliminary guidance only. Always consult a real doctor.
+                        <i class="fas fa-info-circle"></i> This is for preliminary guidance only. Always consult a real doctor.
                     </div>
                 </div>
                 }
@@ -108,9 +107,9 @@
                     </div>
 
                     <!-- Urgency -->
-                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgencyMessage)">
+                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgency_message)">
                         <i class="fas fa-heartbeat"></i>
-                        <span>{{ msg.result.urgencyMessage }}</span>
+                        <span>{{ msg.result.urgency_message }}</span>
                     </div>
 
                     <!-- Diagnosis -->
@@ -119,6 +118,13 @@
                             <i class="fas fa-clipboard-list"></i> Diagnosis
                         </div>
                         <div class="rs-content">{{ msg.result.diagnosis }}</div>
+                    </div>
+                    <!-- recommended_specialty -->
+                    <div class="result-section">
+                        <div class="rs-label">
+                            <i class="fas fa-clipboard-list"></i> Specialty
+                        </div>
+                        <div class="rs-content">{{ msg.result.recommended_specialty }}</div>
                     </div>
 
                     <!-- Tips -->
@@ -130,8 +136,7 @@
                         <ul class="tips-list">
                             @for (tip of msg.result.tips; track $index) {
                             <li>
-                                <i class="fas fa-check-circle"></i>
-                                {{ tip }}
+                                <i class="fas fa-check-circle"></i> {{ tip }}
                             </li>
                             }
                         </ul>
@@ -139,25 +144,22 @@
                     }
 
                     <!-- Book Button -->
-                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommendedSpecialty}"
-                        class="book-specialist-btn">
-                        <i class="fas fa-calendar-check"></i>
-                        Book a {{ msg.result.recommendedSpecialty }} Specialist
+                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommendedSpecialty}" class="book-specialist-btn">
+                        <i class="fas fa-calendar-check"></i> Book a {{ msg.result.recommendedSpecialty }} Specialist
                     </a>
 
                 </div>
                 }
 
             </div>
-            }
-
-            }
+            } }
 
             <div #messagesEnd></div>
         </div>
 
         <!-- Suggestions -->
-        @if (messages().length <= 1) { <div class="suggestions-section">
+        @if (messages().length
+        <=1 ) { <div class="suggestions-section">
             <p class="suggestions-label">
                 <i class="fas fa-magic"></i> Try asking about:
             </p>
@@ -166,8 +168,7 @@
                 <button class="suggestion-chip" (click)="sendMessage(s)">
                     <i class="fas fa-comment-medical"></i>
                     {{ s }}
-                </button>
-                }
+                </button> }
             </div>
     </div>
     }
@@ -177,8 +178,7 @@
 <!-- Input Area -->
 <div class="chat-footer">
     <div class="input-container">
-        <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()"
-            placeholder="Describe your symptoms here... (Press Enter to send)" rows="1" class="chat-input">
+        <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="Describe your symptoms here... (Press Enter to send)" rows="1" class="chat-input">
       </textarea>
         <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
             @if (isLoading()) {
@@ -189,8 +189,7 @@
         </button>
     </div>
     <p class="footer-note">
-        <i class="fas fa-shield-alt"></i>
-        For emergency situations, call <strong>123</strong> immediately.
+        <i class="fas fa-shield-alt"></i> For emergency situations, call <strong>123</strong> immediately.
     </p>
 </div>
 

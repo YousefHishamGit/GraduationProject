@@ -183,6 +183,11 @@
 .form-box {
     width: 100%;
     max-width: 420px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 14px 45px rgba(15, 23, 42, 0.08);
 }
 
 .form-top {
@@ -233,10 +238,8 @@
     font-size: 0.82rem;
     font-weight: 500;
     text-decoration: none;
-}
-
-.forgot-link:hover {
-    text-decoration: underline;
+    cursor: not-allowed;
+    opacity: 0.65;
 }
 
 .field-wrap {
@@ -354,6 +357,8 @@
 .submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 15px rgba(26, 111, 196, 0.2);
 }
 
 
@@ -433,13 +438,17 @@
         display: none;
     }
     .login-right {
-        background: white;
+        background: linear-gradient(180deg, #f8faff 0%, #eef4ff 100%);
     }
 }
 
 @media (max-width: 576px) {
     .login-right {
         padding: 30px 16px;
+    }
+    .form-box {
+        border-radius: 14px;
+        padding: 22px 16px;
     }
     .form-top h2 {
         font-size: 1.5rem;
