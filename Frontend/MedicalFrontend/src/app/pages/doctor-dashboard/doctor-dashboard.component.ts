@@ -46,6 +46,10 @@ export class DoctorDashboardComponent implements OnInit {
   successMsg = signal('');
   errorMsg = signal('');
 
+  // Generate Slots
+  showSlotsModal = signal(false);
+  slotDate = '';
+
   dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   ngOnInit() {
@@ -234,6 +238,40 @@ export class DoctorDashboardComponent implements OnInit {
     this.endpoint.doctors.deleteSchedule(id).subscribe({
       next: () => this.schedule.update(items => items.filter(s => s.id !== id)),
       error: (err) => this.errorMsg.set(err.error?.message || 'Failed to delete schedule.')
+    });
+  }
+
+  // --- Generate Time Slots ---
+  openSlotsModal() {
+    this.showSlotsModal.set(true);
+    this.slotDate = new Date().toISOString().split('T')[0];
+    this.successMsg.set('');
+    this.errorMsg.set('');
+  }
+
+  closeSlotsModal() {
+    this.showSlotsModal.set(false);
+  }
+
+  generateSlots() {
+    const docId = this.doctor()?.id;
+    if (!docId || !this.slotDate) {
+      this.errorMsg.set('Please select a valid date');
+      return;
+    }
+
+    this.isSubmitting.set(true);
+    this.endpoint.doctors.generateTimeSlots(docId, this.slotDate).subscribe({
+      next: (res) => {
+        this.successMsg.set('Time slots generated successfully!');
+        this.timeSlots.update(slots => [...slots, ...res]);
+        this.isSubmitting.set(false);
+        setTimeout(() => this.closeSlotsModal(), 1500);
+      },
+      error: (err) => {
+        this.errorMsg.set(err.error?.message || 'Failed to generate time slots');
+        this.isSubmitting.set(false);
+      }
     });
   }
 
