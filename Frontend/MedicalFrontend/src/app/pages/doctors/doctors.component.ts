@@ -19,10 +19,10 @@ export class DoctorsComponent implements OnInit {
   departments = signal<any[]>([]);
   isLoading = signal(true);
 
-  searchTerm = '';
-  selectedDept = '';
-  selectedSpec = '';
-  selectedExp = '';
+  searchTerm = signal('');
+  selectedDept = signal('');
+  selectedSpec = signal('');
+  selectedExp = signal('');
 
   specializations = computed(() => {
     const specs = new Set(this.allDoctors().map(d => d.specialization));
@@ -30,21 +30,26 @@ export class DoctorsComponent implements OnInit {
   });
 
   filteredDoctors = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    const dept = this.selectedDept();
+    const spec = this.selectedSpec();
+    const exp = this.selectedExp();
+
     return this.allDoctors().filter(doc => {
-      const matchSearch = !this.searchTerm ||
-        doc.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        doc.specialization.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchSearch = !term ||
+        doc.fullName.toLowerCase().includes(term) ||
+        doc.specialization.toLowerCase().includes(term);
 
-      const matchDept = !this.selectedDept ||
-        doc.departmentName === this.selectedDept;
+      const matchDept = !dept ||
+        doc.departmentName === dept;
 
-      const matchSpec = !this.selectedSpec ||
-        doc.specialization === this.selectedSpec;
+      const matchSpec = !spec ||
+        doc.specialization === spec;
 
-      const matchExp = !this.selectedExp ||
-        (this.selectedExp === '5' && doc.yearsOfExperience >= 5) ||
-        (this.selectedExp === '10' && doc.yearsOfExperience >= 10) ||
-        (this.selectedExp === '15' && doc.yearsOfExperience >= 15);
+      const matchExp = !exp ||
+        (exp === '5' && doc.yearsOfExperience >= 5) ||
+        (exp === '10' && doc.yearsOfExperience >= 10) ||
+        (exp === '15' && doc.yearsOfExperience >= 15);
 
       return matchSearch && matchDept && matchSpec && matchExp;
     });
@@ -124,10 +129,10 @@ loadDoctorDetails(id: number) {
   }
 
   clearFilters() {
-    this.searchTerm = '';
-    this.selectedDept = '';
-    this.selectedSpec = '';
-    this.selectedExp = '';
+    this.searchTerm.set('');
+    this.selectedDept.set('');
+    this.selectedSpec.set('');
+    this.selectedExp.set('');
   }
 
   getInitials(name: string): string {

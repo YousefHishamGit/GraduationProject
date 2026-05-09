@@ -7,10 +7,17 @@
     right: 0;
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(26, 111, 196, 0.08);
     transition: all 0.3s ease;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: -1;
 }
 
 .header.scrolled {

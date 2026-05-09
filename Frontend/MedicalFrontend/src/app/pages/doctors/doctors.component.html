@@ -18,34 +18,34 @@
         <!-- Search -->
         <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or specialty..."> @if (searchTerm) {
-            <button class="clear-search" (click)="searchTerm = ''">
+            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search by name or specialty..."> @if (searchTerm()) {
+            <button class="clear-search" (click)="searchTerm.set('')">
           <i class="fas fa-times"></i>
         </button> }
         </div>
 
         <!-- Filters -->
         <div class="filters-row">
-            <select [(ngModel)]="selectedDept" class="filter-select">
+            <select [ngModel]="selectedDept()" (ngModelChange)="selectedDept.set($event)" class="filter-select">
         <option value="">All Departments</option>
         @for (dept of departments(); track dept.id) {
           <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
         }
       </select>
 
-            <select [(ngModel)]="selectedSpec" class="filter-select">
+            <select [ngModel]="selectedSpec()" (ngModelChange)="selectedSpec.set($event)" class="filter-select">
         <option value="">All Specialties</option>
         @for (spec of specializations(); track spec) {
           <option [value]="spec">{{ spec }}</option>
         }
       </select>
 
-            <select [(ngModel)]="selectedExp" class="filter-select">
+            <select [ngModel]="selectedExp()" (ngModelChange)="selectedExp.set($event)" class="filter-select">
         <option value="">Any Experience</option>
         <option value="5">5+ Years</option>
         <option value="10">10+ Years</option>
         <option value="15">15+ Years</option>
-      </select> @if (searchTerm || selectedDept || selectedSpec || selectedExp) {
+      </select> @if (searchTerm() || selectedDept() || selectedSpec() || selectedExp()) {
             <button class="clear-btn" (click)="clearFilters()">
           <i class="fas fa-times"></i> Clear
         </button> }

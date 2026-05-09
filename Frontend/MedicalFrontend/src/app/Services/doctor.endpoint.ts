@@ -79,4 +79,9 @@ export class DoctorEndpoint extends BaseEndpoint {
     const params = new HttpParams().set('date', date);
     return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params });
   }
+
+  generateTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
+    const dto = { date: date };
+    return this.http.post<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots?doctorId=${doctorId}`, dto);
+  }
 }

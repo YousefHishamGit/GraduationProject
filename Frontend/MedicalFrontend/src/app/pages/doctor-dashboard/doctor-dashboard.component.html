@@ -377,10 +377,13 @@
                     <h2><i class="fas fa-stopwatch" aria-hidden="true"></i> Time slots</h2>
                     <p>Preview for one day: openings are computed from your weekly schedule and existing bookings.</p>
                 </div>
-                <div class="field-group" style="margin: 0; min-width: 200px;">
+                <div class="field-group" style="margin: 0; min-width: 200px; display: flex; gap: 10px; align-items: center;">
                     <input type="date" class="field-input" title="Preview day"
                         [attr.aria-label]="'Preview time slots for date'"
                         [ngModel]="timeSlotsPreviewDate()" (ngModelChange)="onTimeSlotsPreviewDateChange($event)">
+                    <button class="add-btn" (click)="openSlotsModal()" style="margin: 0;">
+                        <i class="fas fa-magic" aria-hidden="true"></i> Generate
+                    </button>
                 </div>
             </div>
 
@@ -606,6 +609,50 @@
             </div>
         </div>
 
+    </div>
+</div>
+}
+
+<!-- Generate Slots Modal -->
+@if (showSlotsModal()) {
+<div class="modal-backdrop" (click)="closeSlotsModal()">
+    <div class="record-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-magic"></i> Generate Time Slots</h3>
+            <button class="modal-close" (click)="closeSlotsModal()" title="Close" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ successMsg() }}
+            </div>
+            } @if (errorMsg()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+            </div>
+            }
+
+            <div class="field-group">
+                <label>Target Date <span class="req">*</span></label>
+                <input type="date" [(ngModel)]="slotDate" class="field-input">
+                <small style="color: #6c757d; margin-top: 4px; display: block;">Slots will be generated based on your schedule for this day's day-of-week.</small>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeSlotsModal()">Cancel</button>
+                <button class="submit-btn" (click)="generateSlots()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              <i class="fas fa-spinner fa-spin"></i> Generating...
+            } @else {
+              <i class="fas fa-magic"></i> Generate Slots
+            }
+          </button>
+            </div>
+        </div>
     </div>
 </div>
 }
