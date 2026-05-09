@@ -11,3 +11,5 @@
 **/*.pyc
 venv/
 *.pkl
+
+appsettings.Production.json
