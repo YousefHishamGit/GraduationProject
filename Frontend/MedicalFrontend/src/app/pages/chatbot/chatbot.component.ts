@@ -69,7 +69,6 @@ export class ChatbotComponent implements AfterViewChecked {
     const msg = (text || this.inputText).trim();
     if (!msg || this.isLoading()) return;
 
-    // Add user message
     this.messages.update(m => [...m, {
       id: ++this.msgIdCounter,
       type: 'user',
@@ -81,7 +80,6 @@ export class ChatbotComponent implements AfterViewChecked {
     this.isLoading.set(true);
     this.shouldScroll = true;
 
-    // Add loading message
     const loadingId = ++this.msgIdCounter;
     this.messages.update(m => [...m, {
       id: loadingId,
@@ -91,7 +89,6 @@ export class ChatbotComponent implements AfterViewChecked {
 
     this.endpoint.ai.predict({ symptoms: msg }).subscribe({
       next: (res) => {
-        // Remove loading, add result
         this.messages.update(m => m.filter(x => x.id !== loadingId));
         this.messages.update(m => [...m, {
           id: ++this.msgIdCounter,
@@ -99,7 +96,6 @@ export class ChatbotComponent implements AfterViewChecked {
           result: res,
           time: new Date()
         }]);
-        console.log(res)
         this.isLoading.set(false);
         this.shouldScroll = true;
       },
@@ -124,11 +120,22 @@ export class ChatbotComponent implements AfterViewChecked {
     }
   }
 
-  getUrgencyColor(msg: string): string {
-    const lower = msg?.toLowerCase() || '';
-    if (lower.includes('فوراً') || lower.includes('urgent')) return 'urgency-red';
-    if (lower.includes('soon') || lower.includes('moderate')) return 'urgency-orange';
-    return 'urgency-green';
+  // ← عدلنا الـ Function عشان تستخدم urgency_level
+  getUrgencyColor(level: string): string {
+    switch (level) {
+      case 'critical': return 'urgency-red';
+      case 'moderate': return 'urgency-orange';
+      default: return 'urgency-green';
+    }
+  }
+
+  // ← أيقونة حسب الـ urgency
+  getUrgencyIcon(level: string): string {
+    switch (level) {
+      case 'critical': return 'fas fa-exclamation-triangle';
+      case 'moderate': return 'fas fa-exclamation-circle';
+      default: return 'fas fa-check-circle';
+    }
   }
 
   clearChat() {
