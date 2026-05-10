@@ -93,22 +93,23 @@
                 </div>
                 }
 
+
                 <!-- AI Result -->
                 @if (msg.result) {
                 <div class="msg-bubble bot-bubble result-bubble">
 
-                    <!-- Specialty Badge -->
+                    <!-- Header -->
                     <div class="result-header">
                         <div class="specialty-badge">
                             <i class="fas fa-user-md"></i>
-                            <span>{{ msg.result.recommendedSpecialty }}</span>
+                            <span>{{ msg.result.recommended_specialty }}</span>
                         </div>
                         <span class="result-time">{{ msg.time | date:'hh:mm a' }}</span>
                     </div>
 
                     <!-- Urgency -->
-                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgency_message)">
-                        <i class="fas fa-heartbeat"></i>
+                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgency_level)">
+                        <i [class]="getUrgencyIcon(msg.result.urgency_level)"></i>
                         <span>{{ msg.result.urgency_message }}</span>
                     </div>
 
@@ -119,19 +120,12 @@
                         </div>
                         <div class="rs-content">{{ msg.result.diagnosis }}</div>
                     </div>
-                    <!-- recommended_specialty -->
-                    <div class="result-section">
-                        <div class="rs-label">
-                            <i class="fas fa-clipboard-list"></i> Specialty
-                        </div>
-                        <div class="rs-content">{{ msg.result.recommended_specialty }}</div>
-                    </div>
 
                     <!-- Tips -->
                     @if (msg.result.tips && msg.result.tips.length > 0) {
                     <div class="result-section">
                         <div class="rs-label">
-                            <i class="fas fa-lightbulb"></i> Health Tips
+                            <i class="fas fa-lightbulb"></i> نصائح
                         </div>
                         <ul class="tips-list">
                             @for (tip of msg.result.tips; track $index) {
@@ -144,8 +138,8 @@
                     }
 
                     <!-- Book Button -->
-                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommendedSpecialty}" class="book-specialist-btn">
-                        <i class="fas fa-calendar-check"></i> Book a {{ msg.result.recommendedSpecialty }} Specialist
+                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommended_specialty}" class="book-specialist-btn">
+                        <i class="fas fa-calendar-check"></i> Book a {{ msg.result.recommended_specialty }} Specialist
                     </a>
 
                 </div>

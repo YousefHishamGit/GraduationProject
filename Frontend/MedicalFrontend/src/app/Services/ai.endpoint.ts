@@ -8,10 +8,10 @@ export interface DiagnosisRequestDto {
 
 export interface DiagnosisResponseDto {
   symptoms: string;
-  translated: string;
   diagnosis: string;
-  recommendedSpecialty: string;
-  urgencyMessage: string;
+  recommended_specialty: string;
+  urgency_level: 'critical' | 'moderate' | 'normal';
+  urgency_message: string;
   tips: string[];
 }
 

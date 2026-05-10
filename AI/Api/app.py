@@ -1,36 +1,39 @@
 from flask import Flask, request, jsonify
-import sys
-import pickle
-sys.path.insert(0, "../Training")
-from preprocess import clean_text, normalize_symptoms
-from deep_translator import GoogleTranslator
+from groq import Groq
+import json
+import os
 
 app = Flask(__name__)
 
-model = pickle.load(open("../Model/model.pkl", "rb"))
-specialty_model = pickle.load(open("../Model/specialty_model.pkl", "rb"))
-vectorizer = pickle.load(open("../Model/vectorizer.pkl", "rb"))
+# ── Groq Client ──────────────────────────────────
+client = Groq(api_key="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")
 
-TIPS = {
-    "critical": {
-        "urgency_message": "اتصل بالإسعاف فوراً",
-        "tips": ["لا تتحرك", "اطلب المساعدة فوراً", "لا تأكل أو تشرب"]
-    },
-    "moderate": {
-        "urgency_message": "يرجى زيارة الطبيب خلال 24 ساعة",
-        "tips": ["استرح", "اشرب ماء كتير", "خذ مسكن ألم لو محتاج"]
-    },
-    "normal": {
-        "urgency_message": "يمكنك زيارة الطبيب في أقرب وقت مناسب",
-        "tips": ["استرح", "اشرب ماء", "راقب الأعراض"]
-    }
+# ── System Prompt الطبي ───────────────────────────
+SYSTEM_PROMPT = """You are MediCare AI, an expert medical assistant. 
+When a patient describes their symptoms, analyze them and respond ONLY with a valid JSON object in this exact format:
+
+{
+  "diagnosis": "Brief medical diagnosis or most likely condition",
+  "recommended_specialty": "Medical specialty (e.g. Cardiology, Neurology, etc.)",
+  "urgency_level": "critical OR moderate OR normal",
+  "urgency_message": "Arabic urgency message",
+  "tips": ["tip1 in Arabic", "tip2 in Arabic", "tip3 in Arabic"]
 }
 
-def translate_to_english(text):
-    try:
-        return GoogleTranslator(source='auto', target='en').translate(text)
-    except:
-        return text
+Rules:
+- urgency_level must be exactly: critical, moderate, or normal
+- urgency_message in Arabic
+- tips array must have 3 items in Arabic
+- diagnosis in English
+- recommended_specialty in English
+- Be medically accurate
+- Do NOT add any text outside the JSON
+
+Urgency guidelines:
+- critical: chest pain, difficulty breathing, stroke symptoms, severe bleeding
+- moderate: high fever, severe pain, infection signs
+- normal: mild symptoms, routine checkup needed
+"""
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -40,28 +43,64 @@ def predict():
         return jsonify({'error': 'symptoms field is required'}), 400
 
     symptoms = data['symptoms']
-    translated = translate_to_english(symptoms)
-    cleaned = clean_text(translated)
-    normalized = normalize_symptoms(cleaned)
 
-    X = vectorizer.transform([normalized])
-    triage = model.predict(X)[0]
-    specialty = specialty_model.predict(X)[0]
+    try:
+        # ── Call Groq API ──────────────────────────
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": f"Patient symptoms: {symptoms}"
+                }
+            ],
+            model="llama3-70b-8192",
+            temperature=0.3,
+            max_tokens=500
+        )
 
-    tips_data = TIPS.get(triage, TIPS["normal"])
+        # ── Parse Response ─────────────────────────
+        response_text = chat_completion.choices[0].message.content.strip()
 
-    return jsonify({
-        'symptoms': symptoms,
-        'translated': translated,
-        'diagnosis': triage,
-        'recommended_specialty': specialty,
-        'urgency_message': tips_data['urgency_message'],
-        'tips': tips_data['tips']
-    })
+        # نظف الـ Response لو فيه ```json
+        if "```json" in response_text:
+            response_text = response_text.split("```json")[1].split("```")[0].strip()
+        elif "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0].strip()
+
+        result = json.loads(response_text)
+
+        return jsonify({
+            'symptoms': symptoms,
+            'diagnosis': result.get('diagnosis', 'Unable to determine'),
+            'recommended_specialty': result.get('recommended_specialty', 'General Medicine'),
+            'urgency_level': result.get('urgency_level', 'normal'),
+            'urgency_message': result.get('urgency_message', 'يمكنك زيارة الطبيب في أقرب وقت'),
+            'tips': result.get('tips', ['استرح', 'اشرب ماء', 'راقب الأعراض'])
+        })
+
+    except json.JSONDecodeError:
+        # لو الـ JSON مش صح نرجع Default
+        return jsonify({
+            'symptoms': symptoms,
+            'diagnosis': 'Please consult a doctor',
+            'recommended_specialty': 'General Medicine',
+            'urgency_level': 'normal',
+            'urgency_message': 'يرجى استشارة طبيب',
+            'tips': ['استرح', 'اشرب ماء كتير', 'راجع طبيب قريب']
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @app.route('/health', methods=['GET'])
 def health():
-    return jsonify({'status': 'ok'})
+    return jsonify({'status': 'ok', 'model': 'LLaMA 3 70B via Groq'})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
