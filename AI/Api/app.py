@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # ── Groq Client ──────────────────────────────────
-client = Groq(api_key="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")
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 # ── System Prompt الطبي ───────────────────────────
 SYSTEM_PROMPT = """You are MediCare AI, an expert medical assistant. 
