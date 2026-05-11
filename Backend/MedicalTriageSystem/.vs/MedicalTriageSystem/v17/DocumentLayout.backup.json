@@ -128,7 +128,7 @@
               "RelativeDocumentMoniker": "MedicalTriageSystem\\appsettings.json",
               "ToolTip": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\appsettings.json",
               "RelativeToolTip": "MedicalTriageSystem\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-05-09T20:28:43.356Z",
               "EditorCaption": ""
@@ -155,8 +155,7 @@
               "RelativeToolTip": "BusinessLogicLayer\\Services\\Implementation\\AppointmentService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T13:17:59.538Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T13:17:59.538Z"
             },
             {
               "$type": "Document",

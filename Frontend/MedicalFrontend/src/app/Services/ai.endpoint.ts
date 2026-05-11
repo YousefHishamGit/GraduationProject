@@ -20,6 +20,6 @@ export class AiEndpoint extends BaseEndpoint {
   private baseUrl = this.getBaseUrl('ai');
 
   predict(dto: DiagnosisRequestDto): Observable<DiagnosisResponseDto> {
-    return this.http.post<DiagnosisResponseDto>(`${this.baseUrl}/predict`, dto);
+    return this.http.post<DiagnosisResponseDto>(`https://youseefhisham9-medicalai.hf.space/predict`, dto);
   }
 }

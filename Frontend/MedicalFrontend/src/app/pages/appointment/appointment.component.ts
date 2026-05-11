@@ -62,6 +62,8 @@ export class AppointmentComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.handleQueryParams();
+    const urlParams = new URLSearchParams(window.location.search);
+    this.searchTerm=urlParams.get('specialty')!
   }
 
   loadData() {

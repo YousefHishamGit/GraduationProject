@@ -1,3 +1,6 @@
+# Hugging Face Spaces Configuration
+# If deploying to HF Spaces, use this for requirements
+
 flask>=2.3.0
 flask-cors>=4.0.0
 groq>=0.4.0
