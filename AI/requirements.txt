@@ -3,3 +3,7 @@ numpy
 scikit-learn
 joblib
 flask
+flask-cors
+groq
+gunicorn
+deep-translator

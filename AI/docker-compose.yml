@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    ports:
+      - "7860:7860"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - FLASK_ENV=production
+      - FLASK_DEBUG=False
+    volumes:
+      - ./Model:/app/Model:ro
+      - ./DataSet:/app/DataSet:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  # Optional: Development API service
+  api-dev:
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    ports:
+      - "7861:7860"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - FLASK_ENV=development
+      - FLASK_DEBUG=True
+    volumes:
+      - ./Api:/app
+      - ./Model:/app/Model:ro
+      - ./DataSet:/app/DataSet:ro
+    command: flask run --host=0.0.0.0 --port=7860
+    profiles:
+      - dev
+    restart: unless-stopped
