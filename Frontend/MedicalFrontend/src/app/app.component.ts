@@ -3,11 +3,12 @@ import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, FooterComponent, BackButtonComponent],
   template: `
     @if (showLayout()) {
       <app-header />
@@ -18,6 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
     @if (showLayout()) {
       <app-footer />
     }
+    <app-back-button />
   `,
   styles: [`
     .has-header {

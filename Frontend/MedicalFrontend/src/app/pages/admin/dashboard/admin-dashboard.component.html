@@ -46,6 +46,12 @@
                 <i class="fas fa-building"></i> Departments
                 <span class="nav-badge">{{ departments().length }}</span>
             </a>
+
+            <div class="nav-divider"></div>
+
+            <a class="nav-item" routerLink="/">
+                <i class="fas fa-home"></i> Home
+            </a>
         </nav>
 
         <div class="sidebar-footer">
@@ -211,14 +217,6 @@
                     <div class="qs-card card">
                         <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
                         <div class="qa-list">
-                            <button class="qa-btn" (click)="openDoctorModal()">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Add Doctor</span>
-                  </button>
-                            <button class="qa-btn" (click)="openDeptModal()">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Add Department</span>
-                  </button>
                             <button class="qa-btn" (click)="setTab('patients')">
                     <i class="fas fa-users"></i>
                     <span>View Patients</span>
@@ -242,9 +240,6 @@
             <div class="table-card card">
                 <div class="table-header">
                     <h3>All Doctors ({{ doctors().length }})</h3>
-                    <button class="add-btn" (click)="openDoctorModal()">
-                <i class="fas fa-plus"></i> Add Doctor
-              </button>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -413,9 +408,6 @@
         <div class="tab-content fade-in">
             <div class="dept-header-row">
                 <h3>All Departments ({{ departments().length }})</h3>
-                <button class="add-btn" (click)="openDeptModal()">
-              <i class="fas fa-plus"></i> Add Department
-            </button>
             </div>
 
             @if (departments().length > 0) {
@@ -443,9 +435,6 @@
                 <i class="fas fa-building"></i>
                 <h3>No Departments Yet</h3>
                 <p>Add your first department to get started</p>
-                <button class="empty-btn" (click)="openDeptModal()">
-                <i class="fas fa-plus"></i> Add Department
-              </button>
             </div>
             }
         </div>

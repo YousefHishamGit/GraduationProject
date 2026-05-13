@@ -11,6 +11,10 @@ export class ReviewEndpoint extends BaseEndpoint {
     return this.http.get<ReviewResponseDto[]>(`${this.baseUrl}/doctor/${doctorId}`);
   }
 
+  getByPatient(patientId: number): Observable<ReviewResponseDto[]> {
+    return this.http.get<ReviewResponseDto[]>(`${this.baseUrl}/patient/${patientId}`);
+  }
+
   create(dto: CreateReviewDto): Observable<ReviewResponseDto> {
     return this.http.post<ReviewResponseDto>(this.baseUrl, dto);
   }
