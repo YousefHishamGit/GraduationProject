@@ -26,7 +26,6 @@ export class PatientDashboardComponent implements OnInit {
   labRequests = signal<any[]>([]);
   isLoading = signal(true);
   sidebarOpen = signal(false);
-
   currentUser = signal<any>(null);
 
   ngOnInit() {
@@ -49,6 +48,12 @@ export class PatientDashboardComponent implements OnInit {
   }
 
   loadAllData(patientId: number) {
+    // Load doctors list for review display
+    this.endpoint.doctors.getAll().subscribe({
+      next: (docs) => this.doctors.set(docs.filter((d: any) => d.status !== 'Inactive')),
+      error: () => {}
+    });
+
     forkJoin({
       appointments: this.endpoint.appointments.getByPatient(patientId),
       medicalRecords: this.endpoint.medicalRecords.getByPatient(patientId),
@@ -71,6 +76,9 @@ export class PatientDashboardComponent implements OnInit {
   setTab(tab: string) {
     this.activeTab.set(tab);
     this.sidebarOpen.set(false);
+    if (tab === 'reviews') {
+      this.loadReviewsData();
+    }
   }
 
   getStatusClass(status: string): string {
@@ -94,5 +102,160 @@ export class PatientDashboardComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  // ═══════════════════════════════════════
+  //  REVIEWS
+  // ═══════════════════════════════════════
+  doctors = signal<any[]>([]);
+  myReviews = signal<any[]>([]);
+  reviewsLoading = signal(false);
+  reviewsError = signal('');
+  reviewsSuccess = signal('');
+
+  // New review form state
+  showReviewForm = signal(false);
+  selectedAppointmentId = signal<number | null>(null);
+  reviewDoctorId = signal<number | null>(null);
+  reviewRating = signal(0);
+  hoverRating = signal(0);
+  reviewComment = '';
+  isSubmittingReview = signal(false);
+
+  /** Appointments that are Completed and not already reviewed */
+  get completedAppointments() {
+    const reviewedAptIds = new Set(this.myReviews().map((r: any) => r.appointmentId));
+    return this.appointments().filter(
+      (a: any) => a.status === 'Completed' && !reviewedAptIds.has(a.id)
+    );
+  }
+
+  getAptDoctorName(apt: any): string {
+    return this.doctors().find((d: any) => d.id === apt.doctorId)?.fullName || `Doctor #${apt.doctorId}`;
+  }
+
+  getAptDoctorSpec(apt: any): string {
+    return this.doctors().find((d: any) => d.id === apt.doctorId)?.specialization || '';
+  }
+
+  loadReviewsData() {
+    this.reviewsLoading.set(true);
+    this.reviewsError.set('');
+
+    this.endpoint.doctors.getAll().subscribe({
+      next: (docs) => this.doctors.set(docs.filter((d: any) => d.status !== 'Inactive')),
+      error: () => {}
+    });
+
+    const patientId = this.patient()?.id;
+    if (!patientId) { this.reviewsLoading.set(false); return; }
+
+    this.endpoint.reviews.getByPatient(patientId).subscribe({
+      next: (reviews) => {
+        this.myReviews.set(reviews);
+        this.reviewsLoading.set(false);
+      },
+      error: () => {
+        this.myReviews.set([]);
+        this.reviewsLoading.set(false);
+      }
+    });
+  }
+
+  openReviewForm() {
+    this.showReviewForm.set(true);
+    this.selectedAppointmentId.set(null);
+    this.reviewDoctorId.set(null);
+    this.reviewRating.set(0);
+    this.hoverRating.set(0);
+    this.reviewComment = '';
+    this.reviewsError.set('');
+    this.reviewsSuccess.set('');
+  }
+
+  selectAppointmentForReview(apt: any) {
+    this.selectedAppointmentId.set(apt.id);
+    this.reviewDoctorId.set(apt.doctorId);
+  }
+
+  closeReviewForm() {
+    this.showReviewForm.set(false);
+  }
+
+  setReviewStar(star: number) {
+    this.reviewRating.set(star);
+  }
+
+  setHoverStar(star: number) {
+    this.hoverRating.set(star);
+  }
+
+  clearHoverStar() {
+    this.hoverRating.set(0);
+  }
+
+  getDisplayRating(): number {
+    return this.hoverRating() || this.reviewRating();
+  }
+
+  submitReview() {
+    if (!this.selectedAppointmentId()) {
+      this.reviewsError.set('Please select an appointment to review.');
+      return;
+    }
+    if (!this.reviewRating()) {
+      this.reviewsError.set('Please select a rating (1-5 stars).');
+      return;
+    }
+    const patientId = this.patient()?.id;
+    if (!patientId) {
+      this.reviewsError.set('Patient profile not found.');
+      return;
+    }
+
+    this.isSubmittingReview.set(true);
+    this.reviewsError.set('');
+    this.reviewsSuccess.set('');
+
+    const dto = {
+      appointmentId: this.selectedAppointmentId()!,
+      patientId,
+      doctorId: this.reviewDoctorId()!,
+      rating: this.reviewRating(),
+      comment: this.reviewComment || undefined
+    };
+
+    this.endpoint.reviews.create(dto).subscribe({
+      next: (created) => {
+        this.myReviews.update(r => [created, ...r]);
+        this.reviewsSuccess.set('Review submitted successfully!');
+        this.isSubmittingReview.set(false);
+        setTimeout(() => this.closeReviewForm(), 1500);
+      },
+      error: (err) => {
+        this.reviewsError.set(err.error?.message || 'Failed to submit review.');
+        this.isSubmittingReview.set(false);
+      }
+    });
+  }
+
+  deleteReview(id: number) {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    this.endpoint.reviews.delete(id).subscribe({
+      next: () => this.myReviews.update(r => r.filter(x => x.id !== id)),
+      error: (err) => this.reviewsError.set(err.error?.message || 'Failed to delete review.')
+    });
+  }
+
+  getDoctorName(doctorId: number): string {
+    return this.doctors().find(d => d.id === doctorId)?.fullName || `Doctor #${doctorId}`;
+  }
+
+  getDoctorSpec(doctorId: number): string {
+    return this.doctors().find(d => d.id === doctorId)?.specialization || '';
+  }
+
+  getStars(rating: number) {
+    return Array(5).fill(0).map((_, i) => i < Math.round(rating) ? 1 : 0);
   }
 }

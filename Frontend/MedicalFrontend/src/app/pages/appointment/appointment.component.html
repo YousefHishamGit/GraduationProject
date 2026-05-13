@@ -40,6 +40,16 @@
     <!-- Main Content -->
     <div class="apt-main">
 
+        <!-- Back Button (fixed, outside animated containers) -->
+        @if (currentStep() === 1) {
+        <app-back-button [forceShow]="true" />
+        }
+        @if (currentStep() > 1) {
+        <button class="apt-step-back" (click)="prevStep()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        }
+
         <!-- Error -->
         @if (errorMsg()) {
         <div class="alert-error">
@@ -180,16 +190,11 @@
         @if (currentStep() === 2) {
         <div class="step-content fade-in">
 
-            <div class="step-header-row">
-                <button class="back-link" (click)="prevStep()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <div class="step-title">
-                    <h2>Select Time Slot</h2>
-                    <p>Choose your preferred appointment time with
-                        <strong>{{ selectedDoctor()?.fullName }}</strong>
-                    </p>
-                </div>
+            <div class="step-title" style="text-align:center; margin-bottom:24px;">
+                <h2>Select Time Slot</h2>
+                <p>Choose your preferred appointment time with
+                    <strong>{{ selectedDoctor()?.fullName }}</strong>
+                </p>
             </div>
 
             <!-- Doctor Summary -->
@@ -279,14 +284,9 @@
         @if (currentStep() === 3) {
         <div class="step-content fade-in">
 
-            <div class="step-header-row">
-                <button class="back-link" (click)="prevStep()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <div class="step-title">
-                    <h2>Confirm Appointment</h2>
-                    <p>Review your booking details before confirming</p>
-                </div>
+            <div class="step-title" style="text-align:center; margin-bottom:24px;">
+                <h2>Confirm Appointment</h2>
+                <p>Review your booking details before confirming</p>
             </div>
 
             <!-- Summary Card -->
