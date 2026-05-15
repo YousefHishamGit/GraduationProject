@@ -200,6 +200,142 @@
     gap: 22px;
 }
 
+@media (max-width: 1200px) {
+    .doctors-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .doctors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    .page-hero-content h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .doctors-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .doctors-container {
+        padding: 0 16px;
+    }
+    .filter-container {
+        padding: 16px 16px;
+    }
+    .search-bar {
+        margin-bottom: 10px;
+    }
+    .search-bar input {
+        font-size: 0.9rem;
+    }
+    .filters-row {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .filter-select {
+        min-width: 120px;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+    .clear-btn {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+    .results-count {
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .doctors-grid {
+        gap: 12px;
+    }
+    .doctors-container {
+        padding: 0 12px;
+    }
+    .filter-container {
+        padding: 12px 12px;
+    }
+    .search-bar {
+        margin-bottom: 8px;
+    }
+    .search-bar input {
+        padding: 10px 36px;
+        font-size: 0.88rem;
+    }
+    .filters-row {
+        gap: 6px;
+    }
+    .filter-select {
+        min-width: 100px;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    .clear-btn {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+    }
+    .page-hero-content h1 {
+        font-size: 1.4rem;
+    }
+    .page-label {
+        font-size: 0.72rem;
+    }
+    .doctor-card {
+        border-radius: 12px;
+    }
+    .doc-img-wrap {
+        height: 140px;
+    }
+    .doc-body {
+        padding: 12px;
+    }
+    .doc-body h3 {
+        font-size: 0.85rem;
+    }
+    .doc-spec {
+        font-size: 0.75rem;
+    }
+    .doc-tags {
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+    .doc-tag {
+        font-size: 0.7rem;
+        padding: 3px 7px;
+    }
+    .doc-footer {
+        padding-top: 8px;
+    }
+    .doc-fee {
+        font-size: 0.8rem;
+    }
+    .doc-book-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+    .no-results {
+        padding: 50px 16px;
+    }
+    .no-results-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 14px;
+    }
+    .no-results h3 {
+        font-size: 1rem;
+    }
+    .no-results p {
+        font-size: 0.85rem;
+    }
+}
+
 
 /* ── Doctor Card ── */
 

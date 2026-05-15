@@ -636,30 +636,36 @@
 
 @media (max-width: 768px) {
     .chat-header {
-        padding: 12px 16px;
+        padding: 10px 16px;
     }
-    .back-btn span,
-    .clear-btn span {
+    .clear-btn span,
+    .back-btn span {
         display: none;
     }
-    .back-btn,
-    .clear-btn {
-        padding: 8px 10px;
+    .clear-btn,
+    .back-btn {
+        padding: 8px 12px;
     }
     .chat-body {
-        padding: 14px;
+        padding: 12px;
     }
     .msg-bubble {
-        max-width: 88%;
+        max-width: 85% !important;
     }
     .result-bubble {
-        max-width: 95%;
+        max-width: 95% !important;
     }
     .suggestions-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+    .chat-footer {
+        padding: 10px 12px;
+    }
+    .chat-input {
+        font-size: 14px;
     }
     .bot-info h2 {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
 }
 
@@ -671,6 +677,10 @@
         padding: 10px;
     }
     .suggestions-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+    .clear-btn,
+    .back-btn {
+        width: auto;
     }
 }
