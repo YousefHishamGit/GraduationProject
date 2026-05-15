@@ -21,19 +21,10 @@ export class DoctorsComponent implements OnInit {
 
   searchTerm = signal('');
   selectedDept = signal('');
-  selectedSpec = signal('');
-  selectedExp = signal('');
-
-  specializations = computed(() => {
-    const specs = new Set(this.allDoctors().map(d => d.specialization));
-    return Array.from(specs).sort();
-  });
 
   filteredDoctors = computed(() => {
     const term = this.searchTerm().toLowerCase();
     const dept = this.selectedDept();
-    const spec = this.selectedSpec();
-    const exp = this.selectedExp();
 
     return this.allDoctors().filter(doc => {
       const matchSearch = !term ||
@@ -43,15 +34,7 @@ export class DoctorsComponent implements OnInit {
       const matchDept = !dept ||
         doc.departmentName === dept;
 
-      const matchSpec = !spec ||
-        doc.specialization === spec;
-
-      const matchExp = !exp ||
-        (exp === '5' && doc.yearsOfExperience >= 5) ||
-        (exp === '10' && doc.yearsOfExperience >= 10) ||
-        (exp === '15' && doc.yearsOfExperience >= 15);
-
-      return matchSearch && matchDept && matchSpec && matchExp;
+      return matchSearch && matchDept;
     });
   });
 
@@ -131,8 +114,6 @@ loadDoctorDetails(id: number) {
   clearFilters() {
     this.searchTerm.set('');
     this.selectedDept.set('');
-    this.selectedSpec.set('');
-    this.selectedExp.set('');
   }
 
   getInitials(name: string): string {
