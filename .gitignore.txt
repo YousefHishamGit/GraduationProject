@@ -1,3 +1,8 @@
+AI/Api/medical_db/
+AI/Api/newenv/
+newenv/
+medical_db/
+
 # Visual Studio / VS Code
 **/.vs/
 .vs/
