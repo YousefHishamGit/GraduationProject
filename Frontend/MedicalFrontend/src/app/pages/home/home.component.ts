@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
@@ -10,13 +10,35 @@ import { EndPoints } from '../../services/endpoints';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private endpoint = inject(EndPoints);
+  private promotionTimer?: number;
 
   departments = signal<any[]>([]);
   doctors = signal<any[]>([]);
   isLoadingDepts = signal(true);
   isLoadingDoctors = signal(true);
+  activePromotion = signal(0);
+  tickerState = 'running';
+
+  promotions = [
+    {
+      tag: 'Sponsored',
+      title: 'Doliprane Adult 1000mg',
+      desc: 'Fast relief from pain and fever. Tap to view the product on Vezeeta.',
+      image: '/assets/advertisement/2.jpg',
+      link: 'https://www.vezeeta.com/en-eg/pharmacy/doliprane-adult-1000-mg-8-tablets',
+      button: 'View Product'
+    },
+    {
+      tag: 'Sponsored',
+      title: 'Dozova MAN Max',
+      desc: 'Support men’s health with vitamins and minerals. Tap to view the product on Amazon.',
+      image: '/assets/advertisement/3.jpg',
+      link: 'https://www.amazon.eg/%D9%85%D9%83%D9%85%D9%84-%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A-%D8%A8%D8%B1%D9%8A%D9%85%D9%8A%D9%88%D9%85-%D9%84%D9%84%D8%B1%D8%AC%D8%A7%D9%84-%D8%AF%D9%88%D8%B2%D9%88%D9%81%D8%A7/dp/B0DQYP4XC7',
+      button: 'Shop on Amazon'
+    }
+  ];
 
   stats = [
     { value: '15+', label: 'Years Experience', icon: 'fas fa-award' },
@@ -37,6 +59,19 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadDepartments();
     this.loadDoctors();
+    this.startPromotionRotation();
+  }
+
+  ngOnDestroy() {
+    if (this.promotionTimer) {
+      window.clearInterval(this.promotionTimer);
+    }
+  }
+
+  startPromotionRotation() {
+    this.promotionTimer = window.setInterval(() => {
+      this.activePromotion.update(index => (index + 1) % this.promotions.length);
+    }, 5000);
   }
 
   loadDepartments() {

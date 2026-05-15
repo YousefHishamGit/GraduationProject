@@ -27,28 +27,16 @@
         <!-- Filters -->
         <div class="filters-row">
             <select [ngModel]="selectedDept()" (ngModelChange)="selectedDept.set($event)" class="filter-select">
-        <option value="">All Departments</option>
-        @for (dept of departments(); track dept.id) {
-          <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
-        }
-      </select>
+                <option value="">All Departments</option>
+                @for (dept of departments(); track dept.id) {
+                  <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
+                }
+            </select>
 
-            <select [ngModel]="selectedSpec()" (ngModelChange)="selectedSpec.set($event)" class="filter-select">
-        <option value="">All Specialties</option>
-        @for (spec of specializations(); track spec) {
-          <option [value]="spec">{{ spec }}</option>
-        }
-      </select>
-
-            <select [ngModel]="selectedExp()" (ngModelChange)="selectedExp.set($event)" class="filter-select">
-        <option value="">Any Experience</option>
-        <option value="5">5+ Years</option>
-        <option value="10">10+ Years</option>
-        <option value="15">15+ Years</option>
-      </select> @if (searchTerm() || selectedDept() || selectedSpec() || selectedExp()) {
+            @if (searchTerm() || selectedDept()) {
             <button class="clear-btn" (click)="clearFilters()">
-          <i class="fas fa-times"></i> Clear
-        </button> }
+              <i class="fas fa-times"></i> Clear
+            </button> }
         </div>
 
         <!-- Results Count -->
