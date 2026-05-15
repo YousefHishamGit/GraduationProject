@@ -10,7 +10,7 @@ export interface ReviewResponseDto {
 }
 
 export interface CreateReviewDto {
-  appointmentId: number;
+  appointmentId?: number;
   patientId: number;
   doctorId: number;
   rating: number;

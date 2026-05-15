@@ -188,6 +188,63 @@
     min-height: 100vh;
 }
 
+/* RESPONSIVE - Tablet (768px and below) */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 16px;
+    }
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .topbar-left {
+        width: 100%;
+    }
+    .page-title {
+        font-size: 1.3rem;
+    }
+}
+
+/* RESPONSIVE - Mobile (576px and below) */
+@media (max-width: 576px) {
+    .main-content {
+        padding: 12px;
+    }
+    .stats-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .topbar {
+        padding: 14px;
+    }
+    .page-title {
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+    }
+    .page-sub {
+        font-size: 0.8rem;
+    }
+    .topbar-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+}
+
 
 /* ── Topbar ── */
 
@@ -1759,5 +1816,156 @@ tr:hover td {
     }
     .main-content {
         padding: 60px 12px 12px;
+    }
+}
+
+/* ══════════════════════════════
+   MOBILE OVERRIDES - FIXED
+══════════════════════════════ */
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1000;
+        width: 260px;
+        overflow-y: auto;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0 !important;
+        padding: 70px 16px 16px !important;
+        width: 100%;
+    }
+    .sidebar-toggle {
+        display: flex !important;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+        background: #1a6fc4;
+        color: white;
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+    .overview-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    .table-responsive {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    table {
+        min-width: 500px !important;
+    }
+    body, .main-content {
+        font-size: 14px;
+    }
+    .page-title {
+        font-size: 1.3rem !important;
+    }
+    .card, .stat-card, .doctor-card, .dept-card, .service-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .doctors-grid, .services-grid, .dept-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .modal-box, .record-modal, .doctor-modal {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 0 auto;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-row {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    .stat-card {
+        padding: 15px !important;
+    }
+    .stat-info h3 {
+        font-size: 1.3rem !important;
+    }
+    .stat-info p {
+        font-size: 0.7rem !important;
+    }
+    .topbar {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 15px !important;
+    }
+    .topbar-left, .topbar-right {
+        width: 100%;
+    }
+    .topbar-btn, .action-btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+    .page-title {
+        font-size: 1.1rem !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    .field-input, .field-wrap input, select, textarea {
+        font-size: 16px !important;
+    }
+    .submit-btn, .cancel-btn, .next-btn, .back-btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    .step-nav {
+        flex-direction: column;
+    }
+    .profile-sections {
+        grid-template-columns: 1fr !important;
+    }
+    .records-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .lab-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .schedule-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .slots-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .qa-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }

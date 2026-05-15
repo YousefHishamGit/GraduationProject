@@ -385,6 +385,105 @@
     gap: 24px;
 }
 
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 0 16px;
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .hero-desc {
+        font-size: 0.95rem;
+    }
+    .hero-actions {
+        gap: 10px;
+    }
+    .hero-stats {
+        gap: 16px;
+    }
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    .hero-img-wrap {
+        height: 350px;
+    }
+    .hero-card-badge {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-container {
+        padding: 0 12px;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.15;
+    }
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+    .hero-desc {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    .hero-actions {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        width: 100%;
+        padding: 11px 16px;
+        font-size: 0.85rem;
+    }
+    .hero-img-wrap {
+        height: 280px;
+    }
+    .hero-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .stat-item {
+        gap: 10px;
+    }
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+    }
+    .stat-text strong {
+        font-size: 0.95rem;
+    }
+    .stat-text span {
+        font-size: 0.7rem;
+    }
+    .section-container {
+        padding: 50px 12px;
+    }
+    .section-title {
+        font-size: 1.6rem;
+    }
+    .service-card {
+        padding: 20px;
+    }
+}
+
 .service-card {
     padding: 28px;
     border-radius: 16px;
@@ -465,6 +564,31 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .dept-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dept-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .dept-grid {
+        gap: 12px;
+    }
+    .dept-card {
+        border-radius: 12px;
+    }
+    .dept-img {
+        height: 140px;
+    }
 }
 
 .dept-card {
@@ -1139,11 +1263,15 @@
 
 
 /* ══════════════════════════════
-   RESPONSIVE
+   RESPONSIVE - UPDATED
 ══════════════════════════════ */
 
+/* Large tablets and below */
 @media (max-width: 1200px) {
     .doctors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .stats-row {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -1154,14 +1282,16 @@
         gap: 40px;
     }
     .hero-visual {
-        display: none;
+        display: block;
+        max-width: 100%;
+        margin-top: 20px;
     }
     .hero-title {
-        font-size: 2.4rem;
+        font-size: 2.2rem;
     }
     .hero {
         min-height: auto;
-        padding: 80px 0 60px;
+        padding: 60px 0;
     }
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1174,7 +1304,23 @@
         gap: 40px;
     }
     .why-visual {
-        display: none;
+        display: block;
+        max-width: 100%;
+    }
+    .why-img-main {
+        height: 350px;
+        max-width: 100%;
+    }
+    .why-stat-card {
+        position: static;
+        margin-top: 15px;
+        display: inline-flex;
+        margin-right: 10px;
+    }
+    .card-1,
+    .card-2 {
+        position: static;
+        animation: none;
     }
     .ai-content {
         flex-direction: column;
@@ -1183,6 +1329,7 @@
     .ai-cta-btn {
         width: 100%;
         justify-content: center;
+        margin-top: 15px;
     }
     .section-container {
         padding: 60px 20px;
@@ -1190,58 +1337,252 @@
 }
 
 @media (max-width: 768px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+    .hero-visual {
+        display: block;
+    }
+    .hero-img-wrap {
+        height: 320px;
+    }
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    .hero-desc {
+        font-size: 0.95rem;
+    }
+    .hero-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.85rem;
     }
     .hero-stats {
+        flex-wrap: wrap;
         gap: 16px;
+        justify-content: flex-start;
+    }
+    .stat-item {
+        min-width: calc(50% - 16px);
     }
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
     .dept-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
     .doctors-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    .why-grid {
+        gap: 30px;
+    }
+    .why-visual {
+        display: block;
+    }
+    .why-img-main {
+        height: 280px;
+    }
+    .why-stat-card {
+        width: calc(50% - 10px);
+        padding: 10px 12px;
+    }
+    .why-stat-card i {
+        font-size: 1.2rem;
     }
     .loading-row {
         grid-template-columns: 1fr;
     }
     .ai-card {
-        padding: 30px 24px;
+        padding: 30px 20px;
     }
     .cta-card {
-        padding: 40px 24px;
+        padding: 40px 20px;
     }
     .cta-content h2 {
         font-size: 1.5rem;
     }
+    .cta-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .cta-btn-primary,
+    .cta-btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
     .section-title {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 }
 
 @media (max-width: 576px) {
+    .hero-container {
+        padding: 0 15px;
+    }
+    .hero-visual {
+        display: block;
+    }
+    .hero-img-wrap {
+        height: 250px;
+    }
     .hero-title {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+    }
+    .hero-badge {
+        font-size: 0.7rem;
+        padding: 5px 12px;
+    }
+    .hero-desc {
+        font-size: 0.85rem;
+        margin-bottom: 20px;
     }
     .hero-actions {
         flex-direction: column;
+        gap: 10px;
     }
     .hero-btn-primary,
     .hero-btn-secondary {
-        justify-content: center;
         width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+    .hero-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .stat-item {
+        width: 100%;
+        min-width: auto;
+    }
+    .hero-card-badge {
+        padding: 8px 12px;
+    }
+    .badge-1,
+    .badge-2 {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        right: auto;
+        top: auto;
+    }
+    .badge-2 {
+        bottom: auto;
+        top: 15px;
+        left: auto;
+        right: 15px;
     }
     .doctors-grid {
         grid-template-columns: 1fr;
     }
-    .hero-stats {
+    .why-visual {
+        display: block;
+    }
+    .why-img-main {
+        height: 220px;
+    }
+    .why-stat-card {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .why-features {
+        gap: 15px;
+    }
+    .why-feature {
         flex-direction: column;
-        gap: 12px;
+        text-align: center;
+        align-items: center;
+    }
+    .service-card {
+        padding: 20px;
+    }
+    .service-icon-wrap {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
     }
     .section-container {
-        padding: 50px 16px;
+        padding: 40px 15px;
+    }
+    .section-title {
+        font-size: 1.4rem;
+    }
+    .section-sub {
+        font-size: 0.85rem;
+    }
+    .dept-body {
+        padding: 15px;
+    }
+    .dept-body h3 {
+        font-size: 0.95rem;
+    }
+    .dept-body p {
+        font-size: 0.8rem;
+    }
+    .doctor-body {
+        padding: 15px;
+    }
+    .doctor-body h3 {
+        font-size: 0.9rem;
+    }
+    .doc-specialty {
+        font-size: 0.75rem;
+    }
+    .doc-meta span {
+        font-size: 0.7rem;
+    }
+    .doc-fee {
+        font-size: 0.8rem;
+    }
+    .ai-text h2 {
+        font-size: 1.3rem;
+    }
+    .ai-text p {
+        font-size: 0.85rem;
+    }
+    .ai-icon-big {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+    .card-1,
+    .card-2 {
+        padding: 10px;
+    }
+    .btn-view-all {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-title {
+        font-size: 1.3rem;
+    }
+    .hero-img-wrap {
+        height: 200px;
+    }
+    .why-img-main {
+        height: 180px;
+    }
+    .stat-info h3 {
+        font-size: 1rem;
+    }
+    .stat-info p {
+        font-size: 0.7rem;
+    }
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
     }
 }

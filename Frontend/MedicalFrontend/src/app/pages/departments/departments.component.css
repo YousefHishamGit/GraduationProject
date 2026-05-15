@@ -698,7 +698,19 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .dept-layout {
+        grid-template-columns: 200px 1fr;
+    }
+    .depts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 992px) {
+    .page-hero {
+        padding: 60px 16px 50px;
+    }
     .dept-layout {
         grid-template-columns: 1fr;
     }
@@ -706,53 +718,201 @@
         position: relative;
         top: 0;
         height: auto;
-        max-height: 300px;
+        max-height: 250px;
         border-right: none;
         border-bottom: 1px solid #f1f5f9;
+        overflow-x: auto;
     }
     .dept-nav {
         flex-direction: row;
-        flex-wrap: wrap;
+        overflow-x: auto;
+        flex-wrap: nowrap;
     }
     .dept-nav-item {
         flex-direction: column;
         gap: 6px;
-        padding: 12px;
+        padding: 10px 12px;
         width: auto;
-        min-width: 90px;
+        min-width: 85px;
+        flex-shrink: 0;
+        text-align: center;
     }
     .dept-nav-arrow {
         display: none;
     }
     .dept-header {
         flex-direction: column;
+        padding: 18px;
     }
     .dept-book-btn {
         width: 100%;
         justify-content: center;
     }
+    .dept-content {
+        padding: 20px;
+    }
     .depts-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     .hero-content h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 50px 16px 40px;
+    }
+    .dept-sidebar {
+        max-height: 200px;
+    }
+    .dept-nav-item {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        min-width: 75px;
+    }
+    .dept-nav-icon {
+        width: 32px;
+        height: 32px;
+    }
     .dept-content {
         padding: 16px;
-    }
-    .depts-grid {
-        grid-template-columns: 1fr;
     }
     .dept-header {
         padding: 16px;
     }
+    .dept-header-info h2 {
+        font-size: 1.2rem;
+    }
+    .dept-book-btn {
+        padding: 10px 16px;
+        font-size: 0.8rem;
+    }
+    .content-title {
+        font-size: 0.95rem;
+    }
+    .chip {
+        font-size: 0.78rem;
+    }
+    .doctor-row {
+        gap: 10px;
+        padding: 10px 12px;
+    }
+    .dr-avatar {
+        width: 44px;
+        height: 44px;
+    }
+    .dr-info h4 {
+        font-size: 0.85rem;
+    }
+    .dr-book-btn {
+        padding: 7px 12px;
+        font-size: 0.78rem;
+    }
+    .depts-grid {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-hero {
+        padding: 40px 12px 30px;
+    }
+    .page-label {
+        font-size: 0.68rem;
+    }
     .hero-content h1 {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
+    }
+    .dept-sidebar {
+        max-height: 180px;
+    }
+    .sidebar-search input {
+        font-size: 0.75rem;
+        padding: 8px 10px 8px 30px;
     }
     .dept-nav-item {
-        min-width: 70px;
+        padding: 8px 8px;
+        font-size: 0.7rem;
+        min-width: 65px;
+    }
+    .dept-nav-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    .dept-content {
+        padding: 12px;
+    }
+    .dept-header {
+        padding: 14px;
+        gap: 12px;
+    }
+    .dept-header-icon {
+        width: 48px;
+        height: 48px;
+    }
+    .dept-header-info h2 {
+        font-size: 1rem;
+    }
+    .dept-header-info p {
+        font-size: 0.75rem;
+    }
+    .dept-book-btn {
+        padding: 9px 14px;
+        font-size: 0.75rem;
+    }
+    .dept-services {
+        padding: 14px;
+    }
+    .content-title {
+        font-size: 0.88rem;
+    }
+    .chip {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+    }
+    .dept-doctors {
+        padding: 14px;
+    }
+    .doctors-count {
+        font-size: 0.7rem;
+    }
+    .doctor-row {
+        gap: 8px;
+        padding: 10px;
+    }
+    .dr-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    .dr-info h4 {
+        font-size: 0.78rem;
+    }
+    .dr-status {
+        font-size: 0.63rem;
+        padding: 3px 7px;
+    }
+    .dr-book-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+    .depts-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .dept-grid-card {
+        padding: 18px;
+    }
+    .dgc-icon {
+        width: 52px;
+        height: 52px;
+    }
+    .dept-grid-card h3 {
+        font-size: 0.88rem;
+    }
+    .section-title {
+        font-size: 1.4rem;
     }
 }

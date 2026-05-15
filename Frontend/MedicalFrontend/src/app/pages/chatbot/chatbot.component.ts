@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
+import { ChatMessageDto } from '../../services/ai.endpoint';
 
-interface Message {
+interface ChatMessage {
   id: number;
   type: 'user' | 'bot' | 'loading';
   text?: string;
-  result?: any;
+  diagnosis?: {
+    diagnosis: string;
+    recommended_specialty: string;
+    urgency_level: 'critical' | 'moderate' | 'normal';
+  } | null;
   time: Date;
 }
 
@@ -24,19 +29,22 @@ export class ChatbotComponent implements AfterViewChecked {
 
   private endpoint = inject(EndPoints);
 
-  messages = signal<Message[]>([]);
+  messages = signal<ChatMessage[]>([]);
   inputText = '';
   isLoading = signal(false);
   msgIdCounter = 0;
   private shouldScroll = false;
 
+  /** Conversation history sent to the AI for context */
+  private conversationHistory: ChatMessageDto[] = [];
+
   suggestions = [
-    'I have chest pain and shortness of breath',
-    'I have a severe headache and fever',
-    'My knee hurts when I walk',
-    'I have stomach pain and nausea',
-    'I feel dizzy and tired all day',
-    'I have a rash on my skin'
+    'I have a headache that won\'t go away',
+    'عندي ألم في صدري',
+    'I feel dizzy and tired',
+    'عندي حرارة عالية من يومين',
+    'My stomach hurts after eating',
+    'I have a skin rash on my arms'
   ];
 
   constructor() {
@@ -50,6 +58,7 @@ export class ChatbotComponent implements AfterViewChecked {
       text: 'welcome',
       time: new Date()
     }]);
+    this.conversationHistory = [];
   }
 
   ngAfterViewChecked() {
@@ -69,6 +78,7 @@ export class ChatbotComponent implements AfterViewChecked {
     const msg = (text || this.inputText).trim();
     if (!msg || this.isLoading()) return;
 
+    // Add user message to UI
     this.messages.update(m => [...m, {
       id: ++this.msgIdCounter,
       type: 'user',
@@ -80,6 +90,10 @@ export class ChatbotComponent implements AfterViewChecked {
     this.isLoading.set(true);
     this.shouldScroll = true;
 
+    // Add to conversation history
+    this.conversationHistory.push({ role: 'user', content: msg });
+
+    // Show loading indicator
     const loadingId = ++this.msgIdCounter;
     this.messages.update(m => [...m, {
       id: loadingId,
@@ -87,15 +101,24 @@ export class ChatbotComponent implements AfterViewChecked {
       time: new Date()
     }]);
 
-    this.endpoint.ai.predict({ symptoms: msg }).subscribe({
+    // Call the chat endpoint with full conversation history
+    this.endpoint.ai.chat({ messages: this.conversationHistory }).subscribe({
       next: (res) => {
+        // Remove loading indicator
         this.messages.update(m => m.filter(x => x.id !== loadingId));
+
+        // Add bot reply to conversation history
+        this.conversationHistory.push({ role: 'assistant', content: res.reply });
+
+        // Add bot reply to UI
         this.messages.update(m => [...m, {
           id: ++this.msgIdCounter,
           type: 'bot',
-          result: res,
+          text: res.reply,
+          diagnosis: res.diagnosis,
           time: new Date()
         }]);
+
         this.isLoading.set(false);
         this.shouldScroll = true;
       },
@@ -120,7 +143,6 @@ export class ChatbotComponent implements AfterViewChecked {
     }
   }
 
-  // ← عدلنا الـ Function عشان تستخدم urgency_level
   getUrgencyColor(level: string): string {
     switch (level) {
       case 'critical': return 'urgency-red';
@@ -129,12 +151,19 @@ export class ChatbotComponent implements AfterViewChecked {
     }
   }
 
-  // ← أيقونة حسب الـ urgency
   getUrgencyIcon(level: string): string {
     switch (level) {
       case 'critical': return 'fas fa-exclamation-triangle';
       case 'moderate': return 'fas fa-exclamation-circle';
       default: return 'fas fa-check-circle';
+    }
+  }
+
+  getUrgencyLabel(level: string): string {
+    switch (level) {
+      case 'critical': return 'حالة حرجة - توجه للطوارئ فوراً';
+      case 'moderate': return 'حالة متوسطة - يُنصح بزيارة طبيب قريباً';
+      default: return 'حالة عادية - يمكنك حجز موعد';
     }
   }
 

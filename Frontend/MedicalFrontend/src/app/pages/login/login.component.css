@@ -435,22 +435,64 @@
 
 @media (max-width: 992px) {
     .login-left {
-        display: none;
+        display: none !important;
     }
     .login-right {
+        width: 100% !important;
         background: linear-gradient(180deg, #f8faff 0%, #eef4ff 100%);
+    }
+}
+
+@media (max-width: 768px) {
+    .login-left {
+        display: none !important;
+    }
+    .login-right {
+        width: 100% !important;
+        padding: 20px !important;
+        min-height: 100vh;
+    }
+    .form-box {
+        max-width: 100% !important;
+        padding: 20px !important;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .form-top h2 {
+        font-size: 1.4rem;
+    }
+    .field-wrap input {
+        font-size: 16px !important;
     }
 }
 
 @media (max-width: 576px) {
     .login-right {
-        padding: 30px 16px;
+        padding: 16px !important;
     }
     .form-box {
-        border-radius: 14px;
-        padding: 22px 16px;
+        padding: 16px !important;
     }
     .form-top h2 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
-}
+    .form-top p {
+        font-size: 0.8rem;
+    }
+    .field-group label {
+        font-size: 0.8rem;
+    }
+    .submit-btn {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+    .role-tags {
+        flex-wrap: wrap;
+    }
+    .role-tag {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+} 

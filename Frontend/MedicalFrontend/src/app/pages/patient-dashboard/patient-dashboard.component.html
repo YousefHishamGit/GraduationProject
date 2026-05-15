@@ -51,6 +51,10 @@
                 <i class="fas fa-flask"></i> Lab Tests @if (labRequests().length > 0) {
                 <span class="nav-badge">{{ labRequests().length }}</span> }
             </a>
+            <a class="nav-item" [class.active]="activeTab() === 'reviews'" (click)="setTab('reviews')">
+                <i class="fas fa-star"></i> My Reviews @if (myReviews().length > 0) {
+                <span class="nav-badge">{{ myReviews().length }}</span> }
+            </a>
 
             <div class="nav-divider"></div>
 
@@ -60,8 +64,17 @@
             <a class="nav-item" routerLink="/chatbot">
                 <i class="fas fa-robot"></i> AI Diagnosis
             </a>
+
+            <div class="nav-divider"></div>
+
+            <a class="nav-item" routerLink="/home">
+                <i class="fas fa-home"></i> Home
+            </a>
             <a class="nav-item" routerLink="/doctors">
-                <i class="fas fa-user-md"></i> Find Doctors
+                <i class="fas fa-user-md"></i> Doctors
+            </a>
+            <a class="nav-item" routerLink="/departments">
+                <i class="fas fa-hospital"></i> Departments
             </a>
         </nav>
 
@@ -81,7 +94,7 @@
             <div class="topbar-left">
                 <h1 class="page-title">
                     @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records } @if (activeTab() === 'prescriptions') { Prescriptions
-                    } @if (activeTab() === 'lab') { Lab Tests }
+                    } @if (activeTab() === 'lab') { Lab Tests } @if (activeTab() === 'reviews') { My Reviews }
                 </h1>
                 <p class="page-sub">
                     Welcome back, <strong>{{ currentUser()?.fullName }}</strong>
@@ -553,6 +566,184 @@
             </div>
             }
         </div>
+        }
+
+        <!-- ═══ MY REVIEWS ═══ -->
+        @if (activeTab() === 'reviews') {
+        <div class="tab-content fade-in">
+
+            <!-- Header -->
+            <div class="reviews-page-header">
+                <div class="rph-info">
+                    <h2><i class="fas fa-star"></i> My Doctor Reviews</h2>
+                    <p>Share your experience to help others choose the right doctor</p>
+                </div>
+                <button class="add-review-btn" (click)="openReviewForm()">
+                    <i class="fas fa-plus"></i> Write a Review
+                </button>
+            </div>
+
+            @if (reviewsLoading()) {
+            <div class="loading-screen">
+                <div class="loading-spinner"></div>
+                <p>Loading reviews...</p>
+            </div>
+            } @else {
+
+            @if (reviewsSuccess() && !showReviewForm()) {
+            <div class="msg-success-global">
+                <i class="fas fa-check-circle"></i> {{ reviewsSuccess() }}
+            </div>
+            }
+            @if (reviewsError() && !showReviewForm()) {
+            <div class="msg-error-global">
+                <i class="fas fa-exclamation-circle"></i> {{ reviewsError() }}
+            </div>
+            }
+
+            @if (myReviews().length > 0) {
+            <div class="my-reviews-grid">
+                @for (review of myReviews(); track review.id) {
+                <div class="my-review-card card">
+                    <div class="mrc-header">
+                        <div class="mrc-doc-avatar">
+                            {{ getDoctorName(review.doctorId).charAt(0) }}
+                        </div>
+                        <div class="mrc-doc-info">
+                            <strong>Dr. {{ getDoctorName(review.doctorId) }}</strong>
+                            <span class="mrc-spec">{{ getDoctorSpec(review.doctorId) }}</span>
+                        </div>
+                        <button class="mrc-delete-btn" (click)="deleteReview(review.id)" title="Delete review">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <div class="mrc-stars">
+                        @for (star of getStars(review.rating); track $index) {
+                        <i class="fas fa-star" [class.filled]="star === 1"></i>
+                        }
+                        <span class="mrc-rating-num">{{ review.rating }}/5</span>
+                    </div>
+                    @if (review.comment) {
+                    <p class="mrc-comment">{{ review.comment }}</p>
+                    }
+                    <span class="mrc-date">{{ review.createdOn | date:'dd MMM yyyy' }}</span>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="empty-state card">
+                <i class="fas fa-star"></i>
+                <h3>No Reviews Yet</h3>
+                <p>You haven't reviewed any doctor yet. Share your experience!</p>
+                <button class="empty-btn" (click)="openReviewForm()">
+                    <i class="fas fa-plus"></i> Write First Review
+                </button>
+            </div>
+            }
+
+            }
+        </div>
         } }
     </main>
 </div>
+
+<!-- ═══ REVIEW MODAL ═══ -->
+@if (showReviewForm()) {
+<div class="modal-backdrop" (click)="closeReviewForm()">
+    <div class="review-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-star"></i> Write a Review</h3>
+            <button class="modal-close" (click)="closeReviewForm()" title="Close" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (reviewsSuccess()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ reviewsSuccess() }}
+            </div>
+            }
+            @if (reviewsError()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ reviewsError() }}
+            </div>
+            }
+
+            <!-- Appointment Selection -->
+            <div class="field-group">
+                <label>Select a Completed Appointment <span class="req">*</span></label>
+            </div>
+
+            <!-- Appointments List -->
+            <div class="doctor-select-list">
+                @if (completedAppointments.length > 0) {
+                @for (apt of completedAppointments; track apt.id) {
+                <div class="dsl-item" [class.selected]="selectedAppointmentId() === apt.id"
+                    (click)="selectAppointmentForReview(apt)">
+                    <div class="dsl-avatar">{{ getAptDoctorName(apt).charAt(0) }}</div>
+                    <div class="dsl-info">
+                        <strong>Dr. {{ getAptDoctorName(apt) }}</strong>
+                        <span>{{ getAptDoctorSpec(apt) }} &bull; {{ apt.appointmentDate | date:'dd MMM yyyy' }}</span>
+                    </div>
+                    @if (selectedAppointmentId() === apt.id) {
+                    <i class="fas fa-check-circle dsl-check"></i>
+                    }
+                </div>
+                }
+                } @else {
+                <p class="dsl-empty">
+                    <i class="fas fa-info-circle"></i>
+                    No completed appointments available to review.
+                </p>
+                }
+            </div>
+
+            <!-- Star Rating -->
+            <div class="field-group">
+                <label>Rating <span class="req">*</span></label>
+                <div class="star-picker">
+                    @for (i of [1,2,3,4,5]; track i) {
+                    <button type="button" class="star-btn"
+                        [class.active]="i <= getDisplayRating()"
+                        (click)="setReviewStar(i)"
+                        (mouseenter)="setHoverStar(i)"
+                        (mouseleave)="clearHoverStar()"
+                        [attr.aria-label]="i + ' stars'">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    }
+                    <span class="star-label">
+                        @if (getDisplayRating() === 1) { Poor }
+                        @else if (getDisplayRating() === 2) { Fair }
+                        @else if (getDisplayRating() === 3) { Good }
+                        @else if (getDisplayRating() === 4) { Very Good }
+                        @else if (getDisplayRating() === 5) { Excellent }
+                        @else { Select a rating }
+                    </span>
+                </div>
+            </div>
+
+            <!-- Comment -->
+            <div class="field-group">
+                <label>Comment <span style="color:#94a3b8;font-weight:400">(optional)</span></label>
+                <textarea [(ngModel)]="reviewComment" rows="4"
+                    placeholder="Share your experience with this doctor..."
+                    class="field-input"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeReviewForm()">Cancel</button>
+                <button class="submit-btn" (click)="submitReview()" [disabled]="isSubmittingReview()">
+                    @if (isSubmittingReview()) {
+                    <i class="fas fa-spinner fa-spin"></i> Submitting...
+                    } @else {
+                    <i class="fas fa-paper-plane"></i> Submit Review
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

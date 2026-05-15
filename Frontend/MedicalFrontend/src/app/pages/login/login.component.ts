@@ -56,7 +56,7 @@ export class LoginComponent {
 
   private redirectByRole(role: string) {
     const routes: Record<string, string> = {
-      Admin: '/admin',
+      Admin: '/admin-dashboard',
       Doctor: '/doctor-dashboard',
       Patient: '/patient-dashboard'
     };

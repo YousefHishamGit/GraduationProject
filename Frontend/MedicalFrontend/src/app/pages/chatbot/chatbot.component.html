@@ -10,14 +10,14 @@
             <div class="bot-info">
                 <h2>MediCare AI Assistant</h2>
                 <span class="bot-status-text">
-                    <i class="fas fa-circle"></i> Online & Ready
+                    <i class="fas fa-circle"></i> Online &amp; Ready
                 </span>
             </div>
         </div>
         <div class="chat-header-right">
-            <button class="clear-btn" (click)="clearChat()" title="Clear chat">
-                <i class="fas fa-trash-alt"></i>
-                <span>Clear</span>
+            <button class="clear-btn" (click)="clearChat()" title="New conversation">
+                <i class="fas fa-plus"></i>
+                <span>New Chat</span>
             </button>
             <a routerLink="/" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
@@ -76,9 +76,22 @@
                         <h3>Hello! I'm MediCare AI</h3>
                     </div>
                     <p>
-                        I can help you assess your symptoms and suggest the right specialist.
-                        <strong>Describe your symptoms</strong> in detail for the best results.
+                        I'm here to help you understand your symptoms. Tell me what's bothering you and I'll ask some questions to better understand your condition.
                     </p>
+                    <div class="welcome-features">
+                        <div class="feature-item">
+                            <i class="fas fa-comments"></i>
+                            <span>Natural conversation</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-language"></i>
+                            <span>Arabic & English</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-md"></i>
+                            <span>Specialist referral</span>
+                        </div>
+                    </div>
                     <div class="disclaimer">
                         <i class="fas fa-info-circle"></i> This is for preliminary guidance only. Always consult a real doctor.
                     </div>
@@ -93,57 +106,44 @@
                 </div>
                 }
 
+                <!-- Conversational Reply -->
+                @if (msg.text && msg.text !== 'welcome' && msg.text !== 'error') {
+                <div class="msg-bubble bot-bubble chat-reply-bubble">
+                    <p class="reply-text">{{ msg.text }}</p>
 
-                <!-- AI Result -->
-                @if (msg.result) {
-                <div class="msg-bubble bot-bubble result-bubble">
-
-                    <!-- Header -->
-                    <div class="result-header">
-                        <div class="specialty-badge">
-                            <i class="fas fa-user-md"></i>
-                            <span>{{ msg.result.recommended_specialty }}</span>
+                    <!-- Inline Diagnosis Card (if AI provided one) -->
+                    @if (msg.diagnosis) {
+                    <div class="inline-diagnosis">
+                        <div class="diag-header">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Assessment</span>
                         </div>
-                        <span class="result-time">{{ msg.time | date:'hh:mm a' }}</span>
-                    </div>
-
-                    <!-- Urgency -->
-                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgency_level)">
-                        <i [class]="getUrgencyIcon(msg.result.urgency_level)"></i>
-                        <span>{{ msg.result.urgency_message }}</span>
-
-
-                    </div>
-
-                    <!-- Diagnosis -->
-                    <div class="result-section">
-                        <div class="rs-label">
-                            <i class="fas fa-clipboard-list"></i> Diagnosis
+                        <div class="diag-body">
+                            <div class="diag-row">
+                                <span class="diag-label">Diagnosis</span>
+                                <span class="diag-value">{{ msg.diagnosis.diagnosis }}</span>
+                            </div>
+                            <div class="diag-row">
+                                <span class="diag-label">Specialist</span>
+                                <span class="diag-value specialty-value">
+                                    <i class="fas fa-user-md"></i> {{ msg.diagnosis.recommended_specialty }}
+                                </span>
+                            </div>
+                            <div class="diag-row">
+                                <span class="diag-label">Urgency</span>
+                                <span class="diag-badge" [class]="getUrgencyColor(msg.diagnosis.urgency_level)">
+                                    <i [class]="getUrgencyIcon(msg.diagnosis.urgency_level)"></i>
+                                    {{ getUrgencyLabel(msg.diagnosis.urgency_level) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="rs-content">{{ msg.result.diagnosis }}</div>
-                    </div>
-
-                    <!-- Tips -->
-                    @if (msg.result.tips && msg.result.tips.length > 0) {
-                    <div class="result-section">
-                        <div class="rs-label">
-                            <i class="fas fa-lightbulb"></i> نصائح
-                        </div>
-                        <ul class="tips-list">
-                            @for (tip of msg.result.tips; track $index) {
-                            <li>
-                                <i class="fas fa-check-circle"></i> {{ tip }}
-                            </li>
-                            }
-                        </ul>
+                        <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.diagnosis.recommended_specialty}" class="book-specialist-btn">
+                            <i class="fas fa-calendar-check"></i> Book a {{ msg.diagnosis.recommended_specialty }} Specialist
+                        </a>
                     </div>
                     }
 
-                    <!-- Book Button -->
-                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommended_specialty}" class="book-specialist-btn">
-                        <i class="fas fa-calendar-check"></i> Book a {{ msg.result.recommended_specialty }} Specialist
-                    </a>
-
+                    <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
                 }
 
@@ -154,10 +154,10 @@
         </div>
 
         <!-- Suggestions -->
-        @if (messages().length
-        <=1 ) { <div class="suggestions-section">
+        @if (messages().length <= 1) {
+        <div class="suggestions-section">
             <p class="suggestions-label">
-                <i class="fas fa-magic"></i> Try asking about:
+                <i class="fas fa-magic"></i> Try saying:
             </p>
             <div class="suggestions-grid">
                 @for (s of suggestions; track s) {
@@ -166,27 +166,27 @@
                     {{ s }}
                 </button> }
             </div>
+        </div>
+        }
+
     </div>
-    }
 
-</div>
-
-<!-- Input Area -->
-<div class="chat-footer">
-    <div class="input-container">
-        <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="Describe your symptoms here... (Press Enter to send)" rows="1" class="chat-input">
+    <!-- Input Area -->
+    <div class="chat-footer">
+        <div class="input-container">
+            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="Type your message... (Press Enter to send)" rows="1" class="chat-input">
       </textarea>
-        <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
-            @if (isLoading()) {
-            <i class="fas fa-spinner fa-spin"></i>
-            } @else {
-            <i class="fas fa-paper-plane"></i>
-            }
-        </button>
+            <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
+                @if (isLoading()) {
+                <i class="fas fa-spinner fa-spin"></i>
+                } @else {
+                <i class="fas fa-paper-plane"></i>
+                }
+            </button>
+        </div>
+        <p class="footer-note">
+            <i class="fas fa-shield-alt"></i> For emergency situations, call <strong>123</strong> immediately.
+        </p>
     </div>
-    <p class="footer-note">
-        <i class="fas fa-shield-alt"></i> For emergency situations, call <strong>123</strong> immediately.
-    </p>
-</div>
 
 </div>
