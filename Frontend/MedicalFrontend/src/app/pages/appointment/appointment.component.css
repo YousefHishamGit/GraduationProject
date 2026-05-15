@@ -1211,7 +1211,6 @@
 
     .next-btn {
         width: 100%;
-        justify-content: center;
     }
 
     .confirm-actions {
@@ -1220,28 +1219,68 @@
 
     .filters-row {
         flex-direction: column;
+        gap: 10px;
     }
 
     .filter-select,
     .search-wrap {
         width: 100%;
     }
+
+    .apt-hero-content h1 {
+        font-size: 1.3rem;
+    }
+
+    .doctor-summary {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .ds-avatar {
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 576px) {
     .apt-main {
-        padding: 16px 14px 40px;
+        padding: 15px 12px;
     }
 
     .slots-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 
     .type-toggle {
         flex-direction: column;
+        gap: 10px;
+    }
+
+    .type-btn {
+        width: 100%;
+        justify-content: center;
     }
 
     .steps-container {
-        gap: 4px;
+        justify-content: space-between;
+    }
+
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    .step-item span {
+        font-size: 0.65rem;
+    }
+
+    .confirm-actions {
+        flex-direction: column;
+    }
+
+    .cancel-btn,
+    .confirm-btn,
+    .next-btn {
+        width: 100%;
     }
 }
