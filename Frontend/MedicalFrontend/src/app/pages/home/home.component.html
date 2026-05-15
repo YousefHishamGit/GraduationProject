@@ -49,32 +49,71 @@
         </div>
 
         <div class="hero-visual">
-            <div class="hero-card-main">
-                <div class="hero-img-wrap">
-                    <img src="/assets/img/health/staff-1.webp" alt="Medical Team" loading="eager">
-                </div>
-                <div class="hero-card-badge badge-1">
-                    <i class="fas fa-check-circle"></i>
-                    <div>
-                        <strong>Verified Doctors</strong>
-                        <span>All certified specialists</span>
+            <div class="hero-visual-half hero-visual-left">
+                <div class="hero-card-main">
+                    <div class="hero-img-wrap">
+                        <img src="/assets/advertisement/magedy.jpg" alt="Medical Team" loading="eager">
                     </div>
-                </div>
-                <div class="hero-card-badge badge-2">
-                    <i class="fas fa-star"></i>
-                    <div>
-                        <strong>4.9 / 5.0</strong>
-                        <span>Patient Rating</span>
+                    <div class="hero-card-badge badge-1">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Verified Doctors</strong>
+                            <span>All certified specialists</span>
+                        </div>
                     </div>
+                    <!-- <div class="hero-card-badge badge-2">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <strong>4.9 / 5.0</strong>
+                            <span>Patient Rating</span>
+                        </div>
+                    </div> -->
                 </div>
             </div>
+            <div class="hero-visual-half hero-visual-right">
+                <a class="hero-ad-panel" href="https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%B9%D9%8A%D9%86%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="قصر العيني">
+                    <div class="hero-ad-image">
+                        <img src="/assets/advertisement/kaserAlAiny.jpg" alt="قصر العيني" loading="lazy">
+                    </div>
+                </a>
+            </div>
         </div>
+
+        <aside class="hero-sidebar">
+            <div class="sidebar-card sidebar-card-primary promo-card">
+                <div class="promo-carousel">
+                    @for (promo of promotions; track promo.title; let i = $index) {
+                    <div class="promo-slide" [class.active]="activePromotion() === i">
+                        <span class="sidebar-tag">{{ promo.tag }}</span>
+                        <a [href]="promo.link" target="_blank" rel="noopener noreferrer" class="sidebar-ad-link">
+                            <div class="ad-image">
+                                <img [src]="promo.image" alt="{{ promo.title }}" title="{{ promo.title }}" loading="lazy">
+                            </div>
+                        </a>
+                        <div class="sidebar-ad-content">
+                            <h3>{{ promo.title }}</h3>
+                            <p>{{ promo.desc }}</p>
+                            <a [href]="promo.link" target="_blank" rel="noopener noreferrer" class="sidebar-btn">{{ promo.button }}</a>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 
-<!-- ══════════════════════════════
-     SERVICES
-══════════════════════════════ -->
+<div class="image-ticker-wrap">
+  <div class="image-ticker" [style.animationPlayState]="tickerState" #ticker>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/ChatGPT%20Image%20May%2015%2C%202026%2C%2006_06_30%20PM.png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/ChatGPT%20Image%20May%2015%2C%202026%2C%2006_06_44%20PM.png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+  </div>
+</div>
+
 <section class="services-section">
     <div class="section-container">
         <div class="section-head">
@@ -123,7 +162,7 @@
             @for (dept of departments(); track dept.id; let i = $index) {
             <a routerLink="/departments" class="dept-card" [style.--delay]="i * 80 + 'ms'">
                 <div class="dept-img">
-                    <img [src]="dept.imgPath || '/assets/img/health/cardiology-1.webp'" [alt]="dept.departmentName" loading="lazy">
+                    <img [src]="dept.imgPath || '/assets/img/health/cardiology-1.webp'" alt="{{ dept.departmentName }}" title="{{ dept.departmentName }}" loading="lazy">
                     <div class="dept-overlay">
                         <i class="fas fa-arrow-right"></i>
                     </div>
@@ -167,7 +206,7 @@
         <div class="why-grid">
             <div class="why-content">
                 <span class="section-label">Why MediCare?</span>
-                <h2 class="section-title" style="text-align:left">Healthcare You Can Trust</h2>
+                <h2 class="section-title left-align">Healthcare You Can Trust</h2>
                 <p class="why-desc">
                     We combine medical excellence with modern technology to deliver personalized care that puts patients first.
                 </p>
@@ -262,7 +301,7 @@
             <div class="doctor-card" [style.--delay]="i * 80 + 'ms'">
                 <div class="doctor-img">
                     @if (doc.imgPath) {
-                    <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy"> } @else {
+                    <img [src]="doc.imgPath" alt="{{ doc.fullName }}" title="{{ doc.fullName }}" loading="lazy"> } @else {
                     <div class="doctor-initials">
                         {{ getDoctorInitials(doc.fullName) }}
                     </div>
