@@ -605,27 +605,22 @@
 .image-ticker-wrap {
   width: 100%;
   overflow: hidden;
-  background: transparent;
   padding: 20px 0;
 }
 
 .image-ticker {
   display: flex;
-  white-space: nowrap;
-  animation: moveLeft 15s linear infinite;
+  width: max-content;        /* مهم جداً */
+  animation: moveLeft 8s linear infinite;
 }
 
 .ticker-img-wrap {
   flex: 0 0 auto;
   width: 680px;
   height: 300px;
-  overflow: hidden;
   margin-left: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 16px;
-  flex-shrink: 0;
+  overflow: hidden;
   background: #f8faff;
 }
 
@@ -634,7 +629,6 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  flex-shrink: 0;
   padding: 10px;
 }
 
@@ -659,8 +653,8 @@
 }
 
 @keyframes moveLeft {
-  0% { transform: translate3d(100%, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .section-container {
@@ -1920,3 +1914,4 @@
         font-size: 0.9rem;
     }
 }
+

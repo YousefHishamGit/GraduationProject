@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   promotions = [
     {
-      tag: 'Sponsored',
+      tag: 'Treatment',
       title: 'Doliprane Adult 1000mg',
       desc: 'Fast relief from pain and fever. Tap to view the product on Vezeeta.',
       image: '/assets/advertisement/2.jpg',
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       button: 'View Product'
     },
     {
-      tag: 'Sponsored',
+      tag: 'Dietary Supplement',
       title: 'Dozova MAN Max',
       desc: 'Support men’s health with vitamins and minerals. Tap to view the product on Amazon.',
       image: '/assets/advertisement/3.jpg',
