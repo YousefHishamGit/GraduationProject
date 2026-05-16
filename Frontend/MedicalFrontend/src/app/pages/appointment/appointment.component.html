@@ -14,8 +14,7 @@
         <div class="steps-container">
             <div class="step-item" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1">
                 <div class="step-circle">
-                    @if (currentStep() > 1) { <i class="fas fa-check"></i> }
-                    @else { 1 }
+                    @if (currentStep() > 1) { <i class="fas fa-check"></i> } @else { 1 }
                 </div>
                 <span>Choose Doctor</span>
             </div>
@@ -23,8 +22,7 @@
 
             <div class="step-item" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2">
                 <div class="step-circle">
-                    @if (currentStep() > 2) { <i class="fas fa-check"></i> }
-                    @else { 2 }
+                    @if (currentStep() > 2) { <i class="fas fa-check"></i> } @else { 2 }
                 </div>
                 <span>Select Time</span>
             </div>
@@ -67,9 +65,7 @@
             <p>{{ successMsg() }}</p>
             <p class="redirect-note">Redirecting to your dashboard...</p>
         </div>
-        }
-
-        @if (!successMsg()) {
+        } @if (!successMsg()) {
 
         <!-- ═══ STEP 1: Choose Doctor ═══ -->
         @if (currentStep() === 1) {
@@ -83,12 +79,10 @@
             <div class="filters-row">
                 <div class="search-wrap">
                     <i class="fas fa-search"></i>
-                    <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or specialty...">
-                    @if (searchTerm) {
+                    <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or specialty..."> @if (searchTerm) {
                     <button (click)="searchTerm = ''">
                         <i class="fas fa-times"></i>
-                    </button>
-                    }
+                    </button> }
                 </div>
 
                 <select [(ngModel)]="selectedDeptFilter" class="filter-select">
@@ -96,13 +90,10 @@
                     @for (dept of departments(); track dept.id) {
                     <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
                     }
-                </select>
-
-                @if (searchTerm || selectedDeptFilter) {
+                </select> @if (searchTerm || selectedDeptFilter) {
                 <button class="clear-btn" (click)="clearFilters()">
                     <i class="fas fa-times"></i> Clear
-                </button>
-                }
+                </button> }
             </div>
 
             <div class="results-info">
@@ -130,8 +121,7 @@
 
                     <div class="doc-img-wrap">
                         @if (doc.imgPath) {
-                        <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy">
-                        } @else {
+                        <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy"> } @else {
                         <div class="doc-initials">{{ getInitials(doc.fullName) }}</div>
                         }
                         <div class="doc-status" [class.active]="doc.status === 'Active'">
@@ -153,10 +143,8 @@
 
                     <div class="doc-select-indicator">
                         @if (selectedDoctorId() === doc.id) {
-                        <i class="fas fa-check-circle"></i>
-                        } @else {
-                        <i class="fas fa-circle"></i>
-                        }
+                        <i class="fas fa-check-circle"></i> } @else {
+                        <i class="fas fa-circle"></i> }
                     </div>
 
                 </div>
@@ -169,13 +157,10 @@
                 <p>Try adjusting your search or filters</p>
                 <button (click)="clearFilters()">Clear Filters</button>
             </div>
-            }
-
-            @if (selectedDoctorId()) {
+            } @if (selectedDoctorId()) {
             <div class="step-footer">
                 <div class="selected-info">
-                    <i class="fas fa-check-circle"></i>
-                    Selected: <strong>{{ selectedDoctor()?.fullName }}</strong>
+                    <i class="fas fa-check-circle"></i> Selected: <strong>{{ selectedDoctor()?.fullName }}</strong>
                 </div>
                 <button class="next-btn" (click)="nextStep()">
                     Next: Select Time <i class="fas fa-arrow-right"></i>
@@ -201,8 +186,7 @@
             <div class="doctor-summary">
                 <div class="ds-avatar">
                     @if (selectedDoctor()?.imgPath) {
-                    <img [src]="selectedDoctor().imgPath" [alt]="selectedDoctor().fullName">
-                    } @else {
+                    <img [src]="selectedDoctor().imgPath" [alt]="selectedDoctor().fullName"> } @else {
                     <div class="ds-initials">{{ getInitials(selectedDoctor()?.fullName || '') }}</div>
                     }
                 </div>
@@ -215,12 +199,10 @@
 
             <!-- Type Toggle -->
             <div class="type-toggle">
-                <button class="type-btn" [class.active]="appointmentType() === 'InPerson'"
-                    (click)="appointmentType.set('InPerson')">
+                <button class="type-btn" [class.active]="appointmentType() === 'InPerson'" (click)="appointmentType.set('InPerson')">
                     <i class="fas fa-hospital"></i> In-Person
                 </button>
-                <button class="type-btn" [class.active]="appointmentType() === 'Online'"
-                    (click)="appointmentType.set('Online')">
+                <button class="type-btn" [class.active]="appointmentType() === 'Online'" (click)="appointmentType.set('Online')">
                     <i class="fas fa-video"></i> Online
                 </button>
             </div>
@@ -231,16 +213,14 @@
                 <h3 class="slots-title">Available Time Slots</h3>
                 <div class="slots-grid">
                     @for (slot of timeSlots(); track slot.id) {
-                    <button class="slot-item" [class.selected]="selectedSlotId() === slot.id"
-                        (click)="selectSlot(slot)">
+                    <button class="slot-item" [class.selected]="selectedSlotId() === slot.id" (click)="selectSlot(slot)">
                         <span class="slot-date">{{ formatDate(slot.slotStart) }}</span>
                         <span class="slot-time">{{ formatTime(slot.slotStart) }}</span>
                         <span class="slot-end">— {{ formatTime(slot.slotEnd) }}</span>
                         @if (selectedSlotId() === slot.id) {
                         <i class="fas fa-check slot-check"></i>
                         }
-                    </button>
-                    }
+                    </button> }
                 </div>
             </div>
             } @else {
@@ -258,18 +238,13 @@
             @if (timeSlots().length > 0) {
             <div class="notes-section">
                 <label><i class="fas fa-sticky-note"></i> Additional Notes (Optional)</label>
-                <textarea [value]="notes()" (input)="notes.set($any($event.target).value)" rows="3"
-                    placeholder="Any symptoms, concerns, or special requests...">
+                <textarea [value]="notes()" (input)="notes.set($any($event.target).value)" rows="3" placeholder="Any symptoms, concerns, or special requests...">
               </textarea>
             </div>
-            }
-
-            @if (selectedSlotId()) {
+            } @if (selectedSlotId()) {
             <div class="step-footer">
                 <div class="selected-info">
-                    <i class="fas fa-clock"></i>
-                    {{ formatDate(selectedSlot()?.slotStart) }} at
-                    {{ formatTime(selectedSlot()?.slotStart) }}
+                    <i class="fas fa-clock"></i> {{ formatDate(selectedSlot()?.slotStart) }} at {{ formatTime(selectedSlot()?.slotStart) }}
                 </div>
                 <button class="next-btn" (click)="nextStep()">
                     Review & Confirm <i class="fas fa-arrow-right"></i>
@@ -298,8 +273,7 @@
                         <div class="summary-doctor">
                             <div class="sd-avatar">
                                 @if (selectedDoctor()?.imgPath) {
-                                <img [src]="selectedDoctor().imgPath" alt="">
-                                } @else {
+                                <img [src]="selectedDoctor().imgPath" alt=""> } @else {
                                 <div class="sd-initials">{{ getInitials(selectedDoctor()?.fullName || '') }}</div>
                                 }
                             </div>
@@ -374,14 +348,10 @@
             </div>
 
             <div class="terms-note">
-                <i class="fas fa-info-circle"></i>
-                By confirming, you agree to our cancellation policy.
-                Appointments can be cancelled up to 24 hours before the scheduled time.
+                <i class="fas fa-info-circle"></i> By confirming, you agree to our cancellation policy. Appointments can be cancelled up to 24 hours before the scheduled time.
             </div>
 
         </div>
-        }
-
-        }
+        } }
     </div>
 </div>
