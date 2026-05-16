@@ -30,24 +30,30 @@
                 <ul class="nav-links">
                     <li>
                         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link" (click)="closeMenu()">
-                            <i class="fas fa-home"></i> Home
+                            <i class="fas fa-home"></i> {{ language.translate('home') }}
                         </a>
                     </li>
                     <li>
                         <a routerLink="/doctors" routerLinkActive="active" class="nav-link" (click)="closeMenu()">
-                            <i class="fas fa-user-md"></i> Doctors
+                            <i class="fas fa-user-md"></i> {{ language.translate('doctors') }}
                         </a>
                     </li>
                     <li>
                         <a routerLink="/departments" routerLinkActive="active" class="nav-link" (click)="closeMenu()">
-                            <i class="fas fa-hospital"></i> Departments
+                            <i class="fas fa-hospital"></i> {{ language.translate('departments') }}
                         </a>
                     </li>
                     <li>
                         <a routerLink="/chatbot" routerLinkActive="active" class="nav-link ai-link" (click)="closeMenu()">
-                            <i class="fas fa-robot"></i> AI Diagnosis
+                            <img src="/assets/advertisement/icon1Ai.png" alt="Doctor Assistant" class="nav-icon-img" />
+                            {{ language.translate('doctorAssistant') }}
                             <span class="ai-badge">NEW</span>
                         </a>
+                    </li>
+                    <li class="lang-toggle-item">
+                        <button type="button" class="lang-btn" (click)="language.toggleLanguage()" [attr.aria-label]="language.currentLanguage() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
+                            <span class="lang-flag">{{ language.currentLanguage() === 'en' ? 'Arabic' : 'English' }}</span>
+                        </button>
                     </li>
                 </ul>
 
@@ -55,10 +61,10 @@
                 <div class="nav-auth">
                     @if (!isLoggedIn()) {
                     <a routerLink="/login" class="btn-login" (click)="closeMenu()">
-              Sign In
+              {{ language.translate('signIn') }}
             </a>
                     <a routerLink="/signup" class="btn-signup" (click)="closeMenu()">
-              Get Started
+              {{ language.translate('getStarted') }}
             </a> } @else {
                     <a [routerLink]="getDashboardRoute()" class="user-menu" (click)="closeMenu()">
                         <div class="user-avatar">
@@ -84,5 +90,42 @@
       <span></span>
     </button>
 
+    </div>
+
+    <!-- Scrolling Images Marquee -->
+    <div class="image-ticker-wrap">
+        <div class="image-ticker">
+            <!-- Half 1 (12 items) -->
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+            
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+
+            <!-- Half 2 (12 items) -->
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+            
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+
+            <div class="ticker-img-wrap"><a href="https://www.nowfoods.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/50.jpg" alt="Now Foods" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.nordic.com/" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/51.jpg" alt="Nordic" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.ubuy.com.eg/en/product/PKFN0W-high-absorption-magnesium-glycinate-lysinate-supplement-for-sleep-support-chelated-magnesium-tablets-for-women-men-200mg-per-serving" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/52.jpg" alt="Magnesium" class="ticker-img"></a></div>
+            <div class="ticker-img-wrap"><a href="https://www.carewell.com/product/natures-bounty-vitamin-b-12-1000-mcg/?sku=52805-BO200" target="_blank" rel="noopener noreferrer"><img src="/assets/advertisement/53.jpg" alt="Vitamin B12" class="ticker-img"></a></div>
+        </div>
     </div>
 </header>

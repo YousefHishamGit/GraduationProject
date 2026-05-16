@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-departments',
@@ -13,6 +14,7 @@ import { EndPoints } from '../../services/endpoints';
 })
 export class DepartmentsComponent implements OnInit {
   private endpoint = inject(EndPoints);
+  public language = inject(LanguageService);
 
   departments = signal<any[]>([]);
   selectedDept = signal<any>(null);

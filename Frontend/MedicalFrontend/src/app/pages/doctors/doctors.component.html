@@ -11,48 +11,58 @@
     </div>
 </div>
 
-<!-- Search & Filter -->
-<section class="filter-section">
-    <div class="filter-container">
-
-        <!-- Search -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search by name or specialty..."> @if (searchTerm()) {
-            <button class="clear-search" (click)="searchTerm.set('')">
-          <i class="fas fa-times"></i>
-        </button> }
+<div class="page-container">
+    <aside class="sidebar-ad left-ad">
+        <div class="ad-placeholder">
+            <span>إعلان ممول</span>
+            <img src="https://via.placeholder.com/160x600" alt="Ad">
         </div>
+    </aside>
 
-        <!-- Filters -->
-        <div class="filters-row">
-            <select [ngModel]="selectedDept()" (ngModelChange)="selectedDept.set($event)" class="filter-select">
-                <option value="">All Departments</option>
-                @for (dept of departments(); track dept.id) {
-                  <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
-                }
-            </select>
+    <main class="main-content">
 
-            @if (searchTerm() || selectedDept()) {
-            <button class="clear-btn" (click)="clearFilters()">
-              <i class="fas fa-times"></i> Clear
-            </button> }
-        </div>
+        <!-- Search & Filter -->
+        <section class="filter-section">
+            <div class="filter-container">
 
-        <!-- Results Count -->
-        <div class="results-count">
-            <span>
-        Showing <strong>{{ filteredDoctors().length }}</strong> of
-        <strong>{{ allDoctors().length }}</strong> doctors
-      </span>
-        </div>
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search by name or specialty..."> @if (searchTerm()) {
+                    <button class="clear-search" (click)="searchTerm.set('')">
+                  <i class="fas fa-times"></i>
+                </button> }
+                </div>
 
-    </div>
-</section>
+                <!-- Filters -->
+                <div class="filters-row">
+                    <select [ngModel]="selectedDept()" (ngModelChange)="selectedDept.set($event)" class="filter-select">
+                        <option value="">All Departments</option>
+                        @for (dept of departments(); track dept.id) {
+                          <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
+                        }
+                    </select>
 
-<!-- Doctors Grid -->
-<section class="doctors-main">
-    <div class="doctors-container">
+                    @if (searchTerm() || selectedDept()) {
+                    <button class="clear-btn" (click)="clearFilters()">
+                      <i class="fas fa-times"></i> Clear
+                    </button> }
+                </div>
+
+                <!-- Results Count -->
+                <div class="results-count">
+                    <span>
+                Showing <strong>{{ filteredDoctors().length }}</strong> of
+                <strong>{{ allDoctors().length }}</strong> doctors
+              </span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Doctors Grid -->
+        <section class="doctors-main">
+            <div class="doctors-container">
 
         @if (isLoading()) {
         <div class="skeleton-grid">
@@ -126,6 +136,16 @@
 
     </div>
 </section>
+
+    </main>
+
+    <aside class="sidebar-ad right-ad">
+        <div class="ad-placeholder">
+            <span>إعلان ممول</span>
+            <img src="https://via.placeholder.com/160x600" alt="Ad">
+        </div>
+    </aside>
+</div>
 
 <!-- Doctor Modal -->
 @if (showModal()) {

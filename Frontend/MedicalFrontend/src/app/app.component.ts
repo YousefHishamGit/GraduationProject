@@ -23,8 +23,8 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
   `,
   styles: [`
     .has-header {
-      padding-top: 70px;
-      min-height: calc(100vh - 70px);
+      padding-top: 171px;
+      min-height: calc(100vh - 171px);
       display: flex;
       flex-direction: column;
     }

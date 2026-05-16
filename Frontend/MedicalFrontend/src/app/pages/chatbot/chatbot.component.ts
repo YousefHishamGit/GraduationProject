@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
 import { ChatMessageDto } from '../../services/ai.endpoint';
+import { LanguageService } from '../../services/language.service';
 
 interface ChatMessage {
   id: number;
@@ -28,6 +29,7 @@ export class ChatbotComponent implements AfterViewChecked {
   @ViewChild('messagesEnd') messagesEnd!: ElementRef;
 
   private endpoint = inject(EndPoints);
+  public language = inject(LanguageService);
 
   messages = signal<ChatMessage[]>([]);
   inputText = '';

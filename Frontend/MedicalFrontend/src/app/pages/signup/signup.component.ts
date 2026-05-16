@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +15,7 @@ import { EndPoints } from '../../services/endpoints';
 export class SignupComponent {
   private endpoint = inject(EndPoints);
   private router = inject(Router);
+  public language = inject(LanguageService);
 
   // Step
   currentStep = signal(1);
@@ -65,22 +67,22 @@ export class SignupComponent {
 
     if (this.currentStep() === 1) {
       if (!this.firstName || !this.lastName || !this.nationalID || !this.birthDate) {
-        this.errorMessage = 'Please fill all required fields';
+        this.errorMessage = this.language.translate('pleaseFillAllRequiredFields');
         return;
       }
     }
 
     if (this.currentStep() === 2) {
       if (!this.email || !this.password || !this.confirmPassword) {
-        this.errorMessage = 'Please fill all required fields';
+        this.errorMessage = this.language.translate('pleaseFillAllRequiredFields');
         return;
       }
       if (this.password !== this.confirmPassword) {
-        this.errorMessage = 'Passwords do not match';
+        this.errorMessage = this.language.translate('passwordsDoNotMatch');
         return;
       }
       if (this.password.length < 8) {
-        this.errorMessage = 'Password must be at least 8 characters';
+        this.errorMessage = this.language.translate('passwordMin8');
         return;
       }
     }
@@ -100,7 +102,7 @@ export class SignupComponent {
     this.errorMessage = '';
 
     if (!this.agreedToTerms) {
-      this.errorMessage = 'You must agree to the terms';
+      this.errorMessage = this.language.translate('mustAgreeTerms');
       return;
     }
 
@@ -130,7 +132,7 @@ export class SignupComponent {
         this.router.navigate(['/patient-dashboard']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+        this.errorMessage = err.error?.message || this.language.translate('registrationFailedTryAgain');
         this.isLoading = false;
       }
     });

@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { DoctorResponseDto } from '../../interfaces/doctor.interface';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-doctors',
@@ -14,6 +15,7 @@ import { DoctorResponseDto } from '../../interfaces/doctor.interface';
 })
 export class DoctorsComponent implements OnInit {
   private endpoint = inject(EndPoints);
+  public language = inject(LanguageService);
 
   allDoctors = signal<DoctorResponseDto[]>([]);
   departments = signal<any[]>([]);

@@ -11,24 +11,23 @@
     <div class="hero-container">
         <div class="hero-content">
             <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i> Trusted Healthcare Since 2010
+                <i class="fas fa-shield-alt"></i> {{ language.translate('trustedHealthcareSince') }}
             </div>
 
             <h1 class="hero-title">
-                Your Health, <br>
-                <span class="hero-accent">Our Priority</span>
+                {{ language.translate('yourHealthOurPriority') }}
             </h1>
 
             <p class="hero-desc">
-                Experience world-class medical care with our team of expert doctors, advanced technology, and compassionate service — all in one place.
+                {{ language.translate('experienceCareDescription') }}
             </p>
 
             <div class="hero-actions">
                 <a routerLink="/appointment" class="hero-btn-primary">
-                    <i class="fas fa-calendar-check"></i> Book Appointment
+                    <i class="fas fa-calendar-check"></i> {{ language.translate('bookAppointment') }}
                 </a>
                 <a routerLink="/chatbot" class="hero-btn-secondary">
-                    <i class="fas fa-robot"></i> AI Diagnosis
+                    <i class="fas fa-robot"></i> {{ language.translate('aiDiagnosis') }}
                 </a>
             </div>
 
@@ -57,8 +56,8 @@
                     <div class="hero-card-badge badge-1">
                         <i class="fas fa-check-circle"></i>
                         <div>
-                            <strong>Verified Doctors</strong>
-                            <span>All certified specialists</span>
+                            <strong>{{ language.translate('verifiedDoctors') }}</strong>
+                            <span>{{ language.translate('allCertifiedSpecialists') }}</span>
                         </div>
                     </div>
                     <!-- <div class="hero-card-badge badge-2">
@@ -135,9 +134,9 @@
 <section class="services-section">
     <div class="section-container">
         <div class="section-head">
-            <span class="section-label">What We Offer</span>
-            <h2 class="section-title">Our Specializations</h2>
-            <p class="section-sub">Comprehensive medical care across all major specialties</p>
+            <span class="section-label">{{ language.translate('whatWeOffer') }}</span>
+            <h2 class="section-title">{{ language.translate('ourSpecializations') }}</h2>
+            <p class="section-sub">{{ language.translate('comprehensiveCare') }}</p>
         </div>
 
         <div class="services-grid">
@@ -149,7 +148,7 @@
                 <h3>{{ service.title }}</h3>
                 <p>{{ service.desc }}</p>
                 <a routerLink="/departments" class="service-link">
-            Learn More <i class="fas fa-arrow-right"></i>
+            {{ language.translate('learnMore') }} <i class="fas fa-arrow-right"></i>
           </a>
             </div>
             }
@@ -164,9 +163,9 @@
     <div class="dept-bg-shape"></div>
     <div class="section-container">
         <div class="section-head">
-            <span class="section-label">Specialized Units</span>
-            <h2 class="section-title">Medical Departments</h2>
-            <p class="section-sub">World-class specialists across every discipline</p>
+            <span class="section-label">{{ language.translate('specializedUnits') }}</span>
+            <h2 class="section-title">{{ language.translate('medicalDepartments') }}</h2>
+            <p class="section-sub">{{ language.translate('worldClassSpecialists') }}</p>
         </div>
 
         @if (isLoadingDepts()) {
@@ -210,7 +209,7 @@
 
         <div class="section-cta">
             <a routerLink="/departments" class="btn-view-all">
-        View All Departments <i class="fas fa-arrow-right"></i>
+        {{ language.translate('viewAllDepartments') }} <i class="fas fa-arrow-right"></i>
       </a>
         </div>
     </div>
@@ -223,10 +222,10 @@
     <div class="section-container">
         <div class="why-grid">
             <div class="why-content">
-                <span class="section-label">Why MediCare?</span>
-                <h2 class="section-title left-align">Healthcare You Can Trust</h2>
+                <span class="section-label">{{ language.translate('whyMediCare') }}</span>
+                <h2 class="section-title left-align">{{ language.translate('healthcareYouCanTrust') }}</h2>
                 <p class="why-desc">
-                    We combine medical excellence with modern technology to deliver personalized care that puts patients first.
+                    {{ language.translate('weCombineDescription') }}
                 </p>
 
                 <div class="why-features">
@@ -235,8 +234,8 @@
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div>
-                            <h4>Expert Specialists</h4>
-                            <p>Board-certified doctors with years of experience</p>
+                            <h4>{{ language.translate('expertSpecialists') }}</h4>
+                            <p>{{ language.translate('boardCertifiedDoctors') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">
@@ -244,8 +243,8 @@
                             <i class="fas fa-robot"></i>
                         </div>
                         <div>
-                            <h4>AI-Powered Diagnosis</h4>
-                            <p>Smart symptom checker for preliminary assessment</p>
+                            <h4>{{ language.translate('aiPoweredDiagnosis') }}</h4>
+                            <p>{{ language.translate('smartSymptomChecker') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">
@@ -253,8 +252,8 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div>
-                            <h4>Easy Booking</h4>
-                            <p>Schedule appointments online in minutes</p>
+                            <h4>{{ language.translate('easyBooking') }}</h4>
+                            <p>{{ language.translate('scheduleAppointmentsOnline') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">

@@ -1,0 +1,233 @@
+import { Injectable, signal } from '@angular/core';
+
+export type AppLanguage = 'en' | 'ar';
+
+const TRANSLATIONS: Record<string, Record<AppLanguage, string>> = {
+  home: { en: 'Home', ar: 'الرئيسية' },
+  doctors: { en: 'Doctors', ar: 'الأطباء' },
+  departments: { en: 'Departments', ar: 'الأقسام' },
+  doctorAssistant: { en: 'Doctor Assistant', ar: 'مساعد الطبيب' },
+  aiDiagnosis: { en: 'AI Diagnosis', ar: 'تشخيص AI' },
+  signIn: { en: 'Sign In', ar: 'تسجيل الدخول' },
+  getStarted: { en: 'Get Started', ar: 'ابدأ الآن' },
+  onlineReady: { en: 'Online & Ready', ar: 'متصل وجاهز' },
+  newChat: { en: 'New Chat', ar: 'دردشة جديدة' },
+  trySaying: { en: 'Try saying:', ar: 'جرِّب قول:' },
+  emergencyNote: { en: 'For emergency situations, call 123 immediately.', ar: 'في حالات الطوارئ اتصل على 123 فوراً.' },
+  welcomeTitle: { en: "Hello! I'm MediCare AI", ar: 'مرحباً! أنا مساعد الطبيب الذكي' },
+  welcomeDesc: { en: "I'm here to help you understand your symptoms. Tell me what's bothering you and I'll ask some questions to better understand your condition.", ar: 'أنا هنا لمساعدتك في فهم الأعراض. قل لي ما يزعجك وسأطرح بعض الأسئلة لفهم حالتك بشكل أفضل.' },
+  naturalConversation: { en: 'Natural conversation', ar: 'محادثة طبيعية' },
+  arabicEnglish: { en: 'Arabic & English', ar: 'عربي وإنجليزي' },
+  specialistReferral: { en: 'Specialist referral', ar: 'إحالة أخصائي' },
+  disclaimer: { en: 'This is for preliminary guidance only. Always consult a real doctor.', ar: 'هذا دليل مبدئي فقط. استشر دائماً طبيباً حقيقياً.' },
+  bookAppointment: { en: 'Book Appointment', ar: 'احجز موعد' },
+  ourDoctors: { en: 'Our Doctors', ar: 'أطباؤنا' },
+  ourServices: { en: 'Our Services', ar: 'خدماتنا' },
+  contactUs: { en: 'Contact Us', ar: 'تواصل معنا' },
+  quickLinks: { en: 'Quick Links', ar: 'روابط سريعة' },
+  emergencyServices: { en: '24/7 Emergency Services', ar: 'خدمات طوارئ 24/7' },
+  callNow: { en: 'Call Now', ar: 'اتصل الآن' },
+  privacyPolicy: { en: 'Privacy Policy', ar: 'سياسة الخصوصية' },
+  termsOfService: { en: 'Terms of Service', ar: 'شروط الخدمة' },
+  cookiePolicy: { en: 'Cookie Policy', ar: 'سياسة الكوكيز' },
+  ourDoctorsLink: { en: 'Our Doctors', ar: 'أطباؤنا' },
+  emailLabel: { en: 'Email Address', ar: 'البريد الإلكتروني' },
+  emailPlaceholder: { en: 'your@email.com', ar: 'البريد@مثال.com' },
+  passwordLabel: { en: 'Password', ar: 'كلمة المرور' },
+  forgotPassword: { en: 'Forgot password?', ar: 'هل نسيت كلمة المرور؟' },
+  rememberMe: { en: 'Remember me', ar: 'تذكرني' },
+  orText: { en: 'or', ar: 'أو' },
+  testAccounts: { en: 'Test accounts:', ar: 'حسابات تجريبية:' },
+  enterPassword: { en: 'Enter your password', ar: 'أدخل كلمة المرور' },
+  emergencyCare: { en: 'Emergency Care', ar: 'الرعاية الطارئة' },
+  trustedHealthcareSince: { en: 'Trusted Healthcare Since 2010', ar: 'الرعاية الصحية الموثوقة منذ 2010' },
+  yourHealthOurPriority: { en: 'Your Health, Our Priority', ar: 'صحتك أولويتنا' },
+  experienceCareDescription: { en: 'Experience world-class medical care with our team of expert doctors, advanced technology, and compassionate service — all in one place.', ar: 'اختبر رعاية طبية عالمية مع فريقنا من الأطباء الخبراء، التكنولوجيا المتقدمة، والخدمة المتعاطفة — كل ذلك في مكان واحد.' },
+  verifiedDoctors: { en: 'Verified Doctors', ar: 'أطباء موثوقون' },
+  allCertifiedSpecialists: { en: 'All certified specialists', ar: 'جميع الأخصائيين معتمدون' },
+  whatWeOffer: { en: 'What We Offer', ar: 'ماذا نقدم' },
+  ourSpecializations: { en: 'Our Specializations', ar: 'تخصصاتنا' },
+  comprehensiveCare: { en: 'Comprehensive medical care across all major specialties', ar: 'رعاية طبية شاملة عبر جميع التخصصات الرئيسية' },
+  learnMore: { en: 'Learn More', ar: 'اعرف أكثر' },
+  specializedUnits: { en: 'Specialized Units', ar: 'الوحدات المتخصصة' },
+  medicalDepartments: { en: 'Medical Departments', ar: 'الأقسام الطبية' },
+  worldClassSpecialists: { en: 'World-class specialists across every discipline', ar: 'أخصائيون عالميون عبر كل تخصص' },
+  viewAllDepartments: { en: 'View All Departments', ar: 'عرض جميع الأقسام' },
+  whyMediCare: { en: 'Why MediCare?', ar: 'لماذا MediCare؟' },
+  healthcareYouCanTrust: { en: 'Healthcare You Can Trust', ar: 'رعاية صحية يمكنك الوثوق بها' },
+  weCombineDescription: { en: 'We combine medical excellence with modern technology to deliver personalized care that puts patients first.', ar: 'نحن نجمع بين التميز الطبي والتكنولوجيا الحديثة لتقديم رعاية شخصية تضع المرضى أولاً.' },
+  expertSpecialists: { en: 'Expert Specialists', ar: 'أخصائيون خبراء' },
+  boardCertifiedDoctors: { en: 'Board-certified doctors with years of experience', ar: 'أطباء حاصلون على شهادة مجلس مع سنوات من الخبرة' },
+  aiPoweredDiagnosis: { en: 'AI-Powered Diagnosis', ar: 'تشخيص مدعوم بالذكاء الاصطناعي' },
+  smartSymptomChecker: { en: 'Smart symptom checker for preliminary assessment', ar: 'مساعد ذكي للتحقق من الأعراض للتقييم المبدئي' },
+  easyBooking: { en: 'Easy Booking', ar: 'حجز سهل' },
+  scheduleAppointmentsOnline: { en: 'Schedule appointments online in minutes', ar: 'جدولة المواعيد عبر الإنترنت في دقائق' },
+  backToHome: { en: 'Back to Home', ar: 'العودة للرئيسية' },
+  welcomeBack: { en: 'Welcome Back', ar: 'مرحبا بعودتك' },
+  signInAccessDashboard: { en: 'Sign in to access your personalized healthcare dashboard.', ar: 'سجل الدخول للوصول إلى لوحة التحكم الصحية الشخصية الخاصة بك.' },
+  joinMediCare: { en: 'Join MediCare', ar: 'انضم إلى MediCare' },
+  manageAppointments: { en: 'Manage your appointments', ar: 'إدارة مواعيدك' },
+  accessMedicalRecords: { en: 'Access medical records', ar: 'الوصول إلى السجلات الطبية' },
+  aiHealthInsights: { en: 'AI-powered health insights', ar: 'رؤى صحية مدعومة بالذكاء الاصطناعي' },
+  securePrivateData: { en: 'Secure & private data', ar: 'بيانات آمنة وخاصة' },
+  testimonialQuote: { en: 'MediCare made managing my health so much easier. Highly recommended!', ar: 'جعل MediCare إدارة صحتي أسهل بكثير. أنصح به بشدة!' },
+  createYourAccount: { en: 'Create your account and access world-class healthcare services.', ar: 'أنشئ حسابك والوصول إلى خدمات رعاية صحية عالمية المستوى.' },
+  personalInfo: { en: 'Personal Information', ar: 'المعلومات الشخصية' },
+  tellUsAboutYourself: { en: 'Tell us about yourself', ar: 'أخبرنا عن نفسك' },
+  firstName: { en: 'First Name', ar: 'الاسم الأول' },
+  firstNamePlaceholder: { en: 'John', ar: 'أحمد' },
+  lastName: { en: 'Last Name', ar: 'اسم العائلة' },
+  lastNamePlaceholder: { en: 'Doe', ar: 'علي' },
+  nationalID: { en: 'National ID', ar: 'الرقم القومي' },
+  nationalIDPlaceholder: { en: '14-digit national ID', ar: 'الرقم القومي 14 رقماً' },
+  dateOfBirth: { en: 'Date of Birth', ar: 'تاريخ الميلاد' },
+  gender: { en: 'Gender', ar: 'الجنس' },
+  phoneNumber: { en: 'Phone Number', ar: 'رقم الهاتف' },
+  address: { en: 'Address', ar: 'العنوان' },
+  addressPlaceholder: { en: 'Cairo, Egypt', ar: 'القاهرة، مصر' },
+  back: { en: 'Back', ar: 'رجوع' },
+  selectBloodType: { en: 'Select blood type', ar: 'اختر فصيلة الدم' },
+  stepInfo: { en: 'Step {current} of {total}', ar: 'الخطوة {current} من {total}' },
+  contactPersonName: { en: 'Contact person name', ar: 'اسم جهة الاتصال' },
+  passwordHint: { en: 'Min 8 characters', ar: '8 أحرف على الأقل' },
+  passwordRuleMin: { en: '8+ characters', ar: '8+ أحرف' },
+  passwordRuleUppercase: { en: 'Uppercase', ar: 'حرف كبير' },
+  passwordRuleNumber: { en: 'Number', ar: 'رقم' },
+  repeatPassword: { en: 'Repeat password', ar: 'أعد كلمة المرور' },
+  passwordsMismatch: { en: 'Passwords do not match', ar: 'كلمات المرور غير متطابقة' },
+  pleaseFillAllRequiredFields: { en: 'Please fill all required fields', ar: 'يرجى تعبئة جميع الحقول المطلوبة' },
+  passwordsDoNotMatch: { en: 'Passwords do not match', ar: 'كلمات المرور غير متطابقة' },
+  passwordMin8: { en: 'Password must be at least 8 characters', ar: 'يجب أن تكون كلمة المرور 8 أحرف على الأقل' },
+  mustAgreeTerms: { en: 'You must agree to the terms', ar: 'يجب أن توافق على الشروط' },
+  registrationFailedTryAgain: { en: 'Registration failed. Please try again.', ar: 'فشل التسجيل. حاول مرة أخرى.' },
+  medicalInformation: { en: 'Medical Information', ar: 'المعلومات الطبية' },
+  helpUsProvideBetterCare: { en: 'Help us provide better care', ar: 'ساعدنا في تقديم رعاية أفضل' },
+  optionalTag: { en: 'Optional', ar: 'اختياري' },
+  nextStep: { en: 'Next Step', ar: 'الخطوة التالية' },
+  alreadyHaveAccount: { en: 'Already have an account?', ar: 'هل لديك حساب بالفعل؟' },
+  signInLink: { en: 'Sign in', ar: 'تسجيل الدخول' },
+  accountSetupTitle: { en: 'Account Setup', ar: 'إعداد الحساب' },
+  createLoginCredentials: { en: 'Create your login credentials', ar: 'أنشئ بيانات الدخول الخاصة بك' },
+  confirmPassword: { en: 'Confirm Password', ar: 'تأكيد كلمة المرور' },
+  bloodType: { en: 'Blood Type', ar: 'فصيلة الدم' },
+  emergencyContactName: { en: 'Emergency Contact Name', ar: 'اسم جهة الاتصال للطوارئ' },
+  emergencyContactPhone: { en: 'Emergency Contact Phone', ar: 'هاتف جهة الاتصال للطوارئ' },
+  knownAllergies: { en: 'Known Allergies', ar: 'الحساسية المعروفة' },
+  termsAndPrivacy: { en: 'I agree to the Terms of Service and Privacy Policy', ar: 'أوافق على شروط الخدمة وسياسة الخصوصية' },
+  createAccount: { en: 'Create Account', ar: 'إنشاء حساب' },
+  creatingAccount: { en: 'Creating...', ar: 'جارٍ الإنشاء...' },
+  chooseDoctor: { en: 'Choose Doctor', ar: 'اختر الطبيب' },
+  scheduleVisitTitle: { en: 'Book Appointment', ar: 'حجز موعد' },
+  chooseDoctorTitle: { en: 'Choose Your Doctor', ar: 'اختر طبيبك' },
+  browseSpecialists: { en: 'Browse and select from our certified specialists', ar: 'تصفح واختر من بين أخصائيينا المعتمدين' },
+  searchByNameOrSpecialty: { en: 'Search by name or specialty...', ar: 'ابحث بالاسم أو التخصص...' },
+  allDepartmentsOption: { en: 'All Departments', ar: 'كل الأقسام' },
+  clear: { en: 'Clear', ar: 'مسح' },
+  showingDoctors: { en: 'Showing', ar: 'يعرض' },
+  noDoctorsFound: { en: 'No Doctors Found', ar: 'لم يتم العثور على أطباء' },
+  tryAdjustingSearch: { en: 'Try adjusting your search or filters', ar: 'حاول تعديل البحث أو المرشحات' },
+  selectedLabel: { en: 'Selected:', ar: 'المحدد:' },
+  nextSelectTime: { en: 'Next: Select Time', ar: 'التالي: اختر الوقت' },
+  selectTimeSlot: { en: 'Select Time Slot', ar: 'اختر موعداً' },
+  choosePreferredTime: { en: 'Choose your preferred appointment time with', ar: 'اختر وقت الموعد المفضل لديك مع' },
+  inPerson: { en: 'In-Person', ar: 'حضوري' },
+  online: { en: 'Online', ar: 'عن بُعد' },
+  availableTimeSlots: { en: 'Available Time Slots', ar: 'الأوقات المتاحة' },
+  noAvailableSlots: { en: 'No Available Slots', ar: 'لا توجد أوقات متاحة' },
+  chooseAnotherDoctor: { en: 'Choose Another Doctor', ar: 'اختر طبيباً آخر' },
+  additionalNotesOptional: { en: 'Any symptoms, concerns, or special requests...', ar: 'أية أعراض أو مخاوف أو طلبات خاصة...' },
+  reviewAndConfirm: { en: 'Review & Confirm', ar: 'راجع وأكد' },
+  confirmAppointmentText: { en: 'Confirm Appointment', ar: 'تأكيد الموعد' },
+  editDetails: { en: 'Edit Details', ar: 'تعديل التفاصيل' },
+  bookingText: { en: 'Booking...', ar: 'جارٍ الحجز...' },
+  byConfirming: { en: 'By confirming, you agree to our cancellation policy. Appointments can be cancelled up to 24 hours before the scheduled time.', ar: 'بالموافقة، أنت توافق على سياسة الإلغاء لدينا. يمكن إلغاء المواعيد حتى 24 ساعة قبل الموعد المحدد.' },
+  appointmentBooked: { en: 'Appointment Booked!', ar: 'تم حجز الموعد!' },
+  redirectingDashboard: { en: 'Redirecting to your dashboard...', ar: 'يتم التحويل إلى لوحة التحكم...' },
+  selectDepartment: { en: 'Select a Department', ar: 'اختر قسمًا' },
+  chooseDepartmentHint: { en: 'Choose a department from the list to view details', ar: 'اختر قسمًا من القائمة لعرض التفاصيل' },
+  overview: { en: 'Overview', ar: 'نظرة عامة' },
+  servicesOffered: { en: 'Services Offered', ar: 'الخدمات المتاحة' },
+  departmentDoctors: { en: 'Department Doctors', ar: 'أطباء القسم' },
+  doctorsCount: { en: 'doctor', ar: 'طبيب' },
+  noDoctorsAssigned: { en: 'No doctors assigned to this department yet', ar: 'لا يوجد أطباء معينون لهذا القسم بعد' },
+  viewDetails: { en: 'View Details', ar: 'عرض التفاصيل' },
+  bookNow: { en: 'Book Now', ar: 'احجز الآن' },
+  noReviewsYet: { en: 'No reviews yet', ar: 'لا توجد تقييمات بعد' },
+  availableStatus: { en: 'Available', ar: 'متاح' },
+  patient: { en: 'Patient', ar: 'المريض' },
+  appointmentsLabel: { en: 'Appointments', ar: 'المواعيد' },
+  myProfile: { en: 'My Profile', ar: 'ملفي' },
+  medicalRecordsLabel: { en: 'Medical Records', ar: 'السجلات الطبية' },
+  prescriptionsLabel: { en: 'Prescriptions', ar: 'الوصفات الطبية' },
+  labTestsLabel: { en: 'Lab Tests', ar: 'تحاليل المختبر' },
+  myReviewsLabel: { en: 'My Reviews', ar: 'تقييمي' },
+  dashboardLabel: { en: 'Dashboard', ar: 'لوحة التحكم' },
+  welcomeBackUser: { en: 'Welcome back, {name}', ar: 'مرحباً بعودتك، {name}' },
+  loadingHealthData: { en: 'Loading your health data...', ar: 'جارٍ تحميل بياناتك الصحية...' },
+  totalAppointments: { en: 'Total Appointments', ar: 'إجمالي المواعيد' },
+  thereAreNoUpcomingAppointments: { en: 'No upcoming appointments', ar: 'لا توجد مواعيد قادمة' },
+  bookNowLink: { en: 'Book Now', ar: 'احجز الآن' },
+  quickActions: { en: 'Quick Actions', ar: 'إجراءات سريعة' },
+  findDoctorsLink: { en: 'Find Doctors', ar: 'ابحث عن أطباء' },
+  labResults: { en: 'Lab Results', ar: 'نتائج المختبر' },
+  homeLink: { en: 'Home', ar: 'الرئيسية' },
+  logout: { en: 'Logout', ar: 'تسجيل الخروج' },
+  scheduleLabel: { en: 'Schedule', ar: 'الجدول' },
+  timeSlotsLabel: { en: 'Time Slots', ar: 'الأوقات' },
+  reviewsLabel: { en: 'Reviews', ar: 'المراجعات' },
+  patientReviews: { en: 'Patient Reviews', ar: 'آراء المرضى' },
+  viewAll: { en: 'View All', ar: 'عرض الكل' },
+  loadingYourDashboard: { en: 'Loading your dashboard...', ar: 'جارٍ تحميل لوحة التحكم...' },
+  totalAppointmentsLabel: { en: 'Total Appointments', ar: 'إجمالي المواعيد' },
+  todayLabel: { en: 'Today', ar: 'اليوم' },
+  pendingLabel: { en: 'Pending', ar: 'قيد الانتظار' },
+  avgRatingLabel: { en: 'Avg Rating', ar: 'المعدل' },
+  patientIdLabel: { en: 'Patient ID', ar: 'معرف المريض' },
+  bloodTypeLabel: { en: 'Blood Type', ar: 'فصيلة الدم' },
+  genderLabel: { en: 'Gender', ar: 'الجنس' },
+  phoneLabel: { en: 'Phone', ar: 'الهاتف' },
+  viewFullProfile: { en: 'View Full Profile', ar: 'عرض الملف الكامل' },
+  upcomingAppointmentsTitle: { en: 'Upcoming Appointments', ar: 'المواعيد القادمة' },
+  noAppointmentsToday: { en: 'No appointments today', ar: 'لا توجد مواعيد اليوم' },
+  bookAppointmentLabel: { en: 'Book Appointment', ar: 'احجز موعد' },
+  viewAllDoctors: { en: 'View All Doctors', ar: 'عرض جميع الأطباء' },
+  doctorsFound: { en: 'Showing {count} of {total} doctors', ar: 'يعرض {count} من أصل {total} طبيب' }
+};
+
+@Injectable({ providedIn: 'root' })
+export class LanguageService {
+  currentLanguage = signal<AppLanguage>(this.getSavedLanguage());
+
+  constructor() {
+    this.applyLanguage(this.currentLanguage());
+  }
+
+  toggleLanguage() {
+    const nextLang: AppLanguage = this.currentLanguage() === 'en' ? 'ar' : 'en';
+    this.setLanguage(nextLang);
+  }
+
+  setLanguage(lang: AppLanguage) {
+    this.currentLanguage.set(lang);
+    localStorage.setItem('appLanguage', lang);
+    this.applyLanguage(lang);
+  }
+
+  translate(key: string, params: Record<string, string> = {}): string {
+    let translation = TRANSLATIONS[key]?.[this.currentLanguage()] ?? key;
+    Object.entries(params).forEach(([param, value]) => {
+      translation = translation.replace(`{${param}}`, value);
+    });
+    return translation;
+  }
+
+  private getSavedLanguage(): AppLanguage {
+    const stored = localStorage.getItem('appLanguage') as AppLanguage | null;
+    return stored === 'ar' ? 'ar' : 'en';
+  }
+
+  private applyLanguage(lang: AppLanguage) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  }
+}

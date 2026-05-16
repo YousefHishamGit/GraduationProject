@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -17,6 +18,7 @@ export class PatientDashboardComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private authService = inject(AuthService);
   private router = inject(Router);
+  public language = inject(LanguageService);
 
   activeTab = signal('overview');
   patient = signal<any>(null);

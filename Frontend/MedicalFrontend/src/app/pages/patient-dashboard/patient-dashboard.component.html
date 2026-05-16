@@ -89,12 +89,19 @@
     <!-- Main -->
     <main class="main-content">
 
-        <!-- Top Bar -->
+        <!-- Top Bar / Pharmacy Ad -->
+        @if (activeTab() === 'prescriptions') {
+        <a href="https://elezabypharmacy.com/" target="_blank" class="pharmacy-ad-banner">
+            <img src="/assets/advertisement/elazabe1.jpg" class="ad-img img-1" alt="Elezaby Pharmacy">
+            <img src="/assets/advertisement/elazabe2.jpg" class="ad-img img-2" alt="Elezaby Pharmacy">
+            <img src="/assets/advertisement/elazabe3.jpg" class="ad-img img-3" alt="Elezaby Pharmacy">
+        </a>
+        } @else {
         <div class="topbar">
             <div class="topbar-left">
                 <h1 class="page-title">
-                    @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records } @if (activeTab() === 'prescriptions') { Prescriptions
-                    } @if (activeTab() === 'lab') { Lab Tests } @if (activeTab() === 'reviews') { My Reviews }
+                    @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records }
+                    @if (activeTab() === 'lab') { Lab Tests } @if (activeTab() === 'reviews') { My Reviews }
                 </h1>
                 <p class="page-sub">
                     Welcome back, <strong>{{ currentUser()?.fullName }}</strong>
@@ -107,6 +114,7 @@
                 </a>
             </div>
         </div>
+        }
 
         <!-- Loading -->
         @if (isLoading()) {

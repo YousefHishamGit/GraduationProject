@@ -4,24 +4,24 @@
     <div class="chat-header">
         <div class="chat-header-left">
             <div class="bot-avatar">
-                <i class="fas fa-robot"></i>
-                <div class="bot-status"></div>
+                <img src="/assets/advertisement/icon1Ai.png" alt="Doctor Assistant" />
+                <!-- <div class="bot-status"></div> -->
             </div>
             <div class="bot-info">
-                <h2>MediCare AI Assistant</h2>
+                <h2>{{ language.translate('doctorAssistant') }}</h2>
                 <span class="bot-status-text">
-                    <i class="fas fa-circle"></i> Online &amp; Ready
+                    <i class="fas fa-circle"></i> {{ language.translate('onlineReady') }}
                 </span>
             </div>
         </div>
         <div class="chat-header-right">
             <button class="clear-btn" (click)="clearChat()" title="New conversation">
                 <i class="fas fa-plus"></i>
-                <span>New Chat</span>
+                <span>{{ language.translate('newChat') }}</span>
             </button>
             <a routerLink="/" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
-                <span>Home</span>
+                <span>{{ language.translate('home') }}</span>
             </a>
         </div>
     </div>
@@ -51,7 +51,7 @@
             @if (msg.type === 'loading') {
             <div class="message-row bot-row">
                 <div class="bot-avatar-sm">
-                    <i class="fas fa-robot"></i>
+                    <img src="/assets/advertisement/icon1Ai.png" alt="Bot avatar" />
                 </div>
                 <div class="msg-bubble bot-bubble loading-bubble">
                     <div class="typing-dots">
@@ -65,7 +65,7 @@
             @if (msg.type === 'bot') {
             <div class="message-row bot-row">
                 <div class="bot-avatar-sm">
-                    <i class="fas fa-robot"></i>
+                    <img src="/assets/advertisement/icon1Ai.png" alt="Bot avatar" />
                 </div>
 
                 <!-- Welcome -->
@@ -73,27 +73,27 @@
                 <div class="msg-bubble bot-bubble welcome-bubble">
                     <div class="welcome-header">
                         <i class="fas fa-stethoscope"></i>
-                        <h3>Hello! I'm MediCare AI</h3>
+                        <h3>{{ language.translate('welcomeTitle') }}</h3>
                     </div>
                     <p>
-                        I'm here to help you understand your symptoms. Tell me what's bothering you and I'll ask some questions to better understand your condition.
+                        {{ language.translate('welcomeDesc') }}
                     </p>
                     <div class="welcome-features">
                         <div class="feature-item">
                             <i class="fas fa-comments"></i>
-                            <span>Natural conversation</span>
+                            <span>{{ language.translate('naturalConversation') }}</span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-language"></i>
-                            <span>Arabic & English</span>
+                            <span>{{ language.translate('arabicEnglish') }}</span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-user-md"></i>
-                            <span>Specialist referral</span>
+                            <span>{{ language.translate('specialistReferral') }}</span>
                         </div>
                     </div>
                     <div class="disclaimer">
-                        <i class="fas fa-info-circle"></i> This is for preliminary guidance only. Always consult a real doctor.
+                        <i class="fas fa-info-circle"></i> {{ language.translate('disclaimer') }}
                     </div>
                 </div>
                 }
@@ -157,7 +157,7 @@
         @if (messages().length <= 1) {
         <div class="suggestions-section">
             <p class="suggestions-label">
-                <i class="fas fa-magic"></i> Try saying:
+                <i class="fas fa-magic"></i> {{ language.translate('trySaying') }}
             </p>
             <div class="suggestions-grid">
                 @for (s of suggestions; track s) {
@@ -174,7 +174,7 @@
     <!-- Input Area -->
     <div class="chat-footer">
         <div class="input-container">
-            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="Type your message... (Press Enter to send)" rows="1" class="chat-input">
+            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" [placeholder]="language.currentLanguage() === 'en' ? 'Type your message... (Press Enter to send)' : 'اكتب رسالتك... (اضغط Enter للإرسال)'" [attr.aria-label]="language.currentLanguage() === 'en' ? 'Chat input' : 'حقل الدردشة'" rows="1" class="chat-input">
       </textarea>
             <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
                 @if (isLoading()) {
@@ -185,7 +185,7 @@
             </button>
         </div>
         <p class="footer-note">
-            <i class="fas fa-shield-alt"></i> For emergency situations, call <strong>123</strong> immediately.
+            <i class="fas fa-shield-alt"></i> {{ language.translate('emergencyNote') }}
         </p>
     </div>
 

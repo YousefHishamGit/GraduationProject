@@ -4,6 +4,7 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -15,6 +16,7 @@ export class DoctorDashboardComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private authService = inject(AuthService);
   private router = inject(Router);
+  public language = inject(LanguageService);
   BookCount:number=0;
 
   activeTab = signal('overview');

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private endpoint = inject(EndPoints);
   private promotionTimer?: number;
 
+  public language = inject(LanguageService);
   departments = signal<any[]>([]);
   doctors = signal<any[]>([]);
   isLoadingDepts = signal(true);
