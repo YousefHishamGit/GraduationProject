@@ -89,13 +89,83 @@
     <!-- Main -->
     <main class="main-content">
 
-        <!-- Top Bar / Pharmacy Ad -->
+        <!-- Top Bar / Ads -->
         @if (activeTab() === 'prescriptions') {
-        <a href="https://elezabypharmacy.com/" target="_blank" class="pharmacy-ad-banner">
-            <img src="/assets/advertisement/elazabe1.jpg" class="ad-img img-1" alt="Elezaby Pharmacy">
-            <img src="/assets/advertisement/elazabe2.jpg" class="ad-img img-2" alt="Elezaby Pharmacy">
-            <img src="/assets/advertisement/elazabe3.jpg" class="ad-img img-3" alt="Elezaby Pharmacy">
-        </a>
+        <div class="image-ticker-wrap">
+          <div class="image-ticker">
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <!-- <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div> -->
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <!-- <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div> -->
+          </div>
+        </div>
+        <div class="text-ticker-wrap pharmacy-ticker">
+          <div class="text-ticker">
+            <span>💊 إعلان خاص: اكتشف الآن عروض الصيدلية المميزة وأسعار الفحوصات الصحية مع خدمات التوصيل السريع &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>💊 إعلان خاص: اكتشف الآن عروض الصيدلية المميزة وأسعار الفحوصات الصحية مع خدمات التوصيل السريع &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>💊 إعلان خاص: اكتشف الآن عروض الصيدلية المميزة وأسعار الفحوصات الصحية مع خدمات التوصيل السريع &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>💊 إعلان خاص: اكتشف الآن عروض الصيدلية المميزة وأسعار الفحوصات الصحية مع خدمات التوصيل السريع &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        } @else if (activeTab() === 'lab') {
+        <div class="image-ticker-wrap">
+          <div class="image-ticker">
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab1.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab2.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab3.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+             <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab5.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab1.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab2.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab3.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab5.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            
+          </div>
+        </div>
+        <div class="text-ticker-wrap lab-ticker">
+          <div class="text-ticker">
+            <span>🔬 إعلان خاص: احجز فحوصاتك الآن مع مختبر البرج وتمتع بخدمة النتائج السريعة والعروض الحصرية &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>🔬 إعلان خاص: احجز فحوصاتك الآن مع مختبر البرج وتمتع بخدمة النتائج السريعة والعروض الحصرية &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>🔬 إعلان خاص: احجز فحوصاتك الآن مع مختبر البرج وتمتع بخدمة النتائج السريعة والعروض الحصرية &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>🔬 إعلان خاص: احجز فحوصاتك الآن مع مختبر البرج وتمتع بخدمة النتائج السريعة والعروض الحصرية &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
         } @else {
         <div class="topbar">
             <div class="topbar-left">
