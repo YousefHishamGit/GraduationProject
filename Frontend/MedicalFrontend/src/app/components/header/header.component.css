@@ -25,6 +25,10 @@
     background: rgba(255, 255, 255, 0.98);
 }
 
+.header {
+    height: auto;
+}
+
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -187,7 +191,44 @@
 }
 
 
-/* ── AI Badge ── */
+
+/* ── Text Ticker (Marquee) ── */
+.image-ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: #e6f3ff;
+    border-top: 1px solid rgba(26, 111, 196, 0.15);
+    border-bottom: 1px solid rgba(26, 111, 196, 0.15);
+    padding: 10px 0;
+    height: 42px;
+    display: flex;
+    align-items: center;
+}
+
+.image-ticker.text-ticker {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+    direction: ltr; /* ← مهم جداً للنصوص العربية */
+}
+
+.ad-text {
+    display: inline-block;
+    font-weight: bold;
+    color: #1a6fc4;
+    font-size: 0.95rem;
+    margin: 0 48px 0 0;
+    letter-spacing: 0.5px;
+    unicode-bidi: plaintext; /* ← يخلي العربي يتعرض صح */
+}
+@keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* ← -50% مع تكرار مرتين */
+}
+
+
 
 .ai-link {
     color: #7c3aed;
@@ -532,69 +573,6 @@
     }
 }
 
-/* ── Image Ticker (same as home) ── */
-.image-ticker-wrap {
-  width: 100%;
-  overflow: hidden;
-  padding: 10px 0;
-  background: #e6f3ff; /* Baby blue */
-  border-top: 1px solid rgba(26, 111, 196, 0.08);
-}
-
-.image-ticker {
-  display: flex;
-  width: max-content;
-  animation: moveLeft 12s linear infinite;
-}
-
-.image-ticker:hover {
-  animation-play-state: paused;
-}
-
-.ticker-img-wrap {
-  flex: 0 0 auto;
-  width: 180px;
-  height: 80px;
-  margin-left: 10px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #ffffff;
-}
-
-.ticker-img-wrap a {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.ticker-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  padding: 6px;
-  transition: transform 0.3s ease;
-}
-
-.ticker-img-wrap:hover .ticker-img {
-  transform: scale(1.05);
-}
-
-@keyframes moveLeft {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@media (max-width: 768px) {
-  .ticker-img-wrap {
-    width: 140px;
-    height: 60px;
-    margin-left: 12px;
-  }
-  .image-ticker-wrap {
-    padding: 8px 0;
-  }
-}
 
 @media (max-width: 576px) {
   .ticker-img-wrap {

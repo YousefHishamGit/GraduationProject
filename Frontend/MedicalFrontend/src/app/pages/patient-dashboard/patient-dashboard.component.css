@@ -248,13 +248,12 @@
 /* ── Pharmacy Ad Banner ── */
 .pharmacy-ad-banner {
     display: block;
-    width: 100%;
-    min-height: 340px;
-    height: auto;
+    width: 338.29px;
+    height: 326.48px;
+    margin: 0 auto 24px auto; /* ← margin-bottom + center */
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 24px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     background: #ffffff;
     border: 1px solid rgba(26, 111, 196, 0.08);
@@ -299,6 +298,19 @@
     .pharmacy-ad-banner { height: 160px; }
 }
 
+@media (max-width: 768px) {
+    .pharmacy-ad-banner {
+        width: 338.29px;
+        height: 326.48px;
+    }
+}
+
+@media (max-width: 576px) {
+    .pharmacy-ad-banner {
+        width: 338.29px;
+        height: 326.48px;
+    }
+}
 
 /* ── Topbar ── */
 
