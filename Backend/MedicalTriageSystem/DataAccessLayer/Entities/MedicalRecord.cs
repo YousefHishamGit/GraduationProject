@@ -11,7 +11,7 @@ namespace DataAccessLayer.Entities
         public string Diagnosis { get; set; } = string.Empty;
         public string? Notes { get; set; }
         public string? VitalSigns { get; set; } // JSON: BP, Pulse, Temp, etc.
-        
+        public string? AttachedFilePath { get; set; }
 
         // Navigation Properties
         public virtual Appointment Appointment { get; set; } = null!;

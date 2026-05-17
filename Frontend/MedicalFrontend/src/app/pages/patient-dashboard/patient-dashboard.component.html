@@ -510,16 +510,21 @@
             <div class="records-grid">
                 @for (record of medicalRecords(); track record.id) {
                 <div class="record-card card">
-                    <div class="record-header">
-                        <div class="record-icon">
-                            <i class="fas fa-file-medical"></i>
+                    <div class="record-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="record-icon">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <div>
+                                <h4>Record #{{ record.id }}</h4>
+                                <span class="record-date">
+                                    {{ record.createdOn | date:'dd MMM yyyy' }}
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Record #{{ record.id }}</h4>
-                            <span class="record-date">
-                        {{ record.createdOn | date:'dd MMM yyyy' }}
-                      </span>
-                        </div>
+                        <button type="button" (click)="deleteRecord(record.id)" style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 14px; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                            <i class="fas fa-trash-alt"></i> Delete Record
+                        </button>
                     </div>
                     <div class="record-body">
                         <div class="record-field">
@@ -535,6 +540,13 @@
                         <div class="record-field">
                             <span class="rf-label">Vital Signs</span>
                             <span class="rf-value">{{ record.vitalSigns }}</span>
+                        </div>
+                        }
+                        @if (record.attachedFilePath) {
+                        <div class="record-attachment" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <a [href]="getFileUrl(record.attachedFilePath)" target="_blank" class="view-result-btn" style="display: inline-flex; align-items: center; gap: 8px; background: #0d6efd; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: background 0.2s;">
+                                <i class="fas fa-file-pdf"></i> View Attached PDF
+                            </a>
                         </div>
                         }
                     </div>
@@ -713,9 +725,6 @@
                 <i class="fas fa-star"></i>
                 <h3>No Reviews Yet</h3>
                 <p>You haven't reviewed any doctor yet. Share your experience!</p>
-                <button class="empty-btn" (click)="openReviewForm()">
-                    <i class="fas fa-plus"></i> Write First Review
-                </button>
             </div>
             }
 

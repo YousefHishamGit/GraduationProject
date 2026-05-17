@@ -22,8 +22,21 @@ export class MedicalRecordEndpoint extends BaseEndpoint {
   create(dto: CreateMedicalRecordDto): Observable<MedicalRecordResponseDto> {
     return this.http.post<MedicalRecordResponseDto>(this.baseUrl, dto);
   }
-
   update(id: number, dto: UpdateMedicalRecordDto): Observable<MedicalRecordResponseDto> {
     return this.http.put<MedicalRecordResponseDto>(`${this.baseUrl}/${id}`, dto);
   }
-}
+
+  uploadAttachment(id: number, file: File): Observable<MedicalRecordResponseDto> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<MedicalRecordResponseDto>(`${this.baseUrl}/${id}/upload-attachment`, formData);
+  }
+
+  deleteAttachment(id: number): Observable<MedicalRecordResponseDto> {
+    return this.http.delete<MedicalRecordResponseDto>(`${this.baseUrl}/${id}/remove-attachment`);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+  }
+}

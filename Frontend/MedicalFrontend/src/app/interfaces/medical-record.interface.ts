@@ -7,6 +7,7 @@ export interface MedicalRecordResponseDto {
   notes?: string;
   vitalSigns?: string;
   createdOn: string;
+  attachedFilePath?: string;
 }
 
 export interface CreateMedicalRecordDto {

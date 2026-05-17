@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -37,6 +38,8 @@ export class DoctorDashboardComponent implements OnInit {
   showScheduleModal = signal(false);
   selectedAppointment = signal<any>(null);
   newRecord = { diagnosis: '', notes: '', vitalSigns: '' };
+  existingRecord = signal<any>(null);
+  selectedRecordFile: File | null = null;
   newSchedule = {
     dayOfWeek: 1,
     startTime: '09:00',
@@ -181,13 +184,33 @@ export class DoctorDashboardComponent implements OnInit {
     this.selectedAppointment.set(apt);
     this.showRecordModal.set(true);
     this.newRecord = { diagnosis: '', notes: '', vitalSigns: '' };
+    this.existingRecord.set(null);
+    this.selectedRecordFile = null;
     this.successMsg.set('');
     this.errorMsg.set('');
+
+    this.endpoint.medicalRecords.getByAppointment(apt.id).subscribe({
+      next: (rec) => {
+        if (rec) {
+          this.existingRecord.set(rec);
+          this.newRecord = {
+            diagnosis: rec.diagnosis || '',
+            notes: rec.notes || '',
+            vitalSigns: rec.vitalSigns || ''
+          };
+        }
+      },
+      error: () => {
+        this.existingRecord.set(null);
+      }
+    });
   }
 
   closeRecordModal() {
     this.showRecordModal.set(false);
     this.selectedAppointment.set(null);
+    this.existingRecord.set(null);
+    this.selectedRecordFile = null;
   }
 
   openScheduleModal() {
@@ -277,6 +300,13 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
+  onRecordFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedRecordFile = file;
+    }
+  }
+
   submitRecord() {
     if (!this.newRecord.diagnosis) {
       this.errorMsg.set('Diagnosis is required');
@@ -285,22 +315,94 @@ export class DoctorDashboardComponent implements OnInit {
 
     this.isSubmitting.set(true);
     const apt = this.selectedAppointment();
+    const existing = this.existingRecord();
 
-    this.endpoint.medicalRecords.create({
-      appointmentId: apt.id,
-      patientId: apt.patientId,
-      doctorId: apt.doctorId,
-      diagnosis: this.newRecord.diagnosis,
-      notes: this.newRecord.notes,
-      vitalSigns: this.newRecord.vitalSigns
-    }).subscribe({
-      next: () => {
-        this.successMsg.set('Medical record created successfully!');
+    if (existing) {
+      this.endpoint.medicalRecords.update(existing.id, {
+        diagnosis: this.newRecord.diagnosis,
+        notes: this.newRecord.notes,
+        vitalSigns: this.newRecord.vitalSigns
+      }).subscribe({
+        next: (updated) => {
+          if (this.selectedRecordFile) {
+            this.endpoint.medicalRecords.uploadAttachment(updated.id, this.selectedRecordFile).subscribe({
+              next: (finalRec) => {
+                this.existingRecord.set(finalRec);
+                this.successMsg.set('Medical record and attachment updated successfully!');
+                this.isSubmitting.set(false);
+                setTimeout(() => this.closeRecordModal(), 1500);
+              },
+              error: (err) => {
+                this.errorMsg.set(err.error?.message || 'Record updated, but failed to upload attachment');
+                this.isSubmitting.set(false);
+              }
+            });
+          } else {
+            this.existingRecord.set(updated);
+            this.successMsg.set('Medical record updated successfully!');
+            this.isSubmitting.set(false);
+            setTimeout(() => this.closeRecordModal(), 1500);
+          }
+        },
+        error: (err) => {
+          this.errorMsg.set(err.error?.message || 'Failed to update record');
+          this.isSubmitting.set(false);
+        }
+      });
+    } else {
+      this.endpoint.medicalRecords.create({
+        appointmentId: apt.id,
+        patientId: apt.patientId,
+        doctorId: apt.doctorId,
+        diagnosis: this.newRecord.diagnosis,
+        notes: this.newRecord.notes,
+        vitalSigns: this.newRecord.vitalSigns
+      }).subscribe({
+        next: (created) => {
+          if (this.selectedRecordFile) {
+            this.endpoint.medicalRecords.uploadAttachment(created.id, this.selectedRecordFile).subscribe({
+              next: (finalRec) => {
+                this.existingRecord.set(finalRec);
+                this.successMsg.set('Medical record and attachment created successfully!');
+                this.isSubmitting.set(false);
+                setTimeout(() => this.closeRecordModal(), 1500);
+              },
+              error: (err) => {
+                this.errorMsg.set(err.error?.message || 'Record created, but failed to upload attachment');
+                this.isSubmitting.set(false);
+              }
+            });
+          } else {
+            this.existingRecord.set(created);
+            this.successMsg.set('Medical record created successfully!');
+            this.isSubmitting.set(false);
+            setTimeout(() => this.closeRecordModal(), 1500);
+          }
+        },
+        error: (err) => {
+          this.errorMsg.set(err.error?.message || 'Failed to create record');
+          this.isSubmitting.set(false);
+        }
+      });
+    }
+  }
+
+  deleteAttachment() {
+    const existing = this.existingRecord();
+    if (!existing || !existing.attachedFilePath) return;
+
+    if (!confirm('Are you sure you want to remove the attached PDF?')) return;
+
+    this.isSubmitting.set(true);
+    this.endpoint.medicalRecords.deleteAttachment(existing.id).subscribe({
+      next: (updated) => {
+        this.existingRecord.set(updated);
+        this.selectedRecordFile = null;
+        this.successMsg.set('Attachment removed successfully!');
         this.isSubmitting.set(false);
-        setTimeout(() => this.closeRecordModal(), 1500);
       },
       error: (err) => {
-        this.errorMsg.set(err.error?.message || 'Failed to create record');
+        this.errorMsg.set(err.error?.message || 'Failed to remove attachment');
         this.isSubmitting.set(false);
       }
     });
@@ -333,4 +435,11 @@ export class DoctorDashboardComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-}
+
+  getFileUrl(path: string): string {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    const baseUrl = environment.apiUrl.replace('/api', '');
+    return `${baseUrl}${path}`;
+  }
+}
