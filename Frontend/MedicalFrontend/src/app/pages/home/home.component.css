@@ -246,6 +246,64 @@ img {
 }
 
 /* =========================
+   FIX: SIDE-SCROLLING SPONSOR TICKER
+========================= */
+.image-ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.image-ticker {
+  display: flex;
+  width: max-content;
+  animation: moveLeft 8s linear infinite;
+}
+
+.ticker-img-wrap {
+  flex: 0 0 auto;
+  width: 680px;
+  height: 300px;
+  margin-left: 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f8faff;
+}
+
+.ticker-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 10px;
+}
+
+@keyframes moveLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .ticker-img-wrap {
+    width: 320px;
+    height: 180px;
+    margin-left: 16px;
+  }
+
+  .image-ticker-wrap {
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .ticker-img-wrap {
+    width: 280px;
+    height: 160px;
+    margin-left: 12px;
+  }
+}
+
+/* =========================
    SERVICES (FIX SIZE)
 ========================= */
 .services-section {
