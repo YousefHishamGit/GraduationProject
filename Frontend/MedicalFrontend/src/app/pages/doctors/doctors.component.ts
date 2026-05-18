@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { DoctorResponseDto } from '../../interfaces/doctor.interface';
-import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-doctors',
@@ -15,10 +14,8 @@ import { LanguageService } from '../../services/language.service';
 })
 export class DoctorsComponent implements OnInit {
   private endpoint = inject(EndPoints);
-  public language = inject(LanguageService);
 
   allDoctors = signal<DoctorResponseDto[]>([]);
-  departments = signal<any[]>([]);
   isLoading = signal(true);
 
   searchTerm = signal('');
@@ -40,6 +37,13 @@ export class DoctorsComponent implements OnInit {
     });
   });
 
+  uniqueDepartments = computed(() => {
+    const names = this.allDoctors()
+      .map(d => d.departmentName)
+      .filter(Boolean);
+    return [...new Set(names)];
+  });
+
   // Modal
   selectedDoctor = signal<DoctorResponseDto | null>(null);
   timeSlots = signal<any[]>([]);
@@ -50,7 +54,6 @@ export class DoctorsComponent implements OnInit {
 
   ngOnInit() {
     this.loadDoctors();
-    this.loadDepartments();
   }
 
   loadDoctors() {
@@ -63,12 +66,6 @@ export class DoctorsComponent implements OnInit {
     });
   }
 
-  loadDepartments() {
-    this.endpoint.departments.getAll().subscribe({
-      next: (data) => this.departments.set(data)
-    });
-  }
-
   openDoctor(doc: DoctorResponseDto) {
     this.selectedDoctor.set(doc);
     this.showModal.set(true);
@@ -76,37 +73,37 @@ export class DoctorsComponent implements OnInit {
     this.loadDoctorDetails(doc.id);
   }
 
-loadDoctorDetails(id: number) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  loadDoctorDetails(id: number) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  this.endpoint.doctors.getTimeSlots(id, today.toISOString()).subscribe({
-    next: (data) => {
-      this.timeSlots.set(data.slice(0, 8));
-    },
-    error: (err) => {
-      console.error(err);
-      this.timeSlots.set([]);
-    }
-  });
+    this.endpoint.doctors.getTimeSlots(id, today.toISOString()).subscribe({
+      next: (data) => {
+        this.timeSlots.set(data.slice(0, 8));
+      },
+      error: (err) => {
+        console.error(err);
+        this.timeSlots.set([]);
+      }
+    });
 
-  this.endpoint.doctors.getReviews(id).subscribe({
-    next: (data) => {
-      this.reviews.set(data);
+    this.endpoint.doctors.getReviews(id).subscribe({
+      next: (data) => {
+        this.reviews.set(data);
 
-      if (data?.length > 0) {
-        const avg = data.reduce((s, r) => s + r.rating, 0) / data.length;
-        this.rating.set(Number(avg.toFixed(1)));
-      } else {
+        if (data?.length > 0) {
+          const avg = data.reduce((s, r) => s + r.rating, 0) / data.length;
+          this.rating.set(Number(avg.toFixed(1)));
+        } else {
+          this.rating.set(0);
+        }
+      },
+      error: () => {
+        this.reviews.set([]);
         this.rating.set(0);
       }
-    },
-    error: () => {
-      this.reviews.set([]);
-      this.rating.set(0);
-    }
-  });
-}
+    });
+  }
 
   closeModal() {
     this.showModal.set(false);
