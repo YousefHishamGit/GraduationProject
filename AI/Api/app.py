@@ -5,54 +5,72 @@ import json
 import os
 from dotenv import load_dotenv
 import logging
-
-# ── RAG additions ─────────────────────────────────
+import base64
+import io
+import PyPDF2
+import google.generativeai as genai
+from PIL import Image
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from deep_translator import GoogleTranslator
+import uuid
+import re
+from datetime import datetime, timedelta
 
-# Load environment variables
 load_dotenv()
-
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
 
-# ── Translation helper (for guaranteed Arabic output) ──
+# ---------- جلسات المحادثة في الذاكرة ----------
+sessions = {}  # {session_id: {"history": [...], "last_used": datetime}}
+
+def cleanup_old_sessions():
+    """إزالة الجلسات اللي معدّت عليها أكتر من ساعة"""
+    cutoff = datetime.now() - timedelta(hours=1)
+    expired = [sid for sid, s in sessions.items() if s["last_used"] < cutoff]
+    for sid in expired:
+        sessions.pop(sid, None)
+        logger.info(f"🗑️ Session expired and removed: {sid}")
+
+# ---------- ترجمة ----------
 def translate_to_arabic(text: str) -> str:
-    """Translate English text to Arabic using GoogleTranslator."""
     if not text or not isinstance(text, str) or len(text.strip()) < 2:
         return text
-    # Avoid re-translating if text is already Arabic (contains Arabic unicode range)
     if any('\u0600' <= c <= '\u06FF' for c in text):
         return text
     try:
         translator = GoogleTranslator(source='en', target='ar')
-        translated = translator.translate(text)
-        return translated if translated else text
-    except Exception as e:
-        logger.warning(f"Translation failed for text '{text[:30]}...': {e}")
+        return translator.translate(text) or text
+    except Exception:
         return text
 
-# ── Groq Client ──────────────────────────────────
+# ---------- Gemini ----------
+gemini_api_key = os.environ.get("GEMINI_API_KEY")
+if gemini_api_key:
+    genai.configure(api_key=gemini_api_key)
+    gemini_model = genai.GenerativeModel('gemini-2.0-flash')
+    GEMINI_AVAILABLE = True
+else:
+    gemini_model = None
+    GEMINI_AVAILABLE = False
+
+# ---------- Groq ----------
 try:
     api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key:
-        logger.warning("GROQ_API_KEY not set. Please set it in .env file.")
-        client = None
-    else:
-        client = Groq(api_key=api_key)
+    client = Groq(api_key=api_key) if api_key else None
 except Exception as e:
-    logger.error(f"Failed to initialize Groq client: {e}")
     client = None
+    logger.error(f"Groq init error: {e}")
 
-# ── Local Model Fallback ─────────────────────────
+# ---------- Local Model ----------
 import sys
-import pickle
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../Training')))
+LOCAL_MODEL_AVAILABLE = False
+local_triage_model = local_specialty_model = local_vectorizer = None
 try:
     from preprocess import clean_text, normalize_symptoms
     LOCAL_MODEL_AVAILABLE = True
@@ -60,11 +78,10 @@ try:
     local_specialty_model = pickle.load(open(os.path.join(os.path.dirname(__file__), "../Model/specialty_model.pkl"), "rb"))
     local_vectorizer = pickle.load(open(os.path.join(os.path.dirname(__file__), "../Model/vectorizer.pkl"), "rb"))
 except Exception as e:
-    logger.error(f"Failed to load local models: {e}")
-    LOCAL_MODEL_AVAILABLE = False
+    logger.error(f"Local model error: {e}")
 
-# ── Load Medical Vector Database (RAG) ───────────
-MEDICAL_DB_PATH = "./medical_db"  # تأكد أن هذا المسار صحيح
+# ---------- RAG ----------
+MEDICAL_DB_PATH = "./medical_db"
 RAG_AVAILABLE = False
 retriever = None
 try:
@@ -72,200 +89,290 @@ try:
     vectorstore = Chroma(persist_directory=MEDICAL_DB_PATH, embedding_function=embedding_model)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     RAG_AVAILABLE = True
-    logger.info("✅ Medical vector database loaded successfully!")
+    logger.info("✅ Medical vector database loaded")
 except Exception as e:
-    logger.warning(f"Could not load medical_db: {e}. RAG will be disabled.")
+    logger.warning(f"RAG error: {e}")
 
 def get_medical_context(query: str) -> str:
-    """Retrieve relevant medical Q&A from vector database."""
     if not RAG_AVAILABLE or retriever is None:
         return ""
     try:
-        # Translate Arabic query to English for better retrieval
         if any('\u0600' <= c <= '\u06FF' for c in query):
-            try:
-                query_en = GoogleTranslator(source='auto', target='en').translate(query)
-                logger.info(f"Translated query: {query} -> {query_en}")
-            except:
-                query_en = query
+            query_en = GoogleTranslator(source='auto', target='en').translate(query)
         else:
             query_en = query
-        
         docs = retriever.invoke(query_en)
         if not docs:
             return ""
         context = "\n\n".join([doc.page_content for doc in docs])
-        return f"Relevant medical knowledge from trusted database:\n{context}\n\n"
+        return f"معلومات طبية موثوقة من قاعدة البيانات:\n{context}\n\n"
     except Exception as e:
-        logger.error(f"RAG retrieval error: {e}")
+        logger.error(f"RAG error: {e}")
         return ""
 
-# ── System Prompt الطبي ───────────────────────────
-SYSTEM_PROMPT = """You are MediCare AI, an expert medical assistant.
-When a patient describes their symptoms, you will be given a "Relevant medical knowledge" section as part of the user's message. Use that knowledge to answer accurately and to support your diagnosis.
+# ---------- معالجة الملفات ----------
+def extract_file_content_from_bytes(file_bytes: bytes, filename: str) -> str:
+    """استخراج النص من PDF أو وصف الصورة عبر Gemini Vision (بتشتغل مع bytes مباشرة)"""
+    filename_lower = filename.lower()
+    
+    if filename_lower.endswith('.pdf'):
+        try:
+            reader = PyPDF2.PdfReader(io.BytesIO(file_bytes))
+            text = ""
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n"
+            return f"[محتوى PDF مستخرج]:\n{text[:2000]}"
+        except Exception as e:
+            logger.error(f"PDF extraction error: {e}")
+            return "[خطأ في قراءة PDF]"
+            
+    elif filename_lower.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.webp')):
+        if not GEMINI_AVAILABLE:
+            return "[الصورة مرفوعة لكن خدمة تحليل الصور غير متاحة]"
+        try:
+            # التحقق من حجم الصورة (Groq بيحد بـ 4MB تقريباً للـ base64)
+            if len(file_bytes) > 4 * 1024 * 1024:
+                return "[الصورة كبيرة جداً، الحد الأقصى 4 ميجا]"
+                
+            image = Image.open(io.BytesIO(file_bytes))
+            prompt = "وصف هذه الصورة الطبية بالعربية بشكل مختصر، مع ذكر أي تفاصيل طبية مهمة (مثل أشعة، جروح، أعراض ظاهرة)."
+            response = gemini_model.generate_content([prompt, image])
+            return f"[وصف الصورة الطبية]:\n{response.text.strip()}"
+        except Exception as e:
+            logger.error(f"Image analysis error: {e}")
+            return "[خطأ في تحليل الصورة]"
+    else:
+        return "[نوع ملف غير مدعوم]"
 
-Respond ONLY with a valid JSON object in this exact format:
+# للتوافق مع الكود القديم اللي بيستخدم file object
+def extract_file_content(file) -> str:
+    """Wrapper لـ extract_file_content_from_bytes بيشتغل مع file object"""
+    filename = file.filename.lower()
+    file_bytes = file.read()
+    result = extract_file_content_from_bytes(file_bytes, filename)
+    file.seek(0)
+    return result
 
-{
-  "diagnosis": "Brief medical diagnosis or most likely condition",
-  "recommended_specialty": "Medical specialty (e.g. Cardiology, Neurology, etc.)",
-  "urgency_level": "critical OR moderate OR normal",
-  "urgency_message": "Arabic urgency message",
-  "tips": ["tip1 in Arabic", "tip2 in Arabic", "tip3 in Arabic"]
-}
+# ---------- System Prompts (عربية) ----------
+CHAT_SYSTEM_PROMPT_AR = """أنت مساعد طبي ودود ومحترف اسمه MediCare AI.
+تحدث باللغة العربية فقط.
+سيتم إعطاؤك تاريخ المحادثة وأي معلومات مستخلصة من ملفات (PDF أو صور) أو من قاعدة المعرفة الطبية (RAG).
+استخدم هذه المعلومات للإجابة بدقة.
 
-Rules:
-- urgency_level must be exactly: critical, moderate, or normal
-- urgency_message in Arabic
-- tips array must have 3 items in Arabic
-- diagnosis in English
-- recommended_specialty in English
-- Be medically accurate and rely on the provided knowledge when possible
-- Do NOT add any text outside the JSON
-
-Urgency guidelines:
-- critical: chest pain, difficulty breathing, stroke symptoms, severe bleeding
-- moderate: high fever, severe pain, infection signs
-- normal: mild symptoms, routine checkup needed
-"""
-
-# ── Chat System Prompt (Conversational) ───────────
-CHAT_SYSTEM_PROMPT = """You are MediCare AI, a friendly and professional medical assistant chatbot.
-You have a natural, empathetic conversation with patients about their health concerns.
-
-**Important:** You will sometimes receive "Relevant medical knowledge" as part of the user's message. Use this information to provide accurate, evidence-based answers to the patient's questions. If the knowledge is provided, prioritize it over your general knowledge.
-
-Conversation guidelines:
-- Greet the patient warmly if it's the start of the conversation
-- Ask clarifying follow-up questions about their symptoms (location, duration, severity, etc.)
-- Show empathy and understanding
-- Provide helpful medical information and advice, especially using the retrieved knowledge if available
-- When you have enough information, provide your assessment
-- Always remind patients that this is preliminary guidance and they should see a real doctor
-- You can respond in Arabic or English depending on what the patient uses
-- Keep responses concise but helpful (2-4 sentences typically)
-- If the patient describes an emergency (chest pain, difficulty breathing, severe bleeding), immediately advise them to call emergency services (123)
-
-When you feel you have gathered enough information to provide an assessment, include a JSON block at the END of your message wrapped in <diagnosis> tags like this:
-<diagnosis>
-{"diagnosis": "condition name", "recommended_specialty": "specialty", "urgency_level": "critical|moderate|normal"}
+تعليمات:
+- كن متعاطفًا ومهنيًا.
+- اسأل أسئلة توضيحية عن الأعراض إذا لزم الأمر.
+- إذا كان هناك حالة طارئة (ألم صدر، صعوبة تنفس، نزيف حاد) انصح بالاتصال بالإسعاف (123).
+- أجب بإجابات مختصرة (جملتين إلى 4 جمل) ولكن مفيدة.
+- عندما تجمع معلومات كافية، ضع كتلة JSON تحتوي على التشخيص في نهاية رسالتك داخل وسم <diagnosis> مثل هذا:
+<<diagnosis>
+{"diagnosis": "اسم المرض بالعربية", "recommended_specialty": "التخصص بالعربية", "urgency_level": "critical|moderate|normal"}
 </diagnosis>
-
-But ONLY include the diagnosis block when you're confident enough to make an assessment. Otherwise, just continue the conversation naturally.
+لا تضع التشخيص إلا إذا كنت واثقاً.
 """
 
+SYSTEM_PROMPT_AR = """أنت مساعد طبي خبير اسمه MediCare AI.
+أجب دائمًا باللغة العربية فقط. استخدم المعرفة الطبية المقدمة إن وجدت.
+قم بالرد بصيغة JSON فقط وفق هذا التنسيق (بدون أي نص خارج JSON):
+{
+  "diagnosis": "التشخيص الطبي المختصر بالعربية",
+  "recommended_specialty": "التخصص الطبي الموصى به بالعربية (مثال: قلبية، عظام، أعصاب)",
+  "urgency_level": "critical أو moderate أو normal",
+  "urgency_message": "رسالة تنبيه عاجلة بالعربية",
+  "tips": ["نصيحة 1 بالعربية", "نصيحة 2 بالعربية", "نصيحة 3 بالعربية"]
+}
+ملاحظات: urgency_level تكون إنجليزية (critical, moderate, normal) لأنها قيمة نظامية، ولكن كل الحقول النصية الأخرى بالعربية.
+"""
+
+# ---------- Chat Endpoint (مع الجلسات والملفات) ----------
 @app.route('/chat', methods=['POST'])
 def chat():
-    """
-    Multi-turn conversational chat endpoint with RAG context injection into the last user message.
-    """
-    if not client:
-        return jsonify({'error': 'AI chat service not available. Check GROQ_API_KEY.'}), 503
-    
-    data = request.get_json()
-    if not data or 'messages' not in data:
-        return jsonify({'error': 'messages field is required'}), 400
-    if not isinstance(data['messages'], list) or len(data['messages']) == 0:
-        return jsonify({'error': 'messages must be a non-empty array'}), 400
+    cleanup_old_sessions()  # تنظيف الجلسات المنتهية
 
-    try:
-        # Get the last user message for RAG retrieval
-        last_user_msg = ""
-        last_user_index = -1
-        for i, msg in enumerate(data['messages']):
-            if msg.get('role') == 'user':
-                last_user_msg = msg.get('content', '')
-                last_user_index = i
-        
-        # Retrieve medical context based on the last user message
-        medical_context = get_medical_context(last_user_msg) if last_user_msg else ""
-        
-        # Build messages for Groq
-        groq_messages = [{"role": "system", "content": CHAT_SYSTEM_PROMPT}]
-        
-        # Inject RAG context into the last user message
-        augmented_messages = []
-        for idx, msg in enumerate(data['messages']):
-            if idx == last_user_index and medical_context:
-                original_content = msg.get('content', '')
-                augmented_content = f"{medical_context}\n\nBased on the above medical knowledge, answer the patient's question naturally.\n\nPatient: {original_content}"
-                augmented_messages.append({"role": "user", "content": augmented_content})
-                logger.info("RAG context injected into last user message")
-            else:
-                augmented_messages.append(msg)
-        
-        for msg in augmented_messages:
-            role = msg.get('role', 'user')
-            content = msg.get('content', '')
-            if role in ('user', 'assistant') and content.strip():
-                groq_messages.append({"role": role, "content": content})
+    # محاولة استخراج sessionId من الهيدر أو الجسم
+    session_id = request.headers.get('X-Session-Id') or request.form.get('sessionId')
+    if not session_id and request.is_json:
+        data = request.get_json()
+        session_id = data.get('sessionId')
+    if not session_id:
+        session_id = str(uuid.uuid4())
 
-        logger.info(f"Chat request with {len(data['messages'])} messages (RAG used: {bool(medical_context)})")
-
-        chat_completion = client.chat.completions.create(
-            messages=groq_messages,
-            model="llama-3.3-70b-versatile",
-            temperature=0.6,
-            max_tokens=800
-        )
-        response_text = chat_completion.choices[0].message.content.strip()
-        
-        # Extract diagnosis block if present
-        diagnosis = None
-        clean_text_response = response_text
-        if '<diagnosis>' in response_text and '</diagnosis>' in response_text:
-            try:
-                diag_start = response_text.index('<diagnosis>') + len('<diagnosis>')
-                diag_end = response_text.index('</diagnosis>')
-                diag_json = response_text[diag_start:diag_end].strip()
-                diagnosis = json.loads(diag_json)
-                # Translate diagnosis fields if present
-                if diagnosis:
-                    if 'diagnosis' in diagnosis:
-                        diagnosis['diagnosis'] = translate_to_arabic(diagnosis['diagnosis'])
-                    if 'recommended_specialty' in diagnosis:
-                        diagnosis['recommended_specialty'] = translate_to_arabic(diagnosis['recommended_specialty'])
-                    # urgency_level stays as is (critical/moderate/normal)
-                clean_text_response = response_text[:response_text.index('<diagnosis>')].strip()
-            except (json.JSONDecodeError, ValueError):
-                pass
-
-        # Translate the reply text to Arabic
-        arabic_reply = translate_to_arabic(clean_text_response) if clean_text_response else ""
-
-        response = {
-            'reply': arabic_reply,
-            'diagnosis': diagnosis,
-            'rag_used': bool(medical_context)
+    # تهيئة الجلسة إذا كانت جديدة
+    if session_id not in sessions:
+        sessions[session_id] = {
+            "history": [],
+            "last_used": datetime.now()
         }
-        logger.info(f"Chat response sent (has_diagnosis: {diagnosis is not None}, rag_used: {bool(medical_context)})")
-        return jsonify(response)
 
-    except Exception as e:
-        logger.error(f"Chat error: {str(e)}", exc_info=True)
-        return jsonify({'error': f'Chat processing failed: {str(e)}'}), 500
+    session = sessions[session_id]
+    session["last_used"] = datetime.now()
+    history = session["history"]
 
+    # قراءة الرسالة والملفات
+    user_message = ""
+    files_content = []
+
+    if request.is_json:
+        data = request.get_json()
+        user_message = data.get('message', '') or ''
+        files_data = data.get('files', [])
+        for f in files_data:
+            try:
+                file_bytes = base64.b64decode(f['content'])
+                content = extract_file_content_from_bytes(file_bytes, f.get('name', 'unknown'))
+                files_content.append(content)
+            except Exception as e:
+                logger.error(f"Error processing base64 file: {e}")
+    else:
+        user_message = request.form.get('message', '') or ''
+        uploaded_files = request.files.getlist('files')
+        for file in uploaded_files:
+            if file and file.filename:
+                content = extract_file_content(file)
+                files_content.append(content)
+
+    # دمج محتوى الملفات مع الرسالة
+    if files_content:
+        combined = user_message + "\n\n" + "\n\n".join(files_content)
+    else:
+        combined = user_message
+
+    if not combined.strip():
+        return jsonify({"error": "لا توجد رسالة أو ملفات للمعالجة"}), 400
+
+    # إضافة رسالة المستخدم إلى التاريخ
+    history.append({"role": "user", "content": combined})
+
+    # الاحتفاظ بآخر 30 رسالة فقط
+    if len(history) > 30:
+        history[:] = history[-30:]
+
+    # بناء سياق المحادثة للنموذج
+    llm_messages = [{"role": "system", "content": CHAT_SYSTEM_PROMPT_AR}]
+    llm_messages.extend(history)
+
+    # إضافة سياق RAG استناداً إلى آخر رسالة للمستخدم
+    last_user_content = history[-1]["content"]
+    rag_context = get_medical_context(last_user_content)
+    if rag_context:
+        llm_messages[-1]["content"] = rag_context + "\n" + llm_messages[-1]["content"]
+
+    # استدعاء النموذج (Groq أو Gemini)
+    response_text = ""
+    diagnosis_data = {
+        "diagnosis": "تحتاج لاستشارة طبيب لتحديد الحالة بدقة",
+        "recommended_specialty": "طب عام",
+        "urgency_level": "normal"
+    }
+
+    if client:
+        try:
+            completion = client.chat.completions.create(
+                messages=llm_messages,
+                model="llama-3.3-70b-versatile",
+                temperature=0.5,
+                max_tokens=600
+            )
+            response_text = completion.choices[0].message.content.strip()
+        except Exception as e:
+            logger.error(f"Groq error: {e}")
+            response_text = "عذراً، حدث خطأ في الاتصال بخدمة الذكاء الاصطناعي."
+    elif GEMINI_AVAILABLE:
+        try:
+            prompt = "\n".join([f"{m['role']}: {m['content']}" for m in llm_messages])
+            resp = gemini_model.generate_content(prompt)
+            response_text = resp.text.strip()
+        except Exception as e:
+            logger.error(f"Gemini error: {e}")
+            response_text = "عذراً، حدث خطأ في الاتصال بخدمة Gemini."
+    else:
+        response_text = "عذراً، خدمة الذكاء الاصطناعي غير متاحة حالياً. يرجى استشارة طبيب."
+
+    # استخراج كتلة التشخيص من الرد
+    diag_match = re.search(r'<diagnosis>(.*?)</diagnosis>', response_text, re.DOTALL)
+    if diag_match:
+        try:
+            diag_json = json.loads(diag_match.group(1).strip())
+            diagnosis_data = {
+                "diagnosis": diag_json.get("diagnosis", diagnosis_data["diagnosis"]),
+                "recommended_specialty": diag_json.get("recommended_specialty", diagnosis_data["recommended_specialty"]),
+                "urgency_level": diag_json.get("urgency_level", "normal")
+            }
+            response_text = re.sub(r'<diagnosis>.*?</diagnosis>', '', response_text, flags=re.DOTALL).strip()
+        except:
+            pass
+
+    # تأكيد أن الرد بالعربية
+    if not any('\u0600' <= c <= '\u06FF' for c in response_text):
+        response_text = translate_to_arabic(response_text)
+
+    # إضافة رد المساعد إلى التاريخ
+    history.append({"role": "assistant", "content": response_text})
+
+    return jsonify({
+        "sessionId": session_id,
+        "reply": response_text,
+        "diagnosis": diagnosis_data
+    }), 200
+
+# ---------- Predict Endpoint (تحليل الأعراض فقط) ----------
 @app.route('/predict', methods=['POST'])
 def predict():
-    """
-    Analyze patient symptoms and provide medical triage information, enhanced with RAG.
-    """
     if not client and not LOCAL_MODEL_AVAILABLE:
-        return jsonify({'error': 'AI service not initialized and local model unavailable.'}), 503
-    
+        return jsonify({'error': 'الخدمة غير متاحة'}), 503
+
     data = request.get_json()
     if not data or 'symptoms' not in data:
-        return jsonify({'error': 'symptoms field is required'}), 400
-    if not isinstance(data['symptoms'], str) or len(data['symptoms'].strip()) == 0:
-        return jsonify({'error': 'symptoms must be a non-empty string'}), 400
-
+        return jsonify({'error': 'الرجاء إرسال الأعراض'}), 400
     symptoms = data['symptoms'].strip()
+    if not symptoms:
+        return jsonify({'error': 'الأعراض لا يمكن أن تكون فارغة'}), 400
 
     try:
-        logger.info(f"Processing symptoms: {symptoms[:50]}...")
-        
-        # Fallback to local model if Groq not available
-        if not client:
+        medical_context = get_medical_context(symptoms) if client else ""
+
+        if client:
+            user_msg = f"أعراض المريض: {symptoms}"
+            if medical_context:
+                user_msg = f"{medical_context}\nبناء على المعرفة الطبية أعلاه، قم بتحليل الأعراض وأخرج JSON بالعربية:\n{user_msg}"
+
+            completion = client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT_AR},
+                    {"role": "user", "content": user_msg}
+                ],
+                model="llama-3.3-70b-versatile",
+                temperature=0.3,
+                max_tokens=500
+            )
+            response_text = completion.choices[0].message.content.strip()
+            if "```json" in response_text:
+                response_text = response_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in response_text:
+                response_text = response_text.split("```")[1].split("```")[0].strip()
+            result = json.loads(response_text)
+
+            response = {
+                'symptoms': symptoms,
+                'diagnosis': result.get('diagnosis', 'غير معروف'),
+                'recommended_specialty': result.get('recommended_specialty', 'طب عام'),
+                'urgency_level': result.get('urgency_level', 'normal'),
+                'urgency_message': result.get('urgency_message', 'يمكنك مراجعة الطبيب قريباً'),
+                'tips': result.get('tips', ['استرح', 'اشرب ماء', 'راقب الأعراض']),
+                'disclaimer': 'هذا تحليل أولي بالذكاء الاصطناعي، استشر طبيباً حقيقياً.',
+                'rag_used': bool(medical_context)
+            }
+            # ترجمة أي حقل إنجليزي ظهر بالخطأ
+            if not any('\u0600' <= c <= '\u06FF' for c in response['diagnosis']):
+                response['diagnosis'] = translate_to_arabic(response['diagnosis'])
+            if not any('\u0600' <= c <= '\u06FF' for c in response['recommended_specialty']):
+                response['recommended_specialty'] = translate_to_arabic(response['recommended_specialty'])
+            response['tips'] = [tip if any('\u0600' <= c <= '\u06FF' for c in tip) else translate_to_arabic(tip) for tip in response['tips']]
+            return jsonify(response)
+        else:
+            # النموذج المحلي
             try:
                 eng_symptoms = GoogleTranslator(source='auto', target='en').translate(symptoms)
             except:
@@ -277,91 +384,151 @@ def predict():
             specialty = local_specialty_model.predict(X)[0]
             response = {
                 'symptoms': symptoms,
-                'diagnosis': translate_to_arabic('Unknown (Local Fallback)'),
+                'diagnosis': translate_to_arabic('تشخيص مؤقت (نموذج محلي)'),
                 'recommended_specialty': translate_to_arabic(specialty),
                 'urgency_level': triage,
-                'urgency_message': 'تم التقييم بواسطة النموذج المحلي',
-                'tips': [translate_to_arabic('Consult a doctor'), translate_to_arabic('This is a preliminary assessment using local model')],
-                'disclaimer': 'This is AI-generated preliminary analysis using a local fallback model.',
+                'urgency_message': 'تم التقييم بواسطة النموذج المحلي، يُرجى استشارة طبيب.',
+                'tips': [translate_to_arabic('استشر طبيباً'), translate_to_arabic('هذا تحليل أولي')],
+                'disclaimer': 'تحليل آلي محلي، ليس بديلاً عن الطبيب.',
                 'rag_used': False
             }
-            logger.info(f"Processed symptoms locally, urgency: {response['urgency_level']}")
             return jsonify(response)
-        
-        # Groq with RAG – inject context into the user message
-        medical_context = get_medical_context(symptoms)
-        user_message = f"Patient symptoms: {symptoms}"
-        if medical_context:
-            user_message = f"{medical_context}\nBased on the above medical knowledge, answer the following:\nPatient symptoms: {symptoms}"
-            logger.info("RAG context injected into user message for /predict")
-        
-        chat_completion = client.chat.completions.create(
+    except Exception as e:
+        logger.error(f"Predict error: {e}")
+        return jsonify({'error': f'فشل التحليل: {str(e)}'}), 500
+
+# ---------- تحليل تقرير PDF مستقل ----------
+@app.route('/analyze-report', methods=['POST'])
+def analyze_report():
+    if not client:
+        return jsonify({'error': 'خدمة الذكاء الاصطناعي غير متاحة'}), 503
+    if 'file' not in request.files:
+        return jsonify({'error': 'لم يتم رفع ملف'}), 400
+    file = request.files['file']
+    if file.filename == '' or not file.filename.lower().endswith('.pdf'):
+        return jsonify({'error': 'الملف يجب أن يكون PDF'}), 400
+    try:
+        pdf_bytes = file.read()
+        reader = PyPDF2.PdfReader(io.BytesIO(pdf_bytes))
+        text = ""
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+        if not text.strip():
+            return jsonify({'error': 'لا يمكن استخراج النص من PDF'}), 400
+        text = text[:3000]
+
+        completion = client.chat.completions.create(
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_message}
+                {"role": "system", "content": """أنت طبيب خبير. حلل التقرير الطبي التالي وأخرج JSON بالعربية فقط بهذا الشكل:
+{
+  "summary": "ملخص عام للتقرير بالعربية",
+  "normal_results": ["نتيجة طبيعية 1", "نتيجة طبيعية 2"],
+  "abnormal_results": ["نتيجة غير طبيعية 1"],
+  "recommendations": ["توصية 1", "توصية 2"],
+  "urgency_level": "normal/moderate/critical",
+  "urgency_message": "رسالة عاجلة بالعربية"
+}
+"""},
+                {"role": "user", "content": f"التقرير الطبي:\n{text}"}
             ],
             model="llama-3.3-70b-versatile",
             temperature=0.3,
-            max_tokens=500
+            max_tokens=1000
         )
-
-        response_text = chat_completion.choices[0].message.content.strip()
+        response_text = completion.choices[0].message.content.strip()
         if "```json" in response_text:
             response_text = response_text.split("```json")[1].split("```")[0].strip()
         elif "```" in response_text:
             response_text = response_text.split("```")[1].split("```")[0].strip()
-
         result = json.loads(response_text)
-        
-        # Translate relevant fields to Arabic
-        diagnosis_ar = translate_to_arabic(result.get('diagnosis', 'Unable to determine'))
-        specialty_ar = translate_to_arabic(result.get('recommended_specialty', 'General Medicine'))
-        urgency_message_ar = result.get('urgency_message', 'يمكنك زيارة الطبيب في أقرب وقت')
-        # urgency_message may already be Arabic, but we can pass as is
-        tips_ar = [translate_to_arabic(tip) for tip in result.get('tips', ['استرح', 'اشرب ماء', 'راقب الأعراض'])]
-        
-        response = {
-            'symptoms': symptoms,
-            'diagnosis': diagnosis_ar,
-            'recommended_specialty': specialty_ar,
-            'urgency_level': result.get('urgency_level', 'normal'),
-            'urgency_message': urgency_message_ar,
-            'tips': tips_ar,
-            'disclaimer': 'This is AI-generated preliminary analysis. Always consult a medical professional.',
-            'rag_used': bool(medical_context)
-        }
-        logger.info(f"Processed symptoms with urgency: {response['urgency_level']}")
-        return jsonify(response)
-
-    except json.JSONDecodeError as e:
-        logger.error(f"JSON decode error: {e}")
-        return jsonify({
-            'symptoms': symptoms,
-            'diagnosis': translate_to_arabic('Please consult a doctor'),
-            'recommended_specialty': translate_to_arabic('General Medicine'),
-            'urgency_level': 'normal',
-            'urgency_message': 'يرجى استشارة طبيب',
-            'tips': [translate_to_arabic('Rest'), translate_to_arabic('Drink water'), translate_to_arabic('See a doctor soon')],
-            'disclaimer': 'This is AI-generated preliminary analysis.',
-            'error': 'Could not parse AI response',
-            'rag_used': False
-        })
+        return jsonify({'success': True, 'filename': file.filename, 'analysis': result})
     except Exception as e:
-        logger.error(f"Prediction error: {str(e)}", exc_info=True)
-        return jsonify({'error': f'Processing failed: {str(e)}'}), 500
+        logger.error(f"Report error: {e}")
+        return jsonify({'error': f'فشل تحليل التقرير: {str(e)}'}), 500
 
+# ---------- تحليل صورة مستقلة ----------
+@app.route('/analyze-image', methods=['POST'])
+def analyze_image():
+    if not client:
+        return jsonify({"error": "خدمة Groq غير متاحة"}), 503
+    if 'file' not in request.files:
+        return jsonify({"error": "لا يوجد ملف"}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "الملف فارغ"}), 400
+    
+    try:
+        img_bytes = file.read()
+        
+        # التحقق من حجم الصورة
+        if len(img_bytes) > 4 * 1024 * 1024:
+            return jsonify({"error": "حجم الصورة كبير جداً. الحد الأقصى 4 ميجابايت"}), 400
+            
+        base64_image = base64.b64encode(img_bytes).decode('utf-8')
+        
+        prompt = """أنت طبيب خبير. حلل هذه الصورة الطبية وأخرج JSON بالعربية فقط:
+{
+  "description": "وصف الصورة بالعربية",
+  "findings": ["ملاحظة طبية 1", "ملاحظة طبية 2"],
+  "recommendations": ["توصية 1", "توصية 2"],
+  "urgency_level": "normal",
+  "urgency_message": "رسالة مناسبة بالعربية"
+}
+"""
+        completion = client.chat.completions.create(
+            model="llama-3.2-11b-vision-preview",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                    ]
+                }
+            ],
+            temperature=0.2,
+            max_tokens=500
+            # ملاحظة: شلنا response_format لأن Groq vision models مش بيدعم json_object
+        )
+        result_text = completion.choices[0].message.content
+        
+        # محاولة استخراج JSON من الرد
+        try:
+            # لو فيه ```json ... ```
+            if "```json" in result_text:
+                result_text = result_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in result_text:
+                result_text = result_text.split("```")[1].split("```")[0].strip()
+            result = json.loads(result_text)
+        except json.JSONDecodeError:
+            # لو مش JSON صريح، نبني structure يدوياً
+            result = {
+                "description": result_text[:500],
+                "findings": [],
+                "recommendations": ["استشر طبيباً"],
+                "urgency_level": "normal",
+                "urgency_message": "يرجى مراجعة طبيب لتقييم الحالة"
+            }
+            
+        return jsonify({"success": True, "filename": file.filename, "analysis": result}), 200
+        
+    except Exception as e:
+        logger.error(f"Image error: {e}")
+        return jsonify({"error": "فشل تحليل الصورة", "details": str(e)}), 500
+
+# ---------- البحث المباشر في قاعدة المعرفة (RAG) ----------
 @app.route('/ask', methods=['POST'])
 def ask_rag():
-    """Direct retrieval from vector database (no LLM)."""
-    if not RAG_AVAILABLE or retriever is None:
-        return jsonify({'error': 'Medical database not available'}), 503
+    if not RAG_AVAILABLE:
+        return jsonify({'error': 'قاعدة المعرفة الطبية غير متاحة'}), 503
     data = request.get_json()
     if not data or 'query' not in data:
-        return jsonify({'error': 'query field is required'}), 400
+        return jsonify({'error': 'الاستعلام مطلوب'}), 400
     query = data['query'].strip()
     if not query:
-        return jsonify({'error': 'query cannot be empty'}), 400
-    # Translate if needed
+        return jsonify({'error': 'لا يمكن أن يكون الاستعلام فارغاً'}), 400
     if any('\u0600' <= c <= '\u06FF' for c in query):
         try:
             query = GoogleTranslator(source='auto', target='en').translate(query)
@@ -371,43 +538,26 @@ def ask_rag():
     results = [{"content": doc.page_content, "metadata": doc.metadata} for doc in docs]
     return jsonify({"query": query, "results": results})
 
+# ---------- الصحة والمعلومات ----------
 @app.route('/health', methods=['GET'])
 def health():
-    status = {
-        'status': 'ok' if client or LOCAL_MODEL_AVAILABLE else 'degraded',
-        'model': 'LLaMA 3 70B via Groq' if client else 'Local Model Fallback',
-        'client_initialized': client is not None,
-        'local_model_available': LOCAL_MODEL_AVAILABLE,
-        'rag_available': RAG_AVAILABLE
-    }
-    status_code = 200 if client or LOCAL_MODEL_AVAILABLE else 503
-    return jsonify(status), status_code
+    return jsonify({
+        "status": "ok" if (client or LOCAL_MODEL_AVAILABLE) else "degraded",
+        "message": "الخدمة تعمل",
+        "sessions": len(sessions),
+        "arabic_response": "مفعل"
+    }), 200 if (client or LOCAL_MODEL_AVAILABLE) else 503
 
 @app.route('/info', methods=['GET'])
 def info():
     return jsonify({
-        'name': 'Medical Triage AI API with RAG',
-        'version': '2.0',
-        'description': 'AI-powered medical symptom analysis enhanced with vector database retrieval',
-        'endpoints': [
-            {'path': '/predict', 'method': 'POST', 'description': 'Analyze symptoms (uses RAG if available)'},
-            {'path': '/chat', 'method': 'POST', 'description': 'Multi-turn conversation (uses RAG injection)'},
-            {'path': '/ask', 'method': 'POST', 'description': 'Direct retrieval from medical vector database'},
-            {'path': '/health', 'method': 'GET', 'description': 'Health check'},
-            {'path': '/info', 'method': 'GET', 'description': 'API information'}
-        ]
+        "name": "MediCare AI API with Session Memory & File Analysis",
+        "version": "5.1",
+        "description": "محادثة طبية مستمرة مع تحليل ملفات PDF والصور، بالكامل بالعربية",
+        "lang": "Arabic",
+        "endpoints": ["/chat (POST multipart)", "/predict (POST JSON)", "/analyze-report (POST file)", "/analyze-image (POST file)", "/ask (POST JSON)", "/health", "/info"]
     })
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'error': 'Endpoint not found'}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    logger.error(f"Internal server error: {error}", exc_info=True)
-    return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('API_PORT', 7860))
-    debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=port, debug=False)

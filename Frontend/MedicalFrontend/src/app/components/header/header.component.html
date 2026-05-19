@@ -45,14 +45,13 @@
                     </li>
                     <li>
                         <a routerLink="/chatbot" routerLinkActive="active" class="nav-link ai-link" (click)="closeMenu()">
-                            <img src="/assets/advertisement/icon1Ai.png" alt="Doctor Assistant" class="nav-icon-img" />
-                            {{ language.translate('doctorAssistant') }}
+                            <img src="/assets/advertisement/icon1Ai.png" alt="Doctor Assistant" class="nav-icon-img" /> {{ language.translate('doctorAssistant') }}
                             <span class="ai-badge">NEW</span>
                         </a>
                     </li>
                     <li class="lang-toggle-item">
                         <button type="button" class="lang-btn" (click)="language.toggleLanguage()" [attr.aria-label]="language.currentLanguage() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
-                            <span class="lang-flag">{{ language.currentLanguage() === 'en' ? 'Arabic' : 'English' }}</span>
+                            <span class="lang-flag">{{ language.currentLanguage() === 'en' ? 'Ar' : 'En' }}</span>
                         </button>
                     </li>
                 </ul>
@@ -92,24 +91,24 @@
 
     </div>
 
-        <!-- إعلان نصي متحرك -->
-        <div class="image-ticker-wrap">
-            <div class="image-ticker text-ticker">
-                <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
-                <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
-                <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
-                <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
-                <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
-                <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
-                <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
-                <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
-                <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
-                <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
-                <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
-                <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
-                <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
-                <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
-                <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
-            </div>
+    <!-- إعلان نصي متحرك -->
+    <div class="image-ticker-wrap">
+        <div class="image-ticker text-ticker">
+            <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
+            <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
+            <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
+            <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
+            <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
+            <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
+            <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
+            <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
+            <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
+            <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
+            <span class="ad-text">خصم 30% على الكشف لأول مرة!</span>
+            <span class="ad-text">خصم 20% على جميع التحاليل الطبية</span>
+            <span class="ad-text">استشارة مجانية مع كل كشف جديد</span>
+            <span class="ad-text">خصومات خاصة على علاج الأسنان</span>
+            <span class="ad-text">تابع عروضنا الجديدة كل أسبوع!</span>
         </div>
+    </div>
 </header>

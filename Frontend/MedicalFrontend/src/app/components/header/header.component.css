@@ -191,8 +191,8 @@
 }
 
 
-
 /* ── Text Ticker (Marquee) ── */
+
 .image-ticker-wrap {
     width: 100%;
     overflow: hidden;
@@ -211,7 +211,8 @@
     white-space: nowrap;
     width: max-content;
     animation: marquee 40s linear infinite;
-    direction: ltr; /* ← مهم جداً للنصوص العربية */
+    direction: ltr;
+    /* ← مهم جداً للنصوص العربية */
 }
 
 .ad-text {
@@ -221,14 +222,19 @@
     font-size: 0.95rem;
     margin: 0 48px 0 0;
     letter-spacing: 0.5px;
-    unicode-bidi: plaintext; /* ← يخلي العربي يتعرض صح */
+    unicode-bidi: plaintext;
+    /* ← يخلي العربي يتعرض صح */
 }
+
 @keyframes marquee {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* ← -50% مع تكرار مرتين */
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+    /* ← -50% مع تكرار مرتين */
 }
-
-
 
 .ai-link {
     color: #7c3aed;
@@ -573,11 +579,10 @@
     }
 }
 
-
 @media (max-width: 576px) {
-  .ticker-img-wrap {
-    width: 120px;
-    height: 50px;
-    margin-left: 8px;
-  }
+    .ticker-img-wrap {
+        width: 120px;
+        height: 50px;
+        margin-left: 8px;
+    }
 }
