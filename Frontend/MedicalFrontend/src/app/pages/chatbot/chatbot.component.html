@@ -9,30 +9,18 @@
             <div class="bot-info">
                 <h2>{{ language.translate('chatTitle') }}</h2>
                 <span class="bot-status-text">
-<<<<<<< HEAD
                     <i class="fas fa-circle"></i> {{ language.translate('chatSubtitle') }}
-=======
-                    <i class="fas fa-circle"></i> متصل وجاهز للمساعدة
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
                 </span>
             </div>
         </div>
         <div class="chat-header-right">
             <button class="clear-btn" (click)="clearChat()">
                 <i class="fas fa-plus"></i>
-<<<<<<< HEAD
                 <span>{{ language.translate('chatNewConversation') }}</span>
             </button>
             <a routerLink="/" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
                 <span>{{ language.translate('home') }}</span>
-=======
-                <span>محادثة جديدة</span>
-            </button>
-            <a routerLink="/" class="back-btn">
-                <i class="fas fa-arrow-left"></i>
-                <span>الرئيسية</span>
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
             </a>
         </div>
     </div>
@@ -71,7 +59,6 @@
                 <div class="msg-bubble bot-bubble welcome-bubble">
                     <div class="welcome-header">
                         <i class="fas fa-stethoscope"></i>
-<<<<<<< HEAD
                         <h3>{{ language.translate('chatWelcomeHello') }}</h3>
                     </div>
                     <p>{{ language.translate('chatWelcomeDesc') }}</p>
@@ -87,33 +74,11 @@
                         <!-- <button type="button" class="demo-pdf-btn" (click)="sendDemoLabReport()" [disabled]="isLoading()">
                             <i class="fas fa-file-pdf"></i> {{ language.translate('chatDemoPdfBtn') }}
                         </button> -->
-=======
-                        <h3>مرحباً! أنا MediCare AI</h3>
-                    </div>
-                    <p>يمكنني مساعدتك في تحليل الأعراض، وشرح التقارير الطبية، وتحليل الصور الطبية.</p>
-                    <div class="welcome-features">
-                        <div class="feature-item">
-                            <i class="fas fa-comments"></i>
-                            <span>محادثة طبية طبيعية</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>تحليل التقارير الطبية PDF</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-image"></i>
-                            <span>تحليل الصور الطبية</span>
-                        </div>
-                    </div>
-                    <div class="disclaimer">
-                        <i class="fas fa-info-circle"></i> هذا تقييم أولي فقط. استشر طبيباً دائماً.
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
                     </div>
                 </div>
                 } @else if (msg.text === 'error') {
                 <div class="msg-bubble bot-bubble error-bubble">
                     <i class="fas fa-exclamation-triangle"></i>
-<<<<<<< HEAD
                     <p>{{ language.translate('chatError') }}</p>
                 </div>
                 } @else {
@@ -154,44 +119,6 @@
                         }
                     </div>
                     } }
-=======
-                    <p>حدث خطأ. تحقق من الاتصال وحاول مرة أخرى.</p>
-                </div>
-                } @else {
-                <div class="msg-bubble bot-bubble chat-reply-bubble">
-                    <p class="reply-text">{{ msg.text }}</p>
-
-                    @if (msg.diagnosis) {
-                    <div class="inline-diagnosis">
-                        <div class="diag-header">
-                            <i class="fas fa-clipboard-check"></i>
-                            <span>التقييم الطبي الاسترشادي</span>
-                        </div>
-                        <div class="diag-body">
-                            <div class="diag-row">
-                                <span class="diag-label">التشخيص المتوقع</span>
-                                <span class="diag-value">{{ msg.diagnosis.diagnosis }}</span>
-                            </div>
-                            <div class="diag-row">
-                                <span class="diag-label">التخصص المطلوب</span>
-                                <span class="diag-value specialty-value">
-                                                    <i class="fas fa-user-md"></i> {{ msg.diagnosis.recommended_specialty }}
-                                                </span>
-                            </div>
-                            <div class="diag-row">
-                                <span class="diag-label">درجة الأولوية</span>
-                                <span class="diag-badge" [class]="getUrgencyColor(msg.diagnosis.urgency_level)">
-                                                    <i [class]="getUrgencyIcon(msg.diagnosis.urgency_level)"></i>
-                                                    {{ getUrgencyLabel(msg.diagnosis.urgency_level) }}
-                                                </span>
-                            </div>
-                        </div>
-                        <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.diagnosis.recommended_specialty}" class="book-specialist-btn">
-                            <i class="fas fa-calendar-check"></i> احجز موعداً مع طبيب {{ msg.diagnosis.recommended_specialty }}
-                        </a>
-                    </div>
-                    }
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
                     <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
                 }
@@ -203,28 +130,20 @@
         @if (messages().length
         <=1 ) { <div class="suggestions-section">
             <p class="suggestions-label">
-<<<<<<< HEAD
                 <i class="fas fa-magic"></i> {{ language.translate('chatTryExamples') }}
-=======
-                <i class="fas fa-magic"></i> جرب طرح الأسئلة التالية كمثال:
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
             </p>
             <div class="suggestions-grid">
                 @for (s of suggestions(); track s) {
                 <button class="suggestion-chip" (click)="sendMessage(s)">
-                            <i class="fas fa-comment-medical"></i>
-                            {{ s }}
-                        </button> }
+                    <i class="fas fa-comment-medical"></i>
+                    {{ s }}
+                </button> }
             </div>
     </div>
     }
 </div>
 
 <div class="chat-footer">
-<<<<<<< HEAD
-=======
-    <!-- معاينة الملفات المرفوعة -->
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
     @if (selectedFiles().length) {
     <div class="file-previews">
         @for (file of selectedFiles(); track $index) {
@@ -239,15 +158,9 @@
                 </div>
             </div>
             <div class="file-preview-actions">
-<<<<<<< HEAD
                 <button class="remove-file-btn" (click)="removeFile($index)" [title]="language.translate('back')">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-=======
-                <button class="remove-file-btn" (click)="removeFile($index)" title="إزالة الملف">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
             </div>
         </div>
         }
@@ -255,23 +168,14 @@
     }
 
     <div class="input-row">
-<<<<<<< HEAD
         <label class="upload-btn" [title]="language.translate('chatAttachTitle')">
-=======
-        <label class="upload-btn" title="إرفاق ملف طبي (PDF أو صورة)">
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
                 <i class="fas fa-paperclip"></i>
                 <input #fileInput type="file" accept=".pdf,image/*" multiple (change)="onFileSelected($event)" style="display:none">
             </label>
 
         <div class="input-container">
-<<<<<<< HEAD
             <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" [placeholder]="language.translate('chatUploadHint')" rows="1" class="chat-input"></textarea>
             <button class="send-btn" (click)="sendMessage()" [disabled]="(!inputText.trim() && selectedFiles().length === 0) || isLoading()" title="Send">
-=======
-            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="صف أعراضك بالتفصيل أو اطرح سؤالك الطبي هنا... (يمكنك إرفاق ملفات PDF أو صور)" rows="1" class="chat-input"></textarea>
-            <button class="send-btn" (click)="sendMessage()" [disabled]="(!inputText.trim() && selectedFiles().length === 0) || isLoading()" title="إرسال">
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
                     @if (isLoading()) {
                         <i class="fas fa-spinner fa-spin"></i>
                     } @else {
@@ -282,11 +186,7 @@
     </div>
 
     <p class="footer-note">
-<<<<<<< HEAD
         <i class="fas fa-shield-alt"></i> {{ language.translate('chatEmergencyFooter') }} <strong>123</strong>
-=======
-        <i class="fas fa-shield-alt"></i> في الحالات الطارئة والحرجة جداً، يرجى الاتصال بـ <strong>123</strong> فوراً.
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
     </p>
 </div>
 </div>

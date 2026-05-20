@@ -37,19 +37,11 @@ export interface ChatRequestDto {
 export interface ChatResponseDto {
   sessionId: string;             // الجلسة الحالية (قديمة أو جديدة)
   reply: string;                 // رد المساعد
-<<<<<<< HEAD
   diagnosis?: {
     diagnosis: string;
     recommended_specialty: string;
     urgency_level: 'critical' | 'moderate' | 'normal';
   } | null;
-=======
-  diagnosis: {
-    diagnosis: string;
-    recommended_specialty: string;
-    urgency_level: 'critical' | 'moderate' | 'normal';
-  };
->>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
 }
 
 /** تحليل تقرير PDF (نقطة /analyze-report) */
