@@ -60,6 +60,7 @@ export class BackButtonComponent {
     if (this.forceShow) return true;
     const url = this.router.url.split('?')[0];
     const hiddenRoutes = [
+      '/',
       '/login',
       '/signup',
       '/admin-dashboard',

@@ -4,7 +4,7 @@
     <div class="signup-left">
         <div class="left-inner">
             <a routerLink="/" class="back-home">
-                <i class="fas fa-arrow-left"></i> Back to Home
+                <i class="fas fa-arrow-left"></i> {{ language.translate('backToHome') }}
             </a>
 
             <div class="left-logo">
@@ -13,30 +13,30 @@
             </div>
 
             <div class="left-content">
-                <h1>Join MediCare</h1>
-                <p>Create your account and access world-class healthcare services.</p>
+                <h1>{{ language.translate('joinMediCare') }}</h1>
+                <p>{{ language.translate('createYourAccount') }}</p>
 
                 <!-- Steps Info -->
                 <div class="steps-info">
                     <div class="step-info" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1">
                         <div class="si-num">1</div>
                         <div class="si-text">
-                            <strong>Personal Info</strong>
-                            <span>Name, ID, Date of birth</span>
+                            <strong>{{ language.translate('personalInfo') }}</strong>
+                            <span>{{ language.translate('nameIdDob') }}</span>
                         </div>
                     </div>
                     <div class="step-info" [class.active]="currentStep() >= 2" [class.done]="currentStep() > 2">
                         <div class="si-num">2</div>
                         <div class="si-text">
-                            <strong>Account Setup</strong>
-                            <span>Email & password</span>
+                            <strong>{{ language.translate('accountSetupTitle') }}</strong>
+                            <span>{{ language.translate('emailAndPassword') }}</span>
                         </div>
                     </div>
                     <div class="step-info" [class.active]="currentStep() >= 3">
                         <div class="si-num">3</div>
                         <div class="si-text">
-                            <strong>Medical Info</strong>
-                            <span>Health details</span>
+                            <strong>{{ language.translate('medicalInfo') }}</strong>
+                            <span>{{ language.translate('healthDetails') }}</span>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
 
             <div class="left-note">
                 <i class="fas fa-lock"></i>
-                <p>Your data is encrypted and protected by our security systems.</p>
+                <p>{{ language.translate('dataEncrypted') }}</p>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <!-- Header -->
             <div class="form-header">
                 <div class="step-indicator">
-                    Step {{ currentStep() }} of {{ totalSteps }}
+                    {{ language.translate('stepInfo', { current: currentStep().toString(), total: totalSteps.toString() }) }}
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" [style.width.%]="getStepProgress()"></div>
@@ -73,50 +73,50 @@
             @if (currentStep() === 1) {
             <div class="step-content">
                 <div class="step-title">
-                    <h2>Personal Information</h2>
-                    <p>Tell us about yourself</p>
+                    <h2>{{ language.translate('personalInfo') }}</h2>
+                    <p>{{ language.translate('tellUsAboutYourself') }}</p>
                 </div>
 
                 <div class="form-row">
                     <div class="field-group">
-                        <label>First Name <span class="req">*</span></label>
+                        <label>{{ language.translate('firstName') }} <span class="req">*</span></label>
                         <div class="field-wrap">
                             <i class="fas fa-user field-icon"></i>
-                            <input type="text" [(ngModel)]="firstName" name="firstName" placeholder="John" required>
+                            <input type="text" [(ngModel)]="firstName" name="firstName" placeholder="{{ language.translate('firstNamePlaceholder') }}" required>
                         </div>
                     </div>
                     <div class="field-group">
-                        <label>Last Name <span class="req">*</span></label>
+                        <label>{{ language.translate('lastName') }} <span class="req">*</span></label>
                         <div class="field-wrap">
                             <i class="fas fa-user field-icon"></i>
-                            <input type="text" [(ngModel)]="lastName" name="lastName" placeholder="Doe" required>
+                            <input type="text" [(ngModel)]="lastName" name="lastName" placeholder="{{ language.translate('lastNamePlaceholder') }}" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>National ID <span class="req">*</span></label>
+                    <label>{{ language.translate('nationalID') }} <span class="req">*</span></label>
                     <div class="field-wrap">
                         <i class="fas fa-id-card field-icon"></i>
-                        <input type="text" [(ngModel)]="nationalID" name="nationalID" placeholder="14-digit national ID" maxlength="14" required>
+                        <input type="text" [(ngModel)]="nationalID" name="nationalID" placeholder="{{ language.translate('nationalIDPlaceholder') }}" maxlength="14" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="field-group">
-                        <label>Date of Birth <span class="req">*</span></label>
+                        <label>{{ language.translate('dateOfBirth') }} <span class="req">*</span></label>
                         <div class="field-wrap">
                             <i class="fas fa-calendar field-icon"></i>
                             <input type="date" [(ngModel)]="birthDate" name="birthDate" required>
                         </div>
                     </div>
                     <div class="field-group">
-                        <label>Gender <span class="req">*</span></label>
+                        <label>{{ language.translate('gender') }} <span class="req">*</span></label>
                         <div class="field-wrap">
                             <i class="fas fa-venus-mars field-icon"></i>
                             <select [(ngModel)]="gender" name="gender">
-                  <option [value]="0">Male</option>
-                  <option [value]="1">Female</option>
+                  <option [value]="0">{{ language.translate('male') }}</option>
+                  <option [value]="1">{{ language.translate('female') }}</option>
                 </select>
                         </div>
                     </div>
@@ -124,27 +124,27 @@
 
                 <div class="form-row">
                     <div class="field-group">
-                        <label>Phone Number</label>
+                        <label>{{ language.translate('phoneNumber') }}</label>
                         <div class="field-wrap">
                             <i class="fas fa-phone field-icon"></i>
                             <input type="tel" [(ngModel)]="phone" name="phone" placeholder="01xxxxxxxxx">
                         </div>
                     </div>
                     <div class="field-group">
-                        <label>Address</label>
+                        <label>{{ language.translate('address') }}</label>
                         <div class="field-wrap">
                             <i class="fas fa-map-marker-alt field-icon"></i>
-                            <input type="text" [(ngModel)]="address" name="address" placeholder="Cairo, Egypt">
+                            <input type="text" [(ngModel)]="address" name="address" placeholder="{{ language.translate('addressPlaceholder') }}">
                         </div>
                     </div>
                 </div>
 
                 <button type="button" class="next-btn" (click)="nextStep()">
-            Next Step <i class="fas fa-arrow-right"></i>
+            {{ language.translate('nextStep') }} <i class="fas fa-arrow-right"></i>
           </button>
 
                 <div class="signin-link">
-                    Already have an account? <a routerLink="/login">Sign in</a>
+                    {{ language.translate('alreadyHaveAccount') }} <a routerLink="/login">{{ language.translate('signInLink') }}</a>
                 </div>
             </div>
             }
@@ -153,59 +153,59 @@
             @if (currentStep() === 2) {
             <div class="step-content">
                 <div class="step-title">
-                    <h2>Account Setup</h2>
-                    <p>Create your login credentials</p>
+                    <h2>{{ language.translate('accountSetupTitle') }}</h2>
+                    <p>{{ language.translate('createLoginCredentials') }}</p>
                 </div>
 
                 <div class="field-group">
-                    <label>Email Address <span class="req">*</span></label>
+                    <label>{{ language.translate('emailLabel') }} <span class="req">*</span></label>
                     <div class="field-wrap">
                         <i class="fas fa-envelope field-icon"></i>
-                        <input type="email" [(ngModel)]="email" name="email" placeholder="your@email.com" autocomplete="email" required>
+                        <input type="email" [(ngModel)]="email" name="email" placeholder="{{ language.translate('emailPlaceholder') }}" autocomplete="email" required>
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>Password <span class="req">*</span></label>
+                    <label>{{ language.translate('passwordLabel') }} <span class="req">*</span></label>
                     <div class="field-wrap">
                         <i class="fas fa-lock field-icon"></i>
-                        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="Min 8 characters" required>
+                        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="{{ language.translate('passwordHint') }}" required>
                         <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
                 <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
                     </div>
                     <div class="password-hints">
                         <span [class.valid]="password.length >= 8">
-                <i class="fas fa-check"></i> 8+ characters
+                <i class="fas fa-check"></i> {{ language.translate('passwordRuleMin') }}
               </span>
                         <span [class.valid]="password.match('[A-Z]')">
-                <i class="fas fa-check"></i> Uppercase
+                <i class="fas fa-check"></i> {{ language.translate('passwordRuleUppercase') }}
               </span>
                         <span [class.valid]="password.match('[0-9]')">
-                <i class="fas fa-check"></i> Number
+                <i class="fas fa-check"></i> {{ language.translate('passwordRuleNumber') }}
               </span>
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>Confirm Password <span class="req">*</span></label>
+                    <label>{{ language.translate('confirmPassword') }} <span class="req">*</span></label>
                     <div class="field-wrap">
                         <i class="fas fa-lock field-icon"></i>
-                        <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Repeat password" required>
+                        <input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="{{ language.translate('repeatPassword') }}" required>
                         <button type="button" class="eye-btn" (click)="showConfirm = !showConfirm">
                 <i [class]="showConfirm ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
                     </div>
                     @if (confirmPassword && password !== confirmPassword) {
-                    <span class="field-error">Passwords do not match</span> }
+                    <span class="field-error">{{ language.translate('passwordsMismatch') }}</span> }
                 </div>
 
                 <div class="step-nav">
                     <button type="button" class="back-btn" (click)="prevStep()">
-              <i class="fas fa-arrow-left"></i> Back
+              <i class="fas fa-arrow-left"></i> {{ language.translate('back') }}
             </button>
                     <button type="button" class="next-btn" (click)="nextStep()">
-              Next Step <i class="fas fa-arrow-right"></i>
+              {{ language.translate('nextStep') }} <i class="fas fa-arrow-right"></i>
             </button>
                 </div>
             </div>
@@ -215,17 +215,17 @@
             @if (currentStep() === 3) {
             <div class="step-content">
                 <div class="step-title">
-                    <h2>Medical Information</h2>
-                    <p>Help us provide better care <span class="optional-tag">Optional</span></p>
+                    <h2>{{ language.translate('medicalInformation') }}</h2>
+                    <p>{{ language.translate('helpUsProvideBetterCare') }} <span class="optional-tag">{{ language.translate('optionalTag') }}</span></p>
                 </div>
 
                 <div class="form-row">
                     <div class="field-group">
-                        <label>Blood Type</label>
+                        <label>{{ language.translate('bloodType') }}</label>
                         <div class="field-wrap">
                             <i class="fas fa-tint field-icon"></i>
                             <select [(ngModel)]="bloodType" name="bloodType">
-                  <option value="">Select blood type</option>
+                  <option value="">{{ language.translate('selectBloodType') }}</option>
                   @for (bt of bloodTypes; track bt.value) {
                     <option [value]="bt.value">{{ bt.label }}</option>
                   }
@@ -233,55 +233,54 @@
                         </div>
                     </div>
                     <div class="field-group">
-                        <label>Emergency Contact Name</label>
+                        <label>{{ language.translate('emergencyContactName') }}</label>
                         <div class="field-wrap">
                             <i class="fas fa-user-friends field-icon"></i>
-                            <input type="text" [(ngModel)]="emergencyContactName" name="emergencyContactName" placeholder="Contact person name">
+                            <input type="text" [(ngModel)]="emergencyContactName" name="emergencyContactName" placeholder="{{ language.translate('contactPersonName') }}">
                         </div>
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>Emergency Contact Phone</label>
+                    <label>{{ language.translate('emergencyContactPhone') }}</label>
                     <div class="field-wrap">
                         <i class="fas fa-phone-alt field-icon"></i>
-                        <input type="tel" [(ngModel)]="emergencyContactPhone" name="emergencyContactPhone" placeholder="Emergency phone number">
+                        <input type="tel" [(ngModel)]="emergencyContactPhone" name="emergencyContactPhone" placeholder="{{ language.translate('emergencyPhoneNumber') }}">
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>Known Allergies</label>
+                    <label>{{ language.translate('knownAllergies') }}</label>
                     <div class="field-wrap textarea-wrap">
                         <i class="fas fa-allergies field-icon field-icon-top"></i>
-                        <textarea [(ngModel)]="allergies" name="allergies" rows="2" placeholder="e.g. Penicillin, Peanuts, Dust..."></textarea>
+                        <textarea [(ngModel)]="allergies" name="allergies" rows="2" placeholder="{{ language.translate('allergiesPlaceholder') }}"></textarea>
                     </div>
                 </div>
 
                 <div class="field-group">
-                    <label>Medical History</label>
+                    <label>{{ language.translate('medicalHistory') }}</label>
                     <div class="field-wrap textarea-wrap">
                         <i class="fas fa-notes-medical field-icon field-icon-top"></i>
-                        <textarea [(ngModel)]="medicalHistory" name="medicalHistory" rows="2" placeholder="e.g. Diabetes, Hypertension..."></textarea>
+                        <textarea [(ngModel)]="medicalHistory" name="medicalHistory" rows="2" placeholder="{{ language.translate('medicalHistoryPlaceholder') }}"></textarea>
                     </div>
                 </div>
 
                 <div class="terms-check">
                     <input type="checkbox" id="terms" [(ngModel)]="agreedToTerms" name="terms">
                     <label for="terms">
-              I agree to the <a href="#">Terms of Service</a> and
-              <a href="#">Privacy Policy</a>
+              {{ language.translate('termsAndPrivacy') }}
             </label>
                 </div>
 
                 <div class="step-nav">
                     <button type="button" class="back-btn" (click)="prevStep()">
-              <i class="fas fa-arrow-left"></i> Back
+              <i class="fas fa-arrow-left"></i> {{ language.translate('back') }}
             </button>
                     <button type="button" class="submit-btn" (click)="onSubmit()" [disabled]="isLoading">
               @if (isLoading) {
-                <i class="fas fa-spinner fa-spin"></i> Creating...
+                <i class="fas fa-spinner fa-spin"></i> {{ language.translate('creatingAccount') }}
               } @else {
-                <i class="fas fa-check"></i> Create Account
+                <i class="fas fa-check"></i> {{ language.translate('createAccount') }}
               }
             </button>
                 </div>

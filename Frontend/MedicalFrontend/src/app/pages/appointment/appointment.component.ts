@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 import { BackButtonComponent } from '../../components/back-button/back-button.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class AppointmentComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  public language = inject(LanguageService);
 
   // State
   currentStep = signal(1);

@@ -3,9 +3,7 @@
     "",
     "\\Backend",
     "\\Backend\\MedicalTriageSystem",
-    "\\Backend\\MedicalTriageSystem\\DataAccessLayer\\Repositories",
     "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem"
   ],
-  "SelectedNode": "\\Backend\\MedicalTriageSystem\\MedicalTriageSystem\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

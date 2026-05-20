@@ -25,6 +25,10 @@
     background: rgba(255, 255, 255, 0.98);
 }
 
+.header {
+    height: auto;
+}
+
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -137,9 +141,42 @@
     position: relative;
 }
 
-.nav-link i {
+.nav-link i,
+.nav-link .nav-icon-img {
     font-size: 0.85rem;
     opacity: 0.7;
+}
+
+.nav-link .nav-icon-img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.lang-toggle-item {
+    display: flex;
+    align-items: center;
+}
+
+.lang-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(26, 111, 196, 0.16);
+    background: white;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(26, 111, 196, 0.12);
 }
 
 .nav-link:hover {
@@ -154,7 +191,50 @@
 }
 
 
-/* ── AI Badge ── */
+/* ── Text Ticker (Marquee) ── */
+
+.image-ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: #e6f3ff;
+    border-top: 1px solid rgba(26, 111, 196, 0.15);
+    border-bottom: 1px solid rgba(26, 111, 196, 0.15);
+    padding: 10px 0;
+    height: 42px;
+    display: flex;
+    align-items: center;
+}
+
+.image-ticker.text-ticker {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+    direction: ltr;
+    /* ← مهم جداً للنصوص العربية */
+}
+
+.ad-text {
+    display: inline-block;
+    font-weight: bold;
+    color: #1a6fc4;
+    font-size: 0.95rem;
+    margin: 0 48px 0 0;
+    letter-spacing: 0.5px;
+    unicode-bidi: plaintext;
+    /* ← يخلي العربي يتعرض صح */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+    /* ← -50% مع تكرار مرتين */
+}
 
 .ai-link {
     color: #7c3aed;
@@ -496,5 +576,13 @@
     }
     .logo-tagline {
         display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .ticker-img-wrap {
+        width: 120px;
+        height: 50px;
+        margin-left: 8px;
     }
 }

@@ -11,24 +11,23 @@
     <div class="hero-container">
         <div class="hero-content">
             <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i> Trusted Healthcare Since 2010
+                <i class="fas fa-shield-alt"></i> {{ language.translate('trustedHealthcareSince') }}
             </div>
 
             <h1 class="hero-title">
-                Your Health, <br>
-                <span class="hero-accent">Our Priority</span>
+                {{ language.translate('yourHealthOurPriority') }}
             </h1>
 
             <p class="hero-desc">
-                Experience world-class medical care with our team of expert doctors, advanced technology, and compassionate service — all in one place.
+                {{ language.translate('experienceCareDescription') }}
             </p>
 
             <div class="hero-actions">
                 <a routerLink="/appointment" class="hero-btn-primary">
-                    <i class="fas fa-calendar-check"></i> Book Appointment
+                    <i class="fas fa-calendar-check"></i> {{ language.translate('bookAppointment') }}
                 </a>
                 <a routerLink="/chatbot" class="hero-btn-secondary">
-                    <i class="fas fa-robot"></i> AI Diagnosis
+                    <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:22px;height:22px;border-radius:50%;"> {{ language.translate('aiDiagnosis') }}
                 </a>
             </div>
 
@@ -57,8 +56,8 @@
                     <div class="hero-card-badge badge-1">
                         <i class="fas fa-check-circle"></i>
                         <div>
-                            <strong>Verified Doctors</strong>
-                            <span>All certified specialists</span>
+                            <strong>{{ language.translate('verifiedDoctors') }}</strong>
+                            <span>{{ language.translate('allCertifiedSpecialists') }}</span>
                         </div>
                     </div>
                     <!-- <div class="hero-card-badge badge-2">
@@ -106,10 +105,28 @@
 <div class="image-ticker-wrap">
   <div class="image-ticker" [style.animationPlayState]="tickerState" #ticker>
     <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
-      <img src="/assets/advertisement/ChatGPT%20Image%20May%2015%2C%202026%2C%2006_06_30%20PM.png" alt="Medicines Offer 20%" class="ticker-img">
+      <img src="/assets/advertisement/ChatGPT .png" alt="Medicines Offer 20%" class="ticker-img">
     </div>
     <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
-      <img src="/assets/advertisement/ChatGPT%20Image%20May%2015%2C%202026%2C%2006_06_44%20PM.png" alt="Medicines Offer 20%" class="ticker-img">
+      <img src="/assets/advertisement/ChatGPT Image .png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/Gemini_Generat.png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/Gemini_Generated_Image.png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/ChatGPT .png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/ChatGPT Image .png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/Gemini_Generat.png" alt="Medicines Offer 20%" class="ticker-img">
+    </div>
+    <div class="ticker-img-wrap" (mouseenter)="tickerState='paused'" (mouseleave)="tickerState='running'">
+      <img src="/assets/advertisement/Gemini_Generated_Image.png" alt="Medicines Offer 20%" class="ticker-img">
     </div>
   </div>
 </div>
@@ -117,21 +134,25 @@
 <section class="services-section">
     <div class="section-container">
         <div class="section-head">
-            <span class="section-label">What We Offer</span>
-            <h2 class="section-title">Our Specializations</h2>
-            <p class="section-sub">Comprehensive medical care across all major specialties</p>
+            <span class="section-label">{{ language.translate('whatWeOffer') }}</span>
+            <h2 class="section-title">{{ language.translate('ourSpecializations') }}</h2>
+            <p class="section-sub">{{ language.translate('comprehensiveCare') }}</p>
         </div>
 
         <div class="services-grid">
             @for (service of services; track service.title; let i = $index) {
             <div class="service-card" [style.--delay]="i * 80 + 'ms'">
                 <div class="service-icon-wrap" [style.background]="service.color + '15'">
-                    <i [class]="service.icon" [style.color]="service.color"></i>
+                    @if (service.title === 'AI Diagnosis') {
+                        <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:28px;height:28px;border-radius:50%;" />
+                    } @else {
+                        <i [class]="service.icon" [style.color]="service.color"></i>
+                    }
                 </div>
                 <h3>{{ service.title }}</h3>
                 <p>{{ service.desc }}</p>
                 <a routerLink="/departments" class="service-link">
-            Learn More <i class="fas fa-arrow-right"></i>
+            {{ language.translate('learnMore') }} <i class="fas fa-arrow-right"></i>
           </a>
             </div>
             }
@@ -146,9 +167,9 @@
     <div class="dept-bg-shape"></div>
     <div class="section-container">
         <div class="section-head">
-            <span class="section-label">Specialized Units</span>
-            <h2 class="section-title">Medical Departments</h2>
-            <p class="section-sub">World-class specialists across every discipline</p>
+            <span class="section-label">{{ language.translate('specializedUnits') }}</span>
+            <h2 class="section-title">{{ language.translate('medicalDepartments') }}</h2>
+            <p class="section-sub">{{ language.translate('worldClassSpecialists') }}</p>
         </div>
 
         @if (isLoadingDepts()) {
@@ -192,7 +213,7 @@
 
         <div class="section-cta">
             <a routerLink="/departments" class="btn-view-all">
-        View All Departments <i class="fas fa-arrow-right"></i>
+        {{ language.translate('viewAllDepartments') }} <i class="fas fa-arrow-right"></i>
       </a>
         </div>
     </div>
@@ -205,10 +226,10 @@
     <div class="section-container">
         <div class="why-grid">
             <div class="why-content">
-                <span class="section-label">Why MediCare?</span>
-                <h2 class="section-title left-align">Healthcare You Can Trust</h2>
+                <span class="section-label">{{ language.translate('whyMediCare') }}</span>
+                <h2 class="section-title left-align">{{ language.translate('healthcareYouCanTrust') }}</h2>
                 <p class="why-desc">
-                    We combine medical excellence with modern technology to deliver personalized care that puts patients first.
+                    {{ language.translate('weCombineDescription') }}
                 </p>
 
                 <div class="why-features">
@@ -217,17 +238,17 @@
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div>
-                            <h4>Expert Specialists</h4>
-                            <p>Board-certified doctors with years of experience</p>
+                            <h4>{{ language.translate('expertSpecialists') }}</h4>
+                            <p>{{ language.translate('boardCertifiedDoctors') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">
                         <div class="why-icon">
-                            <i class="fas fa-robot"></i>
+                            <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:22px;height:22px;border-radius:50%;">
                         </div>
                         <div>
-                            <h4>AI-Powered Diagnosis</h4>
-                            <p>Smart symptom checker for preliminary assessment</p>
+                            <h4>{{ language.translate('aiPoweredDiagnosis') }}</h4>
+                            <p>{{ language.translate('smartSymptomChecker') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">
@@ -235,8 +256,8 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div>
-                            <h4>Easy Booking</h4>
-                            <p>Schedule appointments online in minutes</p>
+                            <h4>{{ language.translate('easyBooking') }}</h4>
+                            <p>{{ language.translate('scheduleAppointmentsOnline') }}</p>
                         </div>
                     </div>
                     <div class="why-feature">
@@ -344,17 +365,17 @@
 ══════════════════════════════ -->
 <section class="ai-section">
     <div class="section-container">
-        <div class="ai-card">
+            <div class="ai-card">
             <div class="ai-content">
                 <div class="ai-icon-big">
-                    <i class="fas fa-robot"></i>
+                    <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:50px;height:50px;border-radius:50%;">
                 </div>
                 <div class="ai-text">
                     <h2>Try Our AI Diagnosis Assistant</h2>
                     <p>Describe your symptoms and get instant preliminary assessment with specialist recommendations</p>
                 </div>
                 <a routerLink="/chatbot" class="ai-cta-btn">
-                    <i class="fas fa-robot"></i> Try AI Now
+                    <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:22px;height:22px;border-radius:50%;"> Try AI Now
                 </a>
             </div>
             <div class="ai-shapes">

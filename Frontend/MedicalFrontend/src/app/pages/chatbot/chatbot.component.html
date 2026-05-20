@@ -1,57 +1,47 @@
 <div class="chatbot-page">
 
-    <!-- Header -->
     <div class="chat-header">
         <div class="chat-header-left">
             <div class="bot-avatar">
-                <i class="fas fa-robot"></i>
+                <img src="/assets/advertisement/icon1Ai.png" alt="Doctor Assistant" />
                 <div class="bot-status"></div>
             </div>
             <div class="bot-info">
-                <h2>MediCare AI Assistant</h2>
+                <h2>{{ language.translate('chatTitle') }}</h2>
                 <span class="bot-status-text">
-                    <i class="fas fa-circle"></i> Online & Ready
+                    <i class="fas fa-circle"></i> {{ language.translate('chatSubtitle') }}
                 </span>
             </div>
         </div>
         <div class="chat-header-right">
-            <button class="clear-btn" (click)="clearChat()" title="Clear chat">
-                <i class="fas fa-trash-alt"></i>
-                <span>Clear</span>
+            <button class="clear-btn" (click)="clearChat()">
+                <i class="fas fa-plus"></i>
+                <span>{{ language.translate('chatNewConversation') }}</span>
             </button>
             <a routerLink="/" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
-                <span>Home</span>
+                <span>{{ language.translate('home') }}</span>
             </a>
         </div>
     </div>
 
-    <!-- Chat Body -->
     <div class="chat-body">
-
-        <!-- Messages -->
         <div class="messages-container">
 
-            @for (msg of messages(); track msg.id) {
-
-            <!-- User Message -->
-            @if (msg.type === 'user') {
+            @for (msg of messages(); track msg.id) { @if (msg.type === 'user') {
             <div class="message-row user-row">
+                <div class="user-avatar-sm">
+                    <i class="fas fa-user"></i>
+                </div>
                 <div class="msg-bubble user-bubble">
                     <p>{{ msg.text }}</p>
                     <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
-                <div class="user-avatar-sm">
-                    <i class="fas fa-user"></i>
-                </div>
             </div>
-            }
-
-            <!-- Loading -->
-            @if (msg.type === 'loading') {
+            } @if (msg.type === 'loading') {
             <div class="message-row bot-row">
                 <div class="bot-avatar-sm">
-                    <i class="fas fa-robot"></i>
+                    <img src="/assets/advertisement/icon1Ai.png" alt="Bot" />
                 </div>
                 <div class="msg-bubble bot-bubble loading-bubble">
                     <div class="typing-dots">
@@ -59,108 +49,91 @@
                     </div>
                 </div>
             </div>
-            }
-
-            <!-- Bot Message -->
-            @if (msg.type === 'bot') {
+            } @if (msg.type === 'bot') {
             <div class="message-row bot-row">
                 <div class="bot-avatar-sm">
-                    <i class="fas fa-robot"></i>
+                    <img src="/assets/advertisement/icon1Ai.png" alt="Bot" />
                 </div>
 
-                <!-- Welcome -->
                 @if (msg.text === 'welcome') {
                 <div class="msg-bubble bot-bubble welcome-bubble">
                     <div class="welcome-header">
                         <i class="fas fa-stethoscope"></i>
-                        <h3>Hello! I'm MediCare AI</h3>
+                        <h3>{{ language.translate('chatWelcomeHello') }}</h3>
                     </div>
-                    <p>
-                        I can help you assess your symptoms and suggest the right specialist.
-                        <strong>Describe your symptoms</strong> in detail for the best results.
-                    </p>
-                    <div class="disclaimer">
-                        <i class="fas fa-info-circle"></i> This is for preliminary guidance only. Always consult a real doctor.
+                    <p>{{ language.translate('chatWelcomeDesc') }}</p>
+                    <div class="welcome-features">
+                        <div class="feature-item"><i class="fas fa-comments"></i><span>{{ language.translate('chatNaturalTalk') }}</span></div>
+                        <div class="feature-item"><i class="fas fa-file-medical"></i><span>{{ language.translate('chatImageAnalysis') }}</span></div>
+                        <div class="feature-item"><i class="fas fa-house-medical"></i><span>{{ language.translate('chatHomeCare') }}</span></div>
+                    </div>
+                    <div class="welcome-actions">
+                        <button type="button" class="start-interview-btn" (click)="sendMessage(language.translate('chatStartMessage'))">
+                            <i class="fas fa-play"></i> {{ language.translate('chatStartBtn') }}
+                        </button>
+                        <!-- <button type="button" class="demo-pdf-btn" (click)="sendDemoLabReport()" [disabled]="isLoading()">
+                            <i class="fas fa-file-pdf"></i> {{ language.translate('chatDemoPdfBtn') }}
+                        </button> -->
                     </div>
                 </div>
-                }
-
-                <!-- Error -->
-                @if (msg.text === 'error') {
+                } @else if (msg.text === 'error') {
                 <div class="msg-bubble bot-bubble error-bubble">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <p>Sorry, I couldn't process your request. Please check your connection or try again.</p>
+                    <p>{{ language.translate('chatError') }}</p>
                 </div>
-                }
+                } @else {
+                <div class="msg-bubble bot-bubble chat-reply-bubble">
+                    <p class="reply-text" [innerHTML]="formatReply(msg.text)"></p>
 
-
-                <!-- AI Result -->
-                @if (msg.result) {
-                <div class="msg-bubble bot-bubble result-bubble">
-
-                    <!-- Header -->
-                    <div class="result-header">
-                        <div class="specialty-badge">
-                            <i class="fas fa-user-md"></i>
-                            <span>{{ msg.result.recommended_specialty }}</span>
+                    @if (msg.diagnosis; as diag) { @if (hasAssessment(diag)) {
+                    <div class="inline-diagnosis">
+                        <div class="diag-header">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>{{ language.translate('chatAssessment') }}</span>
                         </div>
-                        <span class="result-time">{{ msg.time | date:'hh:mm a' }}</span>
-                    </div>
-
-                    <!-- Urgency -->
-                    <div class="urgency-bar" [class]="getUrgencyColor(msg.result.urgency_level)">
-                        <i [class]="getUrgencyIcon(msg.result.urgency_level)"></i>
-                        <span>{{ msg.result.urgency_message }}</span>
-
-
-                    </div>
-
-                    <!-- Diagnosis -->
-                    <div class="result-section">
-                        <div class="rs-label">
-                            <i class="fas fa-clipboard-list"></i> Diagnosis
-                        </div>
-                        <div class="rs-content">{{ msg.result.diagnosis }}</div>
-                    </div>
-
-                    <!-- Tips -->
-                    @if (msg.result.tips && msg.result.tips.length > 0) {
-                    <div class="result-section">
-                        <div class="rs-label">
-                            <i class="fas fa-lightbulb"></i> نصائح
-                        </div>
-                        <ul class="tips-list">
-                            @for (tip of msg.result.tips; track $index) {
-                            <li>
-                                <i class="fas fa-check-circle"></i> {{ tip }}
-                            </li>
+                        <div class="diag-body">
+                            <div class="diag-row">
+                                <span class="diag-label">{{ language.translate('chatExpectedDiagnosis') }}</span>
+                                <span class="diag-value">{{ diag.diagnosis }}</span>
+                            </div>
+                            @if (diag.recommended_specialty) {
+                            <div class="diag-row">
+                                <span class="diag-label">{{ language.translate('chatSpecialty') }}</span>
+                                <span class="diag-value specialty-value">
+                                    <i class="fas fa-user-md"></i> {{ diag.recommended_specialty }}
+                                </span>
+                            </div>
                             }
-                        </ul>
+                            <div class="diag-row">
+                                <span class="diag-label">{{ language.translate('chatPriority') }}</span>
+                                <span class="diag-badge" [class]="getUrgencyColor(diag.urgency_level)">
+                                    <i [class]="getUrgencyIcon(diag.urgency_level)"></i>
+                                    {{ getUrgencyLabel(diag.urgency_level) }}
+                                </span>
+                            </div>
+                        </div>
+                        @if (shouldShowDoctorReferral(diag.urgency_level)) {
+                        <a [routerLink]="['/appointment']" [queryParams]="{specialty: diag.recommended_specialty}" class="book-specialist-btn">
+                            <i class="fas fa-calendar-check"></i> {{ language.translate('chatBookUrgent') }}
+                        </a>
+                        }
                     </div>
-                    }
-
-                    <!-- Book Button -->
-                    <a [routerLink]="['/appointment']" [queryParams]="{specialty: msg.result.recommended_specialty}" class="book-specialist-btn">
-                        <i class="fas fa-calendar-check"></i> Book a {{ msg.result.recommended_specialty }} Specialist
-                    </a>
-
+                    } }
+                    <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
                 }
-
             </div>
             } }
-
             <div #messagesEnd></div>
         </div>
 
-        <!-- Suggestions -->
         @if (messages().length
         <=1 ) { <div class="suggestions-section">
             <p class="suggestions-label">
-                <i class="fas fa-magic"></i> Try asking about:
+                <i class="fas fa-magic"></i> {{ language.translate('chatTryExamples') }}
             </p>
             <div class="suggestions-grid">
-                @for (s of suggestions; track s) {
+                @for (s of suggestions(); track s) {
                 <button class="suggestion-chip" (click)="sendMessage(s)">
                     <i class="fas fa-comment-medical"></i>
                     {{ s }}
@@ -168,25 +141,52 @@
             </div>
     </div>
     }
-
 </div>
 
-<!-- Input Area -->
 <div class="chat-footer">
-    <div class="input-container">
-        <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" placeholder="Describe your symptoms here... (Press Enter to send)" rows="1" class="chat-input">
-      </textarea>
-        <button class="send-btn" (click)="sendMessage()" [disabled]="!inputText.trim() || isLoading()">
-            @if (isLoading()) {
-            <i class="fas fa-spinner fa-spin"></i>
-            } @else {
-            <i class="fas fa-paper-plane"></i>
-            }
-        </button>
+    @if (selectedFiles().length) {
+    <div class="file-previews">
+        @for (file of selectedFiles(); track $index) {
+        <div class="file-preview">
+            <div class="file-preview-info">
+                <div class="file-icon-wrapper" [class.pdf-theme]="file.type === 'application/pdf'" [class.image-theme]="file.type.startsWith('image/')">
+                    <i [class]="file.type === 'application/pdf' ? 'fas fa-file-pdf' : 'fas fa-image'"></i>
+                </div>
+                <div class="file-meta">
+                    <span class="file-title">{{ file.name }}</span>
+                    <span class="file-size">{{ (file.size / 1024).toFixed(1) }} KB</span>
+                </div>
+            </div>
+            <div class="file-preview-actions">
+                <button class="remove-file-btn" (click)="removeFile($index)" [title]="language.translate('back')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+            </div>
+        </div>
+        }
     </div>
+    }
+
+    <div class="input-row">
+        <label class="upload-btn" [title]="language.translate('chatAttachTitle')">
+                <i class="fas fa-paperclip"></i>
+                <input #fileInput type="file" accept=".pdf,image/*" multiple (change)="onFileSelected($event)" style="display:none">
+            </label>
+
+        <div class="input-container">
+            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" [placeholder]="language.translate('chatUploadHint')" rows="1" class="chat-input"></textarea>
+            <button class="send-btn" (click)="sendMessage()" [disabled]="(!inputText.trim() && selectedFiles().length === 0) || isLoading()" title="Send">
+                    @if (isLoading()) {
+                        <i class="fas fa-spinner fa-spin"></i>
+                    } @else {
+                        <i class="fas fa-paper-plane"></i>
+                    }
+                </button>
+        </div>
+    </div>
+
     <p class="footer-note">
-        <i class="fas fa-shield-alt"></i> For emergency situations, call <strong>123</strong> immediately.
+        <i class="fas fa-shield-alt"></i> {{ language.translate('chatEmergencyFooter') }} <strong>123</strong>
     </p>
 </div>
-
 </div>

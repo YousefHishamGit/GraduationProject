@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -17,6 +19,7 @@ export class PatientDashboardComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private authService = inject(AuthService);
   private router = inject(Router);
+  public language = inject(LanguageService);
 
   activeTab = signal('overview');
   patient = signal<any>(null);
@@ -258,4 +261,23 @@ export class PatientDashboardComponent implements OnInit {
   getStars(rating: number) {
     return Array(5).fill(0).map((_, i) => i < Math.round(rating) ? 1 : 0);
   }
-}
+
+  getFileUrl(path: string): string {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    const baseUrl = environment.apiUrl.replace('/api', '');
+    return `${baseUrl}${path}`;
+  }
+
+  deleteRecord(id: number) {
+    if (!confirm('Are you sure you want to delete this medical record?')) return;
+    this.endpoint.medicalRecords.delete(id).subscribe({
+      next: () => {
+        this.medicalRecords.update(records => records.filter(r => r.id !== id));
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to delete medical record.');
+      }
+    });
+  }
+}

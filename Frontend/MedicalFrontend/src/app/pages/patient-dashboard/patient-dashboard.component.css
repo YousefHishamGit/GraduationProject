@@ -245,6 +245,122 @@
     }
 }
 
+/* ── Text Ticker ── */
+.text-ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 0;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.pharmacy-ticker {
+    background: linear-gradient(135deg, #1a6fc4, #0d47a1);
+}
+
+.lab-ticker {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.text-ticker {
+    display: flex;
+    width: max-content;
+    animation: moveLeft 18s linear infinite;
+}
+
+.text-ticker span {
+    padding: 14px 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    direction: rtl;
+    padding-right: 40px;
+}
+
+.image-ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.image-ticker {
+    display: flex;
+    width: max-content;
+    animation: moveLeft 12s linear infinite;
+}
+
+.ticker-img-wrap {
+    flex: 0 0 auto;
+    width: 338.29px;
+    height: 326.48px;
+    margin-left: 24px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8faff;
+}
+
+.ticker-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.image-ticker:hover {
+    /* keep the ticker moving even on hover */
+}
+
+@media (max-width: 768px) {
+    .ticker-img-wrap {
+        width: 260px;
+        height: 200px;
+        margin-left: 16px;
+    }
+
+    .image-ticker-wrap {
+        padding: 12px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .ticker-img-wrap {
+        width: 220px;
+        height: 160px;
+        margin-left: 12px;
+    }
+}
+
+@keyframes moveLeft {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.img-1 { animation-delay: 0s; }
+.img-2 { animation-delay: 3s; }
+.img-3 { animation-delay: 6s; }
+
+@keyframes fadeAd {
+    0%   { opacity: 0; }
+    5%   { opacity: 1; }
+    30%  { opacity: 1; }
+    35%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .pharmacy-ad-banner {
+        height: 200px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .pharmacy-ad-banner {
+        height: 160px;
+        max-width: 100%;
+    }
+}
 
 /* ── Topbar ── */
 

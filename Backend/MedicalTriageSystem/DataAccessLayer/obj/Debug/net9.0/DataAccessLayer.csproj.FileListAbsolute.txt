@@ -24,3 +24,16 @@ D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\refint\DataAccessLayer.dll
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.pdb
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\ref\DataAccessLayer.dll
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.deps.json
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.dll
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\bin\Debug\net9.0\DataAccessLayer.pdb
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.AssemblyInfo.cs
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.sourcelink.json
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.dll
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\refint\DataAccessLayer.dll
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\DataAccessLayer.pdb
+C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\DataAccessLayer\obj\Debug\net9.0\ref\DataAccessLayer.dll

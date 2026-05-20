@@ -75,6 +75,51 @@ namespace BusinessLogicLayer.Services.Implementation
             var updated = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
             return _mapper.Map<MedicalRecordResponseDto>(updated);
         }
+
+        public async Task<MedicalRecordResponseDto?> UploadAttachmentAsync(int id, string filePath)
+        {
+            var record = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
+            if (record == null) return null;
+
+            record.AttachedFilePath = filePath;
+            _unitOfWork.MedicalRecords.Update(record);
+            await _unitOfWork.SaveChangesAsync();
+
+            var updated = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
+            return _mapper.Map<MedicalRecordResponseDto>(updated);
+        }
+
+        public async Task<MedicalRecordResponseDto?> DeleteAttachmentAsync(int id)
+        {
+            var record = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
+            if (record == null) return null;
+
+            record.AttachedFilePath = null;
+            _unitOfWork.MedicalRecords.Update(record);
+            await _unitOfWork.SaveChangesAsync();
+
+            var updated = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
+            return _mapper.Map<MedicalRecordResponseDto>(updated);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var record = await _unitOfWork.MedicalRecords.GetByIdAsync(id);
+            if (record == null) return false;
+
+            if (!string.IsNullOrEmpty(record.AttachedFilePath))
+            {
+                var physicalPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", record.AttachedFilePath.TrimStart('/'));
+                if (System.IO.File.Exists(physicalPath))
+                {
+                    System.IO.File.Delete(physicalPath);
+                }
+            }
+
+            _unitOfWork.MedicalRecords.Delete(record);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
     }
 }
 

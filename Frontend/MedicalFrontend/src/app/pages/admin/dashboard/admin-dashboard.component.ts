@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../../services/endpoints';
 import { AuthService } from '../../../services/auth.service';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -16,6 +17,7 @@ export class AdminDashboardComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private authService = inject(AuthService);
   private router = inject(Router);
+  public language = inject(LanguageService);
 
   activeTab = signal('dashboard');
   sidebarOpen = signal(false);

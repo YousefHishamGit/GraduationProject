@@ -11,6 +11,9 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<IEnumerable<MedicalRecordResponseDto>> GetByPatientIdAsync(int patientId);
         Task<MedicalRecordResponseDto> CreateAsync(CreateMedicalRecordDto dto);
         Task<MedicalRecordResponseDto?> UpdateAsync(int id, UpdateMedicalRecordDto dto);
+        Task<MedicalRecordResponseDto?> UploadAttachmentAsync(int id, string filePath);
+        Task<MedicalRecordResponseDto?> DeleteAttachmentAsync(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }
 

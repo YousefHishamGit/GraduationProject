@@ -1,286 +1,386 @@
-<!-- Page Title -->
-<div class="page-hero">
-    <div class="page-hero-bg">
-        <div class="ph-shape-1"></div>
-        <div class="ph-shape-2"></div>
+<!-- ══ PAGE HERO ══ -->
+<section class="page-hero">
+  <div class="ph-blob ph-blob-1"></div>
+  <div class="ph-blob ph-blob-2"></div>
+  <div class="ph-blob ph-blob-3"></div>
+  <div class="page-hero-content">
+    <div class="ph-badge">
+      <i class="fas fa-user-md"></i>
+      Our Specialized Medical Team
     </div>
-    <div class="page-hero-content">
-        <span class="page-label">Our Medical Team</span>
-        <h1>Find Your Doctor</h1>
-        <p>Browse our team of certified specialists and book your appointment today</p>
+    <h1>Meet Our <em>Expert</em> Doctors</h1>
+    <p>A hand-picked roster of top-tier specialists with years of experience delivering exceptional healthcare</p>
+    <div class="ph-stats">
+      <div class="ph-stat"><strong>120+</strong><span>Specialists</span></div>
+      <div class="ph-stat"><strong>35+</strong><span>Specialties</span></div>
+      <div class="ph-stat"><strong>98%</strong><span>Patient Satisfaction</span></div>
+      <div class="ph-stat"><strong>50K+</strong><span>Cases Treated</span></div>
     </div>
-</div>
-
-<!-- Search & Filter -->
-<section class="filter-section">
-    <div class="filter-container">
-
-        <!-- Search -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Search by name or specialty..."> @if (searchTerm()) {
-            <button class="clear-search" (click)="searchTerm.set('')">
-          <i class="fas fa-times"></i>
-        </button> }
-        </div>
-
-        <!-- Filters -->
-        <div class="filters-row">
-            <select [ngModel]="selectedDept()" (ngModelChange)="selectedDept.set($event)" class="filter-select">
-                <option value="">All Departments</option>
-                @for (dept of departments(); track dept.id) {
-                  <option [value]="dept.departmentName">{{ dept.departmentName }}</option>
-                }
-            </select>
-
-            @if (searchTerm() || selectedDept()) {
-            <button class="clear-btn" (click)="clearFilters()">
-              <i class="fas fa-times"></i> Clear
-            </button> }
-        </div>
-
-        <!-- Results Count -->
-        <div class="results-count">
-            <span>
-        Showing <strong>{{ filteredDoctors().length }}</strong> of
-        <strong>{{ allDoctors().length }}</strong> doctors
-      </span>
-        </div>
-
-    </div>
+  </div>
 </section>
 
-<!-- Doctors Grid -->
-<section class="doctors-main">
-    <div class="doctors-container">
-
-        @if (isLoading()) {
-        <div class="skeleton-grid">
-            @for (item of [1,2,3,4,5,6]; track item) {
-            <div class="skeleton-card">
-                <div class="sk-img"></div>
-                <div class="sk-body">
-                    <div class="sk-line sk-lg"></div>
-                    <div class="sk-line sk-sm"></div>
-                    <div class="sk-line sk-md"></div>
-                </div>
-            </div>
-            }
-        </div>
-        } @else if (filteredDoctors().length > 0) {
-        <div class="doctors-grid">
-            @for (doc of filteredDoctors(); track doc.id; let i = $index) {
-            <div class="doctor-card" [style.--delay]="i * 60 + 'ms'" (click)="openDoctor(doc)">
-
-                <!-- Image -->
-                <div class="doc-img-wrap">
-                    @if (doc.imgPath) {
-                    <img [src]="doc.imgPath" [alt]="doc.fullName" loading="lazy"> } @else {
-                    <div class="doc-initials">{{ getInitials(doc.fullName) }}</div>
-                    }
-                    <div class="doc-status" [class.active]="doc.status === 'Active'">
-                        {{ doc.status === 'Active' ? 'Available' : doc.status }}
-                    </div>
-                </div>
-
-                <!-- Info -->
-                <div class="doc-body">
-                    <h3>{{ doc.fullName }}</h3>
-                    <span class="doc-spec">{{ doc.specialization }}</span>
-
-                    <div class="doc-tags">
-                        <span class="doc-tag">
-                  <i class="fas fa-building"></i> {{ doc.departmentName }}
-                </span>
-                        <span class="doc-tag">
-                  <i class="fas fa-clock"></i> {{ doc.yearsOfExperience }}+ yrs
-                </span>
-                    </div>
-
-                    <div class="doc-footer">
-                        <span class="doc-fee">
-                  <i class="fas fa-dollar-sign"></i>
-                  {{ doc.consultationFee }} EGP
-                </span>
-                        <button class="doc-book-btn">
-                  Book Now <i class="fas fa-arrow-right"></i>
-                </button>
-                    </div>
-                </div>
-
-            </div>
-            }
-        </div>
-        } @else {
-        <div class="no-results">
-            <div class="no-results-icon">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <h3>No Doctors Found</h3>
-            <p>Try adjusting your search or filters</p>
-            <button class="clear-filters-btn" (click)="clearFilters()">
-          Clear All Filters
-        </button>
-        </div>
-        }
-
+<!-- ══ SPONSOR TICKER ══ -->
+<div class="sponsor-bar">
+  <div class="sponsor-bar-inner">
+    <div class="sponsor-label">
+      <i class="fas fa-star"></i>
+      Trusted Sponsors
     </div>
-</section>
-
-<!-- Doctor Modal -->
-@if (showModal()) {
-<div class="modal-backdrop" (click)="closeModal()">
-    <div class="doctor-modal" (click)="$event.stopPropagation()">
-
-        <!-- Modal Header -->
-        <div class="modal-head">
-            <button class="modal-close" (click)="closeModal()">
-          <i class="fas fa-times"></i>
-        </button>
-        </div>
-
-        @if (selectedDoctor(); as doc) {
-
-        <!-- Doctor Profile -->
-        <div class="modal-profile">
-            <div class="modal-img">
-                @if (doc.imgPath) {
-                <img [src]="doc.imgPath" [alt]="doc.fullName"> } @else {
-                <div class="modal-initials">{{ getInitials(doc.fullName) }}</div>
-                }
-            </div>
-            <div class="modal-info">
-                <h2>{{ doc.fullName }}</h2>
-                <p class="modal-spec">{{ doc.specialization }}</p>
-                <div class="modal-meta">
-                    <span><i class="fas fa-building"></i> {{ doc.departmentName }}</span>
-                    <span><i class="fas fa-clock"></i> {{ doc.yearsOfExperience }}+ years</span>
-                    <span><i class="fas fa-dollar-sign"></i> {{ doc.consultationFee }} EGP</span>
-                </div>
-                @if (rating() > 0) {
-                <div class="modal-rating">
-                    @for (star of getStars(rating()); track $index) {
-                    <i class="fas fa-star" [class.filled]="star === 1"></i> }
-                    <span>{{ rating() }} ({{ reviews().length }} reviews)</span>
-                </div>
-                }
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="modal-tabs">
-            <button class="modal-tab" [class.active]="modalTab() === 'info'" (click)="modalTab.set('info')">
-            <i class="fas fa-info-circle"></i> Info
-          </button>
-            <button class="modal-tab" [class.active]="modalTab() === 'slots'" (click)="modalTab.set('slots')">
-            <i class="fas fa-calendar"></i> Time Slots
-            @if (timeSlots().length > 0) {
-              <span class="tab-badge">{{ timeSlots().length }}</span>
-            }
-          </button>
-            <button class="modal-tab" [class.active]="modalTab() === 'reviews'" (click)="modalTab.set('reviews')">
-            <i class="fas fa-star"></i> Reviews
-            @if (reviews().length > 0) {
-              <span class="tab-badge">{{ reviews().length }}</span>
-            }
-          </button>
-        </div>
-
-        <!-- Tab Content -->
-        <div class="modal-tab-content">
-
-            <!-- Info Tab -->
-            @if (modalTab() === 'info') {
-            <div class="tab-pane">
-                @if (doc.bio) {
-                <div class="info-section">
-                    <h4><i class="fas fa-user"></i> About</h4>
-                    <p>{{ doc.bio }}</p>
-                </div>
-                }
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">License</span>
-                        <span class="info-value">{{ doc.licenseNumber }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Status</span>
-                        <span class="info-value status-badge">{{ doc.status }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Experience</span>
-                        <span class="info-value">{{ doc.yearsOfExperience }}+ Years</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Consultation</span>
-                        <span class="info-value">{{ doc.consultationFee }} EGP</span>
-                    </div>
-                </div>
-                <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doc.id}" class="book-full-btn" (click)="closeModal()">
-                    <i class="fas fa-calendar-check"></i> Book Appointment
-                </a>
-            </div>
-            }
-
-            <!-- Slots Tab -->
-            @if (modalTab() === 'slots') {
-            <div class="tab-pane">
-                @if (timeSlots().length > 0) {
-                <div class="slots-grid">
-                    @for (slot of timeSlots(); track slot.id) {
-                    <a [routerLink]="['/appointment']" [queryParams]="{doctorId: doc.id, slotId: slot.id}" class="slot-item" (click)="closeModal()">
-                        <div class="slot-date">{{ formatDate(slot.slotStart) }}</div>
-                        <div class="slot-time">{{ formatTime(slot.slotStart) }}</div>
-                        <span class="slot-available">Available</span>
-                    </a>
-                    }
-                </div>
-                } @else {
-                <div class="empty-tab">
-                    <i class="fas fa-calendar-times"></i>
-                    <p>No available slots right now</p>
-                </div>
-                }
-            </div>
-            }
-
-            <!-- Reviews Tab -->
-            @if (modalTab() === 'reviews') {
-            <div class="tab-pane">
-                @if (reviews().length > 0) {
-                <div class="reviews-list">
-                    @for (review of reviews(); track review.id) {
-                    <div class="review-item">
-                        <div class="review-head">
-                            <div class="reviewer-avatar">
-                                {{ review.patientName.charAt(0) }}
-                            </div>
-                            <div>
-                                <strong>{{ review.patientName }}</strong>
-                                <div class="review-stars">
-                                    @for (star of getStars(review.rating); track $index) {
-                                    <i class="fas fa-star" [class.filled]="star === 1"></i> }
-                                </div>
-                            </div>
-                        </div>
-                        @if (review.comment) {
-                        <p class="review-text">{{ review.comment }}</p>
-                        }
-                    </div>
-                    }
-                </div>
-                } @else {
-                <div class="empty-tab">
-                    <i class="fas fa-star"></i>
-                    <p>No reviews yet</p>
-                </div>
-                }
-            </div>
-            }
-
-        </div>
-
-        }
+    <div class="ticker-outer">
+      <div class="ticker-track">
+        <div class="sponsor-item"><i class="fas fa-pills"></i> PharmaCare</div>
+        <div class="sponsor-item"><i class="fas fa-hospital"></i> MedTech Labs</div>
+        <div class="sponsor-item"><i class="fas fa-microscope"></i> BioVision</div>
+        <div class="sponsor-item"><i class="fas fa-stethoscope"></i> HealthFirst</div>
+        <div class="sponsor-item"><i class="fas fa-dna"></i> GenomicsPro</div>
+        <div class="sponsor-item"><i class="fas fa-heartbeat"></i> CardioLife</div>
+        <div class="sponsor-item"><i class="fas fa-brain"></i> NeuroScan</div>
+        <div class="sponsor-item"><i class="fas fa-eye"></i> VisionPlus</div>
+        <div class="sponsor-item"><i class="fas fa-pills"></i> PharmaCare</div>
+        <div class="sponsor-item"><i class="fas fa-hospital"></i> MedTech Labs</div>
+        <div class="sponsor-item"><i class="fas fa-microscope"></i> BioVision</div>
+        <div class="sponsor-item"><i class="fas fa-stethoscope"></i> HealthFirst</div>
+        <div class="sponsor-item"><i class="fas fa-dna"></i> GenomicsPro</div>
+        <div class="sponsor-item"><i class="fas fa-heartbeat"></i> CardioLife</div>
+        <div class="sponsor-item"><i class="fas fa-brain"></i> NeuroScan</div>
+        <div class="sponsor-item"><i class="fas fa-eye"></i> VisionPlus</div>
+      </div>
     </div>
+  </div>
 </div>
-}
+
+<!-- ══ FILTER ══ -->
+<div class="filter-section">
+  <div class="filter-container">
+    <div class="search-bar">
+      <i class="fas fa-search si"></i>
+      <input
+        type="text"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        placeholder="Search by doctor name or specialty..."
+      />
+    </div>
+    <div class="filters-row">
+      <select
+        class="filter-select"
+        [ngModel]="selectedDept()"
+        (ngModelChange)="selectedDept.set($event)"
+      >
+        <option value="">All Departments</option>
+        <option *ngFor="let dept of uniqueDepartments()" [value]="dept">
+          {{ dept }}
+        </option>
+      </select>
+      <button class="clear-btn" (click)="clearFilters()">
+        <i class="fas fa-times"></i> Clear Filters
+      </button>
+    </div>
+    <div class="results-count">
+      Showing <strong>{{ filteredDoctors().length }}</strong>
+      doctor{{ filteredDoctors().length !== 1 ? 's' : '' }}
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<div class="docs-layout">
+
+  <!-- GRID -->
+  <div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading()" class="loading-grid">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5,6]"></div>
+    </div>
+
+    <!-- Doctors Grid -->
+    <div class="doctors-grid" *ngIf="!isLoading()">
+
+      <!-- No Results -->
+      <div class="no-results" *ngIf="filteredDoctors().length === 0">
+        <div class="no-results-icon"><i class="fas fa-user-md"></i></div>
+        <h3>No Results Found</h3>
+        <p>Try adjusting your search or clearing the filters.</p>
+        <button class="reset-btn" (click)="clearFilters()">Clear Filters</button>
+      </div>
+
+      <!-- Doctor Cards -->
+      <div
+        class="doctor-card"
+        *ngFor="let doc of filteredDoctors(); let i = index"
+        [style.--d]="i * 60 + 'ms'"
+        (click)="openDoctor(doc)"
+      >
+        <div class="doc-img-wrap">
+          <div class="doc-initials" *ngIf="!doc.imgPath">
+            {{ getInitials(doc.fullName) }}
+          </div>
+          <img *ngIf="doc.imgPath" [src]="doc.imgPath" [alt]="doc.fullName" />
+          <div class="doc-available" *ngIf="doc.status === 'Active'">
+            <div class="dot-pulse"></div> Available Now
+          </div>
+        </div>
+        <div class="doc-body">
+          <h3>{{ doc.fullName }}</h3>
+          <span class="doc-spec">{{ doc.specialization }}</span>
+          <div class="doc-tags">
+            <div class="doc-tag" *ngIf="doc.yearsOfExperience">
+              <i class="fas fa-briefcase-medical"></i> {{ doc.yearsOfExperience }} yrs exp.
+            </div>
+            <div class="doc-tag" *ngIf="doc.departmentName">
+              <i class="fas fa-hospital"></i> {{ doc.departmentName }}
+            </div>
+          </div>
+          <div class="doc-footer">
+            <div class="doc-fee" *ngIf="doc.consultationFee">
+              <i class="fas fa-tag"></i> ${{ doc.consultationFee }}
+            </div>
+            <button class="doc-book-btn" (click)="$event.stopPropagation(); openDoctor(doc)">
+              <i class="fas fa-calendar-plus"></i> Book
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Sponsor Card -->
+    <div class="sponsor-card">
+      <div class="sponsor-card-head">
+        <i class="fas fa-handshake"></i>
+        <span>Official Partners</span>
+      </div>
+      <div class="sponsor-slides">
+        <div class="s-slide active">
+          <div class="s-logo"><i class="fas fa-pills"></i></div>
+          <h4>PharmaCare Clinics</h4>
+          <p>Full-service pharmacy centers powered by cutting-edge dispensing technology and the best prices.</p>
+          <div class="s-tags">
+            <span class="s-tag">Pharmacy</span>
+            <span class="s-tag">Home Delivery</span>
+            <span class="s-tag">15% Off</span>
+          </div>
+          <a href="#" class="s-btn"><i class="fas fa-arrow-right"></i> Visit Website</a>
+        </div>
+        <div class="s-slide">
+          <div class="s-logo"><i class="fas fa-microscope"></i></div>
+          <h4>BioVision Labs</h4>
+          <p>Certified medical testing labs with 99.9% accuracy and exceptionally fast turnaround times.</p>
+          <div class="s-tags">
+            <span class="s-tag">Lab Tests</span>
+            <span class="s-tag">Fast Results</span>
+            <span class="s-tag">Certified</span>
+          </div>
+          <a href="#" class="s-btn"><i class="fas fa-arrow-right"></i> Book a Test</a>
+        </div>
+        <div class="s-slide">
+          <div class="s-logo"><i class="fas fa-heartbeat"></i></div>
+          <h4>CardioLife Center</h4>
+          <p>Specialized heart health center with 3D imaging technology and a world-class clinical team.</p>
+          <div class="s-tags">
+            <span class="s-tag">Cardiology</span>
+            <span class="s-tag">3D Imaging</span>
+            <span class="s-tag">24/7 ER</span>
+          </div>
+          <a href="#" class="s-btn"><i class="fas fa-arrow-right"></i> Learn More</a>
+        </div>
+      </div>
+      <div class="sponsor-dots">
+        <div class="s-dot active"></div>
+        <div class="s-dot"></div>
+        <div class="s-dot"></div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-card">
+      <h4><i class="fas fa-chart-bar"></i> Today's Stats</h4>
+      <div class="quick-item">
+        <div class="qi-label"><i class="fas fa-user-md"></i> Available Doctors</div>
+        <div class="qi-val" style="color:var(--green)">
+          {{ allDoctors().length }}
+        </div>
+      </div>
+      <div class="quick-item">
+        <div class="qi-label"><i class="fas fa-list"></i> Departments</div>
+        <div class="qi-val">{{ uniqueDepartments().length }}</div>
+      </div>
+      <div class="quick-item">
+        <div class="qi-label"><i class="fas fa-filter"></i> Filtered Results</div>
+        <div class="qi-val">{{ filteredDoctors().length }}</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-sidebar">
+      <i class="fas fa-phone-alt big"></i>
+      <h4>Need Help Choosing?</h4>
+      <p>Our team is available around the clock to help you find the right doctor for your needs.</p>
+      <a href="tel:16000" class="cta-sb-btn"><i class="fas fa-phone"></i> Call Us Now</a>
+    </div>
+
+  </aside>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div
+  class="modal-backdrop"
+  *ngIf="showModal()"
+  (click)="closeModal()"
+>
+  <div class="doctor-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-head">
+      <button class="modal-close" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <ng-container *ngIf="selectedDoctor() as doc">
+
+      <!-- Profile -->
+      <div class="modal-profile">
+        <div class="modal-img">
+          <img *ngIf="doc.imgPath" [src]="doc.imgPath" [alt]="doc.fullName" />
+          <div class="modal-initials" *ngIf="!doc.imgPath">
+            {{ getInitials(doc.fullName) }}
+          </div>
+        </div>
+        <div class="modal-info">
+          <h2>{{ doc.fullName }}</h2>
+          <span class="modal-spec">{{ doc.specialization }}</span>
+          <div class="modal-meta">
+            <span *ngIf="doc.yearsOfExperience">
+              <i class="fas fa-briefcase-medical"></i> {{ doc.yearsOfExperience }} yrs experience
+            </span>
+            <span *ngIf="doc.consultationFee">
+              <i class="fas fa-dollar-sign"></i> ${{ doc.consultationFee }}
+            </span>
+            <span *ngIf="doc.departmentName">
+              <i class="fas fa-hospital"></i> {{ doc.departmentName }}
+            </span>
+          </div>
+          <div class="modal-stars" *ngIf="rating() > 0">
+            <i
+              class="fas fa-star"
+              *ngFor="let s of getStars(rating())"
+              [class.on]="s === 1"
+            ></i>
+            <span style="font-size:.78rem;color:var(--muted);margin-left:5px">({{ rating() }})</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="modal-tabs">
+        <button
+          class="m-tab"
+          [class.active]="modalTab() === 'info'"
+          (click)="modalTab.set('info')"
+        >
+          <i class="fas fa-info-circle"></i> About
+        </button>
+        <button
+          class="m-tab"
+          [class.active]="modalTab() === 'slots'"
+          (click)="modalTab.set('slots')"
+        >
+          <i class="fas fa-calendar"></i> Slots
+          <span class="tab-badge">{{ timeSlots().length }}</span>
+        </button>
+        <button
+          class="m-tab"
+          [class.active]="modalTab() === 'reviews'"
+          (click)="modalTab.set('reviews')"
+        >
+          <i class="fas fa-star"></i> Reviews
+          <span class="tab-badge">{{ reviews().length }}</span>
+        </button>
+      </div>
+
+      <!-- Tab Body -->
+      <div class="modal-body">
+
+        <!-- Info Tab -->
+        <div class="tab-pane" *ngIf="modalTab() === 'info'">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Specialty</div>
+              <div class="info-value">{{ doc.specialization }}</div>
+            </div>
+            <div class="info-item" *ngIf="doc.yearsOfExperience">
+              <div class="info-label">Experience</div>
+              <div class="info-value">{{ doc.yearsOfExperience }} yrs</div>
+            </div>
+            <div class="info-item" *ngIf="doc.consultationFee">
+              <div class="info-label">Consultation Fee</div>
+              <div class="info-value">${{ doc.consultationFee }}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Status</div>
+              <div class="info-value" [style.color]="doc.status === 'Active' ? 'var(--green)' : '#dc2626'">
+                {{ doc.status === 'Active' ? '● Available Now' : '○ ' + doc.status }}
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section" *ngIf="doc.bio">
+            <h4><i class="fas fa-user"></i> About</h4>
+            <p>{{ doc.bio }}</p>
+          </div>
+
+          <a routerLink="/booking" [queryParams]="{doctorId: doc.id}" class="book-full-btn">
+            <i class="fas fa-calendar-check"></i> Book an Appointment
+          </a>
+        </div>
+
+        <!-- Slots Tab -->
+        <div class="tab-pane" *ngIf="modalTab() === 'slots'">
+          <div *ngIf="timeSlots().length === 0" class="empty-state">
+            <i class="fas fa-calendar-times"></i>
+            <p>No available slots at the moment.</p>
+          </div>
+          <div class="slots-grid" *ngIf="timeSlots().length > 0">
+            <div class="slot-item" *ngFor="let slot of timeSlots()">
+              <div class="slot-date">{{ formatDate(slot.slotStart) }}</div>
+              <div class="slot-time">{{ formatTime(slot.slotStart) }} – {{ formatTime(slot.slotEnd) }}</div>
+              <div class="slot-avail">✓ Available</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-pane" *ngIf="modalTab() === 'reviews'">
+          <div *ngIf="reviews().length === 0" class="empty-state">
+            <i class="fas fa-comment-slash"></i>
+            <p>No reviews yet.</p>
+          </div>
+          <div class="reviews-list" *ngIf="reviews().length > 0">
+            <div class="review-item" *ngFor="let r of reviews()">
+              <div class="review-head">
+                <div class="rev-avatar">{{ r.patientName ? r.patientName[0] : '?' }}</div>
+                <div>
+                  <strong>{{ r.patientName || 'Anonymous' }}</strong>
+                  <div class="rev-stars">
+                    <i
+                      class="fas fa-star"
+                      *ngFor="let s of getStars(r.rating)"
+                      [class.on]="s === 1"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+              <p class="review-text">{{ r.comment }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

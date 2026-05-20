@@ -10,6 +10,7 @@ namespace BusinessLogicLayer.DTOs.MedicalRecord
         public string? Notes { get; set; }
         public string? VitalSigns { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string? AttachedFilePath { get; set; }
     }
 
     

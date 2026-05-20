@@ -4,7 +4,7 @@
     <div class="login-left">
         <div class="left-inner">
             <a routerLink="/" class="back-home">
-                <i class="fas fa-arrow-left"></i> Back to Home
+                <i class="fas fa-arrow-left"></i> {{ language.translate('backToHome') }}
             </a>
 
             <div class="left-logo">
@@ -13,32 +13,32 @@
             </div>
 
             <div class="left-content">
-                <h1>Welcome Back</h1>
-                <p>Sign in to access your personalized healthcare dashboard.</p>
+                <h1>{{ language.translate('welcomeBack') }}</h1>
+                <p>{{ language.translate('signInAccessDashboard') }}</p>
 
                 <div class="left-features">
                     <div class="left-feature">
                         <div class="lf-icon"><i class="fas fa-calendar-check"></i></div>
-                        <span>Manage your appointments</span>
+                        <span>{{ language.translate('manageAppointments') }}</span>
                     </div>
                     <div class="left-feature">
                         <div class="lf-icon"><i class="fas fa-file-medical"></i></div>
-                        <span>Access medical records</span>
+                        <span>{{ language.translate('accessMedicalRecords') }}</span>
                     </div>
                     <div class="left-feature">
                         <div class="lf-icon"><i class="fas fa-robot"></i></div>
-                        <span>AI-powered health insights</span>
+                        <span>{{ language.translate('aiHealthInsights') }}</span>
                     </div>
                     <div class="left-feature">
                         <div class="lf-icon"><i class="fas fa-shield-alt"></i></div>
-                        <span>Secure & private data</span>
+                        <span>{{ language.translate('securePrivateData') }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="left-testimonial">
                 <div class="testimonial-text">
-                    "MediCare made managing my health so much easier. Highly recommended!"
+                    {{ language.translate('testimonialQuote') }}
                 </div>
                 <div class="testimonial-author">
                     <div class="t-avatar">S</div>
@@ -56,14 +56,13 @@
         <div class="form-box">
 
             <div class="form-top">
-                <h2>Sign In</h2>
-                <p>Don't have an account? <a routerLink="/signup">Create one now</a></p>
-            </div>
+                <h2>{{ language.translate('signIn') }}</h2>
+                <p>{{ language.translate('alreadyHaveAccount') }} <a routerLink="/signup">{{ language.translate('signInLink') }}</a></p>
 
             <form (ngSubmit)="onSubmit()" novalidate>
 
                 <div class="field-group">
-                    <label>Email Address</label>
+                    <label>{{ language.translate('emailLabel') }}</label>
                     <div class="field-wrap">
                         <i class="fas fa-envelope field-icon"></i>
                         <input type="email" [(ngModel)]="email" name="email" placeholder="your@email.com" autocomplete="email" required>
@@ -72,12 +71,12 @@
 
                 <div class="field-group">
                     <label>
-            Password
-            <span class="forgot-link" aria-disabled="true">Forgot password?</span>
+            {{ language.translate('passwordLabel') }}
+            <span class="forgot-link" aria-disabled="true">{{ language.translate('forgotPassword') }}</span>
           </label>
                     <div class="field-wrap">
                         <i class="fas fa-lock field-icon"></i>
-                        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="{{ language.translate('enterPassword') }}" autocomplete="current-password" required>
                         <button type="button" class="eye-btn" (click)="togglePassword()">
               <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
             </button>
@@ -99,18 +98,18 @@
 
                 <button type="submit" class="submit-btn" [disabled]="isLoading || !email || !password">
           @if (isLoading) {
-            <i class="fas fa-spinner fa-spin"></i> Signing in...
+            <i class="fas fa-spinner fa-spin"></i> {{ language.translate('signIn') }}...
           } @else {
-            <i class="fas fa-sign-in-alt"></i> Sign In
+            <i class="fas fa-sign-in-alt"></i> {{ language.translate('signIn') }}
           }
         </button>
 
             </form>
 
-            <div class="divider"><span>or</span></div>
+            <div class="divider"><span>{{ language.translate('orText') }}</span></div>
 
             <div class="role-hints">
-                <p>Test accounts:</p>
+                <p>{{ language.translate('testAccounts') }}</p>
                 <div class="role-tags">
                     <span class="role-tag admin">Admin</span>
                     <span class="role-tag doctor">Doctor</span>

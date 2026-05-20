@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private endpoint = inject(EndPoints);
   private promotionTimer?: number;
 
+  public language = inject(LanguageService);
   departments = signal<any[]>([]);
   doctors = signal<any[]>([]);
   isLoadingDepts = signal(true);
@@ -23,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   promotions = [
     {
-      tag: 'Sponsored',
+      tag: 'Treatment',
       title: 'Doliprane Adult 1000mg',
       desc: 'Fast relief from pain and fever. Tap to view the product on Vezeeta.',
       image: '/assets/advertisement/2.jpg',
@@ -31,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       button: 'View Product'
     },
     {
-      tag: 'Sponsored',
+      tag: 'Dietary Supplement',
       title: 'Dozova MAN Max',
       desc: 'Support men’s health with vitamins and minerals. Tap to view the product on Amazon.',
       image: '/assets/advertisement/3.jpg',
