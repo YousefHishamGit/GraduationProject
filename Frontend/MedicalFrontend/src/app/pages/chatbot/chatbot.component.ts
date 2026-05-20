@@ -46,6 +46,7 @@ export class ChatbotComponent implements AfterViewChecked {
   msgIdCounter = 0;
   private shouldScroll = false;
   private sessionId: string | undefined = undefined;   // حفظ جلسة المحادثة
+<<<<<<< HEAD
 
   // رفع الملفات (سنرسلها مع الرسالة)
   selectedFiles = signal<File[]>([]);   // قائمة ملفات متعددة
@@ -57,6 +58,21 @@ export class ChatbotComponent implements AfterViewChecked {
     const keys = ['chatSuggestion1', 'chatSuggestion2', 'chatSuggestion3', 'chatSuggestion4', 'chatSuggestion5'];
     return keys.map(k => this.language.translate(k));
   });
+=======
+
+  // رفع الملفات (سنرسلها مع الرسالة)
+  selectedFiles = signal<File[]>([]);   // قائمة ملفات متعددة
+  // لا نحتاج fileType منفصل
+
+  suggestions = [
+    'I have a headache that won\'t go away',
+    'عندي ألم في صدري',
+    'I feel dizzy and tired',
+    'عندي حرارة عالية من يومين',
+    'My stomach hurts after eating',
+    'I have a skin rash on my arms'
+  ];
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
 
   constructor() {
     this.addBotWelcome();
@@ -110,6 +126,7 @@ export class ChatbotComponent implements AfterViewChecked {
     if (this.fileInput) this.fileInput.nativeElement.value = '';
   }
 
+<<<<<<< HEAD
   private messageReferencesPdf(msg: string): boolean {
     return /\.pdf\b/i.test(msg) || /📎/.test(msg);
   }
@@ -155,6 +172,8 @@ export class ChatbotComponent implements AfterViewChecked {
     return { msg, files };
   }
 
+=======
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
   // تحويل الملفات إلى base64 (بدون prefix) لترسل إلى API
   private async filesToBase64(files: File[]): Promise<FileAttachmentDto[]> {
     const promises = files.map(async (file) => {
@@ -179,6 +198,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
   // ── إرسال الرسالة مع الملفات (إن وجدت) ─────────
   async sendMessage(text?: string) {
+<<<<<<< HEAD
     const rawMsg = (text ?? this.inputText).trim();
     if ((!rawMsg && this.selectedFiles().length === 0) || this.isLoading()) return;
 
@@ -205,6 +225,15 @@ export class ChatbotComponent implements AfterViewChecked {
     let userDisplay = displayOverride ?? msg;
     if (filesToSend.length) {
       const fileNames = filesToSend.map(f => `📎 ${f.name}`).join(', ');
+=======
+    const msg = (text || this.inputText).trim();
+    if ((!msg && this.selectedFiles().length === 0) || this.isLoading()) return;
+
+    // إضافة رسالة المستخدم للواجهة (نص + أسماء الملفات)
+    let userDisplay = msg;
+    if (this.selectedFiles().length) {
+      const fileNames = this.selectedFiles().map(f => `📎 ${f.name}`).join(', ');
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
       userDisplay = msg ? `${msg}\n${fileNames}` : fileNames;
     }
     this.messages.update(m => [...m, {
@@ -214,9 +243,18 @@ export class ChatbotComponent implements AfterViewChecked {
       time: new Date()
     }]);
 
+<<<<<<< HEAD
+=======
+    // تفريغ الحقول
+    this.inputText = '';
+    const filesToSend = [...this.selectedFiles()];
+    this.clearAllFiles();
+
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
     this.isLoading.set(true);
     this.shouldScroll = true;
 
+    // إظهار رسالة انتظار (تحميل)
     const loadingId = ++this.msgIdCounter;
     this.messages.update(m => [...m, {
       id: loadingId,
@@ -225,6 +263,10 @@ export class ChatbotComponent implements AfterViewChecked {
     }]);
 
     try {
+<<<<<<< HEAD
+=======
+      // تحويل الملفات إلى base64
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
       const attachments = await this.filesToBase64(filesToSend);
       const payload = {
         message: msg,
@@ -234,6 +276,10 @@ export class ChatbotComponent implements AfterViewChecked {
 
       this.endpoint.ai.chat(payload).subscribe({
         next: (res: ChatResponseDto) => {
+<<<<<<< HEAD
+=======
+          // تخزين sessionId للجلسات القادمة
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
           if (res.sessionId) this.sessionId = res.sessionId;
 
           this.messages.update(m => m.filter(x => x.id !== loadingId));
@@ -241,7 +287,11 @@ export class ChatbotComponent implements AfterViewChecked {
             id: ++this.msgIdCounter,
             type: 'bot',
             text: res.reply,
+<<<<<<< HEAD
             diagnosis: res.diagnosis,
+=======
+            diagnosis: res.diagnosis,  // قد يكون null إذا لم يوجد
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
             time: new Date()
           }]);
           this.isLoading.set(false);
@@ -299,6 +349,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
   getUrgencyLabel(level: string): string {
     switch (level) {
+<<<<<<< HEAD
       case 'critical': return '🔴 ' + this.language.translate('chatUrgencyCritical');
       case 'moderate': return '🟠 ' + this.language.translate('chatUrgencyModerate');
       default: return '🟡 ' + this.language.translate('chatUrgencyNormal');
@@ -318,6 +369,14 @@ export class ChatbotComponent implements AfterViewChecked {
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
   }
 
+=======
+      case 'critical': return 'حالة حرجة - توجه للطوارئ فوراً';
+      case 'moderate': return 'حالة متوسطة - يُنصح بزيارة طبيب';
+      default: return 'حالة عادية - يمكنك حجز موعد';
+    }
+  }
+
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
   clearChat() {
     this.msgIdCounter = 0;
     this.clearAllFiles();

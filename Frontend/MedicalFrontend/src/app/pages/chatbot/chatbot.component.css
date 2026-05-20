@@ -323,6 +323,7 @@
     margin: 0 0 16px 0;
 }
 
+<<<<<<< HEAD
 .welcome-actions {
     display: flex;
     flex-direction: column;
@@ -364,6 +365,8 @@
     cursor: not-allowed;
 }
 
+=======
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
 .welcome-features {
     display: flex;
     flex-direction: column;

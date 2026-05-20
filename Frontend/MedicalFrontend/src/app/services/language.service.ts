@@ -191,6 +191,7 @@ const TRANSLATIONS: Record<string, Record<AppLanguage, string>> = {
   noAppointmentsToday: { en: 'No appointments today', ar: 'لا توجد مواعيد اليوم' },
   bookAppointmentLabel: { en: 'Book Appointment', ar: 'احجز موعد' },
   viewAllDoctors: { en: 'View All Doctors', ar: 'عرض جميع الأطباء' },
+<<<<<<< HEAD
   doctorsFound: { en: 'Showing {count} of {total} doctors', ar: 'يعرض {count} من أصل {total} طبيب' },
   // Chatbot (Dr. AIDA)
   chatTitle: { en: 'Dr. AIDA — Interactive Chat', ar: 'Dr. AIDA — شات تفاعلي' },
@@ -230,6 +231,9 @@ const TRANSLATIONS: Record<string, Record<AppLanguage, string>> = {
   chatSuggestion3: { en: 'I have cough and fever', ar: 'عندي كحة وحرارة' },
   chatSuggestion4: { en: 'I have stomach pain', ar: 'عندي وجع بطن' },
   chatSuggestion5: { en: 'I have a skin rash', ar: 'عندي طفح في جلدي' },
+=======
+  doctorsFound: { en: 'Showing {count} of {total} doctors', ar: 'يعرض {count} من أصل {total} طبيب' }
+>>>>>>> c6d713340cda97927523ad68be556c4cc9751e1c
 };
 
 @Injectable({ providedIn: 'root' })
