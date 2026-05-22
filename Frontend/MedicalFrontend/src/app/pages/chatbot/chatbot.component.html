@@ -34,7 +34,7 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="msg-bubble user-bubble">
-                    <p>{{ msg.text }}</p>
+                    <p style="white-space: pre-wrap;">{{ msg.text }}</p>
                     <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
             </div>
@@ -71,9 +71,6 @@
                         <button type="button" class="start-interview-btn" (click)="sendMessage(language.translate('chatStartMessage'))">
                             <i class="fas fa-play"></i> {{ language.translate('chatStartBtn') }}
                         </button>
-                        <!-- <button type="button" class="demo-pdf-btn" (click)="sendDemoLabReport()" [disabled]="isLoading()">
-                            <i class="fas fa-file-pdf"></i> {{ language.translate('chatDemoPdfBtn') }}
-                        </button> -->
                     </div>
                 </div>
                 } @else if (msg.text === 'error') {
@@ -83,7 +80,36 @@
                 </div>
                 } @else {
                 <div class="msg-bubble bot-bubble chat-reply-bubble">
-                    <p class="reply-text" [innerHTML]="formatReply(msg.text)"></p>
+                    <div class="bot-sections-container">
+                        @for (sec of parseReply(msg.text); track $index) {
+                            @if (sec.type === 'general') {
+                                <div class="bot-card-section card-theme-general">
+                                    <div class="bot-card-body">
+                                        <p [innerHTML]="sec.rawText"></p>
+                                    </div>
+                                </div>
+                            } @else {
+                                <div class="bot-card-section" [class]="'card-theme-' + sec.type">
+                                    <div class="bot-card-header">
+                                        <i [class]="sec.icon"></i>
+                                        <span [innerHTML]="sec.title"></span>
+                                    </div>
+                                    <div class="bot-card-body">
+                                        @if (sec.rawText) {
+                                            <p [innerHTML]="sec.rawText"></p>
+                                        }
+                                        @if (sec.items.length > 0) {
+                                            <ul>
+                                                @for (item of sec.items; track $index) {
+                                                    <li [innerHTML]="item"></li>
+                                                }
+                                            </ul>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
 
                     @if (msg.diagnosis; as diag) { @if (hasAssessment(diag)) {
                     <div class="inline-diagnosis">
@@ -119,6 +145,28 @@
                         }
                     </div>
                     } }
+
+                    <!-- Recommended Department Card -->
+                    @if (msg.recommendedDepartment; as dept) {
+                    <div class="recommended-dept-card-inline">
+                        <div class="dept-card-header-inline">
+                            <i class="fas fa-hospital-user"></i>
+                            <span>القسم المقترح لحالتك: {{ dept.departmentName }}</span>
+                        </div>
+                        <div class="dept-card-body-inline">
+                            <p>بناءً على الأعراض أو التشخيص المتوقع، ننصحك بحجز موعد لمتابعة حالتك مع طبيب مختص في هذا القسم.</p>
+                            @if (dept.description) {
+                                <div class="dept-desc-inline">{{ dept.description }}</div>
+                            }
+                        </div>
+                        <div class="dept-card-actions-inline">
+                            <a [routerLink]="['/appointment']" [queryParams]="{specialty: dept.departmentName}" class="book-dept-btn-inline">
+                                <i class="fas fa-calendar-alt"></i> حجز موعد في هذا القسم
+                            </a>
+                        </div>
+                    </div>
+                    }
+
                     <span class="msg-time">{{ msg.time | date:'hh:mm a' }}</span>
                 </div>
                 }
@@ -127,8 +175,8 @@
             <div #messagesEnd></div>
         </div>
 
-        @if (messages().length
-        <=1 ) { <div class="suggestions-section">
+        @if (messages().length <= 1) { 
+        <div class="suggestions-section">
             <p class="suggestions-label">
                 <i class="fas fa-magic"></i> {{ language.translate('chatTryExamples') }}
             </p>
@@ -139,54 +187,164 @@
                     {{ s }}
                 </button> }
             </div>
-    </div>
-    }
-</div>
-
-<div class="chat-footer">
-    @if (selectedFiles().length) {
-    <div class="file-previews">
-        @for (file of selectedFiles(); track $index) {
-        <div class="file-preview">
-            <div class="file-preview-info">
-                <div class="file-icon-wrapper" [class.pdf-theme]="file.type === 'application/pdf'" [class.image-theme]="file.type.startsWith('image/')">
-                    <i [class]="file.type === 'application/pdf' ? 'fas fa-file-pdf' : 'fas fa-image'"></i>
-                </div>
-                <div class="file-meta">
-                    <span class="file-title">{{ file.name }}</span>
-                    <span class="file-size">{{ (file.size / 1024).toFixed(1) }} KB</span>
-                </div>
-            </div>
-            <div class="file-preview-actions">
-                <button class="remove-file-btn" (click)="removeFile($index)" [title]="language.translate('back')">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-            </div>
         </div>
         }
     </div>
-    }
 
-    <div class="input-row">
-        <label class="upload-btn" [title]="language.translate('chatAttachTitle')">
+    <div class="chat-footer">
+        @if (selectedFiles().length) {
+        <div class="file-previews">
+            @for (file of selectedFiles(); track $index) {
+            <div class="file-preview">
+                <div class="file-preview-info">
+                    <div class="file-icon-wrapper" [class.pdf-theme]="file.type === 'application/pdf'" [class.image-theme]="file.type.startsWith('image/')">
+                        <i [class]="file.type === 'application/pdf' ? 'fas fa-file-pdf' : 'fas fa-image'"></i>
+                    </div>
+                    <div class="file-meta">
+                        <span class="file-title">{{ file.name }}</span>
+                        <span class="file-size">{{ (file.size / 1024).toFixed(1) }} KB</span>
+                    </div>
+                </div>
+                <div class="file-preview-actions">
+                    <button class="remove-file-btn" (click)="removeFile($index)" [title]="language.translate('back')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+
+        <div class="input-row">
+            <label class="upload-btn" [title]="language.translate('chatAttachTitle')">
                 <i class="fas fa-paperclip"></i>
                 <input #fileInput type="file" accept=".pdf,image/*" multiple (change)="onFileSelected($event)" style="display:none">
             </label>
 
-        <div class="input-container">
-            <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" [placeholder]="language.translate('chatUploadHint')" rows="1" class="chat-input"></textarea>
-            <button class="send-btn" (click)="sendMessage()" [disabled]="(!inputText.trim() && selectedFiles().length === 0) || isLoading()" title="Send">
+            <button *ngIf="isPatientLoggedIn()" class="records-panel-btn" (click)="toggleRecordsPanel()" [title]="language.translate('medicalRecordsLabel')">
+                <i class="fas fa-folder-open"></i>
+            </button>
+
+            <div class="input-container">
+                <textarea [(ngModel)]="inputText" (keydown)="onKeyDown($event)" [disabled]="isLoading()" [placeholder]="language.translate('chatUploadHint')" rows="1" class="chat-input"></textarea>
+                <button class="send-btn" (click)="sendMessage()" [disabled]="(!inputText.trim() && selectedFiles().length === 0) || isLoading()" title="Send">
                     @if (isLoading()) {
                         <i class="fas fa-spinner fa-spin"></i>
                     } @else {
                         <i class="fas fa-paper-plane"></i>
                     }
                 </button>
+            </div>
+        </div>
+
+        <p class="footer-note">
+            <i class="fas fa-shield-alt"></i> {{ language.translate('chatEmergencyFooter') }} <strong>123</strong>
+        </p>
+    </div>
+
+    <!-- Sliding Records Drawer -->
+    <div class="records-drawer" [class.open]="showRecordsPanel()">
+        <div class="drawer-header">
+            <h3><i class="fas fa-file-medical-alt"></i> {{ language.translate('medicalRecordsLabel') }}</h3>
+            <button class="close-drawer-btn" (click)="toggleRecordsPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="drawer-body">
+            @if (recordsLoading()) {
+                <div class="drawer-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل السجلات الطبية...</p>
+                </div>
+            } @else {
+                <div class="records-tabs">
+                    <button class="record-tab-btn" [class.active]="activeRecordTab() === 'lab'" (click)="activeRecordTab.set('lab')">
+                        <i class="fas fa-flask"></i> {{ language.translate('labTestsLabel') }}
+                    </button>
+                    <button class="record-tab-btn" [class.active]="activeRecordTab() === 'prescriptions'" (click)="activeRecordTab.set('prescriptions')">
+                        <i class="fas fa-pills"></i> {{ language.translate('prescriptionsLabel') }}
+                    </button>
+                    <button class="record-tab-btn" [class.active]="activeRecordTab() === 'medical'" (click)="activeRecordTab.set('medical')">
+                        <i class="fas fa-file-medical"></i> {{ language.translate('medicalRecordsLabel') }}
+                    </button>
+                </div>
+
+                <div class="tab-records-list">
+                    <!-- Lab Tests -->
+                    @if (activeRecordTab() === 'lab') {
+                        @if (patientRecords().labRequests.length === 0) {
+                            <p class="empty-tab-msg">لا توجد تحاليل طبية مسجلة.</p>
+                        } @else {
+                            @for (lab of patientRecords().labRequests; track lab.id) {
+                                <div class="record-item-card">
+                                    <div class="item-main-info">
+                                        <div class="item-title">{{ lab.testName }}</div>
+                                        <div class="item-subtitle">تاريخ الطلب: {{ lab.requestedOn | date:'dd MMM yyyy' }}</div>
+                                        <div class="item-status-row">
+                                            <span class="badge" [class]="getStatusClass(lab.status)">{{ lab.status }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-actions">
+                                        <button class="analyze-record-btn" (click)="analyzeLabTest(lab)" [disabled]="isLoading()">
+                                            <i class="fas fa-robot"></i> تحليل بالذكاء الاصطناعي
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+                    <!-- Prescriptions -->
+                    @if (activeRecordTab() === 'prescriptions') {
+                        @if (patientRecords().prescriptions.length === 0) {
+                            <p class="empty-tab-msg">لا توجد وصفات طبية مسجلة.</p>
+                        } @else {
+                            @for (p of patientRecords().prescriptions; track p.id) {
+                                <div class="record-item-card">
+                                    <div class="item-main-info">
+                                        <div class="item-title">{{ p.medicineName }}</div>
+                                        <div class="item-subtitle">الجرعة: {{ p.dosage }} | التكرار: {{ p.frequency }}</div>
+                                        <div class="item-details" *ngIf="p.instructions">ملاحظات: {{ p.instructions }}</div>
+                                    </div>
+                                    <div class="item-actions">
+                                        <button class="analyze-record-btn" (click)="analyzePrescription(p)" [disabled]="isLoading()">
+                                            <i class="fas fa-brain"></i> شرح واستشارة
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+                    <!-- Medical Records -->
+                    @if (activeRecordTab() === 'medical') {
+                        @if (patientRecords().medicalRecords.length === 0) {
+                            <p class="empty-tab-msg">لا توجد سجلات طبية مسجلة.</p>
+                        } @else {
+                            @for (mr of patientRecords().medicalRecords; track mr.id) {
+                                <div class="record-item-card">
+                                    <div class="item-main-info">
+                                        <div class="item-title">تشخيص: {{ mr.diagnosis || 'سجل طبي' }}</div>
+                                        <div class="item-subtitle">التاريخ: {{ mr.createdOn | date:'dd MMM yyyy' }}</div>
+                                        <div class="item-details" *ngIf="mr.notes">ملاحظات: {{ mr.notes }}</div>
+                                        <div class="item-details" *ngIf="mr.vitalSigns">مؤشرات: {{ mr.vitalSigns }}</div>
+                                        <div class="item-attachment-badge" *ngIf="mr.attachedFilePath">
+                                            <i class="fas fa-paperclip"></i> يحتوي على ملف مرفق
+                                        </div>
+                                    </div>
+                                    <div class="item-actions">
+                                        <button class="analyze-record-btn" (click)="analyzeMedicalRecord(mr)" [disabled]="isLoading()">
+                                            <i class="fas fa-stethoscope"></i> تحليل التقرير
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            }
         </div>
     </div>
 
-    <p class="footer-note">
-        <i class="fas fa-shield-alt"></i> {{ language.translate('chatEmergencyFooter') }} <strong>123</strong>
-    </p>
-</div>
 </div>

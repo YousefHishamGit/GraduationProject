@@ -438,6 +438,7 @@ def chat():
 
     # قراءة الرسالة والملفات
     user_message = ""
+    lang = "ar"
     files_content = []
     uploaded_image_names = []
     uploaded_pdf_names = []
@@ -445,6 +446,7 @@ def chat():
     if request.is_json:
         data = request.get_json()
         user_message = data.get('message', '') or ''
+        lang = data.get('lang', 'ar') or 'ar'
         files_data = data.get('files', [])
         for f in files_data:
             try:
@@ -463,11 +465,14 @@ def chat():
                 files_content.append(f"[خطأ في قراءة الملف: {f.get('name', '?')}]")
     else:
         user_message = request.form.get('message', '') or ''
+        lang = request.form.get('lang', 'ar') or 'ar'
         uploaded_files = request.files.getlist('files')
         for file in uploaded_files:
             if file and file.filename:
                 content = extract_file_content(file)
                 files_content.append(content)
+
+    is_english = (lang.lower() == 'en') or (user_message and not any('\u0600' <= c <= '\u06FF' for c in user_message))
 
     image_analysis = _extract_image_analysis(files_content)
     pdf_report = _extract_pdf_report(files_content)
@@ -517,6 +522,9 @@ def chat():
             )
     else:
         combined = user_message
+
+    if is_english and combined.strip():
+        combined += "\n\n[Instruction: The patient is communicating in English. Please write your entire response, including all sections, in English. Do not write any Arabic in your response.]"
 
     if not combined.strip():
         return jsonify({"error": "لا توجد رسالة أو ملفات للمعالجة"}), 400
@@ -620,8 +628,8 @@ def chat():
         except Exception:
             pass
 
-    # تأكيد أن الرد بالعربية
-    if not any('\u0600' <= c <= '\u06FF' for c in response_text):
+    # تأكيد أن الرد بالعربية (فقط إذا لم يكن المستخدم يتحدث بالإنجليزية)
+    if not is_english and not any('\u0600' <= c <= '\u06FF' for c in response_text):
         response_text = translate_to_arabic(response_text)
 
     # إضافة رد المساعد إلى التاريخ
