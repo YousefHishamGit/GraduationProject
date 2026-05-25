@@ -170,7 +170,7 @@
         <div class="topbar">
             <div class="topbar-left">
                 <h1 class="page-title">
-                    @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records }
+                    @if (activeTab() === 'overview') { Overview } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records }
                     @if (activeTab() === 'lab') { Lab Tests } @if (activeTab() === 'reviews') { My Reviews }
                 </h1>
                 <p class="page-sub">
@@ -545,7 +545,7 @@
                         @if (record.attachedFilePath) {
                         <div class="record-attachment" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
                             <a [href]="getFileUrl(record.attachedFilePath)" target="_blank" class="view-result-btn" style="display: inline-flex; align-items: center; gap: 8px; background: #0d6efd; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: background 0.2s;">
-                                <i class="fas fa-file-pdf"></i> View Attached PDF
+                                <i class="fas fa-file-pdf"></i> View Attached File
                             </a>
                         </div>
                         }
@@ -615,6 +615,15 @@
         <!-- ═══ LAB TESTS ═══ -->
         @if (activeTab() === 'lab') {
         <div class="tab-content fade-in">
+            <div class="section-top" style="margin-bottom: 20px;">
+                <div class="filter-pills">
+                    <span class="filter-pill active">All ({{ labRequests().length }})</span>
+                </div>
+                <button class="new-btn" (click)="openLabUploadForm()" style="border: none; cursor: pointer;">
+                    <i class="fas fa-upload"></i> Upload Lab Test
+                </button>
+            </div>
+
             @if (labRequests().length > 0) {
             <div class="lab-grid">
                 @for (lab of labRequests(); track lab.id) {
@@ -640,10 +649,29 @@
                         </div>
                         }
                     </div>
-                    @if (lab.resultFilePath) {
-                    <a [href]="lab.resultFilePath" target="_blank" class="view-result-btn">
-                        <i class="fas fa-file-alt"></i> View Result
-                    </a>
+                    @if (uploadingLabId() === lab.id) {
+                        <div class="upload-loading-text" style="margin-top: 10px;">
+                            <i class="fas fa-spinner fa-spin"></i> Uploading File...
+                        </div>
+                    } @else {
+                        @if (lab.resultFilePath) {
+                        <div style="display: flex; gap: 8px; flex-direction: column; margin-top: 10px;">
+                            <a [href]="getFileUrl(lab.resultFilePath)" target="_blank" class="view-result-btn">
+                                <i class="fas fa-file-medical"></i> View Result
+                            </a>
+                            <label class="upload-result-btn" style="font-size: 0.78rem; padding: 6px; background: transparent; border: 1px dashed rgba(26, 111, 196, 0.3); color: #1a6fc4;">
+                                <i class="fas fa-redo"></i> Re-upload File
+                                <input type="file" (change)="onLabFileSelected($event, lab.id)" style="display: none;">
+                            </label>
+                        </div>
+                        } @else {
+                        <div class="lab-upload-section">
+                            <label class="upload-result-btn">
+                                <i class="fas fa-upload"></i> Upload Result File
+                                <input type="file" (change)="onLabFileSelected($event, lab.id)" style="display: none;">
+                            </label>
+                        </div>
+                        }
                     }
                 </div>
                 }
@@ -827,6 +855,56 @@
                     <i class="fas fa-spinner fa-spin"></i> Submitting...
                     } @else {
                     <i class="fas fa-paper-plane"></i> Submit Review
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ═══ LAB UPLOAD MODAL ═══ -->
+@if (showLabUploadForm()) {
+<div class="modal-backdrop" (click)="closeLabUploadForm()">
+    <div class="review-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-upload"></i> Upload Lab Test</h3>
+            <button class="modal-close" (click)="closeLabUploadForm()" title="Close" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="field-group">
+                <label>Test Name <span class="req">*</span></label>
+                <input type="text" [(ngModel)]="newLabTestName" class="field-input" placeholder="e.g. Complete Blood Count (CBC)">
+            </div>
+
+            <div class="field-group">
+                <label>Result File <span class="req">*</span></label>
+                <div class="lab-upload-section" style="margin-top: 10px;">
+                    <label class="upload-result-btn" style="width: 100%; text-align: center; display: block; background: #f8f9fa; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 8px; color: #475569; cursor: pointer;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 24px; display: block; margin-bottom: 10px; color: #3b82f6;"></i>
+                        @if (newLabFile) {
+                            <span style="color: #10b981; font-weight: 500;">
+                                <i class="fas fa-check-circle"></i> {{ newLabFile.name }}
+                            </span>
+                        } @else {
+                            <span>Click to browse or drag file here</span>
+                        }
+                        <input type="file" (change)="onNewLabFileSelected($event)" style="display: none;">
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closeLabUploadForm()">Cancel</button>
+                <button class="submit-btn" (click)="submitPatientLabUpload()" [disabled]="isSubmittingLabUpload()">
+                    @if (isSubmittingLabUpload()) {
+                    <i class="fas fa-spinner fa-spin"></i> Uploading...
+                    } @else {
+                    <i class="fas fa-upload"></i> Upload
                     }
                 </button>
             </div>

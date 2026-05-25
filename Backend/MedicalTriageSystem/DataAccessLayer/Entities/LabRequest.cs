@@ -6,7 +6,8 @@ namespace DataAccessLayer.Entities
     public class LabRequest:BaseEntity
     {
         public int Id { get; set; }
-        public int MedicalRecordId { get; set; }
+        public int? MedicalRecordId { get; set; }
+        public int? PatientId { get; set; }
         public string TestName { get; set; } = string.Empty;
         public LabRequestStatus Status { get; set; }
         public string? ResultFilePath { get; set; }
@@ -14,6 +15,7 @@ namespace DataAccessLayer.Entities
         public DateTime? ResultOn { get; set; }
 
         // Navigation Properties
-        public virtual MedicalRecord MedicalRecord { get; set; } = null!;
+        public virtual MedicalRecord? MedicalRecord { get; set; }
+        public virtual Patient? Patient { get; set; }
     }
 }

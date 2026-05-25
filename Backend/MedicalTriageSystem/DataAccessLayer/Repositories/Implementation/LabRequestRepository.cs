@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Data;
+using DataAccessLayer.Data;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -29,11 +29,21 @@ namespace DataAccessLayer.Repositories.Implementation
 
         public async Task<IEnumerable<LabRequest>> GetByPatientIdAsync(int patientId)
         {
-            return await _dbContext.LabRequests
+            // Doctor-requested: tied to a MedicalRecord that belongs to the patient
+            var doctorRequested = await _dbContext.LabRequests
                 .Include(l => l.MedicalRecord)
                 .AsNoTracking()
-                .Where(l => l.MedicalRecord.PatientId == patientId)
+                .Where(l => l.MedicalRecordId != null && l.MedicalRecord!.PatientId == patientId)
                 .ToListAsync();
+
+            // Patient self-uploaded: directly linked via PatientId
+            var selfUploaded = await _dbContext.LabRequests
+                .AsNoTracking()
+                .Where(l => l.PatientId == patientId && l.MedicalRecordId == null)
+                .ToListAsync();
+
+            return doctorRequested.Concat(selfUploaded)
+                                  .OrderByDescending(l => l.RequestedOn);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,6 +43,16 @@ namespace YourApiNamespace.Controllers
             var slot = await _doctorService.GetTimeSlotByIdAsync(id);
             if (slot == null) return NotFound();
             return Ok(slot);
+        }
+
+        // POST /api/timeslots?doctorId={doctorId}
+        [HttpPost]
+        [Authorize(Roles = "Admin,Doctor")]
+        public async Task<IActionResult> GenerateTimeSlots([FromQuery] int doctorId, [FromBody] BusinessLogicLayer.DTOs.Doctor.GenerateTimeSlotsDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var slots = await _doctorService.GenerateTimeSlotsForDateAsync(doctorId, dto.Date);
+            return Ok(slots);
         }
     }
 }

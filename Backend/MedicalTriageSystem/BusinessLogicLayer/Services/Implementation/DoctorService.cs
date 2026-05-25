@@ -467,6 +467,56 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<TimeSlotResponseDto>(slot);
         }
 
+        public async Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsForDateAsync(int doctorId, DateTime targetDate)
+        {
+            var schedules = await _unitOfWork
+                .GetRepository<DoctorSchedule>()
+                .GetAllAsync(s => s.DoctorId == doctorId && s.DayOfWeek == (int)targetDate.DayOfWeek && s.IsAvailable);
+
+            var newSlots = new List<TimeSlot>();
+            var existingSlots = await _unitOfWork
+                .GetRepository<TimeSlot>()
+                .GetAllAsync(s => s.DoctorId == doctorId && s.SlotStart.Date == targetDate.Date);
+
+            foreach (var schedule in schedules)
+            {
+                var currentStart = targetDate.Date + schedule.StartTime;
+                var endTime = targetDate.Date + schedule.EndTime;
+
+                while (currentStart.AddMinutes(schedule.SlotDurationMinutes) <= endTime)
+                {
+                    bool exists = existingSlots.Any(s => s.SlotStart == currentStart);
+                    if (!exists)
+                    {
+                        newSlots.Add(new TimeSlot
+                        {
+                            DoctorId = schedule.DoctorId,
+                            SlotStart = currentStart,
+                            SlotEnd = currentStart.AddMinutes(schedule.SlotDurationMinutes),
+                            IsBooked = false
+                        });
+                    }
+                    currentStart = currentStart.AddMinutes(schedule.SlotDurationMinutes);
+                }
+            }
+
+            if (newSlots.Any())
+            {
+                var repo = _unitOfWork.GetRepository<TimeSlot>();
+                foreach (var slot in newSlots)
+                {
+                    await repo.AddAsync(slot);
+                }
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            var allSlots = await _unitOfWork
+                .GetRepository<TimeSlot>()
+                .GetAllAsync(t => t.DoctorId == doctorId && t.SlotStart.Date == targetDate.Date && !t.IsBooked);
+
+            return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(allSlots.OrderBy(s => s.SlotStart));
+        }
+
         // ?????????????????????????????????????????????
         // Helpers
         // ?????????????????????????????????????????????

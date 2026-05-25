@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessLogicLayer.DTOs.LapRequest;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Entities;
@@ -43,6 +43,14 @@ namespace BusinessLogicLayer.Services.Implementation
         }
 
         public async Task<LabRequestResponseDto> CreateAsync(CreateLabRequestDto dto)
+        {
+            var labRequest = _mapper.Map<LabRequest>(dto);
+            await _unitOfWork.LabRequests.AddAsync(labRequest);
+            await _unitOfWork.SaveChangesAsync();
+            return _mapper.Map<LabRequestResponseDto>(labRequest);
+        }
+
+        public async Task<LabRequestResponseDto> CreatePatientLabRequestAsync(CreatePatientLabRequestDto dto)
         {
             var labRequest = _mapper.Map<LabRequest>(dto);
             await _unitOfWork.LabRequests.AddAsync(labRequest);

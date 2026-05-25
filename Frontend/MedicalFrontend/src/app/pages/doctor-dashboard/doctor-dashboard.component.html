@@ -69,7 +69,7 @@
         <div class="topbar">
             <div class="topbar-left">
                 <h1 class="page-title">
-                    @if (activeTab() === 'overview') { Dashboard } @if (activeTab() === 'appointments') { Appointments } @if (activeTab() === 'schedule') { My Schedule } @if (activeTab() === 'timeslots') { Time Slots } @if (activeTab() === 'reviews') { Patient Reviews }
+                    @if (activeTab() === 'overview') { Overview } @if (activeTab() === 'appointments') { Appointments } @if (activeTab() === 'schedule') { My Schedule } @if (activeTab() === 'timeslots') { Time Slots } @if (activeTab() === 'reviews') { Patient Reviews }
                 </h1>
                 <p class="page-sub">
                     Welcome, <strong>Dr. {{ currentUser()?.fullName }}</strong>
@@ -279,9 +279,16 @@
                                         <button class="action-btn complete" (click)="completeAppointment(apt.id)">
                                 <i class="fas fa-check-double"></i>
                               </button>
-                                        <button class="action-btn record" (click)="openRecordModal(apt)">
+                                        <button class="action-btn record" (click)="openRecordModal(apt)" title="Medical Record">
                                 <i class="fas fa-file-medical"></i>
-                              </button> }
+                              </button> 
+                              <button class="action-btn patient-info" (click)="openPatientModal(apt)" title="Patient Details" style="color: #0d6efd;">
+                                <i class="fas fa-user-injured"></i>
+                              </button>
+                              <button class="action-btn lab-btn" (click)="openLabModal(apt)" title="Lab Tests & Results" style="color: #6f42c1;">
+                                <i class="fas fa-vial"></i>
+                              </button>
+                            }
                                     </div>
                                 </td>
                             </tr>
@@ -512,17 +519,17 @@
 
             <div class="field-group">
                 <label>Diagnosis <span class="req">*</span></label>
-                <input type="text" [(ngModel)]="newRecord.diagnosis" placeholder="Enter diagnosis..." class="field-input">
+                <input type="text" [(ngModel)]="newRecord.diagnosis" placeholder="Enter diagnosis..." class="field-input" [disabled]="isReadOnly()">
             </div>
 
             <div class="field-group">
                 <label>Vital Signs</label>
-                <input type="text" [(ngModel)]="newRecord.vitalSigns" placeholder="BP, Pulse, Temp..." class="field-input">
+                <input type="text" [(ngModel)]="newRecord.vitalSigns" placeholder="BP, Pulse, Temp..." class="field-input" [disabled]="isReadOnly()">
             </div>
 
             <div class="field-group">
                 <label>Notes</label>
-                <textarea [(ngModel)]="newRecord.notes" rows="4" placeholder="Additional notes..." class="field-input"></textarea>
+                <textarea [(ngModel)]="newRecord.notes" rows="4" placeholder="Additional notes..." class="field-input" [disabled]="isReadOnly()"></textarea>
             </div>
 
             <div class="field-group">
@@ -533,17 +540,22 @@
                     <div style="flex-grow: 1;">
                         <a [href]="getFileUrl(existingRecord()?.attachedFilePath)" target="_blank" style="color: #0d6efd; text-decoration: none; font-weight: 600;">View Attached PDF</a>
                     </div>
+                    @if (!isReadOnly()) {
                     <button type="button" (click)="deleteAttachment()" style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash-alt"></i> Remove
                     </button>
+                    }
                 </div>
                 }
+                @if (!isReadOnly()) {
                 <input type="file" accept="application/pdf" (change)="onRecordFileSelected($event)" class="field-input" style="padding: 8px;">
                 <small style="color: #6c757d; margin-top: 4px; display: block;">Select a PDF file to upload or replace existing attachment.</small>
+                }
             </div>
 
             <div class="modal-footer">
-                <button class="cancel-btn" (click)="closeRecordModal()">Cancel</button>
+                <button class="cancel-btn" (click)="closeRecordModal()">Close</button>
+                @if (!isReadOnly()) {
                 <button class="submit-btn" (click)="submitRecord()" [disabled]="isSubmitting()">
             @if (isSubmitting()) {
               <i class="fas fa-spinner fa-spin"></i> Saving...
@@ -551,9 +563,83 @@
               <i class="fas fa-save"></i> Save Record
             }
           </button>
+          }
             </div>
         </div>
 
+
+</div>
+</div>
+}
+
+<!-- Patient Info Modal -->
+@if (showPatientModal()) {
+<div class="modal-backdrop" (click)="closePatientModal()">
+    <div class="record-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-user-injured"></i> Patient Details</h3>
+            <button class="modal-close" (click)="closePatientModal()" title="Close" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ successMsg() }}
+            </div>
+            } @if (errorMsg()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+            </div>
+            }
+
+            @if (selectedPatient()) {
+            <div class="patient-info-card" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                <!-- Basic Info: Name, Gender, Birth Date, Blood Type -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; font-size: 0.9rem; margin-bottom: 12px;">
+                    <div><strong><i class="fas fa-user"></i> Name:</strong><br>{{ selectedPatient().fullName }}</div>
+                    <div><strong><i class="fas fa-venus-mars"></i> Gender:</strong><br>{{ selectedPatient().gender }}</div>
+                    <div><strong><i class="fas fa-birthday-cake"></i> Date of Birth:</strong><br>{{ selectedPatient().birthDate | date:'dd MMM yyyy' }}</div>
+                    <div><strong><i class="fas fa-tint" style="color: #dc3545;"></i> Blood Type:</strong><br>{{ selectedPatient().bloodType || 'N/A' }}</div>
+                </div>
+
+                <!-- Medical History -->
+                <div style="margin-top: 10px; font-size: 0.9rem; border-top: 1px solid #dee2e6; padding-top: 10px;">
+                    <strong><i class="fas fa-notes-medical"></i> Medical History:</strong>
+                    <div style="background: #fff; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; max-height: 120px; overflow-y: auto; margin-top: 5px; white-space: pre-wrap; font-size: 0.85rem;">
+                        {{ selectedPatient().medicalHistory || 'No medical history available.' }}
+                    </div>
+                    @if (!isReadOnly()) {
+                    <textarea [(ngModel)]="newMedicalHistoryEntry" rows="2" placeholder="Add new medical history notes..." class="field-input" style="margin-top: 6px;"></textarea>
+                    <button class="add-btn" (click)="appendMedicalHistory()" [disabled]="isSubmitting() || !newMedicalHistoryEntry" style="margin-top: 6px; padding: 6px 12px; font-size: 0.85rem;">
+                        <i class="fas fa-save"></i> Save to History
+                    </button>
+                    }
+                </div>
+
+                <!-- Allergies -->
+                <div style="margin-top: 12px; font-size: 0.9rem; border-top: 1px solid #dee2e6; padding-top: 10px;">
+                    <strong><i class="fas fa-allergies"></i> Allergies:</strong>
+                    <div style="background: #fff3cd; padding: 10px; border: 1px solid #ffc107; border-radius: 4px; margin-top: 5px; white-space: pre-wrap; font-size: 0.85rem; color: #856404;">
+                        {{ selectedPatient().allergies || 'No allergies recorded.' }}
+                    </div>
+                    @if (!isReadOnly()) {
+                    <textarea [(ngModel)]="newAllergiesEntry" rows="2" placeholder="Update allergies (replaces current value)..." class="field-input" style="margin-top: 6px;"></textarea>
+                    <button class="add-btn" (click)="updateAllergies()" [disabled]="isSubmitting() || !newAllergiesEntry" style="margin-top: 6px; padding: 6px 12px; font-size: 0.85rem; background: #e67e22;">
+                        <i class="fas fa-save"></i> Update Allergies
+                    </button>
+                    }
+                </div>
+
+            </div>
+            }
+
+            <div class="modal-footer">
+                <button class="cancel-btn" (click)="closePatientModal()">Close</button>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -674,6 +760,100 @@
           </button>
             </div>
         </div>
+    </div>
+</div>
+}
+
+<!-- Lab Requests Modal -->
+@if (showLabModal()) {
+<div class="modal-backdrop" (click)="closeLabModal()">
+    <div class="record-modal lab-requests-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-head">
+            <h3><i class="fas fa-vial"></i> Lab Tests & Results</h3>
+            <button class="modal-close" (click)="closeLabModal()" title="Close" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (successMsg()) {
+            <div class="msg-success">
+                <i class="fas fa-check-circle"></i> {{ successMsg() }}
+            </div>
+            } @if (errorMsg()) {
+            <div class="msg-error">
+                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
+            </div>
+            }
+
+            <!-- Request New Lab Test Form -->
+            @if (!isReadOnly()) {
+            <div class="request-lab-box">
+                <h4><i class="fas fa-plus-circle"></i> Request New Lab Test</h4>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <input type="text" [(ngModel)]="newLabTestRequestName" placeholder="E.g., Complete Blood Count (CBC)" class="field-input" style="flex: 1;">
+                    <button class="submit-btn" (click)="submitLabRequest()" [disabled]="isSubmitting() || !newLabTestRequestName" style="margin: 0; padding: 10px 16px; white-space: nowrap;">
+                        @if (isSubmitting()) {
+                            <i class="fas fa-spinner fa-spin"></i>
+                        } @else {
+                            <i class="fas fa-paper-plane"></i> Request
+                        }
+                    </button>
+                </div>
+            </div>
+            }
+
+            <hr style="border: 0; border-top: 1px solid #dee2e6; margin: 20px 0;">
+
+            <h4><i class="fas fa-list-ul"></i> Patient Lab Tests</h4>
+            
+            <div class="lab-results-body" style="margin-top: 10px;">
+                @if (isLoadingLabResults()) {
+                <div class="lab-loading-state">
+                    <i class="fas fa-spinner fa-spin"></i> Loading lab results...
+                </div>
+                } @else if (patientLabRequests().length === 0) {
+                <div class="lab-empty-state">
+                    <i class="fas fa-flask"></i>
+                    <span>No lab tests found for this patient.</span>
+                </div>
+                } @else {
+                <div class="lab-results-list" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                    @for (lab of patientLabRequests(); track lab.id) {
+                    <div class="lab-result-item" [class.has-file]="lab.resultFilePath">
+                        <div class="lab-result-info">
+                            <div class="lab-result-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <div class="lab-result-details">
+                                <span class="lab-test-name">{{ lab.testName }}</span>
+                                <span class="lab-test-date">{{ lab.requestedOn | date:'dd MMM yyyy' }}</span>
+                            </div>
+                            <span class="lab-status-pill" [class]="lab.status === 'Done' ? 'pill-done' : 'pill-pending'">
+                                {{ lab.status }}
+                            </span>
+                        </div>
+                        @if (lab.resultFilePath) {
+                        <a [href]="getFileUrl(lab.resultFilePath)" target="_blank" class="lab-open-btn">
+                            <i class="fas fa-file-medical"></i> Open File
+                        </a>
+                        } @else {
+                        <span class="lab-no-file">
+                            <i class="fas fa-clock"></i> Awaiting upload
+                        </span>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button class="cancel-btn" (click)="closeLabModal()">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>
 }

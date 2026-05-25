@@ -33,10 +33,15 @@ export class DoctorDashboardComponent implements OnInit {
   sidebarOpen = signal(false);
   currentUser = signal<any>(null);
 
-  // Create Medical Record
+  // Create Medical Record & Patient Info
   showRecordModal = signal(false);
+  showPatientModal = signal(false);
+  isReadOnly = signal(false);
   showScheduleModal = signal(false);
   selectedAppointment = signal<any>(null);
+  selectedPatient = signal<any>(null);
+  newMedicalHistoryEntry = '';
+  newAllergiesEntry = '';
   newRecord = { diagnosis: '', notes: '', vitalSigns: '' };
   existingRecord = signal<any>(null);
   selectedRecordFile: File | null = null;
@@ -50,6 +55,13 @@ export class DoctorDashboardComponent implements OnInit {
   isSubmitting = signal(false);
   successMsg = signal('');
   errorMsg = signal('');
+
+  // Patient Lab Results & Requests
+  patientLabRequests = signal<any[]>([]);
+  isLoadingLabResults = signal(false);
+  showLabResultsSection = signal(false);
+  showLabModal = signal(false);
+  newLabTestRequestName = '';
 
   // Generate Slots
   showSlotsModal = signal(false);
@@ -182,9 +194,13 @@ export class DoctorDashboardComponent implements OnInit {
 
   openRecordModal(apt: any) {
     this.selectedAppointment.set(apt);
+    this.isReadOnly.set(apt.status === 'Completed');
     this.showRecordModal.set(true);
     this.newRecord = { diagnosis: '', notes: '', vitalSigns: '' };
     this.existingRecord.set(null);
+    this.selectedPatient.set(null);
+    this.newMedicalHistoryEntry = '';
+    this.newAllergiesEntry = '';
     this.selectedRecordFile = null;
     this.successMsg.set('');
     this.errorMsg.set('');
@@ -206,11 +222,140 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
+  openPatientModal(apt: any) {
+    this.selectedAppointment.set(apt);
+    this.isReadOnly.set(apt.status === 'Completed');
+    this.showPatientModal.set(true);
+    this.selectedPatient.set(null);
+    this.newMedicalHistoryEntry = '';
+    this.newAllergiesEntry = '';
+    this.successMsg.set('');
+    this.errorMsg.set('');
+    this.patientLabRequests.set([]);
+    this.showLabResultsSection.set(false);
+
+    this.endpoint.patients.getById(apt.patientId).subscribe({
+      next: (patient) => {
+        this.selectedPatient.set(patient);
+        this.newMedicalHistoryEntry = '';
+        this.newAllergiesEntry = '';
+        // Auto-load lab results for this patient
+        this.loadPatientLabRequests(apt.patientId);
+      },
+      error: () => this.errorMsg.set('Failed to load patient details')
+    });
+  }
+
+  loadPatientLabRequests(patientId: number) {
+    this.isLoadingLabResults.set(true);
+    this.endpoint.labRequests.getByPatient(patientId).subscribe({
+      next: (labs) => {
+        this.patientLabRequests.set(labs);
+        this.isLoadingLabResults.set(false);
+      },
+      error: () => {
+        this.patientLabRequests.set([]);
+        this.isLoadingLabResults.set(false);
+      }
+    });
+  }
+
+  appendMedicalHistory() {
+    const patient = this.selectedPatient();
+    if (!patient || !this.newMedicalHistoryEntry.trim() || this.isReadOnly()) return;
+
+    const prefix = patient.medicalHistory ? '\n' : '';
+    const newEntry = prefix + this.newMedicalHistoryEntry.trim();
+    const updatedHistory = (patient.medicalHistory || '') + newEntry;
+
+    this.isSubmitting.set(true);
+    this.endpoint.patients.update(patient.id, { medicalHistory: updatedHistory }).subscribe({
+      next: (updatedPatient) => {
+        this.selectedPatient.set(updatedPatient);
+        this.newMedicalHistoryEntry = '';
+        this.successMsg.set('Medical history updated successfully!');
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        this.errorMsg.set(err.error?.message || 'Failed to update medical history');
+        this.isSubmitting.set(false);
+      }
+    });
+  }
+
   closeRecordModal() {
     this.showRecordModal.set(false);
     this.selectedAppointment.set(null);
     this.existingRecord.set(null);
     this.selectedRecordFile = null;
+  }
+
+  closePatientModal() {
+    this.showPatientModal.set(false);
+    this.selectedPatient.set(null);
+    this.newMedicalHistoryEntry = '';
+    this.newAllergiesEntry = '';
+    // We can keep these reset if needed, but they are also used by LabModal
+    // this.patientLabRequests.set([]);
+    // this.showLabResultsSection.set(false);
+  }
+
+  toggleLabResultsSection() {
+    this.showLabResultsSection.set(!this.showLabResultsSection());
+  }
+
+  openLabModal(apt: any) {
+    this.selectedAppointment.set(apt);
+    this.isReadOnly.set(apt.status === 'Completed');
+    this.showLabModal.set(true);
+    this.newLabTestRequestName = '';
+    this.successMsg.set('');
+    this.errorMsg.set('');
+    this.loadPatientLabRequests(apt.patientId);
+  }
+
+  closeLabModal() {
+    this.showLabModal.set(false);
+    this.selectedAppointment.set(null);
+    this.newLabTestRequestName = '';
+  }
+
+  submitLabRequest() {
+    const apt = this.selectedAppointment();
+    if (!apt || !this.newLabTestRequestName.trim()) return;
+
+    this.isSubmitting.set(true);
+    this.endpoint.labRequests.doctorRequestLabTest(apt.patientId, this.newLabTestRequestName.trim()).subscribe({
+      next: (createdLab) => {
+        this.patientLabRequests.update(labs => [createdLab, ...labs]);
+        this.newLabTestRequestName = '';
+        this.successMsg.set('Lab test requested successfully!');
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        this.errorMsg.set(err.error?.message || 'Failed to request lab test');
+        this.isSubmitting.set(false);
+      }
+    });
+  }
+
+  updateAllergies() {
+    const patient = this.selectedPatient();
+    if (!patient || this.isReadOnly()) return;
+
+    this.isSubmitting.set(true);
+    this.endpoint.patients.update(patient.id, { allergies: this.newAllergiesEntry.trim() }).subscribe({
+      next: (updatedPatient) => {
+        this.selectedPatient.set(updatedPatient);
+        this.newAllergiesEntry = '';
+        this.successMsg.set('Allergies updated successfully!');
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        this.errorMsg.set(err.error?.message || 'Failed to update allergies');
+        this.isSubmitting.set(false);
+      }
+    });
   }
 
   openScheduleModal() {
@@ -245,7 +390,13 @@ export class DoctorDashboardComponent implements OnInit {
     this.errorMsg.set('');
     this.successMsg.set('');
 
-    this.endpoint.doctors.createSchedule(doctorId, this.newSchedule).subscribe({
+    const payload = {
+      ...this.newSchedule,
+      startTime: this.newSchedule.startTime.length === 5 ? `${this.newSchedule.startTime}:00` : this.newSchedule.startTime,
+      endTime: this.newSchedule.endTime.length === 5 ? `${this.newSchedule.endTime}:00` : this.newSchedule.endTime
+    };
+
+    this.endpoint.doctors.createSchedule(doctorId, payload).subscribe({
       next: (created) => {
         this.schedule.update(items => [...items, created]);
         this.successMsg.set('Schedule added successfully.');

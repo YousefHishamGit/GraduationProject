@@ -1296,12 +1296,16 @@ tr:hover td {
 /* ── Lab Tests ── */
 
 .lab-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    overflow-x: auto;
     gap: 16px;
+    padding-bottom: 15px;
+    scroll-behavior: smooth;
 }
 
 .lab-card {
+    flex: 0 0 auto;
+    width: 320px;
     padding: 20px;
 }
 
@@ -1375,6 +1379,44 @@ tr:hover td {
     background: #1a6fc4;
     color: white;
 }
+
+.lab-upload-section {
+    margin-top: 10px;
+}
+
+.upload-result-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(245, 158, 11, 0.08);
+    color: #f59e0b;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px dashed rgba(245, 158, 11, 0.3);
+    user-select: none;
+}
+
+.upload-result-btn:hover {
+    background: #f59e0b;
+    color: white;
+    border-color: transparent;
+}
+
+.upload-loading-text {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+}
+
 
 
 /* ── Animation ── */

@@ -51,5 +51,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<IEnumerable<TimeSlotResponseDto>> GetAllTimeSlotsAsync(int doctorId);
 
         Task<TimeSlotResponseDto?> GetTimeSlotByIdAsync(int id);
+        
+        Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsForDateAsync(int doctorId, DateTime targetDate);
     }               
 }

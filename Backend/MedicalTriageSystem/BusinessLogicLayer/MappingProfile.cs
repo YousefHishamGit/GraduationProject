@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessLogicLayer.DTOs.Admin;
 using BusinessLogicLayer.DTOs.Appointment;
 using BusinessLogicLayer.DTOs.Auth;
@@ -210,6 +210,13 @@ namespace BusinessLogicLayer
         opt => opt.MapFrom(src => LabRequestStatus.Requested))
     .ForMember(dest => dest.RequestedOn,
         opt => opt.MapFrom(src => DateTime.UtcNow));
+
+            CreateMap<CreatePatientLabRequestDto, LabRequest>()
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => LabRequestStatus.Requested))
+                .ForMember(dest => dest.RequestedOn,
+                    opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.MedicalRecordId, opt => opt.Ignore());
 
             CreateMap<UpdateLabRequestDto, LabRequest>()
                 .ForAllMembers(opt => opt.Condition(

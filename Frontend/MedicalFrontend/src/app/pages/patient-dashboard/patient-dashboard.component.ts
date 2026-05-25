@@ -30,6 +30,7 @@ export class PatientDashboardComponent implements OnInit {
   isLoading = signal(true);
   sidebarOpen = signal(false);
   currentUser = signal<any>(null);
+  uploadingLabId = signal<number | null>(null);
 
   ngOnInit() {
     const user = this.authService.getCurrentUser();
@@ -277,6 +278,89 @@ export class PatientDashboardComponent implements OnInit {
       },
       error: (err) => {
         alert(err.error?.message || 'Failed to delete medical record.');
+      }
+    });
+  }
+
+  // ═══════════════════════════════════════
+  //  PATIENT LAB UPLOAD
+  // ═══════════════════════════════════════
+  showLabUploadForm = signal(false);
+  newLabTestName = '';
+  newLabFile: File | null = null;
+  isSubmittingLabUpload = signal(false);
+
+  openLabUploadForm() {
+    this.showLabUploadForm.set(true);
+    this.newLabTestName = '';
+    this.newLabFile = null;
+  }
+
+  closeLabUploadForm() {
+    this.showLabUploadForm.set(false);
+  }
+
+  onNewLabFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf') {
+      alert('Only PDF files are allowed.');
+      return;
+    }
+    this.newLabFile = file;
+  }
+
+  submitPatientLabUpload() {
+    if (!this.newLabTestName.trim()) {
+      alert('Please enter the test name.');
+      return;
+    }
+    if (!this.newLabFile) {
+      alert('Please select a PDF file to upload.');
+      return;
+    }
+
+    const patientId = this.patient()?.id;
+    if (!patientId) return;
+
+    this.isSubmittingLabUpload.set(true);
+
+    this.endpoint.labRequests.uploadPatientLabResult(patientId, this.newLabTestName.trim(), this.newLabFile)
+      .subscribe({
+        next: (createdLab) => {
+          this.labRequests.update(labs => [createdLab, ...labs]);
+          this.isSubmittingLabUpload.set(false);
+          this.closeLabUploadForm();
+          alert('Lab test uploaded successfully.');
+        },
+        error: (err) => {
+          alert(err.error?.message || 'Failed to upload lab test.');
+          this.isSubmittingLabUpload.set(false);
+        }
+      });
+  }
+
+  onLabFileSelected(event: any, labId: number) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      alert('Only PDF/JPG/PNG files are allowed. Please select a valid PDF.');
+      return;
+    }
+
+    this.uploadingLabId.set(labId);
+
+    this.endpoint.labRequests.uploadResultFile(labId, file).subscribe({
+      next: (updatedLab) => {
+        this.labRequests.update(labs =>
+          labs.map(l => l.id === labId ? updatedLab : l)
+        );
+        this.uploadingLabId.set(null);
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to upload lab result.');
+        this.uploadingLabId.set(null);
       }
     });
   }

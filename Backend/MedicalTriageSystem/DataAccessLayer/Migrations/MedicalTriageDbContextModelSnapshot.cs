@@ -316,7 +316,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MedicalRecordId")
+                    b.Property<int?>("MedicalRecordId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -324,6 +324,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RequestedOn")
                         .HasColumnType("datetime2");
@@ -346,6 +349,8 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MedicalRecordId");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("LabRequests");
                 });
@@ -1076,10 +1081,16 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("DataAccessLayer.Entities.MedicalRecord", "MedicalRecord")
                         .WithMany("LabRequests")
                         .HasForeignKey("MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DataAccessLayer.Entities.Patient", "Patient")
+                        .WithMany("LabRequests")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("MedicalRecord");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.MedicalRecord", b =>
@@ -1308,6 +1319,8 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("LabRequests");
 
                     b.Navigation("MedicalRecords");
 

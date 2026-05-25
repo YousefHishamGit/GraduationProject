@@ -46,11 +46,7 @@ namespace YourApiNamespace.Controllers
             {
                 // Explicitly cast dto to resolve ambiguity
                 var created = await _doctorService.CreateScheduleAsync(doctorId, (CreateDoctorScheduleDto)dto);
-                return Ok(new
-                {
-                    message = "Schedule created and time slots generated successfully",
-                    schedule = created
-                });
+                return Ok(created);
             }
             catch (Exception ex)
             {

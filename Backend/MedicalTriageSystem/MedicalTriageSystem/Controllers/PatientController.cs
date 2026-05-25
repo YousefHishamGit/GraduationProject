@@ -39,7 +39,7 @@ namespace YourApiNamespace.Controllers
 		
 
 		[HttpPut("{id}")]
-		[Authorize(Roles = "Admin,Patient")]
+		[Authorize(Roles = "Admin,Patient,Doctor")]
 		public async Task<IActionResult> UpdatePatient(int id, [FromBody] UpdatePatientDto dto)
 		{
 			if (!ModelState.IsValid)

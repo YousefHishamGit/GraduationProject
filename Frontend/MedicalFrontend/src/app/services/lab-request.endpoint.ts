@@ -23,11 +23,29 @@ export class LabRequestEndpoint extends BaseEndpoint {
     return this.http.post<LabRequestResponseDto>(this.baseUrl, dto);
   }
 
+  doctorRequestLabTest(patientId: number, testName: string): Observable<LabRequestResponseDto> {
+    return this.http.post<LabRequestResponseDto>(`${this.baseUrl}/doctor-request`, { patientId, testName });
+  }
+
   update(id: number, dto: UpdateLabRequestDto): Observable<LabRequestResponseDto> {
     return this.http.put<LabRequestResponseDto>(`${this.baseUrl}/${id}`, dto);
   }
 
   uploadResult(id: number, dto: UploadLabResultDto): Observable<LabRequestResponseDto> {
     return this.http.put<LabRequestResponseDto>(`${this.baseUrl}/${id}/upload-result`, dto);
+  }
+
+  uploadResultFile(id: number, file: File): Observable<LabRequestResponseDto> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<LabRequestResponseDto>(`${this.baseUrl}/${id}/upload-result-file`, formData);
+  }
+
+  uploadPatientLabResult(patientId: number, testName: string, file: File): Observable<LabRequestResponseDto> {
+    const formData = new FormData();
+    formData.append('patientId', patientId.toString());
+    formData.append('testName', testName);
+    formData.append('file', file);
+    return this.http.post<LabRequestResponseDto>(`${this.baseUrl}/patient-upload`, formData);
   }
 }
