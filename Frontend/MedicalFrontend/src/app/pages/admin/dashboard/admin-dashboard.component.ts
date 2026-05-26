@@ -200,7 +200,105 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+// admin-dashboard.component.ts
+
+confirmDoctor(id: number) {
+  if (!confirm('Are you sure you want to confirm and activate this doctor account?')) return;
+
+  // البحث عن الطبيب من القائمة الحالية
+  const doctor = this.doctors().find(d => d.id === id);
+  if (!doctor) {
+    alert('Doctor not found');
+    return;
+  }
+
+  // البحث عن القسم الذي ينتمي إليه الطبيب باستخدام departmentName
+  const department = this.departments().find(d => d.departmentName === doctor.departmentName);
+  if (!department) {
+    alert('Department not found for this doctor. Please check department list.');
+    return;
+  }
+
+  // بناء كائن التحديث مع جميع الحقول المطلوبة (خاصة departmentId)
+  const updateData: any = {
+    specialization: doctor.specialization,
+    departmentId: department.id,          // المفتاح الأساسي لحل المشكلة
+    yearsOfExperience: doctor.yearsOfExperience,
+    consultationFee: doctor.consultationFee,
+    bio: doctor.bio,
+    status: 'Active',                    // الحالة المطلوب تغييرها
+    phone: doctor.phone,
+    address: doctor.address
+  };
+
+  // إرسال طلب التحديث
+  this.endpoint.doctors.update(id, updateData).subscribe({
+    next: () => {
+      alert('Doctor account confirmed successfully!');
+      // إعادة تحميل قائمة الأطباء لتحديث الحالة في الواجهة
+      this.endpoint.doctors.getAll().subscribe(d => this.doctors.set(d));
+    },
+    error: (err) => {
+      console.error('Error confirming doctor:', err);
+      alert(err.error?.message || 'Failed to confirm doctor. Please try again.');
+    }
+  });
+}
+
   logout() {
     this.authService.logout();
   }
+
+
+ 
+// ── Toggle Doctor Active/Inactive ──
+toggleDoctorStatus(doctor: any) {
+  const newStatus = doctor.status === 'Active' ? 'Inactive' : 'Active';
+  const actionText = newStatus === 'Active' ? 'activate' : 'deactivate';
+
+  if (!confirm(`Are you sure you want to ${actionText} Dr. ${doctor.fullName}?`)) return;
+
+  // البحث عن القسم باستخدام departmentName (كما في confirmDoctor)
+  const department = this.departments().find(d => d.departmentName === doctor.departmentName);
+  if (!department) {
+    alert('Department not found for this doctor. Cannot update status.');
+    return;
+  }
+
+  // تجهيز بيانات التحديث بنفس حقول confirmDoctor + أي حقول إضافية مطلوبة
+  const updateData: any = {
+    specialization: doctor.specialization,
+    departmentId: department.id,
+    yearsOfExperience: doctor.yearsOfExperience,
+    consultationFee: doctor.consultationFee,
+    bio: doctor.bio,
+    status: newStatus,
+    phone: doctor.phone || '',
+    address: doctor.address || '',
+    // إضافة حقول أخرى قد يتطلبها الـ API
+    licenseNumber: doctor.licenseNumber || '',
+    nationalID: doctor.nationalID || '',
+    birthDate: doctor.birthDate || '',
+    gender: doctor.gender ?? 0,
+    hireDate: doctor.hireDate || new Date().toISOString().split('T')[0],
+    email: doctor.email || '',
+    // قد يحتاج الـ API إلى firstName و lastName إذا لم يكن fullName موجوداً
+    firstName: doctor.fullName?.split(' ')[0] || '',
+    lastName: doctor.fullName?.split(' ').slice(1).join(' ') || '',
+  };
+
+  this.endpoint.doctors.update(doctor.id, updateData).subscribe({
+    next: () => {
+      alert(`Doctor ${actionText}d successfully!`);
+      // تحديث القائمة المحلية مباشرة
+      this.doctors.update(doctors =>
+        doctors.map(d => d.id === doctor.id ? { ...d, status: newStatus } : d)
+      );
+    },
+    error: (err) => {
+      console.error('Error toggling status:', err);
+      alert(err.error?.message || `Failed to ${actionText} doctor. Please try again.`);
+    }
+  });
+}
 }

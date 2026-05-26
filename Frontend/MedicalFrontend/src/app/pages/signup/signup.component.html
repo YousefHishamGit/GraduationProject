@@ -69,12 +69,44 @@
             </div>
             }
 
-            <!-- ═══ STEP 1: Personal ═══ -->
             @if (currentStep() === 1) {
             <div class="step-content">
                 <div class="step-title">
                     <h2>{{ language.translate('personalInfo') }}</h2>
                     <p>{{ language.translate('tellUsAboutYourself') }}</p>
+                </div>
+
+                <!-- Role Selection Toggle -->
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-dark, #2b2d42);">I am registering as a:</label>
+                    <div style="display: flex; gap: 12px;">
+                        <button type="button" 
+                                (click)="role.set('Patient')" 
+                                [style.flex]="1"
+                                [style.padding]="'12px'"
+                                [style.border]="role() === 'Patient' ? '2px solid var(--primary-color, #0d6efd)' : '1px solid #dee2e6'"
+                                [style.background-color]="role() === 'Patient' ? 'rgba(13, 110, 253, 0.05)' : 'white'"
+                                [style.color]="role() === 'Patient' ? 'var(--primary-color, #0d6efd)' : '#6c757d'"
+                                [style.font-weight]="'600'"
+                                [style.border-radius]="'8px'"
+                                [style.cursor]="'pointer'"
+                                [style.transition]="'all 0.2s ease'">
+                            <i class="fas fa-user-injured" style="margin-right: 8px;"></i> Patient
+                        </button>
+                        <button type="button" 
+                                (click)="role.set('Doctor')" 
+                                [style.flex]="1"
+                                [style.padding]="'12px'"
+                                [style.border]="role() === 'Doctor' ? '2px solid var(--primary-color, #0d6efd)' : '1px solid #dee2e6'"
+                                [style.background-color]="role() === 'Doctor' ? 'rgba(13, 110, 253, 0.05)' : 'white'"
+                                [style.color]="role() === 'Doctor' ? 'var(--primary-color, #0d6efd)' : '#6c757d'"
+                                [style.font-weight]="'600'"
+                                [style.border-radius]="'8px'"
+                                [style.cursor]="'pointer'"
+                                [style.transition]="'all 0.2s ease'">
+                            <i class="fas fa-user-md" style="margin-right: 8px;"></i> Doctor
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-row">
@@ -211,14 +243,15 @@
             </div>
             }
 
-            <!-- ═══ STEP 3: Medical ═══ -->
+            <!-- ═══ STEP 3: Medical / Professional ═══ -->
             @if (currentStep() === 3) {
             <div class="step-content">
                 <div class="step-title">
-                    <h2>{{ language.translate('medicalInformation') }}</h2>
-                    <p>{{ language.translate('helpUsProvideBetterCare') }} <span class="optional-tag">{{ language.translate('optionalTag') }}</span></p>
+                    <h2>{{ role() === 'Patient' ? language.translate('medicalInformation') : language.translate('professionalInfo') }}</h2>
+                    <p>{{ role() === 'Patient' ? language.translate('helpUsProvideBetterCare') : language.translate('provideLicenseDetails') }} <span class="optional-tag">{{ role() === 'Patient' ? language.translate('optionalTag') : 'Required' }}</span></p>
                 </div>
 
+                @if (role() === 'Patient') {
                 <div class="form-row">
                     <div class="field-group">
                         <label>{{ language.translate('bloodType') }}</label>
@@ -264,6 +297,63 @@
                         <textarea [(ngModel)]="medicalHistory" name="medicalHistory" rows="2" placeholder="{{ language.translate('medicalHistoryPlaceholder') }}"></textarea>
                     </div>
                 </div>
+                } @else {
+                <!-- Doctor Professional Fields -->
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>{{ language.translate('licenseNumber') }} <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-id-badge field-icon"></i>
+                            <input type="text" [(ngModel)]="licenseNumber" name="licenseNumber" placeholder="LIC-XXXX" required>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>{{ language.translate('specialization') }} <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-stethoscope field-icon"></i>
+                            <input type="text" [(ngModel)]="specialization" name="specialization" placeholder="e.g. Cardiology" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field-group">
+                        <label>{{ language.translate('selectDepartment') }} <span class="req">*</span></label>
+                        <div class="field-wrap">
+                            <i class="fas fa-hospital field-icon"></i>
+                            <select [(ngModel)]="departmentId" name="departmentId" required>
+                                <option [value]="0">{{ language.translate('selectDepartment') }}</option>
+                                @for (dept of departments(); track dept.id) {
+                                    <option [value]="dept.id">{{ dept.departmentName }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>{{ language.translate('yearsOfExperience') }}</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-history field-icon"></i>
+                            <input type="number" [(ngModel)]="yearsOfExperience" name="yearsOfExperience" min="0" placeholder="e.g. 5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>{{ language.translate('consultationFee') }}</label>
+                    <div class="field-wrap">
+                        <i class="fas fa-money-bill-wave field-icon"></i>
+                        <input type="number" [(ngModel)]="consultationFee" name="consultationFee" min="0" placeholder="e.g. 200">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>{{ language.translate('bio') }}</label>
+                    <div class="field-wrap textarea-wrap">
+                        <i class="fas fa-pencil-alt field-icon field-icon-top"></i>
+                        <textarea [(ngModel)]="bio" name="bio" rows="3" placeholder="Brief professional bio..."></textarea>
+                    </div>
+                </div>
+                }
 
                 <div class="terms-check">
                     <input type="checkbox" id="terms" [(ngModel)]="agreedToTerms" name="terms">

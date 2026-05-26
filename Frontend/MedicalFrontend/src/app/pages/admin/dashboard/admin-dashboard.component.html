@@ -68,8 +68,8 @@
         <div class="topbar">
             <div class="topbar-left">
                 <h1 class="page-title">
-                    @if (activeTab() === 'dashboard') { Overview } @else if (activeTab() === 'doctors') { Doctors Management } @else if (activeTab() === 'patients') { Patients } @else if (activeTab() === 'appointments') { Appointments } @else if (activeTab() ===
-                    'departments') { Departments }
+                    @if (activeTab() === 'dashboard') { Overview } @else if (activeTab() === 'doctors') { Doctors Management } @else if (activeTab() === 'patients') { Patients } @else if (activeTab() === 'appointments') { Appointments } @else if (activeTab() === 'departments')
+                    { Departments }
                 </h1>
                 <p class="page-sub">MediCare Administration Panel</p>
             </div>
@@ -280,9 +280,28 @@
                         </span>
                                 </td>
                                 <td>
-                                    <button class="del-btn" (click)="deleteDoctor(doc.id)" title="Delete doctor" aria-label="Delete doctor">
-                          <i class="fas fa-trash"></i>
-                        </button>
+                                    <!-- Pending: Confirm button -->
+                                    @if (doc.status === 'Pending') {
+                                    <button class="action-btn confirm-btn" (click)="confirmDoctor(doc.id)" title="Confirm doctor">
+      <i class="fas fa-check"></i> Confirm
+    </button> }
+
+                                    <!-- Active: Deactivate button -->
+                                    @if (doc.status === 'Active') {
+                                    <button class="action-btn deactivate-btn" (click)="toggleDoctorStatus(doc)" title="Deactivate doctor">
+      <i class="fas fa-ban"></i> Deactivate
+    </button> }
+
+                                    <!-- Inactive: Activate button -->
+                                    @if (doc.status === 'Inactive') {
+                                    <button class="action-btn activate-btn" (click)="toggleDoctorStatus(doc)" title="Activate doctor">
+      <i class="fas fa-check-circle"></i> Activate
+    </button> }
+
+                                    <!-- Delete button always visible -->
+                                    <button class="del-btn" (click)="deleteDoctor(doc.id)" title="Delete doctor">
+    <i class="fas fa-trash"></i>
+  </button>
                                 </td>
                             </tr>
                             } @empty {

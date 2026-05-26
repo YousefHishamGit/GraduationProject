@@ -4,6 +4,7 @@ namespace DataAccessLayer.Enums
     {
         Active,
         Inactive,
-        OnLeave
+        OnLeave,
+        Pending
     }
 }

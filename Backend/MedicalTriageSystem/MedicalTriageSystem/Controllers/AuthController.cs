@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.DTOs.Auth;
+using BusinessLogicLayer.DTOs.Auth;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +28,6 @@ namespace MedicalTriageSystem.Controllers
         }
 
         [HttpPost("register/doctor")]
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(AuthResponseDto), 201)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> RegisterDoctor([FromBody] RegisterDoctorDto dto)

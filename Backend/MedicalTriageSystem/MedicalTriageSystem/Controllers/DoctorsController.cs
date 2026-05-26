@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.DTOs.Review;
+using BusinessLogicLayer.DTOs.Review;
 using BusinessLogicLayer.DTOs.Doctor;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -73,7 +73,7 @@ namespace MedicalTriageSystem.Controllers
        
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Doctor")]
-        public async Task<IActionResult> Update(int id, [FromForm] UpdateDoctorDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateDoctorDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

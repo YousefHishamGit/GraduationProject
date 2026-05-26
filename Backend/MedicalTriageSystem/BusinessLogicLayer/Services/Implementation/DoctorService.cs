@@ -139,6 +139,11 @@ namespace BusinessLogicLayer.Services.Implementation
             if (dto.Address != null)
                 doctor.Person.Address = dto.Address;
 
+            if (dto.Status != null && Enum.TryParse<DoctorStatus>(dto.Status, true, out var parsedStatus))
+            {
+                doctor.Status = parsedStatus;
+            }
+
             _mapper.Map(dto, doctor);
 
             _unitOfWork.Doctors.Update(doctor);

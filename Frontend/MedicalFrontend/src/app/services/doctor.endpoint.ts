@@ -12,7 +12,7 @@ import { ReviewResponseDto } from '../interfaces/review.interface';
 
 @Injectable({ providedIn: 'root' })
 export class DoctorEndpoint extends BaseEndpoint {
-  private baseUrl = this.getBaseUrl('doctors');
+  private baseUrl = this.getBaseUrl('Doctors');
 
   getAll(): Observable<DoctorResponseDto[]> {
     return this.http.get<DoctorResponseDto[]>(this.baseUrl);

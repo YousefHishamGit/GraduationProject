@@ -184,7 +184,9 @@
     min-height: 100vh;
 }
 
+
 /* RESPONSIVE - Tablet (768px and below) */
+
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
@@ -218,7 +220,9 @@
     }
 }
 
+
 /* RESPONSIVE - Mobile (576px and below) */
+
 @media (max-width: 576px) {
     .main-content {
         padding: 12px;
@@ -1312,6 +1316,7 @@ textarea.field-input {
     }
 }
 
+
 /* ══════════════════════════════
    MOBILE OVERRIDES - FIXED
 ══════════════════════════════ */
@@ -1352,7 +1357,7 @@ textarea.field-input {
         justify-content: center;
         font-size: 1.2rem;
         cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     .sidebar-overlay {
         position: fixed;
@@ -1360,7 +1365,7 @@ textarea.field-input {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 999;
     }
     .stats-row {
@@ -1378,20 +1383,29 @@ textarea.field-input {
     table {
         min-width: 500px !important;
     }
-    body, .main-content {
+    body,
+    .main-content {
         font-size: 14px;
     }
     .page-title {
         font-size: 1.3rem !important;
     }
-    .card, .stat-card, .doctor-card, .dept-card, .service-card {
+    .card,
+    .stat-card,
+    .doctor-card,
+    .dept-card,
+    .service-card {
         width: 100%;
         box-sizing: border-box;
     }
-    .doctors-grid, .services-grid, .dept-grid {
+    .doctors-grid,
+    .services-grid,
+    .dept-grid {
         grid-template-columns: 1fr !important;
     }
-    .modal-box, .record-modal, .doctor-modal {
+    .modal-box,
+    .record-modal,
+    .doctor-modal {
         width: 95% !important;
         max-width: 95% !important;
         margin: 0 auto;
@@ -1419,10 +1433,12 @@ textarea.field-input {
         text-align: center;
         padding: 15px !important;
     }
-    .topbar-left, .topbar-right {
+    .topbar-left,
+    .topbar-right {
         width: 100%;
     }
-    .topbar-btn, .action-btn-primary {
+    .topbar-btn,
+    .action-btn-primary {
         width: 100%;
         justify-content: center;
     }
@@ -1433,10 +1449,16 @@ textarea.field-input {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
     }
-    .field-input, .field-wrap input, select, textarea {
+    .field-input,
+    .field-wrap input,
+    select,
+    textarea {
         font-size: 16px !important;
     }
-    .submit-btn, .cancel-btn, .next-btn, .back-btn {
+    .submit-btn,
+    .cancel-btn,
+    .next-btn,
+    .back-btn {
         width: 100%;
         margin-bottom: 8px;
     }
@@ -1460,5 +1482,63 @@ textarea.field-input {
     }
     .qa-grid {
         grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+
+/* Action Buttons for Doctors */
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 8px;
+}
+
+.confirm-btn {
+    background-color: #10b981;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #059669;
+    transform: translateY(-1px);
+}
+
+.activate-btn {
+    background-color: #10b981;
+    color: white;
+}
+
+.activate-btn:hover {
+    background-color: #059669;
+}
+
+.deactivate-btn {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.deactivate-btn:hover {
+    background-color: #d97706;
+}
+
+
+/* Responsive adjustment for small screens */
+
+@media (max-width: 576px) {
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    .action-btn i {
+        font-size: 0.7rem;
     }
 }

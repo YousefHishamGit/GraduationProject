@@ -230,6 +230,13 @@ const TRANSLATIONS: Record<string, Record<AppLanguage, string>> = {
   chatSuggestion3: { en: 'I have cough and fever', ar: 'عندي كحة وحرارة' },
   chatSuggestion4: { en: 'I have stomach pain', ar: 'عندي وجع بطن' },
   chatSuggestion5: { en: 'I have a skin rash', ar: 'عندي طفح في جلدي' },
+  licenseNumber: { en: 'License Number', ar: 'رقم الترخيص' },
+  specialization: { en: 'Specialization', ar: 'التخصص' },
+  yearsOfExperience: { en: 'Years of Experience', ar: 'سنوات الخبرة' },
+  consultationFee: { en: 'Consultation Fee (EGP)', ar: 'قيمة الكشف (جنيه)' },
+  bio: { en: 'Bio / Professional Summary', ar: 'نبذة تعريفية' },
+  professionalInfo: { en: 'Professional Information', ar: 'المعلومات المهنية' },
+  provideLicenseDetails: { en: 'Provide your professional license and details', ar: 'يرجى تقديم بيانات رخصتك الطبية' }
 };
 
 @Injectable({ providedIn: 'root' })

@@ -1,4 +1,4 @@
-﻿// Middleware/ErrorHandlingMiddleware.cs
+// Middleware/ErrorHandlingMiddleware.cs
 using MedicalTriageSystem.Exceptions;
 using MedicalTriageSystem.Exceptions.MedicalTriageSystem.Exceptions;
 using MedicalTriageSystem.Models;
@@ -50,6 +50,11 @@ namespace MedicalTriageSystem.Middleware
                     Message = e.Message
                 },
                 UnauthorizedException e => new ErrorResponse
+                {
+                    StatusCode = (int)HttpStatusCode.Unauthorized,
+                    Message = e.Message
+                },
+                UnauthorizedAccessException e => new ErrorResponse
                 {
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                     Message = e.Message

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessLogicLayer.DTOs.Auth;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Entities;
@@ -108,13 +108,21 @@ namespace BusinessLogicLayer.Services.Implementation
                 ConsultationFee = dto.ConsultationFee,
                 HireDate = dto.HireDate,
                 Bio = dto.Bio,
-                Status = DoctorStatus.Active
+                Status = DoctorStatus.Pending
             };
 
             await _unitOfWork.Doctors.AddAsync(doctor);
             await _unitOfWork.SaveChangesAsync();
 
-            return GenerateToken(user, person);
+            return new AuthResponseDto
+            {
+                Token = string.Empty,
+                UserId = user.Id,
+                FullName = $"{person.FirstName} {person.LastName}",
+                Email = user.Email!,
+                Role = user.Role.ToString(),
+                ExpiresAt = DateTime.UtcNow
+            };
         }
 
         public async Task<AuthResponseDto> RegisterAdminAsync(RegisterAdminDto dto)
@@ -147,7 +155,20 @@ namespace BusinessLogicLayer.Services.Implementation
             if (!result.Succeeded)
                 throw new Exception("Invalid email or password");
 
-            
+            if (user.Role == UserRole.Doctor)
+            {
+                var doctors = await _unitOfWork.Doctors.GetAllAsync(d => d.UserId == user.Id);
+                var doctor = doctors.FirstOrDefault();
+                if (doctor == null || doctor.Status == DoctorStatus.Pending)
+                {
+                    throw new UnauthorizedAccessException("Your account is pending admin approval.");
+                }
+                else if (doctor.Status == DoctorStatus.Inactive)
+                {
+                    throw new UnauthorizedAccessException("Your account is inactive. Please contact the administrator.");
+                }
+            }
+
             user.LastLoginAt = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
 
