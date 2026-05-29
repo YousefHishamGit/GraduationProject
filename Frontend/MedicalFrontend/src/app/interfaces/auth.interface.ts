@@ -18,6 +18,7 @@ export interface RegisterPatientDto {
   medicalHistory?: string;
   emergencyContactName?: string;
   emergencyContactPhone?: string;
+  image?: File;
 }
 
 export interface RegisterDoctorDto {
@@ -37,6 +38,7 @@ export interface RegisterDoctorDto {
   consultationFee: number;
   hireDate: string;
   bio?: string;
+  image?: File;
 }
 
 export interface AuthResponseDto {

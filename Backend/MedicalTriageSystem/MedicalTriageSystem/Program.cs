@@ -158,6 +158,7 @@ namespace MedicalTriageSystem
 
                     await context.Database.MigrateAsync();
                     await DataSeeder.SeedAsync(context, userManager, roleManager);
+                    await DataSeeder.FixDoctorPlaceholderImagesAsync(context);
                 }
                 catch (Exception ex)
                 {

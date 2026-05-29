@@ -1,8 +1,10 @@
 using BusinessLogicLayer.DTOs.Patient;
 using BusinessLogicLayer.Services.Interfaces;
+using MedicalTriageSystem.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace YourApiNamespace.Controllers
 {
@@ -37,6 +39,38 @@ namespace YourApiNamespace.Controllers
 		}
 
 		
+
+		[HttpPost("{id}/profile-image")]
+		[Authorize(Roles = "Admin,Patient")]
+		public async Task<IActionResult> UploadProfileImage(int id, [FromForm] IFormFile image)
+		{
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			if (string.IsNullOrWhiteSpace(userId))
+				return Unauthorized(new { message = "User is not authenticated." });
+
+			try
+			{
+				var imgPath = await ProfileImageStorage.SaveAsync(image);
+				var updated = await _patientService.UploadProfileImageAsync(
+					id,
+					userId,
+					User.IsInRole("Admin"),
+					imgPath);
+
+				if (updated == null)
+					return NotFound(new { message = "Patient not found." });
+
+				return Ok(updated);
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				return Forbid();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { message = ex.Message });
+			}
+		}
 
 		[HttpPut("{id}")]
 		[Authorize(Roles = "Admin,Patient,Doctor")]

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../../services/endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { LanguageService } from '../../../services/language.service';
+import { getDepartmentImage } from '../../../shared/department-assets';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -301,4 +302,23 @@ toggleDoctorStatus(doctor: any) {
     }
   });
 }
+
+  private readonly deptIcons: Record<string, string> = {
+    Cardiology: 'fas fa-heartbeat',
+    Neurology: 'fas fa-brain',
+    Orthopedics: 'fas fa-bone',
+    Pediatrics: 'fas fa-baby',
+    Dermatology: 'fas fa-allergies',
+    Ophthalmology: 'fas fa-eye',
+    'General Surgery': 'fas fa-user-md',
+    'Internal Medicine': 'fas fa-stethoscope',
+  };
+
+  getDeptImage(name: string): string | null {
+    return getDepartmentImage(name);
+  }
+
+  getDeptIcon(name: string): string {
+    return this.deptIcons[name] || 'fas fa-hospital-user';
+  }
 }

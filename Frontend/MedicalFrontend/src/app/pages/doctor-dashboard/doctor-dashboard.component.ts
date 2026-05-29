@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
-import { environment } from '../../../environments/environment';
+import { parseApiError } from '../../shared/api-error.util';
+import { resolveMediaUrl } from '../../shared/media-url.util';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -55,6 +56,9 @@ export class DoctorDashboardComponent implements OnInit {
   isSubmitting = signal(false);
   successMsg = signal('');
   errorMsg = signal('');
+  uploadingProfilePhoto = signal(false);
+  profilePhotoMessage = signal('');
+  profilePhotoError = signal('');
 
   // Patient Lab Results & Requests
   patientLabRequests = signal<any[]>([]);
@@ -588,9 +592,47 @@ export class DoctorDashboardComponent implements OnInit {
   }
 
   getFileUrl(path: string): string {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
-    const baseUrl = environment.apiUrl.replace('/api', '');
-    return `${baseUrl}${path}`;
+    return resolveMediaUrl(path);
   }
-}
+
+  getProfileImageUrl(): string {
+    return resolveMediaUrl(this.doctor()?.imgPath);
+  }
+
+  onProfileImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    const doctorId = this.doctor()?.id;
+
+    this.profilePhotoMessage.set('');
+    this.profilePhotoError.set('');
+
+    if (!file || !doctorId) {
+      return;
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      this.profilePhotoError.set('Please upload a JPG, PNG, or WEBP image.');
+      input.value = '';
+      return;
+    }
+
+    this.uploadingProfilePhoto.set(true);
+
+    this.endpoint.doctors.uploadProfileImage(doctorId, file).subscribe({
+      next: (updated) => {
+        this.doctor.set(updated);
+        this.uploadingProfilePhoto.set(false);
+        this.profilePhotoMessage.set('Profile photo updated successfully.');
+        window.dispatchEvent(new Event('user-profile-updated'));
+        input.value = '';
+      },
+      error: (err) => {
+        this.uploadingProfilePhoto.set(false);
+        this.profilePhotoError.set(parseApiError(err, 'Failed to update profile photo.'));
+        input.value = '';
+      }
+    });
+  }
+}

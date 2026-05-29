@@ -17,7 +17,11 @@
 
         <div class="sidebar-profile">
             <div class="profile-avatar">
+                @if (getProfileImageUrl()) {
+                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'">
+                } @else {
                 {{ getInitials(currentUser()?.fullName || 'DR') }}
+                }
             </div>
             <div class="profile-info">
                 <h4>{{ currentUser()?.fullName }}</h4>
@@ -135,10 +139,27 @@
                 <div class="doctor-profile-card card">
                     <div class="dpc-cover"></div>
                     <div class="dpc-body">
-                        <div class="dpc-avatar">
-                            {{ getInitials(doctor()?.fullName || 'DR') }}
+                        <div class="dpc-avatar-wrap">
+                            <div class="dpc-avatar">
+                                @if (getProfileImageUrl()) {
+                                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'">
+                                } @else {
+                                {{ getInitials(doctor()?.fullName || 'DR') }}
+                                }
+                            </div>
+                            <label class="change-photo-btn" [class.disabled]="uploadingProfilePhoto()">
+                                <i class="fas fa-camera"></i>
+                                {{ uploadingProfilePhoto() ? 'Uploading...' : 'Change Photo' }}
+                                <input type="file" accept=".jpg,.jpeg,.png,.webp" (change)="onProfileImageSelected($event)" [disabled]="uploadingProfilePhoto()" hidden>
+                            </label>
                         </div>
                         <h2>Dr. {{ doctor()?.fullName }}</h2>
+                        @if (profilePhotoMessage()) {
+                        <p class="photo-msg success">{{ profilePhotoMessage() }}</p>
+                        }
+                        @if (profilePhotoError()) {
+                        <p class="photo-msg error">{{ profilePhotoError() }}</p>
+                        }
                         <p class="dpc-spec">{{ doctor()?.specialization }}</p>
                         <div class="dpc-meta">
                             <div class="dpc-meta-item">

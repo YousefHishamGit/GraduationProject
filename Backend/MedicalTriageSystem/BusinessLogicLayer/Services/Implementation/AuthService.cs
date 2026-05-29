@@ -43,6 +43,8 @@ namespace BusinessLogicLayer.Services.Implementation
         {
           
             var person = _mapper.Map<Person>(dto);
+            if (!string.IsNullOrWhiteSpace(dto.ImgPath))
+                person.ImgPath = dto.ImgPath;
 
             var user = new User
             {
@@ -82,8 +84,9 @@ namespace BusinessLogicLayer.Services.Implementation
 
          
             var person = _mapper.Map<Person>(dto);
+            if (!string.IsNullOrWhiteSpace(dto.ImgPath))
+                person.ImgPath = dto.ImgPath;
 
-           
             var user = new User
             {
                 UserName = dto.Email,
@@ -96,7 +99,6 @@ namespace BusinessLogicLayer.Services.Implementation
             if (!result.Succeeded)
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
 
-            
             var doctor = new Doctor
             {
                 UserId = user.Id,
@@ -108,6 +110,7 @@ namespace BusinessLogicLayer.Services.Implementation
                 ConsultationFee = dto.ConsultationFee,
                 HireDate = dto.HireDate,
                 Bio = dto.Bio,
+                ImgPath = dto.ImgPath,
                 Status = DoctorStatus.Pending
             };
 

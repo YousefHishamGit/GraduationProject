@@ -70,11 +70,35 @@
                 </div>
             </div>
             <div class="hero-visual-half hero-visual-right">
-                <a class="hero-ad-panel" href="https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%B9%D9%8A%D9%86%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="قصر العيني">
-                    <div class="hero-ad-image">
-                        <img src="/assets/advertisement/kaserAlAiny.jpg" alt="قصر العيني" loading="lazy">
+                <div class="hero-ad-panel hero-partner-carousel" aria-live="polite">
+                    <div class="hero-partner-slides">
+                        @for (partner of partnerHospitals; track partner.image; let i = $index) {
+                        <a class="hero-partner-slide"
+                           [class.active]="activePartner() === i"
+                           [href]="partner.link"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           [attr.aria-label]="partner.label"
+                           [attr.aria-hidden]="activePartner() !== i">
+                            <div class="hero-ad-image">
+                                <img [src]="partner.image" [alt]="partner.alt" loading="lazy">
+                            </div>
+                        </a>
+                        }
                     </div>
-                </a>
+                    <div class="hero-partner-dots" role="group" aria-label="Partner hospitals">
+                        @for (partner of partnerHospitals; track partner.image; let i = $index) {
+                        <button type="button"
+                                class="hero-partner-dot"
+                                [class.active]="activePartner() === i"
+                                [attr.aria-label]="partner.label"
+                                [title]="partner.label"
+                                (click)="activePartner.set(i)">
+                            <span class="visually-hidden">{{ partner.label }}</span>
+                        </button>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -142,8 +166,10 @@
         <div class="services-grid">
             @for (service of services; track service.title; let i = $index) {
             <div class="service-card" [style.--delay]="i * 80 + 'ms'">
-                <div class="service-icon-wrap" [style.background]="service.color + '15'">
-                    @if (service.title === 'AI Diagnosis') {
+                <div class="service-icon-wrap" [class.has-dept-image]="service.image" [style.background]="service.image ? 'transparent' : service.color + '15'">
+                    @if (service.image) {
+                        <img [src]="service.image" [alt]="service.title" class="dept-icon-img" />
+                    } @else if (service.title === 'AI Diagnosis') {
                         <img src="/assets/advertisement/icon1Ai.png" alt="AI" style="width:28px;height:28px;border-radius:50%;" />
                     } @else {
                         <i [class]="service.icon" [style.color]="service.color"></i>
@@ -199,8 +225,12 @@
         <div class="dept-grid">
             @for (service of services.slice(0,3); track service.title) {
             <a routerLink="/departments" class="dept-card">
-                <div class="dept-img dept-img-placeholder" [style.background]="service.color + '20'">
-                    <i [class]="service.icon" [style.color]="service.color"></i>
+                <div class="dept-img dept-img-placeholder" [class.has-dept-image]="service.image" [style.background]="service.image ? 'transparent' : service.color + '20'">
+                    @if (service.image) {
+                        <img [src]="service.image" [alt]="service.title" class="dept-icon-img" />
+                    } @else {
+                        <i [class]="service.icon" [style.color]="service.color"></i>
+                    }
                 </div>
                 <div class="dept-body">
                     <h3>{{ service.title }}</h3>

@@ -1,8 +1,12 @@
 import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
+import { EndPoints } from '../../services/endpoints';
+import { resolveMediaUrl } from '../../shared/media-url.util';
+import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +18,7 @@ import { LanguageService } from '../../services/language.service';
 export class HeaderComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private endpoint = inject(EndPoints);
 
   public language = inject(LanguageService);
   isMenuOpen = signal(false);
@@ -21,6 +26,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = signal(false);
   userRole = signal('');
   userName = signal('');
+  userImgUrl = signal<string | null>(null);
 
   @HostListener('window:scroll')
   onScroll() {
@@ -29,6 +35,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.checkAuth();
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => this.checkAuth());
+  }
+
+  @HostListener('window:user-profile-updated')
+  onProfileUpdated() {
+    this.loadUserAvatar();
   }
 
   checkAuth() {
@@ -37,6 +51,38 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn.set(true);
       this.userRole.set(user.role);
       this.userName.set(user.fullName);
+      this.loadUserAvatar();
+    } else {
+      this.userImgUrl.set(null);
+    }
+  }
+
+  loadUserAvatar() {
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId) {
+      return;
+    }
+
+    const role = this.userRole();
+    if (role === 'Patient') {
+      this.endpoint.patients.getByUserId(userId).subscribe({
+        next: (patient) => {
+          const url = resolveMediaUrl(patient.imgPath);
+          this.userImgUrl.set(url || null);
+        },
+        error: () => this.userImgUrl.set(null)
+      });
+      return;
+    }
+
+    if (role === 'Doctor') {
+      this.endpoint.doctors.getByUserId(userId).subscribe({
+        next: (doctor) => {
+          const url = resolveDoctorPhoto(doctor.imgPath, doctor.fullName);
+          this.userImgUrl.set(url || null);
+        },
+        error: () => this.userImgUrl.set(null)
+      });
     }
   }
 
@@ -60,6 +106,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.isLoggedIn.set(false);
+    this.userImgUrl.set(null);
     this.closeMenu();
   }
 }

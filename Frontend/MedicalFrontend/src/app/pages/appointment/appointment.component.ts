@@ -6,6 +6,7 @@ import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { BackButtonComponent } from '../../components/back-button/back-button.component';
+import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 
 @Component({
   selector: 'app-appointment',
@@ -78,7 +79,14 @@ export class AppointmentComponent implements OnInit {
 
     this.endpoint.doctors.getAll().subscribe({
       next: (d) => {
-        this.doctors.set(d.filter(doc => doc.status === 'Active' || doc.status !== 'Inactive'));
+        this.doctors.set(
+          d
+            .filter(doc => doc.status === 'Active' || doc.status !== 'Inactive')
+            .map(doc => ({
+              ...doc,
+              imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+            }))
+        );
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false)
@@ -99,8 +107,12 @@ export class AppointmentComponent implements OnInit {
         const doctorId = Number(params['doctorId']);
         this.endpoint.doctors.getById(doctorId).subscribe({
           next: (doc) => {
+            const enriched = {
+              ...doc,
+              imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+            };
             this.selectedDoctorId.set(doc.id);
-            this.selectedDoctor.set(doc);
+            this.selectedDoctor.set(enriched);
             this.currentStep.set(2);
             this.loadTimeSlots(doc.id);
           }

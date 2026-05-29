@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { DoctorResponseDto } from '../../interfaces/doctor.interface';
+import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 
 @Component({
   selector: 'app-doctors',
@@ -44,6 +45,10 @@ export class DoctorsComponent implements OnInit {
     return [...new Set(names)];
   });
 
+  hasActiveFilters = computed(() =>
+    !!this.searchTerm().trim() || !!this.selectedDept()
+  );
+
   // Modal
   selectedDoctor = signal<DoctorResponseDto | null>(null);
   timeSlots = signal<any[]>([]);
@@ -59,7 +64,12 @@ export class DoctorsComponent implements OnInit {
   loadDoctors() {
     this.endpoint.doctors.getAll().subscribe({
       next: (data) => {
-        this.allDoctors.set(data);
+        this.allDoctors.set(
+          data.map(doc => ({
+            ...doc,
+            imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+          }))
+        );
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false)

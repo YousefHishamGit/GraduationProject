@@ -78,6 +78,8 @@ namespace BusinessLogicLayer
                     opt => opt.MapFrom(src => src.Person.Address))
                 .ForMember(dest => dest.Gender,
                     opt => opt.MapFrom(src => src.Person.Gender))
+                .ForMember(dest => dest.ImgPath,
+                    opt => opt.MapFrom(src => src.Person.ImgPath ?? src.ImgPath))
                 .ForMember(dest => dest.DepartmentName,
                     opt => opt.MapFrom(src => src.Department.DepartmentName))
                 .ForMember(dest => dest.Status,
@@ -288,6 +290,8 @@ namespace BusinessLogicLayer
                     opt => opt.MapFrom(src => src.Person.Phone))
                 .ForMember(dest => dest.Address,
                     opt => opt.MapFrom(src => src.Person.Address))
+                .ForMember(dest => dest.ImgPath,
+                    opt => opt.MapFrom(src => src.Person.ImgPath))
                 .ForMember(dest => dest.BloodType,
                     opt => opt.MapFrom(src => src.BloodType.HasValue ? src.BloodType.Value.ToString() : null));
         }

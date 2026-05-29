@@ -40,9 +40,14 @@
             @for (dept of filteredDepts(); track dept.id; let i = $index) {
             <button class="dept-nav-item" [class.active]="selectedDept()?.id === dept.id" (click)="selectDept(dept)">
             <div class="dept-nav-icon"
-                 [style.background]="getColor(i) + '20'"
+                 [class.has-dept-image]="getDeptImage(dept.departmentName)"
+                 [style.background]="getDeptImage(dept.departmentName) ? 'transparent' : getColor(i) + '20'"
                  [style.color]="getColor(i)">
-              <i [class]="getIcon(dept.departmentName)"></i>
+              @if (getDeptImage(dept.departmentName); as img) {
+                <img [src]="img" [alt]="dept.departmentName" class="dept-icon-img" />
+              } @else {
+                <i [class]="getIcon(dept.departmentName)"></i>
+              }
             </div>
             <div class="dept-nav-text">
               <span class="dept-nav-name">{{ dept.departmentName }}</span>
@@ -65,8 +70,15 @@
 
         <!-- Dept Header -->
         <div class="dept-header">
-            <div class="dept-header-icon" [style.background]="getColor(departments().indexOf(dept)) + '15'" [style.color]="getColor(departments().indexOf(dept))">
-                <i [class]="getIcon(dept.departmentName)"></i>
+            <div class="dept-header-icon"
+                 [class.has-dept-image]="getDeptImage(dept.departmentName)"
+                 [style.background]="getDeptImage(dept.departmentName) ? 'transparent' : getColor(departments().indexOf(dept)) + '15'"
+                 [style.color]="getColor(departments().indexOf(dept))">
+                @if (getDeptImage(dept.departmentName); as img) {
+                  <img [src]="img" [alt]="dept.departmentName" class="dept-icon-img" />
+                } @else {
+                  <i [class]="getIcon(dept.departmentName)"></i>
+                }
             </div>
             <div class="dept-header-info">
                 <h2>{{ dept.departmentName }}</h2>
@@ -172,9 +184,14 @@
             @for (dept of departments(); track dept.id; let i = $index) {
             <button class="dept-grid-card" (click)="selectDept(dept)">
             <div class="dgc-icon"
-                 [style.background]="getColor(i) + '15'"
+                 [class.has-dept-image]="getDeptImage(dept.departmentName)"
+                 [style.background]="getDeptImage(dept.departmentName) ? 'transparent' : getColor(i) + '15'"
                  [style.color]="getColor(i)">
-              <i [class]="getIcon(dept.departmentName)"></i>
+              @if (getDeptImage(dept.departmentName); as img) {
+                <img [src]="img" [alt]="dept.departmentName" class="dept-icon-img" />
+              } @else {
+                <i [class]="getIcon(dept.departmentName)"></i>
+              }
             </div>
             <h3>{{ dept.departmentName }}</h3>
             <p>{{ dept.description | slice:0:70 }}{{ dept.description?.length > 70 ? '...' : '' }}</p>

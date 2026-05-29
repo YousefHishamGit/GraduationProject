@@ -433,8 +433,14 @@
             <div class="dept-grid">
                 @for (dept of departments(); track dept.id; let i = $index) {
                 <div class="dept-card card">
-                    <div class="dept-card-icon" [style.background]="'hsl(' + (i * 35) + ', 70%, 92%)'">
-                        <i class="fas fa-hospital-user" [style.color]="'hsl(' + (i * 35) + ', 60%, 40%)'"></i>
+                    <div class="dept-card-icon"
+                         [class.has-dept-image]="getDeptImage(dept.departmentName)"
+                         [style.background]="getDeptImage(dept.departmentName) ? 'transparent' : 'hsl(' + (i * 35) + ', 70%, 92%)'">
+                        @if (getDeptImage(dept.departmentName); as img) {
+                            <img [src]="img" [alt]="dept.departmentName" class="dept-icon-img" />
+                        } @else {
+                            <i [class]="getDeptIcon(dept.departmentName)" [style.color]="'hsl(' + (i * 35) + ', 60%, 40%)'"></i>
+                        }
                     </div>
                     <div class="dept-card-info">
                         <h4>{{ dept.departmentName }}</h4>

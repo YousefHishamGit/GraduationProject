@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { LanguageService } from '../../services/language.service';
+import { getDepartmentImage } from '../../shared/department-assets';
+import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 
 @Component({
   selector: 'app-departments',
@@ -80,7 +82,12 @@ export class DepartmentsComponent implements OnInit {
 
     this.endpoint.departments.getDoctors(dept.id).subscribe({
       next: (docs) => {
-        this.deptDoctors.set(docs);
+        this.deptDoctors.set(
+          docs.map(doc => ({
+            ...doc,
+            imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+          }))
+        );
         this.isLoadingDoctors.set(false);
       },
       error: () => this.isLoadingDoctors.set(false)
@@ -89,6 +96,10 @@ export class DepartmentsComponent implements OnInit {
 
   getIcon(name: string): string {
     return this.deptIcons[name] || 'fas fa-hospital-user';
+  }
+
+  getDeptImage(name: string): string | null {
+    return getDepartmentImage(name);
   }
 
   getColor(index: number): string {

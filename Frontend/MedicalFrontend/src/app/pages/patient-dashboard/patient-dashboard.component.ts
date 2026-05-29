@@ -6,7 +6,8 @@ import { forkJoin } from 'rxjs';
 import { EndPoints } from '../../services/endpoints';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
-import { environment } from '../../../environments/environment';
+import { parseApiError } from '../../shared/api-error.util';
+import { resolveMediaUrl } from '../../shared/media-url.util';
 
 @Component({
   selector: 'app-patient-dashboard',
@@ -31,6 +32,9 @@ export class PatientDashboardComponent implements OnInit {
   sidebarOpen = signal(false);
   currentUser = signal<any>(null);
   uploadingLabId = signal<number | null>(null);
+  uploadingProfilePhoto = signal(false);
+  profilePhotoMessage = signal('');
+  profilePhotoError = signal('');
 
   ngOnInit() {
     const user = this.authService.getCurrentUser();
@@ -264,10 +268,48 @@ export class PatientDashboardComponent implements OnInit {
   }
 
   getFileUrl(path: string): string {
-    if (!path) return '';
-    if (path.startsWith('http')) return path;
-    const baseUrl = environment.apiUrl.replace('/api', '');
-    return `${baseUrl}${path}`;
+    return resolveMediaUrl(path);
+  }
+
+  getProfileImageUrl(): string {
+    return resolveMediaUrl(this.patient()?.imgPath);
+  }
+
+  onProfileImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    const patientId = this.patient()?.id;
+
+    this.profilePhotoMessage.set('');
+    this.profilePhotoError.set('');
+
+    if (!file || !patientId) {
+      return;
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      this.profilePhotoError.set('Please upload a JPG, PNG, or WEBP image.');
+      input.value = '';
+      return;
+    }
+
+    this.uploadingProfilePhoto.set(true);
+
+    this.endpoint.patients.uploadProfileImage(patientId, file).subscribe({
+      next: (updated) => {
+        this.patient.set(updated);
+        this.uploadingProfilePhoto.set(false);
+        this.profilePhotoMessage.set('Profile photo updated successfully.');
+        window.dispatchEvent(new Event('user-profile-updated'));
+        input.value = '';
+      },
+      error: (err) => {
+        this.uploadingProfilePhoto.set(false);
+        this.profilePhotoError.set(parseApiError(err, 'Failed to update profile photo.'));
+        input.value = '';
+      }
+    });
   }
 
   deleteRecord(id: number) {
@@ -364,4 +406,4 @@ export class PatientDashboardComponent implements OnInit {
       }
     });
   }
-}
+}

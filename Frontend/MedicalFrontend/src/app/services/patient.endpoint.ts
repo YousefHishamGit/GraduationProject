@@ -23,6 +23,12 @@ export class PatientEndpoint extends BaseEndpoint {
     return this.http.put<PatientResponseDto>(`${this.baseUrl}/${id}`, dto);
   }
 
+  uploadProfileImage(id: number, image: File): Observable<PatientResponseDto> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return this.http.post<PatientResponseDto>(`${this.baseUrl}/${id}/profile-image`, formData);
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }

@@ -103,6 +103,18 @@ namespace DataAccessLayer.Data
             // ══════════════════════════════════════
             // 5. DOCTOR USERS & DOCTORS
             // ══════════════════════════════════════
+            var doctorSeedImages = new[]
+            {
+                "/assets/img/person/Khaled Mahmoud.webp",
+                "/assets/img/person/Nour Ibrahim.webp",
+                "/assets/img/person/Tarek Saad.webp",
+                "/assets/img/person/Mona Fawzy.webp",
+                "/assets/img/person/Omar Ali.webp",
+                "/assets/img/person/Hana Youssef.webp",
+                "/assets/img/person/Ahmed Hassan.webp",
+                "/assets/img/person/Sara Mohamed.webp"
+            };
+
             var doctorData = new[]
             {
                 new { Idx=0, Email="dr.khaled@nile-hospital.com",  DeptIdx=0, License="LIC-CARD-001", Spec="Interventional Cardiology",     Exp=14, Fee=600m, Status=DoctorStatus.Active,   Bio="Expert in coronary angioplasty and heart failure management.",   Hire=new DateTime(2020,1,15) },
@@ -120,6 +132,7 @@ namespace DataAccessLayer.Data
             foreach (var d in doctorData)
             {
                 var person = persons[d.Idx];
+                person.ImgPath = doctorSeedImages[d.Idx];
                 var user = new User
                 {
                     UserName = d.Email, Email = d.Email,
@@ -139,7 +152,8 @@ namespace DataAccessLayer.Data
                     ConsultationFee = d.Fee,
                     Status = d.Status,
                     Bio = d.Bio,
-                    HireDate = d.Hire
+                    HireDate = d.Hire,
+                    ImgPath = doctorSeedImages[d.Idx]
                 };
                 context.Doctors.Add(doctor);
                 await context.SaveChangesAsync();
@@ -453,6 +467,52 @@ namespace DataAccessLayer.Data
             await context.SaveChangesAsync();
 
             Console.WriteLine("✅ Database seeded successfully with full data!");
+        }
+
+        /// <summary>
+        /// Replaces legacy template image paths (person-m-*.webp) with real asset paths.
+        /// </summary>
+        public static async Task FixDoctorPlaceholderImagesAsync(MedicalTriageDbContext context)
+        {
+            var imageByName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["Khaled Mansour"] = "/assets/img/person/Khaled Mahmoud.webp",
+                ["Nour El-Sayed"] = "/assets/img/person/Nour Ibrahim.webp",
+                ["Tarek Fahmy"] = "/assets/img/person/Tarek Saad.webp",
+                ["Rania Hosny"] = "/assets/img/person/Mona Fawzy.webp",
+                ["Mohamed Gamal"] = "/assets/img/person/Omar Ali.webp",
+                ["Dina Shawky"] = "/assets/img/person/Hana Youssef.webp",
+                ["Amr Zaki"] = "/assets/img/person/Ahmed Hassan.webp",
+                ["Amira Zaki"] = "/assets/img/person/Ahmed Hassan.webp",
+                ["Yasmine Kamal"] = "/assets/img/person/Sara Mohamed.webp",
+            };
+
+            var doctors = await context.Doctors
+                .Include(d => d.Person)
+                .ToListAsync();
+
+            var changed = false;
+            foreach (var doctor in doctors)
+            {
+                var currentPath = doctor.Person?.ImgPath ?? doctor.ImgPath;
+                if (string.IsNullOrEmpty(currentPath) ||
+                    (!currentPath.Contains("person-m-", StringComparison.OrdinalIgnoreCase) &&
+                     !currentPath.Contains("person-f-", StringComparison.OrdinalIgnoreCase)))
+                {
+                    continue;
+                }
+
+                var fullName = $"{doctor.Person!.FirstName} {doctor.Person.LastName}";
+                if (!imageByName.TryGetValue(fullName, out var newPath))
+                    continue;
+
+                doctor.ImgPath = newPath;
+                doctor.Person.ImgPath = newPath;
+                changed = true;
+            }
+
+            if (changed)
+                await context.SaveChangesAsync();
         }
     }
 }

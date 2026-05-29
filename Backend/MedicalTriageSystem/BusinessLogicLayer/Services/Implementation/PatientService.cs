@@ -68,6 +68,27 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<PatientResponseDto>(updatedPatient);
         }
 
+        public async Task<PatientResponseDto?> UploadProfileImageAsync(
+            int patientId,
+            string userId,
+            bool isAdmin,
+            string imgPath)
+        {
+            var patient = await _unitOfWork.Patients.GetPatientWithPersonAsync(patientId);
+            if (patient == null)
+                return null;
+
+            if (!isAdmin && patient.UserId != userId)
+                throw new UnauthorizedAccessException("You can only update your own profile photo.");
+
+            patient.Person.ImgPath = imgPath;
+            _unitOfWork.Patients.Update(patient);
+            await _unitOfWork.SaveChangesAsync();
+
+            var updatedPatient = await _unitOfWork.Patients.GetPatientWithPersonAsync(patientId);
+            return _mapper.Map<PatientResponseDto>(updatedPatient);
+        }
+
         public async Task<IEnumerable<AppointmentResponseDto>> GetPatientAppointmentsAsync(int patientId)
         {
             var appointments = await _unitOfWork.Appointments.GetByPatientIdAsync(patientId);

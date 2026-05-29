@@ -11,14 +11,49 @@ export abstract class BaseEndpoint {
     return `${this.apiUrl}/${endpoint}`;
   }
 
-  protected toFormData(obj: any): FormData {
+  private readonly formKeyMap: Record<string, string> = {
+    firstName: 'FirstName',
+    lastName: 'LastName',
+    nationalID: 'NationalID',
+    birthDate: 'BirthDate',
+    gender: 'Gender',
+    phone: 'Phone',
+    address: 'Address',
+    email: 'Email',
+    password: 'Password',
+    bloodType: 'BloodType',
+    allergies: 'Allergies',
+    medicalHistory: 'MedicalHistory',
+    emergencyContactName: 'EmergencyContactName',
+    emergencyContactPhone: 'EmergencyContactPhone',
+    licenseNumber: 'LicenseNumber',
+    specialization: 'Specialization',
+    departmentId: 'DepartmentId',
+    yearsOfExperience: 'YearsOfExperience',
+    consultationFee: 'ConsultationFee',
+    hireDate: 'HireDate',
+    bio: 'Bio',
+    image: 'Image',
+  };
+
+  protected toFormData(obj: Record<string, unknown>): FormData {
     const formData = new FormData();
-    Object.keys(obj).forEach(key => {
-      const value = obj[key];
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
+
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === '') {
+        return;
       }
+
+      const formKey = this.formKeyMap[key] ?? key;
+
+      if (value instanceof Blob) {
+        formData.append(formKey, value);
+        return;
+      }
+
+      formData.append(formKey, String(value));
     });
+
     return formData;
   }
 }

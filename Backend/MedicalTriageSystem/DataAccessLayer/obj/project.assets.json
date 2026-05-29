@@ -2834,23 +2834,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JOE\\.nuget\\packages\\": {},
+    "C:\\Users\\Tito\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectUniqueName": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
       "projectName": "DataAccessLayer",
-      "projectPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
-      "packagesPath": "C:\\Users\\JOE\\.nuget\\packages\\",
-      "outputPath": "E:\\gradutionProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
+      "projectPath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\DataAccessLayer.csproj",
+      "packagesPath": "C:\\Users\\Tito\\.nuget\\packages\\",
+      "outputPath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\DataAccessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\JOE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tito\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2908,7 +2908,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

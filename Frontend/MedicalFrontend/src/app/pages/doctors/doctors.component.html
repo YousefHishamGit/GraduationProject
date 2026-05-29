@@ -72,9 +72,11 @@
           {{ dept }}
         </option>
       </select>
+      @if (hasActiveFilters()) {
       <button class="clear-btn" (click)="clearFilters()">
         <i class="fas fa-times"></i> Clear Filters
       </button>
+      }
     </div>
     <div class="results-count">
       Showing <strong>{{ filteredDoctors().length }}</strong>

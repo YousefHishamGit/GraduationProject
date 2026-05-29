@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
 import { LanguageService } from '../../services/language.service';
+import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { LanguageService } from '../../services/language.service';
 export class HomeComponent implements OnInit, OnDestroy {
   private endpoint = inject(EndPoints);
   private promotionTimer?: number;
+  private partnerTimer?: number;
 
   public language = inject(LanguageService);
   departments = signal<any[]>([]);
@@ -21,7 +23,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoadingDepts = signal(true);
   isLoadingDoctors = signal(true);
   activePromotion = signal(0);
+  activePartner = signal(0);
   tickerState = 'running';
+
+  /** Hero partner hospitals — rotates every 3s */
+  partnerHospitals = [
+    {
+      image: '/assets/advertisement/kaserAlAiny.jpg',
+      alt: 'قصر العيني',
+      label: 'قصر العيني',
+      link: 'https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%B9%D9%8A%D9%86%D9%8A'
+    },
+    {
+      image: '/assets/advertisement/374872.png',
+      alt: 'مستشفى الرباط الحديث',
+      label: 'مستشفى الرباط الحديث',
+      link: '#'
+    },
+    {
+      image: '/assets/advertisement/elrayan.png',
+      alt: 'مستشفى الريان',
+      label: 'مستشفى الريان',
+      link: '#'
+    }
+  ];
 
   promotions = [
     {
@@ -50,11 +75,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   services = [
-    { icon: 'fas fa-heartbeat', title: 'Cardiology', desc: 'Advanced heart care with cutting-edge diagnostics.', color: '#ef4444' },
-    { icon: 'fas fa-brain', title: 'Neurology', desc: 'Expert treatment for brain & nervous system.', color: '#8b5cf6' },
-    { icon: 'fas fa-bone', title: 'Orthopedics', desc: 'Comprehensive bone and joint treatments.', color: '#f59e0b' },
+    { icon: 'fas fa-heartbeat', title: 'Cardiology', desc: 'Advanced heart care with cutting-edge diagnostics.', color: '#ef4444', image: '/assets/img/Department/cardiology.png' },
+    { icon: 'fas fa-brain', title: 'Neurology', desc: 'Expert treatment for brain & nervous system.', color: '#8b5cf6', image: '/assets/img/Department/neurology.png' },
+    { icon: 'fas fa-bone', title: 'Orthopedics', desc: 'Comprehensive bone and joint treatments.', color: '#f59e0b', image: '/assets/img/Department/orthopedics.png' },
     { icon: 'fas fa-baby', title: 'Pediatrics', desc: 'Specialized care for children of all ages.', color: '#10b981' },
-    { icon: 'fas fa-eye', title: 'Ophthalmology', desc: 'Complete eye care and vision solutions.', color: '#3b82f6' },
+    { icon: 'fas fa-eye', title: 'Ophthalmology', desc: 'Complete eye care and vision solutions.', color: '#3b82f6', image: '/assets/img/Department/Ophthalmology.png' },
     { icon: 'fas fa-robot', title: 'AI Diagnosis', desc: 'Smart symptom analysis powered by AI.', color: '#1a6fc4' }
   ];
 
@@ -62,18 +87,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadDepartments();
     this.loadDoctors();
     this.startPromotionRotation();
+    this.startPartnerRotation();
   }
 
   ngOnDestroy() {
     if (this.promotionTimer) {
       window.clearInterval(this.promotionTimer);
     }
+    if (this.partnerTimer) {
+      window.clearInterval(this.partnerTimer);
+    }
   }
 
   startPromotionRotation() {
     this.promotionTimer = window.setInterval(() => {
       this.activePromotion.update(index => (index + 1) % this.promotions.length);
-    }, 5000);
+    }, 3000);
+  }
+
+  startPartnerRotation() {
+    this.partnerTimer = window.setInterval(() => {
+      this.activePartner.update(index => (index + 1) % this.partnerHospitals.length);
+    }, 3000);
   }
 
   loadDepartments() {
@@ -89,7 +124,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadDoctors() {
     this.endpoint.doctors.getAll().subscribe({
       next: (data) => {
-        this.doctors.set(data.slice(0, 4));
+        this.doctors.set(
+          data.slice(0, 4).map(doc => ({
+            ...doc,
+            imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+          }))
+        );
         this.isLoadingDoctors.set(false);
       },
       error: () => this.isLoadingDoctors.set(false)

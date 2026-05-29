@@ -66,6 +66,16 @@
     font-size: 0.95rem;
     font-weight: 800;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.profile-avatar img,
+.dpc-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 .profile-info h4 {
@@ -416,6 +426,15 @@
     padding: 0 20px 20px;
 }
 
+.dpc-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: -32px;
+    margin-bottom: 12px;
+}
+
 .dpc-avatar {
     width: 64px;
     height: 64px;
@@ -428,8 +447,40 @@
     font-size: 1.4rem;
     font-weight: 800;
     color: white;
-    margin-top: -32px;
-    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.change-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #059669;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid #a7f3d0;
+}
+
+.change-photo-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.photo-msg {
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+}
+
+.photo-msg.success {
+    color: #059669;
+}
+
+.photo-msg.error {
+    color: #dc2626;
+    white-space: pre-line;
 }
 
 .dpc-body h2 {

@@ -67,7 +67,11 @@
             </a> } @else {
                     <a [routerLink]="getDashboardRoute()" class="user-menu" (click)="closeMenu()">
                         <div class="user-avatar">
-                            {{ userName().charAt(0).toUpperCase() }}
+                            @if (userImgUrl()) {
+                                <img [src]="userImgUrl()!" [alt]="userName()" class="user-avatar-img" />
+                            } @else {
+                                {{ userName().charAt(0).toUpperCase() }}
+                            }
                         </div>
                         <div class="user-info">
                             <span class="user-name">{{ userName() }}</span>

@@ -849,6 +849,19 @@ tr:hover td {
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
+    overflow: hidden;
+}
+
+.dept-card-icon.has-dept-image {
+    padding: 0;
+    background: transparent !important;
+}
+
+.dept-card-icon .dept-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .dept-card-info h4 {

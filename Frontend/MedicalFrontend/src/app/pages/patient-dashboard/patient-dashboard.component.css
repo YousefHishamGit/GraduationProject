@@ -66,6 +66,17 @@
     font-size: 0.9rem;
     font-weight: 800;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.profile-avatar img,
+.patient-avatar-big img,
+.ph-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 .profile-info h4 {
@@ -559,6 +570,7 @@
     background: linear-gradient(135deg, #1a6fc4, #0d47a1);
     border-radius: 50%;
     border: 3px solid white;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1100,6 +1112,15 @@ tr:hover td {
     padding: 0 24px 20px;
 }
 
+.ph-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: -36px;
+    flex-shrink: 0;
+}
+
 .ph-avatar {
     width: 72px;
     height: 72px;
@@ -1112,8 +1133,40 @@ tr:hover td {
     font-size: 1.5rem;
     font-weight: 800;
     color: white;
-    margin-top: -36px;
-    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.change-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1a6fc4;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid #bfdbfe;
+}
+
+.change-photo-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.photo-msg {
+    font-size: 0.82rem;
+    margin-top: 6px;
+}
+
+.photo-msg.success {
+    color: #059669;
+}
+
+.photo-msg.error {
+    color: #dc2626;
+    white-space: pre-line;
 }
 
 .ph-info {

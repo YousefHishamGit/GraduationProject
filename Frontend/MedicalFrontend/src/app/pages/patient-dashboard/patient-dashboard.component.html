@@ -20,7 +20,11 @@
 
         <div class="sidebar-profile">
             <div class="profile-avatar">
+                @if (getProfileImageUrl()) {
+                <img [src]="getProfileImageUrl()" [alt]="patient()?.fullName || 'Patient'">
+                } @else {
                 {{ getInitials(currentUser()?.fullName || 'P') }}
+                }
             </div>
             <div class="profile-info">
                 <h4>{{ currentUser()?.fullName }}</h4>
@@ -238,7 +242,11 @@
                     <div class="patient-card-cover"></div>
                     <div class="patient-card-body">
                         <div class="patient-avatar-big">
+                            @if (getProfileImageUrl()) {
+                            <img [src]="getProfileImageUrl()" [alt]="patient()?.fullName || 'Patient'">
+                            } @else {
                             {{ getInitials(patient()?.fullName || 'P') }}
+                            }
                         </div>
                         <h2>{{ patient()?.fullName }}</h2>
                         <p class="patient-id">Patient ID: PA-{{ patient()?.id }}</p>
@@ -422,10 +430,29 @@
                 <div class="profile-header-card card">
                     <div class="ph-cover"></div>
                     <div class="ph-body">
-                        <div class="ph-avatar">{{ getInitials(p.fullName) }}</div>
+                        <div class="ph-avatar-wrap">
+                            <div class="ph-avatar">
+                                @if (getProfileImageUrl()) {
+                                <img [src]="getProfileImageUrl()" [alt]="p.fullName">
+                                } @else {
+                                {{ getInitials(p.fullName) }}
+                                }
+                            </div>
+                            <label class="change-photo-btn" [class.disabled]="uploadingProfilePhoto()">
+                                <i class="fas fa-camera"></i>
+                                {{ uploadingProfilePhoto() ? 'Uploading...' : 'Change Photo' }}
+                                <input type="file" accept=".jpg,.jpeg,.png,.webp" (change)="onProfileImageSelected($event)" [disabled]="uploadingProfilePhoto()" hidden>
+                            </label>
+                        </div>
                         <div class="ph-info">
                             <h2>{{ p.fullName }}</h2>
                             <p>Patient ID: PA-{{ p.id }}</p>
+                            @if (profilePhotoMessage()) {
+                            <p class="photo-msg success">{{ profilePhotoMessage() }}</p>
+                            }
+                            @if (profilePhotoError()) {
+                            <p class="photo-msg error">{{ profilePhotoError() }}</p>
+                            }
                         </div>
                     </div>
                 </div>

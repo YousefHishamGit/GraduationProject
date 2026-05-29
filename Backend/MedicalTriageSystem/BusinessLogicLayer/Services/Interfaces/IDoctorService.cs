@@ -14,6 +14,7 @@ namespace BusinessLogicLayer.Services.Interfaces
 
         Task<DoctorResponseDto> CreateDoctorAsync(CreateDoctorDto dto);
         Task<DoctorResponseDto?> UpdateDoctorAsync(int id, UpdateDoctorDto dto);
+        Task<DoctorResponseDto?> UploadProfileImageAsync(int doctorId, string userId, bool isAdmin, string imgPath);
         Task<bool> DeleteDoctorAsync(int id);
 
         // Patients & Reviews

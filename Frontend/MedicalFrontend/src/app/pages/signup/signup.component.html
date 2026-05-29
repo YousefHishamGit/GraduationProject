@@ -64,7 +64,7 @@
             </div>
 
             @if (errorMessage) {
-            <div class="error-msg">
+            <div class="error-msg" style="white-space: pre-line;">
                 <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
             </div>
             }
@@ -147,8 +147,8 @@
                         <div class="field-wrap">
                             <i class="fas fa-venus-mars field-icon"></i>
                             <select [(ngModel)]="gender" name="gender">
-                  <option [value]="0">{{ language.translate('male') }}</option>
-                  <option [value]="1">{{ language.translate('female') }}</option>
+                  <option [ngValue]="0">{{ language.translate('male') }}</option>
+                  <option [ngValue]="1">{{ language.translate('female') }}</option>
                 </select>
                         </div>
                     </div>
@@ -169,6 +169,20 @@
                             <input type="text" [(ngModel)]="address" name="address" placeholder="{{ language.translate('addressPlaceholder') }}">
                         </div>
                     </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Profile Image <span class="optional-tag">Optional</span></label>
+                    <div class="field-wrap">
+                        <i class="fas fa-image field-icon"></i>
+                        <input type="file" accept=".jpg,.jpeg,.png,.webp" (change)="onImageSelected($event)">
+                    </div>
+                    @if (imagePreviewUrl) {
+                    <div style="margin-top: 10px;">
+                        <img [src]="imagePreviewUrl" alt="Profile preview"
+                             style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:1px solid #e2e8f0;">
+                    </div>
+                    }
                 </div>
 
                 <button type="button" class="next-btn" (click)="nextStep()">
@@ -322,9 +336,9 @@
                         <div class="field-wrap">
                             <i class="fas fa-hospital field-icon"></i>
                             <select [(ngModel)]="departmentId" name="departmentId" required>
-                                <option [value]="0">{{ language.translate('selectDepartment') }}</option>
+                                <option [ngValue]="0">{{ language.translate('selectDepartment') }}</option>
                                 @for (dept of departments(); track dept.id) {
-                                    <option [value]="dept.id">{{ dept.departmentName }}</option>
+                                    <option [ngValue]="dept.id">{{ dept.departmentName }}</option>
                                 }
                             </select>
                         </div>

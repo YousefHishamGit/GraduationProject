@@ -26,6 +26,12 @@ export class DoctorEndpoint extends BaseEndpoint {
     return this.http.get<DoctorResponseDto>(`${this.baseUrl}/by-user/${userId}`);
   }
 
+  uploadProfileImage(id: number, image: File): Observable<DoctorResponseDto> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return this.http.post<DoctorResponseDto>(`${this.baseUrl}/${id}/profile-image`, formData);
+  }
+
   getByDepartment(departmentId: number): Observable<DoctorResponseDto[]> {
     return this.http.get<DoctorResponseDto[]>(`${this.baseUrl}/department/${departmentId}`);
   }

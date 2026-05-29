@@ -12,11 +12,28 @@ export class AuthEndpoint extends BaseEndpoint {
   }
 
   registerPatient(dto: RegisterPatientDto): Observable<AuthResponseDto> {
-    return this.http.post<AuthResponseDto>(`${this.baseUrl}/register/patient`, dto);
+    return this.http.post<AuthResponseDto>(
+      `${this.baseUrl}/register/patient`,
+      this.toRegistrationFormData(dto)
+    );
   }
 
   registerDoctor(dto: RegisterDoctorDto): Observable<AuthResponseDto> {
-    return this.http.post<AuthResponseDto>(`${this.baseUrl}/register/doctor`, dto);
+    return this.http.post<AuthResponseDto>(
+      `${this.baseUrl}/register/doctor`,
+      this.toRegistrationFormData(dto)
+    );
+  }
+
+  private toRegistrationFormData(dto: RegisterPatientDto | RegisterDoctorDto): FormData {
+    const { image, ...payload } = dto;
+    const formData = this.toFormData(payload as Record<string, unknown>);
+
+    if (image) {
+      formData.append('Image', image, image.name);
+    }
+
+    return formData;
   }
 
   logout(): Observable<void> {
