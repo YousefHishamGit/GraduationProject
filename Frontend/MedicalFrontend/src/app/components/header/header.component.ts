@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   userRole = signal('');
   userName = signal('');
   userImgUrl = signal<string | null>(null);
+  unreadNotificationsCount = signal(0);
 
   @HostListener('window:scroll')
   onScroll() {
@@ -45,6 +46,29 @@ export class HeaderComponent implements OnInit {
     this.loadUserAvatar();
   }
 
+  @HostListener('window:notifications-updated', ['$event'])
+  onNotificationsUpdated(event?: any) {
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId || this.userRole() !== 'Patient') return;
+
+    if (event && event.detail && typeof event.detail.count === 'number') {
+      this.unreadNotificationsCount.set(event.detail.count);
+      localStorage.setItem('patientTotalBadgeCount', event.detail.count.toString());
+      return;
+    }
+
+    const storedCount = localStorage.getItem('patientTotalBadgeCount');
+    if (storedCount !== null) {
+      this.unreadNotificationsCount.set(parseInt(storedCount, 10));
+    } else {
+      this.endpoint.patients.getByUserId(userId).subscribe({
+        next: (patient) => {
+          this.loadUnreadNotificationsCount(patient.id);
+        }
+      });
+    }
+  }
+
   checkAuth() {
     const user = this.authService.getCurrentUser();
     if (user) {
@@ -54,6 +78,19 @@ export class HeaderComponent implements OnInit {
       this.loadUserAvatar();
     } else {
       this.userImgUrl.set(null);
+      this.unreadNotificationsCount.set(0);
+    }
+  }
+
+  loadUnreadNotificationsCount(patientId: number) {
+    const storedCount = localStorage.getItem('patientTotalBadgeCount');
+    if (storedCount !== null) {
+      this.unreadNotificationsCount.set(parseInt(storedCount, 10));
+    } else {
+      this.endpoint.notifications.getUnreadCount(patientId).subscribe({
+        next: (count) => this.unreadNotificationsCount.set(count),
+        error: () => this.unreadNotificationsCount.set(0)
+      });
     }
   }
 
@@ -69,6 +106,7 @@ export class HeaderComponent implements OnInit {
         next: (patient) => {
           const url = resolveMediaUrl(patient.imgPath);
           this.userImgUrl.set(url || null);
+          this.loadUnreadNotificationsCount(patient.id);
         },
         error: () => this.userImgUrl.set(null)
       });

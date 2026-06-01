@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yQ/tpwNY2Og=",
+  "dgSpecHash": "qd8PshOuYbg=",
   "success": true,
-  "projectFilePath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+  "projectFilePath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tito\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Tito\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
@@ -115,9 +115,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'AutoMapper' 13.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
-      "projectPath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "projectPath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "filePath": "d:\\UNI\\graduation\\GraduationProject\\Backend\\MedicalTriageSystem\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net8.0"

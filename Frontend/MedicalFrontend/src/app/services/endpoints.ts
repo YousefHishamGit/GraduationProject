@@ -10,6 +10,7 @@ import { LabRequestEndpoint } from './lab-request.endpoint';
 import { ReviewEndpoint } from './review.endpoint';
 import { PaymentEndpoint } from './payment.endpoint';
 import { AiEndpoint } from './ai.endpoint';
+import { NotificationEndpoint } from './notification.endpoint';
 
 @Injectable({ providedIn: 'root' })
 export class EndPoints {
@@ -24,4 +25,5 @@ export class EndPoints {
   public reviews      = inject(ReviewEndpoint);
   public payments     = inject(PaymentEndpoint);
   public ai           = inject(AiEndpoint);
+  public notifications = inject(NotificationEndpoint);
 }

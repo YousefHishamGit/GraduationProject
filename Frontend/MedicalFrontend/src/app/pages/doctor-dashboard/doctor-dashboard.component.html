@@ -295,21 +295,26 @@
                                     <div class="action-btns">
                                         @if (apt.status === 'Pending') {
                                         <button class="action-btn confirm" (click)="confirmAppointment(apt.id)">
-                                <i class="fas fa-check"></i>
-                              </button> } @if (apt.status === 'Confirmed') {
+                                            <i class="fas fa-check"></i>
+                                        </button> } @if (apt.status === 'Confirmed') {
                                         <button class="action-btn complete" (click)="completeAppointment(apt.id)">
-                                <i class="fas fa-check-double"></i>
-                              </button>
+                                            <i class="fas fa-check-double"></i>
+                                        </button>
                                         <button class="action-btn record" (click)="openRecordModal(apt)" title="Medical Record">
-                                <i class="fas fa-file-medical"></i>
-                              </button> 
-                              <button class="action-btn patient-info" (click)="openPatientModal(apt)" title="Patient Details" style="color: #0d6efd;">
-                                <i class="fas fa-user-injured"></i>
-                              </button>
-                              <button class="action-btn lab-btn" (click)="openLabModal(apt)" title="Lab Tests & Results" style="color: #6f42c1;">
-                                <i class="fas fa-vial"></i>
-                              </button>
-                            }
+                                            <i class="fas fa-file-medical"></i>
+                                        </button> 
+                                        <button class="action-btn patient-info" (click)="openPatientModal(apt)" title="Patient Details" style="color: #0d6efd;">
+                                            <i class="fas fa-user-injured"></i>
+                                        </button>
+                                        <button class="action-btn lab-btn" (click)="openLabModal(apt)" title="Lab Tests & Results" style="color: #6f42c1;">
+                                            <i class="fas fa-vial"></i>
+                                        </button>
+                                        }
+                                        @if (apt.status === 'Pending' || apt.status === 'Confirmed') {
+                                        <button class="action-btn cancel" (click)="cancelAppointment(apt.id)" title="Cancel Appointment">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -360,6 +365,7 @@
                         <header class="sc-day">
                             <span class="sc-day-icon"><i class="fas fa-calendar-day" aria-hidden="true"></i></span>
                             <span class="sc-day-name">{{ getDayName(s.dayOfWeek) }}</span>
+                            <span *ngIf="cancelledTodaySchedules().includes(s.id)" class="sc-cancelled-flag">Cancelled Today / تم الإلغاء اليوم</span>
                         </header>
                         <div class="sc-time">
                             <div class="sc-time-item">
@@ -381,6 +387,10 @@
                         <div class="sc-actions">
                             <button type="button" class="delete-btn" (click)="deleteSchedule(s.id)" title="Remove this day">
                                 <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="cancel-schedule-btn" (click)="cancelSchedule(s.id)" title="Cancel all appointments for this schedule" [disabled]="cancellingSchedules().includes(s.id)">
+                                <i class="fas fa-ban" aria-hidden="true"></i>
+                                <i *ngIf="cancellingSchedules().includes(s.id)" class="fas fa-spinner fa-spin" style="margin-left:6px;font-size:.8rem"></i>
                             </button>
                         </div>
                     </div>
@@ -453,6 +463,11 @@
                         <span class="slot-badge" [class.booked]="slot.isBooked">
                             {{ slot.isBooked ? 'Booked' : 'Free' }}
                         </span>
+                        @if (slot.id) {
+                        <button class="delete-slot-btn" (click)="cancelTimeSlot(slot.id)" title="Cancel Time Slot">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        }
                     </div>
                 </article>
                 }

@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.DTOs.Prescription
         public string Frequency { get; set; } = string.Empty;
         public int DurationDays { get; set; }
         public string? Instructions { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 
     

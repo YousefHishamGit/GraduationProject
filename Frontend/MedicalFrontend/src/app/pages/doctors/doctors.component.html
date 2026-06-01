@@ -336,9 +336,9 @@
             <p>{{ doc.bio }}</p>
           </div>
 
-          <a routerLink="/booking" [queryParams]="{doctorId: doc.id}" class="book-full-btn">
+          <button type="button" class="book-full-btn" (click)="bookAppointment(doc.id)">
             <i class="fas fa-calendar-check"></i> Book an Appointment
-          </a>
+          </button>
         </div>
 
         <!-- Slots Tab -->

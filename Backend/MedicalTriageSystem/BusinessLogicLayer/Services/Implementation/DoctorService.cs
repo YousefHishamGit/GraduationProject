@@ -428,14 +428,15 @@ namespace BusinessLogicLayer.Services.Implementation
         // ?????????????????????????????????????????????
 
         public async Task<IEnumerable<TimeSlotResponseDto>>
-     GetDoctorTimeSlotsAsync(int doctorId)
+     GetDoctorTimeSlotsAsync(int doctorId, DateTime? date = null)
         {
             var slots = await _unitOfWork
                 .GetRepository<TimeSlot>()
                 .GetAllAsync(t =>
                     t.DoctorId == doctorId &&
-                    !t.IsBooked &&
-                    t.SlotStart > DateTime.Now);
+                    (date == null
+                        ? (!t.IsBooked && t.SlotStart > DateTime.Now)
+                        : (t.SlotStart.Date == date.Value.Date)));
 
             return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(
                 slots.OrderBy(s => s.SlotStart));
@@ -626,6 +627,45 @@ namespace BusinessLogicLayer.Services.Implementation
                     .GetRepository<TimeSlot>()
                     .Delete(slot);
             }
+        }
+
+        public async Task<bool> CancelTimeSlotAsync(int slotId)
+        {
+            var slot = await _unitOfWork.GetRepository<TimeSlot>().GetByIdAsync(slotId);
+            if (slot == null) return false;
+
+            var appointments = await _unitOfWork.Appointments.GetAllAsync(a => a.TimeSlotId == slotId && a.Status != DataAccessLayer.Enums.AppointmentStatus.Cancelled);
+            var appointment = appointments.FirstOrDefault();
+
+            if (appointment != null)
+            {
+                var doctor = await _unitOfWork.Doctors.GetDoctorWithDetailsAsync(slot.DoctorId);
+                var doctorName = doctor != null && doctor.Person != null 
+                    ? $"{doctor.Person.FirstName} {doctor.Person.LastName}" 
+                    : $"#{slot.DoctorId}";
+
+                appointment.Status = DataAccessLayer.Enums.AppointmentStatus.Cancelled;
+                appointment.CancellationReason = "Cancelled by Doctor via Schedule";
+                appointment.ModifiedOn = DateTime.UtcNow;
+                appointment.ModifiedBy = "system";
+
+                _unitOfWork.Appointments.Update(appointment);
+
+                // Create notification for the patient
+                var notification = new Notification
+                {
+                    PatientId = appointment.PatientId,
+                    Message = $"Your appointment with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")} has been cancelled. / تم إلغاء موعدك مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")}.",
+                    IsRead = false,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = "system"
+                };
+                await _unitOfWork.GetRepository<Notification>().AddAsync(notification);
+            }
+
+            _unitOfWork.GetRepository<TimeSlot>().Delete(slot);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 }

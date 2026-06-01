@@ -17,7 +17,7 @@ namespace DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.15")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -408,6 +408,45 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("MedicalRecords");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Patient", b =>
@@ -1084,9 +1123,8 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataAccessLayer.Entities.Patient", "Patient")
-                        .WithMany("LabRequests")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("MedicalRecord");
 
@@ -1116,6 +1154,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Appointment");
 
                     b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Notification", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Patient");
                 });
@@ -1319,8 +1368,6 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("LabRequests");
 
                     b.Navigation("MedicalRecords");
 

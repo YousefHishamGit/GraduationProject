@@ -155,6 +155,25 @@
   </div>
 </div>
 
+<!-- Notifications (for logged-in patients) -->
+<div *ngIf="notifications().length > 0" class="section-container notifications-banners-list">
+    @for (n of notifications(); track n.id) {
+    <div class="notification-banner" [class.read]="n.isRead">
+        <div style="display:flex;align-items:center;">
+            <div class="notification-banner-icon"><i class="fas fa-bell"></i></div>
+            <div class="notification-banner-content">
+                <p>{{ n.message }}</p>
+                <small style="color:#6b7280">{{ n.createdOn | date:'short' }}</small>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-small" *ngIf="!n.isRead" (click)="markNotificationAsRead(n.id)">Mark read</button>
+            <button class="btn-small btn-danger" (click)="dismissNotification(n.id)">Dismiss</button>
+        </div>
+    </div>
+    }
+</div>
+
 <section class="services-section">
     <div class="section-container">
         <div class="section-head">

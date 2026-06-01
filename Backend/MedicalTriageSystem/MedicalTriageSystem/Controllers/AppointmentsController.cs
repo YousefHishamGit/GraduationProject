@@ -132,6 +132,28 @@ namespace MedicalTriageSystem.Controllers
             var appointments = await _appointmentService.GetByPatientIdAsync(patientId);
             return Ok(appointments);
         }
+
+        // PUT /api/appointments/timeslot/{timeSlotId}/cancel - Doctor
+        [HttpPut("timeslot/{timeSlotId}/cancel")]
+        [Authorize(Roles = "Doctor")]
+        [ProducesResponseType(typeof(IEnumerable<AppointmentResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> CancelTimeSlot(int timeSlotId, [FromBody] CancelAppointmentDto dto)
+        {
+            var appointments = await _appointmentService.CancelTimeSlotAsync(timeSlotId, dto.Reason);
+            return Ok(appointments);
+        }
+
+        // PUT /api/appointments/schedule/{scheduleId}/cancel - Doctor
+        [HttpPut("schedule/{scheduleId}/cancel")]
+        [Authorize(Roles = "Doctor")]
+        [ProducesResponseType(typeof(IEnumerable<AppointmentResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> CancelSchedule(int scheduleId, [FromBody] CancelAppointmentDto dto)
+        {
+            var appointments = await _appointmentService.CancelScheduleAsync(scheduleId, dto.Reason);
+            return Ok(appointments);
+        }
     }
 }
 

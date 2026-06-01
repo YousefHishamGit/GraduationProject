@@ -26,6 +26,7 @@ namespace DataAccessLayer.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<DoctorSchedule> DoctorSchedules { get; set; }
         public DbSet<DoctorLeave> DoctorLeaves { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -348,6 +349,21 @@ namespace DataAccessLayer.Data
                 entity.HasOne(e => e.Doctor)
                       .WithMany(e => e.Leaves)
                       .HasForeignKey(e => e.DoctorId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Notification Configuration
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Message)
+                      .IsRequired()
+                      .HasMaxLength(500);
+
+                entity.HasOne(e => e.Patient)
+                      .WithMany()
+                      .HasForeignKey(e => e.PatientId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
         }

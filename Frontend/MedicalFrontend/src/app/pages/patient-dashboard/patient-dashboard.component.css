@@ -67,6 +67,7 @@
     font-weight: 800;
     flex-shrink: 0;
     overflow: hidden;
+    position: relative;
 }
 
 .profile-avatar img,
@@ -393,6 +394,9 @@
 
 .topbar-right {
     flex-shrink: 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 .page-title {
@@ -432,12 +436,30 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
+    position: relative;
 }
 
 .topbar-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(26, 111, 196, 0.4);
     color: white;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ef4444;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.6);
 }
 
 
@@ -2251,4 +2273,148 @@ tr:hover td {
     .qa-grid {
         grid-template-columns: repeat(2, 1fr) !important;
     }
+}
+
+.nav-dot-badge {
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 6px;
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
+}
+
+.profile-notif-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(239,68,68,0.4);
+}
+
+.profile-role-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-left: 8px;
+    box-shadow: 0 2px 6px rgba(239,68,68,0.35);
+}
+
+.topbar-notif-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: inherit;
+    position: relative;
+    cursor: pointer;
+}
+
+/* ── Notification Alert Banners ── */
+.notifications-banners-list {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.notification-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #fff5f5 0%, #fff0f0 100%);
+    border-left: 5px solid #dc3545;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-top: 1px solid rgba(220, 53, 69, 0.05);
+    border-right: 1px solid rgba(220, 53, 69, 0.05);
+    border-bottom: 1px solid rgba(220, 53, 69, 0.05);
+}
+
+.notification-banner:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.1);
+}
+
+.notification-banner-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.notification-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    margin-left: 14px;
+}
+
+.notification-banner-content p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #3f4e64;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.notification-banner-content span {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    display: block;
+    text-align: left;
+}
+
+.dismiss-banner-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 8px;
+    font-size: 1.2rem;
+    transition: color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.dismiss-banner-btn:hover {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.05);
+    transform: scale(1.1);
 }

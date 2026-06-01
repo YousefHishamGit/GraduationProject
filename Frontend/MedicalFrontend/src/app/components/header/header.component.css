@@ -379,6 +379,22 @@
     font-weight: 600;
 }
 
+/* small red unread badge shown next to role text (used for Patient) */
+.profile-role-badge {
+    display: inline-block;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 6px;
+    background: #ef4444;
+    color: white;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-left: 8px;
+    box-shadow: 0 2px 6px rgba(239,68,68,0.25);
+}
+
 .btn-logout {
     width: 34px;
     height: 34px;
@@ -593,4 +609,23 @@
         height: 50px;
         margin-left: 8px;
     }
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ef4444; /* bright red */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
 }

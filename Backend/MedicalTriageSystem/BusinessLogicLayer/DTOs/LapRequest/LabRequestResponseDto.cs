@@ -15,5 +15,6 @@ namespace BusinessLogicLayer.DTOs.LapRequest
         public string? ResultFilePath { get; set; }
         public DateTime RequestedOn { get; set; }
         public DateTime? ResultOn { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using BusinessLogicLayer.DTOs.Person;
 using BusinessLogicLayer.DTOs.Prescription;
 using BusinessLogicLayer.DTOs.Receptionist;
 using BusinessLogicLayer.DTOs.Review;
+using BusinessLogicLayer.DTOs.Notification;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Enums;
 using System;
@@ -41,7 +42,7 @@ namespace BusinessLogicLayer
             AdminMap();
             PatientMap();
             PaymentMap();
-
+            CreateMap<Notification, NotificationResponseDto>();
         }
 
         private void DoctorMap()

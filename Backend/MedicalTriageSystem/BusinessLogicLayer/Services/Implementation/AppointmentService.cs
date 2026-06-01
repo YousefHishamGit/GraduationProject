@@ -146,7 +146,7 @@ namespace BusinessLogicLayer.Services.Implementation
 
         public async Task<AppointmentResponseDto?> CancelAsync(int id, string? reason)
         {
-            var appointment = await _unitOfWork.Appointments.GetByIdAsync(id);
+            var appointment = await _unitOfWork.Appointments.GetByIdWithDetailsAsync(id);
             if (appointment == null) return null;
 
             appointment.Status = AppointmentStatus.Cancelled;
@@ -155,6 +155,35 @@ namespace BusinessLogicLayer.Services.Implementation
             appointment.ModifiedBy = "system";
 
             _unitOfWork.Appointments.Update(appointment);
+
+            // Free the associated TimeSlot
+            if (appointment.TimeSlotId > 0)
+            {
+                var slotRepo = _unitOfWork.GetRepository<TimeSlot>();
+                var slot = await slotRepo.GetByIdAsync(appointment.TimeSlotId);
+                if (slot != null)
+                {
+                    slot.IsBooked = false;
+                    slotRepo.Update(slot);
+                }
+            }
+
+            // Create notification for the patient
+            var notifRepo = _unitOfWork.GetRepository<Notification>();
+            var doctorName = appointment.Doctor?.Person != null 
+                ? $"{appointment.Doctor.Person.FirstName} {appointment.Doctor.Person.LastName}" 
+                : $"#{appointment.DoctorId}";
+            
+            var notification = new Notification
+            {
+                PatientId = appointment.PatientId,
+                Message = $"Your appointment with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")} has been cancelled. / تم إلغاء موعدك مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")}.",
+                IsRead = false,
+                CreatedOn = DateTime.UtcNow,
+                CreatedBy = "system"
+            };
+            await notifRepo.AddAsync(notification);
+
             await _unitOfWork.SaveChangesAsync();
 
             var updated = await _unitOfWork.Appointments.GetByIdWithDetailsAsync(id);
@@ -175,6 +204,144 @@ namespace BusinessLogicLayer.Services.Implementation
 
             var updated = await _unitOfWork.Appointments.GetByIdWithDetailsAsync(id);
             return _mapper.Map<AppointmentResponseDto>(updated);
+        }
+
+        public async Task<IEnumerable<AppointmentResponseDto>> CancelTimeSlotAsync(int timeSlotId, string? reason)
+        {
+            // Get all appointments for this time slot
+            var appointmentRepo = _unitOfWork.Appointments;
+            var appointmentsToCancel = await appointmentRepo.GetAllAsync(a => 
+                a.TimeSlotId == timeSlotId && a.Status != AppointmentStatus.Cancelled);
+
+            if (!appointmentsToCancel.Any())
+            {
+                return new List<AppointmentResponseDto>();
+            }
+
+            var notifRepo = _unitOfWork.GetRepository<Notification>();
+            var cancelledAppointments = new List<Appointment>();
+
+            foreach (var appointment in appointmentsToCancel)
+            {
+                appointment.Status = AppointmentStatus.Cancelled;
+                appointment.CancellationReason = reason;
+                appointment.ModifiedOn = DateTime.UtcNow;
+                appointment.ModifiedBy = "system";
+
+                appointmentRepo.Update(appointment);
+
+                // Create notification for each patient
+                var doctorName = appointment.Doctor?.Person != null 
+                    ? $"{appointment.Doctor.Person.FirstName} {appointment.Doctor.Person.LastName}" 
+                    : $"#{appointment.DoctorId}";
+                
+                var notification = new Notification
+                {
+                    PatientId = appointment.PatientId,
+                    Message = $"Your appointment with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")} has been cancelled. / تم إلغاء موعدك مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")}.",
+                    IsRead = false,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = "system"
+                };
+                await notifRepo.AddAsync(notification);
+                cancelledAppointments.Add(appointment);
+            }
+
+            // Free the time slot
+            var slotRepo = _unitOfWork.GetRepository<TimeSlot>();
+            var slot = await slotRepo.GetByIdAsync(timeSlotId);
+            if (slot != null)
+            {
+                slot.IsBooked = false;
+                slotRepo.Update(slot);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            // Refresh and return the cancelled appointments
+            var refreshed = new List<Appointment>();
+            foreach (var apt in cancelledAppointments)
+            {
+                var updated = await appointmentRepo.GetByIdWithDetailsAsync(apt.Id);
+                if (updated != null) refreshed.Add(updated);
+            }
+
+            return _mapper.Map<IEnumerable<AppointmentResponseDto>>(refreshed);
+        }
+
+        public async Task<IEnumerable<AppointmentResponseDto>> CancelScheduleAsync(int scheduleId, string? reason)
+        {
+            // Get the schedule
+            var scheduleRepo = _unitOfWork.GetRepository<DoctorSchedule>();
+            var schedule = await scheduleRepo.GetByIdAsync(scheduleId);
+            if (schedule == null) return new List<AppointmentResponseDto>();
+
+            // Find future appointments matching doctor, day of week and within time range
+            var appointmentRepo = _unitOfWork.Appointments;
+            var now = DateTime.UtcNow;
+            var appointmentsToCancel = await appointmentRepo.GetAllAsync(a =>
+                a.DoctorId == schedule.DoctorId
+                && a.AppointmentDate >= now
+                && (int)a.AppointmentDate.DayOfWeek == schedule.DayOfWeek
+                && a.Status != AppointmentStatus.Cancelled
+            );
+
+            var notifRepo = _unitOfWork.GetRepository<Notification>();
+            var cancelledAppointments = new List<Appointment>();
+
+            foreach (var appointment in appointmentsToCancel)
+            {
+                // Check time range
+                var timeOfDay = appointment.AppointmentDate.TimeOfDay;
+                if (timeOfDay < schedule.StartTime || timeOfDay > schedule.EndTime) continue;
+
+                appointment.Status = AppointmentStatus.Cancelled;
+                appointment.CancellationReason = reason;
+                appointment.ModifiedOn = DateTime.UtcNow;
+                appointment.ModifiedBy = "system";
+
+                appointmentRepo.Update(appointment);
+
+                // Free the associated TimeSlot
+                if (appointment.TimeSlotId > 0)
+                {
+                    var slotRepo = _unitOfWork.GetRepository<TimeSlot>();
+                    var slot = await slotRepo.GetByIdAsync(appointment.TimeSlotId);
+                    if (slot != null)
+                    {
+                        slot.IsBooked = false;
+                        slotRepo.Update(slot);
+                    }
+                }
+
+                // Create notification
+                var doctorName = appointment.Doctor?.Person != null
+                    ? $"{appointment.Doctor.Person.FirstName} {appointment.Doctor.Person.LastName}"
+                    : $"#{appointment.DoctorId}";
+
+                var notification = new Notification
+                {
+                    PatientId = appointment.PatientId,
+                    Message = $"Your appointment with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")} has been cancelled. / تم إلغاء موعدك مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")}.",
+                    IsRead = false,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = "system"
+                };
+                await notifRepo.AddAsync(notification);
+
+                cancelledAppointments.Add(appointment);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            var refreshed = new List<Appointment>();
+            foreach (var apt in cancelledAppointments)
+            {
+                var updated = await appointmentRepo.GetByIdWithDetailsAsync(apt.Id);
+                if (updated != null) refreshed.Add(updated);
+            }
+
+            return _mapper.Map<IEnumerable<AppointmentResponseDto>>(refreshed);
         }
     }
 }

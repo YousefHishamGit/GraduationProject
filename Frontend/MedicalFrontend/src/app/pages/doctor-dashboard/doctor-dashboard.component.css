@@ -909,6 +909,16 @@ tr:hover td {
     color: white;
 }
 
+.action-btn.cancel {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.action-btn.cancel:hover {
+    background: #ef4444;
+    color: white;
+}
+
 
 /* ── Schedule & time-slots tab chrome ── */
 
@@ -1235,6 +1245,16 @@ tr:hover td {
     display: flex;
     justify-content: flex-end;
 }
+.sc-cancelled-flag {
+    margin-left: 12px;
+    background: #fff3f3;
+    color: #b91c1c;
+    border: 1px solid rgba(185,28,28,0.12);
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
 
 .delete-btn {
     width: 38px;
@@ -1254,6 +1274,35 @@ tr:hover td {
 .delete-btn:hover {
     background: #fee2e2;
     transform: scale(1.05);
+}
+
+.cancel-schedule-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid #fecaca;
+    background: #fff7f7;
+    color: #b91c1c;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.cancel-schedule-btn i {
+    transform: translateY(1px);
+}
+
+.cancel-schedule-btn:hover {
+    background: #ffefef;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(185, 28, 28, 0.12);
+}
+
+.cancel-schedule-btn:active {
+    transform: scale(0.98);
 }
 
 

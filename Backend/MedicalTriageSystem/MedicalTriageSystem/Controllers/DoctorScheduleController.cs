@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DTOs.Doctor;
+using BusinessLogicLayer.DTOs.Appointment;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,10 +13,12 @@ namespace YourApiNamespace.Controllers
     public class DoctorScheduleController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
+        private readonly IAppointmentService _appointmentService;
 
-        public DoctorScheduleController(IDoctorService doctorService)
+        public DoctorScheduleController(IDoctorService doctorService, IAppointmentService appointmentService)
         {
             _doctorService = doctorService;
+            _appointmentService = appointmentService;
         }
 
         // GET /api/doctors/{doctorId}/schedule
@@ -81,6 +84,15 @@ namespace YourApiNamespace.Controllers
             var deleted = await _doctorService.DeleteScheduleAsync(id);
             if (!deleted) return NotFound();
             return NoContent();
+        }
+
+        // PUT /api/schedule/{id}/cancel
+        [HttpPut("schedule/{id}/cancel")]
+        [Authorize(Roles = "Admin,Doctor")]
+        public async Task<IActionResult> CancelScheduleAppointments(int id, [FromBody] CancelAppointmentDto dto)
+        {
+            var appointments = await _appointmentService.CancelScheduleAsync(id, dto.Reason);
+            return Ok(appointments);
         }
     }
 }

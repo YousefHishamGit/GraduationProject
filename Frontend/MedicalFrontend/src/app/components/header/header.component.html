@@ -66,7 +66,7 @@
               {{ language.translate('getStarted') }}
             </a> } @else {
                     <a [routerLink]="getDashboardRoute()" class="user-menu" (click)="closeMenu()">
-                        <div class="user-avatar">
+                        <div class="user-avatar" style="position: relative;">
                             @if (userImgUrl()) {
                                 <img [src]="userImgUrl()!" [alt]="userName()" class="user-avatar-img" />
                             } @else {
@@ -75,7 +75,7 @@
                         </div>
                         <div class="user-info">
                             <span class="user-name">{{ userName() }}</span>
-                            <span class="user-role">{{ userRole() }}</span>
+                            <span class="user-role">{{ userRole() }} <span *ngIf="userRole() === 'Patient' && unreadNotificationsCount() > 0" class="profile-role-badge">{{ unreadNotificationsCount() }}</span></span>
                         </div>
                     </a>
                     <button class="btn-logout" (click)="logout()">

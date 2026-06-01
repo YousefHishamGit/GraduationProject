@@ -27,6 +27,8 @@ export class DoctorDashboardComponent implements OnInit {
   schedule = signal<any[]>([]);
   leaves = signal<any[]>([]);
   timeSlots = signal<any[]>([]);
+  // schedules that were cancelled during this session (show "Cancelled Today" flag)
+  cancelledTodaySchedules = signal<number[]>([]);
   /** yyyy-MM-dd — day shown in Time slots tab (computed from weekly schedule). */
   timeSlotsPreviewDate = signal<string>(new Date().toISOString().split('T')[0]);
   reviews = signal<any[]>([]);
@@ -59,6 +61,9 @@ export class DoctorDashboardComponent implements OnInit {
   uploadingProfilePhoto = signal(false);
   profilePhotoMessage = signal('');
   profilePhotoError = signal('');
+
+  // Cancelling state for schedules
+  cancellingSchedules = signal<number[]>([]);
 
   // Patient Lab Results & Requests
   patientLabRequests = signal<any[]>([]);
@@ -569,6 +574,62 @@ export class DoctorDashboardComponent implements OnInit {
         this.appointments.update(apts =>
           apts.map(a => a.id === id ? { ...a, status: 'Confirmed' } : a)
         );
+      }
+    });
+  }
+
+  cancelAppointment(id: number) {
+    if (!confirm('Are you sure you want to cancel this appointment?')) return;
+    this.endpoint.appointments.cancel(id, { reason: 'Cancelled by Doctor' }).subscribe({
+      next: () => {
+        this.appointments.update(apts =>
+          apts.map(a => a.id === id ? { ...a, status: 'Cancelled' } : a)
+        );
+      }
+    });
+  }
+
+  cancelTimeSlot(slotId: number) {
+    if (!confirm('Are you sure you want to cancel this entire time slot? If a patient is booked, their appointment will also be cancelled. / هل أنت متأكد من إلغاء هذا الموعد بالكامل؟ في حال حجز مريض، سيتم إلغاء موعده أيضاً.')) {
+      return;
+    }
+    
+    this.endpoint.doctors.cancelTimeSlot(slotId, 'Doctor cancelled this time slot').subscribe({
+      next: () => {
+        this.timeSlots.update(slots => slots.filter(s => s.id !== slotId));
+        const doctorId = this.doctor()?.id;
+        if (doctorId) {
+          this.loadDoctorData(doctorId);
+        }
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Failed to cancel time slot');
+      }
+    });
+  }
+
+  cancelSchedule(scheduleId: number) {
+    if (!confirm('Are you sure you want to cancel all appointments for this schedule? This will cancel future appointments on this day within the schedule time range. / هل أنت متأكد من إلغاء جميع المواعيد لهذا اليوم؟')) return;
+    // mark as cancelling
+    this.cancellingSchedules.update(ids => [...ids, scheduleId]);
+
+    this.endpoint.doctors.cancelSchedule(scheduleId, 'Doctor cancelled this schedule').subscribe({
+      next: () => {
+        // remove from cancelling
+        this.cancellingSchedules.update(ids => ids.filter(x => x !== scheduleId));
+        // show cancelled flag for UX (persist in session)
+        this.cancelledTodaySchedules.update(ids => Array.from(new Set([...ids, scheduleId])));
+        const doctorId = this.doctor()?.id;
+        if (doctorId) this.loadDoctorData(doctorId);
+        alert('Schedule appointments cancelled successfully.');
+      },
+      error: (err) => {
+        // remove from cancelling
+        this.cancellingSchedules.update(ids => ids.filter(x => x !== scheduleId));
+        console.error('Cancel schedule failed', err);
+        const status = err.status;
+        const serverMsg = err.error?.message || err.message || null;
+        alert(`Failed to cancel schedule (${status})${serverMsg ? ': ' + serverMsg : ''}`);
       }
     });
   }

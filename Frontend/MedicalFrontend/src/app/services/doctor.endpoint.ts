@@ -90,4 +90,14 @@ export class DoctorEndpoint extends BaseEndpoint {
     const dto = { date: date };
     return this.http.post<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots?doctorId=${doctorId}`, dto);
   }
+
+  cancelTimeSlot(slotId: number, reason?: string): Observable<any> {
+    const dto = { reason: reason || 'Doctor cancelled this time slot' };
+    return this.http.put<any>(`${this.apiUrl}/appointments/timeslot/${slotId}/cancel`, dto);
+  }
+
+  cancelSchedule(scheduleId: number, reason?: string): Observable<any> {
+    const dto = { reason: reason || 'Doctor cancelled this schedule' };
+    return this.http.put<any>(`${this.apiUrl}/schedule/${scheduleId}/cancel`, dto);
+  }
 }

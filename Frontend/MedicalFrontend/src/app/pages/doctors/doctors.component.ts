@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import { resolveDoctorPhoto } from '../../shared/doctor-assets';
 })
 export class DoctorsComponent implements OnInit {
   private endpoint = inject(EndPoints);
+  private router = inject(Router);
 
   allDoctors = signal<DoctorResponseDto[]>([]);
   isLoading = signal(true);
@@ -143,5 +145,11 @@ export class DoctorsComponent implements OnInit {
     if (!time) return '';
     const date = new Date(time);
     return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  bookAppointment(doctorId: number) {
+    // close modal first, then navigate to booking with doctorId
+    this.closeModal();
+    this.router.navigate(['/appointment'], { queryParams: { doctorId } });
   }
 }

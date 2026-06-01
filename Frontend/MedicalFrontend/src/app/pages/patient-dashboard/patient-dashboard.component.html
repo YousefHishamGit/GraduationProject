@@ -28,7 +28,7 @@
             </div>
             <div class="profile-info">
                 <h4>{{ currentUser()?.fullName }}</h4>
-                <span>Patient</span>
+                <span>Patient <span *ngIf="unreadNotificationsCount() > 0" class="profile-role-badge">{{ unreadNotificationsCount() }}</span></span>
             </div>
         </div>
 
@@ -36,24 +36,25 @@
             <a class="nav-item" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
                 <i class="fas fa-th-large"></i> Overview
             </a>
+
             <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
-                <i class="fas fa-calendar-check"></i> Appointments @if (appointments().length > 0) {
-                <span class="nav-badge">{{ appointments().length }}</span> }
+                <i class="fas fa-calendar-check"></i> Appointments @if (getNewAppointmentsCount() > 0) {
+                <span class="nav-badge">{{ getNewAppointmentsCount() }}</span> }
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'profile'" (click)="setTab('profile')">
                 <i class="fas fa-user"></i> My Profile
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'medical'" (click)="setTab('medical')">
-                <i class="fas fa-file-medical"></i> Medical Records @if (medicalRecords().length > 0) {
-                <span class="nav-badge">{{ medicalRecords().length }}</span> }
+                <i class="fas fa-file-medical"></i> Medical Records @if (getNewMedicalRecordsCount() > 0) {
+                <span class="nav-badge">{{ getNewMedicalRecordsCount() }}</span> }
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'prescriptions'" (click)="setTab('prescriptions')">
-                <i class="fas fa-pills"></i> Prescriptions @if (prescriptions().length > 0) {
-                <span class="nav-badge">{{ prescriptions().length }}</span> }
+                <i class="fas fa-pills"></i> Prescriptions @if (getNewPrescriptionsCount() > 0) {
+                <span class="nav-badge">{{ getNewPrescriptionsCount() }}</span> }
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'lab'" (click)="setTab('lab')">
-                <i class="fas fa-flask"></i> Lab Tests @if (labRequests().length > 0) {
-                <span class="nav-badge">{{ labRequests().length }}</span> }
+                <i class="fas fa-flask"></i> Lab Tests @if (getNewLabCount() > 0) {
+                <span class="nav-badge">{{ getNewLabCount() }}</span> }
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'reviews'" (click)="setTab('reviews')">
                 <i class="fas fa-star"></i> My Reviews @if (myReviews().length > 0) {
@@ -182,9 +183,12 @@
                 </p>
             </div>
             <div class="topbar-right">
-                <a routerLink="/appointment" class="topbar-btn">
+                <a routerLink="/appointment" class="topbar-btn topbar-book-link">
                     <i class="fas fa-calendar-plus"></i>
                     <span>Book Appointment</span>
+                    @if (unreadNotificationsCount() > 0) {
+                    <span class="notification-badge">{{ unreadNotificationsCount() }}</span>
+                    }
                 </a>
             </div>
         </div>
@@ -201,6 +205,28 @@
         <!-- ═══ OVERVIEW ═══ -->
         @if (activeTab() === 'overview') {
         <div class="tab-content fade-in">
+
+            <!-- Active Cancellation Notifications Banners -->
+            @if (notifications().length > 0) {
+            <div class="notifications-banners-list">
+                @for (notif of notifications(); track notif.id) {
+                <div class="notification-banner card">
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <div class="notification-banner-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="notification-banner-content">
+                            <p>{{ notif.message }}</p>
+                            <span>{{ notif.createdOn | date:'dd MMM yyyy, hh:mm a' }}</span>
+                        </div>
+                    </div>
+                    <button class="dismiss-banner-btn" (click)="dismissNotification(notif.id)" title="Dismiss Notification">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                }
+            </div>
+            }
 
             <!-- Stats -->
             <div class="stats-row">
@@ -785,7 +811,9 @@
 
             }
         </div>
-        } }
+        }
+
+ }
     </main>
 </div>
 

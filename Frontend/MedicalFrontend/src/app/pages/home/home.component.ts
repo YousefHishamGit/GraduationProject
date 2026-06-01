@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { EndPoints } from '../../services/endpoints';
 import { LanguageService } from '../../services/language.service';
 import { resolveDoctorPhoto } from '../../shared/doctor-assets';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   private partnerTimer?: number;
 
   public language = inject(LanguageService);
+  private authService = inject(AuthService);
+  notifications = signal<any[]>([]);
+  unreadNotificationsCount = signal(0);
   departments = signal<any[]>([]);
   doctors = signal<any[]>([]);
   isLoadingDepts = signal(true);
@@ -88,6 +92,55 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadDoctors();
     this.startPromotionRotation();
     this.startPartnerRotation();
+    this.loadNotificationsIfPatient();
+  }
+
+  loadNotificationsIfPatient() {
+    const role = this.authService.getRole();
+    if (role !== 'Patient') return;
+
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId) return;
+
+    this.endpoint.patients.getByUserId(userId).subscribe({
+      next: (p) => {
+        const patientId = p?.id;
+        if (!patientId) return;
+        this.endpoint.notifications.getByPatient(patientId).subscribe({
+          next: (list: any[]) => {
+            const normalized = list.map(n => {
+              const msg = (n.message || '').toString();
+              if (msg.includes('تم إلغاء موعدك') || msg.toLowerCase().includes('has been cancelled')) {
+                return { ...n, message: 'نعتذر عن موعدنا اليوم بسبب ظرف طارئ حدث للدكتور' };
+              }
+              return n;
+            });
+            this.notifications.set(normalized);
+            const unread = normalized.filter(x => !x.isRead).length;
+            this.unreadNotificationsCount.set(unread);
+            window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: unread } }));
+          }
+        });
+      }
+    });
+  }
+
+  markNotificationAsRead(id: number) {
+    this.endpoint.notifications.markAsRead(id).subscribe({ next: () => {
+      this.notifications.update(n => n.map(x => x.id === id ? { ...x, isRead: true } : x));
+      const unread = this.notifications().filter(x => !x.isRead).length;
+      this.unreadNotificationsCount.set(unread);
+      window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: unread } }));
+    }});
+  }
+
+  dismissNotification(id: number) {
+    this.endpoint.notifications.delete(id).subscribe({ next: () => {
+      this.notifications.update(n => n.filter(x => x.id !== id));
+      const unread = this.notifications().filter(x => !x.isRead).length;
+      this.unreadNotificationsCount.set(unread);
+      window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: unread } }));
+    }});
   }
 
   ngOnDestroy() {

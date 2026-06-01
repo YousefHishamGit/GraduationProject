@@ -54,5 +54,15 @@ namespace YourApiNamespace.Controllers
             var slots = await _doctorService.GenerateTimeSlotsForDateAsync(doctorId, dto.Date);
             return Ok(slots);
         }
+
+        // PUT /api/timeslots/{id}/cancel
+        [HttpPut("{id}/cancel")]
+        [Authorize(Roles = "Admin,Doctor")]
+        public async Task<IActionResult> CancelTimeSlot(int id)
+        {
+            var result = await _doctorService.CancelTimeSlotAsync(id);
+            if (!result) return NotFound();
+            return Ok(new { message = "Time slot cancelled successfully" });
+        }
     }
 }

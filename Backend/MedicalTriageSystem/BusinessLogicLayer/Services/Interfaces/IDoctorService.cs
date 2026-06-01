@@ -41,7 +41,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<bool> DeleteScheduleAsync(int id);
 
         // Time Slots
-        Task<IEnumerable<TimeSlotResponseDto>> GetDoctorTimeSlotsAsync(int doctorId);
+        Task<IEnumerable<TimeSlotResponseDto>> GetDoctorTimeSlotsAsync(int doctorId, DateTime? date = null);
 
         Task<IEnumerable<TimeSlotResponseDto>> GetAvailableTimeSlotsAsync(int doctorId);
 
@@ -54,5 +54,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<TimeSlotResponseDto?> GetTimeSlotByIdAsync(int id);
         
         Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsForDateAsync(int doctorId, DateTime targetDate);
+
+        Task<bool> CancelTimeSlotAsync(int slotId);
     }               
 }

@@ -126,6 +126,7 @@ namespace MedicalTriageSystem
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
             
 
 
@@ -170,6 +171,7 @@ namespace MedicalTriageSystem
             // ?? Middleware ????????????????????????????????????????
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseCors("AllowAngular");
             app.UseHttpsRedirection();
             app.UseAuthentication();

@@ -145,12 +145,12 @@ namespace MedicalTriageSystem.Controllers
         [HttpGet("{id}/timeslots")]
         [ProducesResponseType(typeof(IEnumerable<TimeSlotResponseDto>), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetTimeSlots(int id)
+        public async Task<IActionResult> GetTimeSlots(int id, [FromQuery] DateTime? date)
         {
             var doctor = await _doctorService.GetDoctorByIdAsync(id);
             if (doctor == null) return NotFound();
 
-            var slots = await _doctorService.GetDoctorTimeSlotsAsync(id);
+            var slots = await _doctorService.GetDoctorTimeSlotsAsync(id, date);
             return Ok(slots);
         }
 

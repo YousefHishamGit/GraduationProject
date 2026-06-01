@@ -28,6 +28,8 @@ export class PatientDashboardComponent implements OnInit {
   medicalRecords = signal<any[]>([]);
   prescriptions = signal<any[]>([]);
   labRequests = signal<any[]>([]);
+  notifications = signal<any[]>([]);
+  unreadNotificationsCount = signal(0);
   isLoading = signal(true);
   sidebarOpen = signal(false);
   currentUser = signal<any>(null);
@@ -66,7 +68,8 @@ export class PatientDashboardComponent implements OnInit {
       appointments: this.endpoint.appointments.getByPatient(patientId),
       medicalRecords: this.endpoint.medicalRecords.getByPatient(patientId),
       prescriptions: this.endpoint.prescriptions.getByPatient(patientId),
-      labRequests: this.endpoint.labRequests.getByPatient(patientId)
+      labRequests: this.endpoint.labRequests.getByPatient(patientId),
+      notifications: this.endpoint.notifications.getByPatient(patientId)
     }).subscribe({
       next: (res) => {
         this.appointments.set(res.appointments);
@@ -75,6 +78,16 @@ export class PatientDashboardComponent implements OnInit {
           ...p, medicineName: p.medicineName || (p as any).medicationName
         })));
         this.labRequests.set(res.labRequests);
+        // Normalize certain notification messages (e.g., appointment cancellations)
+        const normalized = res.notifications.map((n: any) => {
+          const msg = (n.message || '').toString();
+          if (msg.includes('تم إلغاء موعدك') || msg.toLowerCase().includes('has been cancelled') || msg.toLowerCase().includes('has been cancelled.')) {
+            return { ...n, message: 'نعتذر عن موعدنا اليوم بسبب ظرف طارئ حدث للدكتور' };
+          }
+          return n;
+        });
+        this.notifications.set(normalized);
+        this.updateTotalBadgeCount();
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false)
@@ -84,9 +97,157 @@ export class PatientDashboardComponent implements OnInit {
   setTab(tab: string) {
     this.activeTab.set(tab);
     this.sidebarOpen.set(false);
-    if (tab === 'reviews') {
+    if (tab === 'appointments') {
+      localStorage.setItem('lastOpenedAppointments', new Date().toISOString());
+      this.updateTotalBadgeCount();
+    } else if (tab === 'prescriptions') {
+      localStorage.setItem('lastOpenedPrescriptions', new Date().toISOString());
+      this.updateTotalBadgeCount();
+    } else if (tab === 'lab') {
+      localStorage.setItem('lastOpenedLab', new Date().toISOString());
+      this.updateTotalBadgeCount();
+    } else if (tab === 'medical') {
+      localStorage.setItem('lastOpenedMedical', new Date().toISOString());
+      this.updateTotalBadgeCount();
+    } else if (tab === 'overview') {
+      // When patient opens Dashboard/Overview, clear notifications and mark items as seen
+      const patientId = this.patient()?.id;
+      if (patientId) {
+        this.endpoint.notifications.markAllAsRead(patientId).subscribe({ next: () => {
+          this.notifications.update(n => n.map(x => ({ ...x, isRead: true })));
+          // mark item sections as opened so red dots disappear
+          const now = new Date().toISOString();
+          localStorage.setItem('lastOpenedAppointments', now);
+          localStorage.setItem('lastOpenedPrescriptions', now);
+          localStorage.setItem('lastOpenedLab', now);
+          localStorage.setItem('lastOpenedMedical', now);
+          this.updateTotalBadgeCount();
+        }, error: () => { /* ignore errors for UX */ } });
+      }
+    } else if (tab === 'reviews') {
       this.loadReviewsData();
     }
+  }
+
+  updateTotalBadgeCount() {
+    const newPresc = this.hasNewPrescriptions() ? 1 : 0;
+    const newLab = this.hasNewLabRequests() ? 1 : 0;
+    const newMed = this.hasNewMedicalRecords() ? 1 : 0;
+    const unreadNotifications = this.notifications().filter(n => !n.isRead).length;
+
+    const totalCount = newPresc + newLab + newMed + unreadNotifications;
+    this.unreadNotificationsCount.set(unreadNotifications);
+
+    // Dispatch custom event to update navbar badge count
+    window.dispatchEvent(new CustomEvent('notifications-updated', {
+      detail: { count: totalCount }
+    }));
+  }
+
+  dismissNotification(id: number) {
+    this.endpoint.notifications.delete(id).subscribe({
+      next: () => {
+        this.notifications.update(notifs => notifs.filter(n => n.id !== id));
+        this.updateTotalBadgeCount();
+      }
+    });
+  }
+
+  markAsRead(id: number) {
+    this.endpoint.notifications.markAsRead(id).subscribe({
+      next: () => {
+        this.notifications.update(notifs =>
+          notifs.map(n => n.id === id ? { ...n, isRead: true } : n)
+        );
+        this.updateTotalBadgeCount();
+      }
+    });
+  }
+
+  deleteNotification(id: number) {
+    if (!confirm('Are you sure you want to delete this notification?')) return;
+    this.endpoint.notifications.delete(id).subscribe({
+      next: () => {
+        this.notifications.update(notifs => notifs.filter(n => n.id !== id));
+        this.updateTotalBadgeCount();
+      }
+    });
+  }
+
+  clearAllNotifications() {
+    const patientId = this.patient()?.id;
+    if (!patientId) return;
+    if (!confirm('Are you sure you want to clear all notifications?')) return;
+
+    this.endpoint.notifications.clearAll(patientId).subscribe({
+      next: () => {
+        this.notifications.set([]);
+        this.updateTotalBadgeCount();
+      }
+    });
+  }
+
+  hasNewPrescriptions(): boolean {
+    const lastOpened = localStorage.getItem('lastOpenedPrescriptions');
+    if (!lastOpened) return this.prescriptions().length > 0;
+    return this.prescriptions().some(p => {
+      const pDate = p.createdOn || p.requestedOn;
+      return pDate && new Date(pDate) > new Date(lastOpened);
+    });
+  }
+
+  hasNewLabRequests(): boolean {
+    const lastOpened = localStorage.getItem('lastOpenedLab');
+    if (!lastOpened) return this.labRequests().length > 0;
+    return this.labRequests().some(l => {
+      const lDate = l.createdOn || l.requestedOn;
+      return lDate && new Date(lDate) > new Date(lastOpened);
+    });
+  }
+
+  hasNewMedicalRecords(): boolean {
+    const lastOpened = localStorage.getItem('lastOpenedMedical');
+    if (!lastOpened) return this.medicalRecords().length > 0;
+    return this.medicalRecords().some(m => {
+      const mDate = m.createdOn || m.requestedOn;
+      return mDate && new Date(mDate) > new Date(lastOpened);
+    });
+  }
+
+  getNewPrescriptionsCount(): number {
+    const lastOpened = localStorage.getItem('lastOpenedPrescriptions');
+    if (!lastOpened) return this.prescriptions().length;
+    return this.prescriptions().filter(p => {
+      const pDate = p.createdOn || p.requestedOn;
+      return pDate && new Date(pDate) > new Date(lastOpened);
+    }).length;
+  }
+
+  getNewLabCount(): number {
+    const lastOpened = localStorage.getItem('lastOpenedLab');
+    if (!lastOpened) return this.labRequests().length;
+    return this.labRequests().filter(l => {
+      const lDate = l.createdOn || l.requestedOn;
+      return lDate && new Date(lDate) > new Date(lastOpened);
+    }).length;
+  }
+
+  getNewMedicalRecordsCount(): number {
+    const lastOpened = localStorage.getItem('lastOpenedMedical');
+    if (!lastOpened) return this.medicalRecords().length;
+    return this.medicalRecords().filter(m => {
+      const mDate = m.createdOn || m.requestedOn;
+      return mDate && new Date(mDate) > new Date(lastOpened);
+    }).length;
+  }
+
+  getNewAppointmentsCount(): number {
+    const lastOpened = localStorage.getItem('lastOpenedAppointments');
+    if (!lastOpened) return this.appointments().length;
+    return this.appointments().filter(a => {
+      const aDate = a.createdOn || a.scheduledDate;
+      return aDate && new Date(aDate) > new Date(lastOpened);
+    }).length;
   }
 
   getStatusClass(status: string): string {

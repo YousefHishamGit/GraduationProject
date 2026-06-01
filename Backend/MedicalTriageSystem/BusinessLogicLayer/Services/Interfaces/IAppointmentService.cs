@@ -16,6 +16,8 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<AppointmentResponseDto?> ConfirmAsync(int id);
         Task<AppointmentResponseDto?> CancelAsync(int id, string? reason);
         Task<AppointmentResponseDto?> CompleteAsync(int id);
+        Task<IEnumerable<AppointmentResponseDto>> CancelTimeSlotAsync(int timeSlotId, string? reason);
+        Task<IEnumerable<AppointmentResponseDto>> CancelScheduleAsync(int scheduleId, string? reason);
     }
 }
 
