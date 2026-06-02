@@ -19,7 +19,6 @@ export class DoctorDashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   public language = inject(LanguageService);
-  BookCount:number=0;
 
   activeTab = signal('overview');
   doctor = signal<any>(null);
@@ -72,17 +71,12 @@ export class DoctorDashboardComponent implements OnInit {
   showLabModal = signal(false);
   newLabTestRequestName = '';
 
-  // Generate Slots
-  showSlotsModal = signal(false);
-  slotDate = '';
-
   dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   ngOnInit() {
     const user = this.authService.getCurrentUser();
     this.currentUser.set(user);
     this.loadDoctor();
-    console.log(this.timeSlots)
   }
 
   loadDoctor() {
@@ -104,12 +98,9 @@ export class DoctorDashboardComponent implements OnInit {
 
   loadDoctorData(doctorId: number) {
     this.endpoint.appointments.getByDoctor(doctorId).subscribe({
-      next: (data) => {this.appointments.set(data) 
-        this.BookCount=data.length;
-      }
-      
-       ,
-      
+      next: (data) => {
+        this.appointments.set(data);
+      },
       error: () => {}
     });
 
@@ -129,8 +120,6 @@ export class DoctorDashboardComponent implements OnInit {
       next: (data) => {
         this.reviews.set(data);
         this.isLoading.set(false);
-        console.log(data)
-        console.log(doctorId)
       },
       error: () => this.isLoading.set(false)
     });
@@ -181,24 +170,42 @@ export class DoctorDashboardComponent implements OnInit {
   }
 
   getBookedTimeSlotsCount(): number {
-    
-    return this.BookCount;
+    return this.timeSlots().filter(s => s.isBooked).length;
+  }
+
+  /**
+   * Return an array of groups { dateKey: 'YYYY-MM-DD', slots: TimeSlot[] }
+   * Sorted by date ascending. Used by template to show per-day breakdown.
+   */
+  getGroupedTimeSlots() {
+    const groups: Record<string, any[]> = {};
+    for (const slot of this.timeSlots()) {
+      const d = new Date(slot.slotStart).toISOString().split('T')[0];
+      if (!groups[d]) groups[d] = [];
+      groups[d].push(slot);
+    }
+    return Object.keys(groups).sort().map(k => ({ dateKey: k, slots: groups[k].sort((a,b) => new Date(a.slotStart).getTime() - new Date(b.slotStart).getTime()) }));
   }
 
   reloadComputedTimeSlots(doctorId: number) {
-    const date = this.timeSlotsPreviewDate();
-    this.endpoint.doctors.getTimeSlots(doctorId, date).subscribe({
-      next: (data) => this.timeSlots.set(data),
+    // Load time slots for a range of days (next 60 days) instead of just one
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 60); // Next 60 days
+    
+    const startDateStr = startDate.toISOString().split('T')[0];
+    const endDateStr = endDate.toISOString().split('T')[0];
+    
+    this.endpoint.doctors.getTimeSlotsRange(doctorId, startDateStr, endDateStr).subscribe({
+      next: (data) => {
+        this.timeSlots.set(data);
+        // Also update the preview date to today if not set
+        if (!this.timeSlotsPreviewDate() || this.timeSlotsPreviewDate() < startDateStr) {
+          this.timeSlotsPreviewDate.set(startDateStr);
+        }
+      },
       error: () => this.timeSlots.set([])
     });
-  }
-
-  onTimeSlotsPreviewDateChange(date: string) {
-    this.timeSlotsPreviewDate.set(date);
-    const doctorId = this.doctor()?.id;
-    if (doctorId) {
-      this.reloadComputedTimeSlots(doctorId);
-    }
   }
 
   openRecordModal(apt: any) {
@@ -395,6 +402,18 @@ export class DoctorDashboardComponent implements OnInit {
       return;
     }
 
+    // Validate that end time is after start time
+    if (this.newSchedule.startTime >= this.newSchedule.endTime) {
+      this.errorMsg.set('End time must be after start time.');
+      return;
+    }
+
+    // Validate slot duration
+    if (this.newSchedule.slotDurationMinutes < 15) {
+      this.errorMsg.set('Slot duration must be at least 15 minutes.');
+      return;
+    }
+
     this.isSubmitting.set(true);
     this.errorMsg.set('');
     this.successMsg.set('');
@@ -410,6 +429,10 @@ export class DoctorDashboardComponent implements OnInit {
         this.schedule.update(items => [...items, created]);
         this.successMsg.set('Schedule added successfully.');
         this.isSubmitting.set(false);
+        
+        // Auto-reload time slots for all dates
+        this.reloadComputedTimeSlots(doctorId);
+        
         setTimeout(() => this.closeScheduleModal(), 900);
       },
       error: (err) => {
@@ -421,45 +444,35 @@ export class DoctorDashboardComponent implements OnInit {
 
   deleteSchedule(id: number) {
     this.endpoint.doctors.deleteSchedule(id).subscribe({
-      next: () => this.schedule.update(items => items.filter(s => s.id !== id)),
+      next: () => {
+        this.schedule.update(items => items.filter(s => s.id !== id));
+        // Reload time slots after deleting schedule
+        const doctorId = this.doctor()?.id;
+        if (doctorId) this.reloadComputedTimeSlots(doctorId);
+      },
       error: (err) => this.errorMsg.set(err.error?.message || 'Failed to delete schedule.')
     });
   }
 
-  // --- Generate Time Slots ---
-  openSlotsModal() {
-    this.showSlotsModal.set(true);
-    this.slotDate = new Date().toISOString().split('T')[0];
-    this.successMsg.set('');
-    this.errorMsg.set('');
-  }
+  toggleScheduleAvailability(schedule: any) {
+    const scheduleId = schedule?.id;
+    if (!scheduleId) return;
 
-  closeSlotsModal() {
-    this.showSlotsModal.set(false);
-  }
+    const payload: any = { isAvailable: !schedule.isAvailable };
 
-  generateSlots() {
-    const docId = this.doctor()?.id;
-    if (!docId || !this.slotDate) {
-      this.errorMsg.set('Please select a valid date');
-      return;
-    }
-
-    this.isSubmitting.set(true);
-    this.endpoint.doctors.generateTimeSlots(docId, this.slotDate).subscribe({
-      next: (res) => {
-        this.successMsg.set('Time slots generated successfully!');
-        this.timeSlots.update(slots => [...slots, ...res]);
-        this.isSubmitting.set(false);
-        setTimeout(() => this.closeSlotsModal(), 1500);
+    this.endpoint.doctors.updateSchedule(scheduleId, payload).subscribe({
+      next: (updated) => {
+        this.schedule.update(items => items.map(s => s.id === scheduleId ? updated : s));
+        const doctorId = this.doctor()?.id;
+        if (doctorId) this.reloadComputedTimeSlots(doctorId);
       },
       error: (err) => {
-        this.errorMsg.set(err.error?.message || 'Failed to generate time slots');
-        this.isSubmitting.set(false);
+        this.errorMsg.set(err.error?.message || 'Failed to update schedule availability.');
       }
     });
   }
 
+  // --- Generate Time Slots ---
   onRecordFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -620,7 +633,11 @@ export class DoctorDashboardComponent implements OnInit {
         // show cancelled flag for UX (persist in session)
         this.cancelledTodaySchedules.update(ids => Array.from(new Set([...ids, scheduleId])));
         const doctorId = this.doctor()?.id;
-        if (doctorId) this.loadDoctorData(doctorId);
+        if (doctorId) {
+          this.loadDoctorData(doctorId);
+          // Also reload time slots
+          this.reloadComputedTimeSlots(doctorId);
+        }
         alert('Schedule appointments cancelled successfully.');
       },
       error: (err) => {

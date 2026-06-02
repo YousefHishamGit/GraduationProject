@@ -55,6 +55,11 @@ namespace BusinessLogicLayer.Services.Interfaces
         
         Task<IEnumerable<TimeSlotResponseDto>> GenerateTimeSlotsForDateAsync(int doctorId, DateTime targetDate);
 
+        /// <summary>
+        /// Get or generate time slots for a date range (automatically generates slots for all active schedules)
+        /// </summary>
+        Task<IEnumerable<TimeSlotResponseDto>> GetTimeSlotsForDateRangeAsync(int doctorId, DateTime startDate, DateTime endDate);
+
         Task<bool> CancelTimeSlotAsync(int slotId);
     }               
 }

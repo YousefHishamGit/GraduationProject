@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedicalTriageSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+149458718b347f89da6b6b435f2d7564fe737142")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4821f1f1f58f43fb76f69a21813763568c3f702")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedicalTriageSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedicalTriageSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

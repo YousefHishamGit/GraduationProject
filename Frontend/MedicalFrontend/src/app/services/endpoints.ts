@@ -11,6 +11,7 @@ import { ReviewEndpoint } from './review.endpoint';
 import { PaymentEndpoint } from './payment.endpoint';
 import { AiEndpoint } from './ai.endpoint';
 import { NotificationEndpoint } from './notification.endpoint';
+import { AdminEndpoint } from './admin.endpoint';
 
 @Injectable({ providedIn: 'root' })
 export class EndPoints {
@@ -26,4 +27,5 @@ export class EndPoints {
   public payments     = inject(PaymentEndpoint);
   public ai           = inject(AiEndpoint);
   public notifications = inject(NotificationEndpoint);
+  public admin        = inject(AdminEndpoint);
 }

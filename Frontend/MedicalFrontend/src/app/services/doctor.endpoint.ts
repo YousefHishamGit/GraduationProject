@@ -81,9 +81,19 @@ export class DoctorEndpoint extends BaseEndpoint {
   }
 
   /** Slots for one calendar day, computed from weekly schedule (not stored in DB). */
-  getTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
-    const params = new HttpParams().set('date', date);
-    return this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params });
+  getTimeSlots(doctorId: number, date?: string): Observable<TimeSlotResponseDto[]> {
+    // New centralized timeslots endpoint: /api/timeslots/Doctor/{doctorId}
+    let params = new HttpParams();
+    if (date) params = params.set('date', date);
+    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params });
+  }
+
+  /** Slots for a date range, computed from weekly schedule. */
+  getTimeSlotsRange(doctorId: number, startDate: string, endDate: string): Observable<TimeSlotResponseDto[]> {
+    let params = new HttpParams();
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params });
   }
 
   generateTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {

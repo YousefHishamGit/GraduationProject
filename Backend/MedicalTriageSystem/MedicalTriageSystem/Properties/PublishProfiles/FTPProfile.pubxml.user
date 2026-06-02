@@ -5,7 +5,7 @@
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAUl4PBhY8IUWJrvJR5FJ4JAAAAAACAAAAAAAQZgAAAAEAACAAAACFofbIQ1mzqbs19BkcmxETADCVk8HoS7iZz7K26ORO3AAAAAAOgAAAAAIAACAAAABseCSKPXFDVg15AtLqRqkXNf+2x6rsOPuiWWgJnaqJYiAAAAC5WSF5kAkG+easg1GCXY7yA/0ufMSSx1YxFdeOL+wfEkAAAACJNJzegyXlITfMcmrbjhaUhGvad4SxSi50w98Yjzn91vyjHgh0dynKfttpiuFtWdh+FmGpFzFnSLIF7kRcJM8h</EncryptedPassword>
     <_PublishTargetUrl>ftp://site68099.siteasp.net/wwwroot</_PublishTargetUrl>
-    <History>True|2026-05-26T14:45:54.2685115Z||;True|2026-05-11T17:58:50.8487137+03:00||;True|2026-05-10T00:00:37.3564666+03:00||;</History>
+    <History>True|2026-06-02T18:34:16.0743210Z||;True|2026-06-02T06:45:28.1596337+03:00||;False|2026-06-02T06:42:10.2105882+03:00||;True|2026-05-26T17:45:54.2685115+03:00||;True|2026-05-11T17:58:50.8487137+03:00||;True|2026-05-10T00:00:37.3564666+03:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -16,7 +16,7 @@
       <publishTime>05/12/2026 19:31:06</publishTime>
     </File>
     <File Include="AutoMapper.dll">
-      <publishTime>02/07/2024 23:45:30</publishTime>
+      <publishTime>07/02/2024 23:45:30</publishTime>
     </File>
     <File Include="Azure.Core.dll">
       <publishTime>06/30/2022 21:28:36</publishTime>
@@ -25,37 +25,37 @@
       <publishTime>09/19/2022 22:31:34</publishTime>
     </File>
     <File Include="BusinessLogicLayer.dll">
-      <publishTime>05/26/2026 17:42:48</publishTime>
+      <publishTime>06/02/2026 21:31:28</publishTime>
     </File>
     <File Include="BusinessLogicLayer.pdb">
-      <publishTime>05/26/2026 17:42:48</publishTime>
+      <publishTime>06/02/2026 21:31:28</publishTime>
     </File>
     <File Include="DataAccessLayer.dll">
-      <publishTime>05/26/2026 17:42:46</publishTime>
+      <publishTime>02/06/2026 06:39:25</publishTime>
     </File>
     <File Include="DataAccessLayer.pdb">
-      <publishTime>05/26/2026 17:42:46</publishTime>
+      <publishTime>06/02/2026 06:39:25</publishTime>
     </File>
     <File Include="MedicalTriageSystem.deps.json">
-      <publishTime>05/26/2026 17:42:56</publishTime>
+      <publishTime>06/02/2026 21:31:35</publishTime>
     </File>
     <File Include="MedicalTriageSystem.dll">
-      <publishTime>05/26/2026 17:42:51</publishTime>
+      <publishTime>06/02/2026 21:31:34</publishTime>
     </File>
     <File Include="MedicalTriageSystem.exe">
-      <publishTime>05/26/2026 17:42:51</publishTime>
+      <publishTime>06/02/2026 21:31:34</publishTime>
     </File>
     <File Include="MedicalTriageSystem.pdb">
-      <publishTime>05/26/2026 17:42:51</publishTime>
+      <publishTime>06/02/2026 21:31:34</publishTime>
     </File>
     <File Include="MedicalTriageSystem.runtimeconfig.json">
-      <publishTime>05/26/2026 17:42:52</publishTime>
+      <publishTime>06/02/2026 06:39:27</publishTime>
     </File>
     <File Include="MedicalTriageSystem.staticwebassets.endpoints.json">
-      <publishTime>05/26/2026 17:42:56</publishTime>
+      <publishTime>06/02/2026 06:39:31</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Authentication.JwtBearer.dll">
-      <publishTime>11/01/2023 03:08:28</publishTime>
+      <publishTime>01/11/2023 03:08:28</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Cryptography.Internal.dll">
       <publishTime>01/14/2026 21:07:26</publishTime>
@@ -64,10 +64,10 @@
       <publishTime>01/14/2026 21:07:52</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll">
-      <publishTime>11/01/2023 03:07:56</publishTime>
+      <publishTime>01/11/2023 03:07:56</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.OpenApi.dll">
-      <publishTime>11/01/2023 03:08:58</publishTime>
+      <publishTime>01/11/2023 03:08:58</publishTime>
     </File>
     <File Include="Microsoft.Bcl.AsyncInterfaces.dll">
       <publishTime>10/23/2021 01:47:36</publishTime>
@@ -76,16 +76,16 @@
       <publishTime>03/28/2023 07:28:24</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
-      <publishTime>11/01/2023 00:15:22</publishTime>
+      <publishTime>01/11/2023 00:15:22</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.dll">
-      <publishTime>11/01/2023 00:15:58</publishTime>
+      <publishTime>01/11/2023 00:15:58</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
-      <publishTime>11/01/2023 00:16:48</publishTime>
+      <publishTime>01/11/2023 00:16:48</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
-      <publishTime>11/01/2023 00:16:56</publishTime>
+      <publishTime>01/11/2023 00:16:56</publishTime>
     </File>
     <File Include="Microsoft.Extensions.Caching.Abstractions.dll">
       <publishTime>03/26/2026 02:46:58</publishTime>
@@ -133,10 +133,10 @@
       <publishTime>10/22/2024 02:56:42</publishTime>
     </File>
     <File Include="Microsoft.Identity.Client.dll">
-      <publishTime>10/03/2022 19:40:38</publishTime>
+      <publishTime>03/10/2022 19:40:38</publishTime>
     </File>
     <File Include="Microsoft.Identity.Client.Extensions.Msal.dll">
-      <publishTime>11/20/2021 00:02:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Microsoft.IdentityModel.Abstractions.dll">
       <publishTime>10/17/2023 05:20:50</publishTime>
@@ -205,13 +205,13 @@
       <publishTime>09/17/2024 02:10:56</publishTime>
     </File>
     <File Include="Swashbuckle.AspNetCore.Swagger.dll">
-      <publishTime>01/11/2023 08:48:22</publishTime>
+      <publishTime>11/01/2023 08:48:22</publishTime>
     </File>
     <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
-      <publishTime>01/11/2023 08:48:26</publishTime>
+      <publishTime>11/01/2023 08:48:26</publishTime>
     </File>
     <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
-      <publishTime>01/11/2023 08:49:02</publishTime>
+      <publishTime>11/01/2023 08:49:02</publishTime>
     </File>
     <File Include="System.ClientModel.dll">
       <publishTime>03/01/2024 19:43:00</publishTime>
@@ -229,7 +229,7 @@
       <publishTime>10/17/2023 04:52:04</publishTime>
     </File>
     <File Include="System.Memory.Data.dll">
-      <publishTime>04/08/2021 18:45:54</publishTime>
+      <publishTime>08/04/2021 18:45:54</publishTime>
     </File>
     <File Include="System.Runtime.Caching.dll">
       <publishTime>10/23/2021 01:52:02</publishTime>
@@ -253,7 +253,10 @@
       <publishTime>10/23/2021 01:49:44</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>05/26/2026 17:42:57</publishTime>
+      <publishTime>06/02/2026 21:31:35</publishTime>
+    </File>
+    <File Include="wwwroot/uploads/lab_results/0ee41ca8-e2e6-4f7f-8aa9-61217ee6eb82_fake_lab_report.pdf">
+      <publishTime>06/02/2026 06:07:41</publishTime>
     </File>
     <File Include="wwwroot/uploads/lab_results/42002d8b-c50f-49e2-99ee-57b740451d60_Lect2- A Simple Syntax-Directed Translator %281%29.pdf">
       <publishTime>05/25/2026 15:52:05</publishTime>
@@ -272,6 +275,12 @@
     </File>
     <File Include="wwwroot/uploads/medical_records/dc47ddf8-48d5-4679-9cc1-f01b27565d42_Lect2- A Simple Syntax-Directed Translator %281%29.pdf">
       <publishTime>05/18/2026 15:06:49</publishTime>
+    </File>
+    <File Include="wwwroot/uploads/profile-images/5149ffdf-0965-46cc-a542-369436cad45e_hero_doctor_1776622489067.png">
+      <publishTime>06/02/2026 06:07:41</publishTime>
+    </File>
+    <File Include="wwwroot/uploads/profile-images/f014a0b8-9d98-4125-a06b-f1297009043c_cardiology.png">
+      <publishTime>06/02/2026 06:07:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

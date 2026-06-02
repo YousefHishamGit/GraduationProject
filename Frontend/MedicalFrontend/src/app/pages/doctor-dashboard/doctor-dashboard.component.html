@@ -18,10 +18,7 @@
         <div class="sidebar-profile">
             <div class="profile-avatar">
                 @if (getProfileImageUrl()) {
-                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'">
-                } @else {
-                {{ getInitials(currentUser()?.fullName || 'DR') }}
-                }
+                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'"> } @else { {{ getInitials(currentUser()?.fullName || 'DR') }} }
             </div>
             <div class="profile-info">
                 <h4>{{ currentUser()?.fullName }}</h4>
@@ -142,10 +139,7 @@
                         <div class="dpc-avatar-wrap">
                             <div class="dpc-avatar">
                                 @if (getProfileImageUrl()) {
-                                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'">
-                                } @else {
-                                {{ getInitials(doctor()?.fullName || 'DR') }}
-                                }
+                                <img [src]="getProfileImageUrl()" [alt]="doctor()?.fullName || 'Doctor'"> } @else { {{ getInitials(doctor()?.fullName || 'DR') }} }
                             </div>
                             <label class="change-photo-btn" [class.disabled]="uploadingProfilePhoto()">
                                 <i class="fas fa-camera"></i>
@@ -156,8 +150,7 @@
                         <h2>Dr. {{ doctor()?.fullName }}</h2>
                         @if (profilePhotoMessage()) {
                         <p class="photo-msg success">{{ profilePhotoMessage() }}</p>
-                        }
-                        @if (profilePhotoError()) {
+                        } @if (profilePhotoError()) {
                         <p class="photo-msg error">{{ profilePhotoError() }}</p>
                         }
                         <p class="dpc-spec">{{ doctor()?.specialization }}</p>
@@ -302,19 +295,16 @@
                                         </button>
                                         <button class="action-btn record" (click)="openRecordModal(apt)" title="Medical Record">
                                             <i class="fas fa-file-medical"></i>
-                                        </button> 
+                                        </button>
                                         <button class="action-btn patient-info" (click)="openPatientModal(apt)" title="Patient Details" style="color: #0d6efd;">
                                             <i class="fas fa-user-injured"></i>
                                         </button>
                                         <button class="action-btn lab-btn" (click)="openLabModal(apt)" title="Lab Tests & Results" style="color: #6f42c1;">
                                             <i class="fas fa-vial"></i>
-                                        </button>
-                                        }
-                                        @if (apt.status === 'Pending' || apt.status === 'Confirmed') {
+                                        </button> } @if (apt.status === 'Pending' || apt.status === 'Confirmed') {
                                         <button class="action-btn cancel" (click)="cancelAppointment(apt.id)" title="Cancel Appointment">
                                             <i class="fas fa-times"></i>
-                                        </button>
-                                        }
+                                        </button> }
                                     </div>
                                 </td>
                             </tr>
@@ -357,6 +347,10 @@
                     <span class="summary-pill__label">Open for booking</span>
                 </div>
             </div>
+            <div style="background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px; padding: 14px 16px; margin-bottom: 20px; font-size: 0.9rem; color: #065f46; display: flex; align-items: flex-start; gap: 10px;">
+                <i class="fas fa-info-circle" style="margin-top: 2px; flex-shrink: 0;"></i>
+                <span>Your schedules are configured. Next, go to the <strong>Time Slots</strong> tab to generate available time slots for patients to book appointments.</span>
+            </div>
             <div class="schedule-grid">
                 @for (s of schedule(); track s.id) {
                 <article class="schedule-card card" [class.schedule-card--closed]="!s.isAvailable">
@@ -388,6 +382,9 @@
                             <button type="button" class="delete-btn" (click)="deleteSchedule(s.id)" title="Remove this day">
                                 <i class="fas fa-trash-alt" aria-hidden="true"></i>
                             </button>
+                            <button type="button" class="toggle-availability-btn" (click)="toggleScheduleAvailability(s)" [title]="s.isAvailable ? 'Close schedule' : 'Open schedule'" [disabled]="cancellingSchedules().includes(s.id)">
+                                <i [class]="s.isAvailable ? 'fas fa-eye-slash' : 'fas fa-eye'" aria-hidden="true"></i>
+                            </button>
                             <button type="button" class="cancel-schedule-btn" (click)="cancelSchedule(s.id)" title="Cancel all appointments for this schedule" [disabled]="cancellingSchedules().includes(s.id)">
                                 <i class="fas fa-ban" aria-hidden="true"></i>
                                 <i *ngIf="cancellingSchedules().includes(s.id)" class="fas fa-spinner fa-spin" style="margin-left:6px;font-size:.8rem"></i>
@@ -415,16 +412,8 @@
         <div class="tab-content fade-in timeslots-tab">
             <div class="tab-header tab-header--timeslots">
                 <div class="tab-header-text">
-                    <h2><i class="fas fa-stopwatch" aria-hidden="true"></i> Time slots</h2>
-                    <p>Preview for one day: openings are computed from your weekly schedule and existing bookings.</p>
-                </div>
-                <div class="field-group" style="margin: 0; min-width: 200px; display: flex; gap: 10px; align-items: center;">
-                    <input type="date" class="field-input" title="Preview day"
-                        [attr.aria-label]="'Preview time slots for date'"
-                        [ngModel]="timeSlotsPreviewDate()" (ngModelChange)="onTimeSlotsPreviewDateChange($event)">
-                    <button class="add-btn" (click)="openSlotsModal()" style="margin: 0;">
-                        <i class="fas fa-magic" aria-hidden="true"></i> Generate
-                    </button>
+                    <h2><i class="fas fa-stopwatch" aria-hidden="true"></i> Available Time Slots</h2>
+                    <p>All available time slots for the next 60 days. Slots are automatically calculated from your weekly schedule.</p>
                 </div>
             </div>
 
@@ -443,40 +432,56 @@
                     <span class="summary-pill__label">Total</span>
                 </div>
             </div>
+            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 0.85rem; color: #6b7280; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                <span>Showing <strong>{{ timeSlots().length }}</strong> available time slots. Patients can book any available slot.</span>
+            </div>
             <div class="slots-grid">
-                @for (slot of timeSlots(); track slot.slotStart) {
-                <article class="slot-card card" [class.booked]="slot.isBooked">
-                    <div class="slot-card__glow" aria-hidden="true"></div>
-                    <span class="slot-status-dot" [class.booked]="slot.isBooked" [attr.title]="slot.isBooked ? 'Booked' : 'Available'"></span>
-                    <div class="slot-card__main">
-                        <div class="slot-date">
-                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                            {{ slot.slotStart | date:'EEE, dd MMM' }}
-                        </div>
-                        <div class="slot-time-block">
-                            <span class="slot-time">{{ slot.slotStart | date:'hh:mm a' }}</span>
-                            <span class="slot-time-sep">–</span>
-                            <span class="slot-time slot-time--end">{{ slot.slotEnd | date:'hh:mm a' }}</span>
-                        </div>
-                    </div>
-                    <div class="slot-card__footer">
-                        <span class="slot-badge" [class.booked]="slot.isBooked">
-                            {{ slot.isBooked ? 'Booked' : 'Free' }}
-                        </span>
-                        @if (slot.id) {
-                        <button class="delete-slot-btn" (click)="cancelTimeSlot(slot.id)" title="Cancel Time Slot">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
+                @for (group of getGroupedTimeSlots(); track group.dateKey) {
+                <section class="slots-day">
+                    <header class="slots-day__header">
+                        <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                        <strong>{{ group.dateKey | date:'EEEE, dd MMM yyyy' }}</strong>
+                        <span class="slots-day__count">{{ group.slots.length }} slots</span>
+                    </header>
+
+                    <div class="slots-day__list">
+                        @for (slot of group.slots; track slot.slotStart) {
+                        <article class="slot-card card" [class.booked]="slot.isBooked">
+                            <div class="slot-card__glow" aria-hidden="true"></div>
+                            <span class="slot-status-dot" [class.booked]="slot.isBooked" [attr.title]="slot.isBooked ? 'Booked' : 'Available'"></span>
+                            <div class="slot-card__main">
+                                <div class="slot-time-block">
+                                    <span class="slot-time">{{ slot.slotStart | date:'hh:mm a' }}</span>
+                                    <span class="slot-time-sep">–</span>
+                                    <span class="slot-time slot-time--end">{{ slot.slotEnd | date:'hh:mm a' }}</span>
+                                </div>
+                            </div>
+                            <div class="slot-card__footer">
+                                <span class="slot-badge" [class.booked]="slot.isBooked">
+                                    {{ slot.isBooked ? 'Booked' : 'Free' }}
+                                </span> @if (slot.id) {
+                                <button class="delete-slot-btn" (click)="cancelTimeSlot(slot.id)" title="Cancel Time Slot">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button> }
+                            </div>
+                        </article>
                         }
                     </div>
-                </article>
+                </section>
                 }
             </div>
             } @else {
             <div class="empty-state card empty-state--slots">
                 <div class="empty-state__icon-wrap"><i class="fas fa-stopwatch" aria-hidden="true"></i></div>
-                <h3>No slots on this day</h3>
-                <p>Add or open a day in <strong>My Schedule</strong>, or pick another date. Slots are not stored—they are calculated from your weekly hours.</p>
+                <h3>No time slots available</h3>
+                @if (schedule().length === 0) {
+                <p>First, create a weekly schedule in the <strong>My Schedule</strong> tab to generate time slots.</p>
+                <button type="button" class="add-btn" (click)="setTab('schedule')" style="margin-top: 12px;">
+                    <i class="fas fa-arrow-right"></i> Go to My Schedule
+                </button> } @else {
+                <p>No time slots have been generated yet. Make sure you have at least one "Open" schedule configured.</p>
+                }
             </div>
             }
         </div>
@@ -569,8 +574,7 @@
             </div>
 
             <div class="field-group">
-                <label>Attachment (PDF)</label>
-                @if (existingRecord()?.attachedFilePath) {
+                <label>Attachment (PDF)</label> @if (existingRecord()?.attachedFilePath) {
                 <div class="current-attachment" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 6px; border: 1px solid #dee2e6;">
                     <i class="fas fa-file-pdf" style="color: #dc3545; font-size: 24px;"></i>
                     <div style="flex-grow: 1;">
@@ -579,32 +583,27 @@
                     @if (!isReadOnly()) {
                     <button type="button" (click)="deleteAttachment()" style="padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash-alt"></i> Remove
-                    </button>
-                    }
+                    </button> }
                 </div>
-                }
-                @if (!isReadOnly()) {
+                } @if (!isReadOnly()) {
                 <input type="file" accept="application/pdf" (change)="onRecordFileSelected($event)" class="field-input" style="padding: 8px;">
-                <small style="color: #6c757d; margin-top: 4px; display: block;">Select a PDF file to upload or replace existing attachment.</small>
-                }
+                <small style="color: #6c757d; margin-top: 4px; display: block;">Select a PDF file to upload or replace existing attachment.</small> }
             </div>
 
             <div class="modal-footer">
-                <button class="cancel-btn" (click)="closeRecordModal()">Close</button>
-                @if (!isReadOnly()) {
+                <button class="cancel-btn" (click)="closeRecordModal()">Close</button> @if (!isReadOnly()) {
                 <button class="submit-btn" (click)="submitRecord()" [disabled]="isSubmitting()">
             @if (isSubmitting()) {
               <i class="fas fa-spinner fa-spin"></i> Saving...
             } @else {
               <i class="fas fa-save"></i> Save Record
             }
-          </button>
-          }
+          </button> }
             </div>
         </div>
 
 
-</div>
+    </div>
 </div>
 }
 
@@ -629,9 +628,7 @@
             <div class="msg-error">
                 <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
             </div>
-            }
-
-            @if (selectedPatient()) {
+            } @if (selectedPatient()) {
             <div class="patient-info-card" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                 <!-- Basic Info: Name, Gender, Birth Date, Blood Type -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; font-size: 0.9rem; margin-bottom: 12px;">
@@ -651,8 +648,7 @@
                     <textarea [(ngModel)]="newMedicalHistoryEntry" rows="2" placeholder="Add new medical history notes..." class="field-input" style="margin-top: 6px;"></textarea>
                     <button class="add-btn" (click)="appendMedicalHistory()" [disabled]="isSubmitting() || !newMedicalHistoryEntry" style="margin-top: 6px; padding: 6px 12px; font-size: 0.85rem;">
                         <i class="fas fa-save"></i> Save to History
-                    </button>
-                    }
+                    </button> }
                 </div>
 
                 <!-- Allergies -->
@@ -665,8 +661,7 @@
                     <textarea [(ngModel)]="newAllergiesEntry" rows="2" placeholder="Update allergies (replaces current value)..." class="field-input" style="margin-top: 6px;"></textarea>
                     <button class="add-btn" (click)="updateAllergies()" [disabled]="isSubmitting() || !newAllergiesEntry" style="margin-top: 6px; padding: 6px 12px; font-size: 0.85rem; background: #e67e22;">
                         <i class="fas fa-save"></i> Update Allergies
-                    </button>
-                    }
+                    </button> }
                 </div>
 
             </div>
@@ -731,6 +726,7 @@
             <div class="field-group">
                 <label>Slot Duration (minutes)</label>
                 <input type="number" [(ngModel)]="newSchedule.slotDurationMinutes" min="15" step="15" class="field-input">
+                <small style="color: #64748b; margin-top: 6px; display: block;">⏱️ This determines how many time slots will be created within your working hours. For example: 9 AM - 5 PM with 30-minute slots = 16 slots.</small>
             </div>
 
             <div class="field-group checkbox">
@@ -752,50 +748,6 @@
             </div>
         </div>
 
-    </div>
-</div>
-}
-
-<!-- Generate Slots Modal -->
-@if (showSlotsModal()) {
-<div class="modal-backdrop" (click)="closeSlotsModal()">
-    <div class="record-modal" (click)="$event.stopPropagation()">
-
-        <div class="modal-head">
-            <h3><i class="fas fa-magic"></i> Generate Time Slots</h3>
-            <button class="modal-close" (click)="closeSlotsModal()" title="Close" aria-label="Close modal">
-          <i class="fas fa-times"></i>
-        </button>
-        </div>
-
-        <div class="modal-body">
-            @if (successMsg()) {
-            <div class="msg-success">
-                <i class="fas fa-check-circle"></i> {{ successMsg() }}
-            </div>
-            } @if (errorMsg()) {
-            <div class="msg-error">
-                <i class="fas fa-exclamation-circle"></i> {{ errorMsg() }}
-            </div>
-            }
-
-            <div class="field-group">
-                <label>Target Date <span class="req">*</span></label>
-                <input type="date" [(ngModel)]="slotDate" class="field-input">
-                <small style="color: #6c757d; margin-top: 4px; display: block;">Slots will be generated based on your schedule for this day's day-of-week.</small>
-            </div>
-
-            <div class="modal-footer">
-                <button class="cancel-btn" (click)="closeSlotsModal()">Cancel</button>
-                <button class="submit-btn" (click)="generateSlots()" [disabled]="isSubmitting()">
-            @if (isSubmitting()) {
-              <i class="fas fa-spinner fa-spin"></i> Generating...
-            } @else {
-              <i class="fas fa-magic"></i> Generate Slots
-            }
-          </button>
-            </div>
-        </div>
     </div>
 </div>
 }
@@ -843,7 +795,7 @@
             <hr style="border: 0; border-top: 1px solid #dee2e6; margin: 20px 0;">
 
             <h4><i class="fas fa-list-ul"></i> Patient Lab Tests</h4>
-            
+
             <div class="lab-results-body" style="margin-top: 10px;">
                 @if (isLoadingLabResults()) {
                 <div class="lab-loading-state">
@@ -877,8 +829,7 @@
                         } @else {
                         <span class="lab-no-file">
                             <i class="fas fa-clock"></i> Awaiting upload
-                        </span>
-                        }
+                        </span> }
                     </div>
                     }
                 </div>

@@ -46,6 +46,9 @@
                 <i class="fas fa-building"></i> Departments
                 <span class="nav-badge">{{ departments().length }}</span>
             </a>
+            <a class="nav-item" [class.active]="activeTab() === 'revenue'" (click)="setTab('revenue'); loadRevenueReport()">
+                <i class="fas fa-wallet"></i> Revenue Reports
+            </a>
 
             <div class="nav-divider"></div>
 
@@ -69,7 +72,7 @@
             <div class="topbar-left">
                 <h1 class="page-title">
                     @if (activeTab() === 'dashboard') { Overview } @else if (activeTab() === 'doctors') { Doctors Management } @else if (activeTab() === 'patients') { Patients } @else if (activeTab() === 'appointments') { Appointments } @else if (activeTab() === 'departments')
-                    { Departments }
+                    { Departments } @else if (activeTab() === 'revenue') { Revenue Reports }
                 </h1>
                 <p class="page-sub">MediCare Administration Panel</p>
             </div>
@@ -461,6 +464,207 @@
                 <h3>No Departments Yet</h3>
                 <p>Add your first department to get started</p>
             </div>
+            }
+        </div>
+        } 
+        
+        <!-- ═══ REVENUE ═══ -->
+        @if (activeTab() === 'revenue') {
+        <div class="tab-content fade-in">
+            @if (revenueLoading()) {
+            <div class="inner-loader">
+                <i class="fas fa-circle-notch fa-spin"></i> Loading Revenue Insights...
+            </div>
+            } @else {
+                @if (revenueReport(); as report) {
+                
+                <!-- 💰 KPI Grid -->
+                <div class="revenue-kpi-grid">
+                    <div class="rev-card purple-glow">
+                        <div class="rc-header">
+                            <span>Total Lifetime Revenue</span>
+                            <i class="fas fa-coins text-purple"></i>
+                        </div>
+                        <h2>{{ report.totalRevenue | number:'1.2-2' }} <span class="currency">EGP</span></h2>
+                        <div class="rc-footer text-purple">
+                            <i class="fas fa-arrow-trend-up"></i> Accumulated Hospital Income
+                        </div>
+                    </div>
+
+                    <div class="rev-card green-glow">
+                        <div class="rc-header">
+                            <span>Today's Earnings</span>
+                            <i class="fas fa-bolt text-green"></i>
+                        </div>
+                        <h2>{{ report.todayRevenue | number:'1.2-2' }} <span class="currency">EGP</span></h2>
+                        <div class="rc-footer text-green">
+                            <i class="fas fa-chart-line"></i> Real-time Today's Traffic
+                        </div>
+                    </div>
+
+                    <div class="rev-card blue-glow">
+                        <div class="rc-header">
+                            <span>This Month Earnings</span>
+                            <i class="fas fa-calendar-alt text-blue"></i>
+                        </div>
+                        <h2>{{ report.thisMonthRevenue | number:'1.2-2' }} <span class="currency">EGP</span></h2>
+                        <div class="rc-footer text-blue">
+                            <i class="fas fa-percentage"></i> Monthly Financial Progress
+                        </div>
+                    </div>
+
+                    <div class="rev-card orange-glow">
+                        <div class="rc-header">
+                            <span>Average per Invoice</span>
+                            <i class="fas fa-receipt text-orange"></i>
+                        </div>
+                        <h2>{{ report.averageTransactionAmount | number:'1.2-2' }} <span class="currency">EGP</span></h2>
+                        <div class="rc-footer text-orange">
+                            <i class="fas fa-chart-bar"></i> Avg. Patient Ticket Value
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 📊 Charts Row -->
+                <div class="charts-row">
+                    <!-- SVG Interactive Chart -->
+                    <div class="chart-container card">
+                        <div class="cc-header">
+                            <h3><i class="fas fa-chart-area text-purple"></i> 30-Day Revenue Trend</h3>
+                            <span class="chart-badge">Interactive Live Data</span>
+                        </div>
+                        
+                        <div class="svg-chart-wrapper">
+                            <svg viewBox="0 0 600 150" class="svg-chart">
+                                <defs>
+                                    <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/>
+                                        <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.00"/>
+                                    </linearGradient>
+                                    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stop-color="#3b82f6"/>
+                                        <stop offset="100%" stop-color="#10b981"/>
+                                    </linearGradient>
+                                </defs>
+
+                                <line x1="20" y1="20" x2="580" y2="20" stroke="rgba(15, 23, 42, 0.05)" stroke-dasharray="4"/>
+                                <line x1="20" y1="65" x2="580" y2="65" stroke="rgba(15, 23, 42, 0.05)" stroke-dasharray="4"/>
+                                <line x1="20" y1="110" x2="580" y2="110" stroke="rgba(15, 23, 42, 0.05)" stroke-dasharray="4"/>
+                                <line x1="20" y1="130" x2="580" y2="130" stroke="rgba(15, 23, 42, 0.1)"/>
+
+                                <polygon [attr.points]="getChartFillPoints()" fill="url(#chartGlow)" />
+                                <polyline [attr.points]="getChartPoints()" fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div class="chart-dates">
+                            <span>{{ getChartStartDate() | date:'dd MMM' }}</span>
+                            <span>{{ getChartMiddleDate() | date:'dd MMM' }}</span>
+                            <span>{{ getChartEndDate() | date:'dd MMM' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Metrics -->
+                    <div class="metrics-container card">
+                        <div class="cc-header">
+                            <h3><i class="fas fa-shield-halved text-green"></i> Gateways & Health</h3>
+                        </div>
+                        
+                        <div class="health-gauge">
+                            <div class="hg-details">
+                                <span class="hg-title">Gateway Success Rate</span>
+                                <h2 class="text-green">@if(report.totalTransactions > 0) { {{ (report.successfulTransactions / report.totalTransactions) * 100 | number:'1.0-1' }}% } @else { 0% }</h2>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill success" [style.width.%]="report.totalTransactions > 0 ? (report.successfulTransactions / report.totalTransactions) * 100 : 0"></div>
+                            </div>
+                        </div>
+
+                        <div class="metrics-list">
+                            <div class="metric-item">
+                                <span>Successful Transactions</span>
+                                <strong class="text-green">{{ report.successfulTransactions }} <i class="fas fa-check-circle"></i></strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Failed Transactions</span>
+                                <strong class="text-red">{{ report.failedTransactions }} <i class="fas fa-times-circle"></i></strong>
+                            </div>
+                            <div class="metric-item">
+                                <span>Total Invoices Issued</span>
+                                <strong>{{ report.totalTransactions }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💳 Payment Methods & Table Row -->
+                <div class="payments-details-row">
+                    <!-- Payment Methods -->
+                    <div class="pm-card card">
+                        <h3><i class="fas fa-credit-card text-purple"></i> Revenue by Method</h3>
+                        <div class="pm-list">
+                            @for (pm of report.revenueByPaymentMethod; track pm.paymentMethod) {
+                            <div class="pm-item">
+                                <div class="pm-info">
+                                    <div class="pm-icon-wrapper">
+                                        @if (pm.paymentMethod.toLowerCase().includes('card') || pm.paymentMethod.toLowerCase().includes('visa')) {
+                                            <i class="fas fa-credit-card"></i>
+                                        } @else if (pm.paymentMethod.toLowerCase().includes('paypal')) {
+                                            <i class="fab fa-paypal text-blue"></i>
+                                        } @else {
+                                            <i class="fas fa-wallet text-green"></i>
+                                        }
+                                    </div>
+                                    <div class="pm-text">
+                                        <strong>{{ pm.paymentMethod }}</strong>
+                                        <span>{{ pm.count }} Transactions</span>
+                                    </div>
+                                </div>
+                                <div class="pm-value">
+                                    <strong>{{ pm.amount | number:'1.0-0' }} EGP</strong>
+                                    <span class="text-sub">@if(report.totalRevenue > 0) { {{ (pm.amount / report.totalRevenue) * 100 | number:'1.0-0' }}% } @else { 0% }</span>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- History Log Table -->
+                    <div class="log-card card">
+                        <div class="cc-header">
+                            <h3><i class="fas fa-history text-orange"></i> 30-Day Daily Financial Logs</h3>
+                        </div>
+                        <div class="table-responsive inner-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Total Amount</th>
+                                        <th>Transaction Count</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (day of report.revenueByDate; track day.date) {
+                                    <tr>
+                                        <td><strong>{{ day.date | date:'dd MMM yyyy' }}</strong></td>
+                                        <td class="text-green font-semibold">{{ day.amount | number:'1.2-2' }} EGP</td>
+                                        <td>{{ day.transactionCount }} payments</td>
+                                        <td><span class="badge badge-success">Settled</span></td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                } @else {
+                <div class="empty-state card">
+                    <i class="fas fa-receipt"></i>
+                    <h3>No Revenue Records Found</h3>
+                    <p>No financial activity recorded in the past 30 days.</p>
+                </div>
+                }
             }
         </div>
         } }

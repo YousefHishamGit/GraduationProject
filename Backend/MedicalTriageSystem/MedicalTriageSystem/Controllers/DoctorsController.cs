@@ -154,6 +154,18 @@ namespace MedicalTriageSystem.Controllers
             return Ok(slots);
         }
 
+        [HttpGet("{id}/timeslots-range")]
+        [ProducesResponseType(typeof(IEnumerable<TimeSlotResponseDto>), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetTimeSlotsRange(int id, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(id);
+            if (doctor == null) return NotFound();
+
+            var slots = await _doctorService.GetTimeSlotsForDateRangeAsync(id, startDate, endDate);
+            return Ok(slots);
+        }
+
         
         [HttpGet("{id}/reviews")]
         [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), 200)]

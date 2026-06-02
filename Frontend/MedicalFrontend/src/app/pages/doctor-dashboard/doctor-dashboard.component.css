@@ -198,7 +198,9 @@
     min-height: 100vh;
 }
 
+
 /* RESPONSIVE - Tablet (768px and below) */
+
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
@@ -229,7 +231,9 @@
     }
 }
 
+
 /* RESPONSIVE - Mobile (576px and below) */
+
 @media (max-width: 576px) {
     .main-content {
         padding: 12px;
@@ -1245,11 +1249,12 @@ tr:hover td {
     display: flex;
     justify-content: flex-end;
 }
+
 .sc-cancelled-flag {
     margin-left: 12px;
     background: #fff3f3;
     color: #b91c1c;
-    border: 1px solid rgba(185,28,28,0.12);
+    border: 1px solid rgba(185, 28, 28, 0.12);
     padding: 4px 8px;
     border-radius: 999px;
     font-size: 0.7rem;
@@ -1310,8 +1315,8 @@ tr:hover td {
 
 .slots-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 18px;
 }
 
 .slot-card {
@@ -1326,6 +1331,34 @@ tr:hover td {
     border-color: rgba(26, 111, 196, 0.35);
     box-shadow: 0 12px 28px rgba(26, 111, 196, 0.12);
     transform: translateY(-2px);
+}
+
+.slots-day {
+    background: transparent;
+}
+
+.slots-day__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e6eef2;
+    font-weight: 600;
+}
+
+.slots-day__count {
+    margin-left: auto;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.slots-day__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
 }
 
 .slot-card.booked {
@@ -1921,6 +1954,7 @@ tr:hover td {
     }
 }
 
+
 /* ══════════════════════════════
    MOBILE OVERRIDES - FIXED
 ══════════════════════════════ */
@@ -1961,7 +1995,7 @@ tr:hover td {
         justify-content: center;
         font-size: 1.2rem;
         cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     .sidebar-overlay {
         position: fixed;
@@ -1969,7 +2003,7 @@ tr:hover td {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 999;
     }
     .stats-row {
@@ -1987,20 +2021,29 @@ tr:hover td {
     table {
         min-width: 500px !important;
     }
-    body, .main-content {
+    body,
+    .main-content {
         font-size: 14px;
     }
     .page-title {
         font-size: 1.3rem !important;
     }
-    .card, .stat-card, .doctor-card, .dept-card, .service-card {
+    .card,
+    .stat-card,
+    .doctor-card,
+    .dept-card,
+    .service-card {
         width: 100%;
         box-sizing: border-box;
     }
-    .doctors-grid, .services-grid, .dept-grid {
+    .doctors-grid,
+    .services-grid,
+    .dept-grid {
         grid-template-columns: 1fr !important;
     }
-    .modal-box, .record-modal, .doctor-modal {
+    .modal-box,
+    .record-modal,
+    .doctor-modal {
         width: 95% !important;
         max-width: 95% !important;
         margin: 0 auto;
@@ -2028,10 +2071,12 @@ tr:hover td {
         text-align: center;
         padding: 15px !important;
     }
-    .topbar-left, .topbar-right {
+    .topbar-left,
+    .topbar-right {
         width: 100%;
     }
-    .topbar-btn, .action-btn-primary {
+    .topbar-btn,
+    .action-btn-primary {
         width: 100%;
         justify-content: center;
     }
@@ -2042,10 +2087,16 @@ tr:hover td {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
     }
-    .field-input, .field-wrap input, select, textarea {
+    .field-input,
+    .field-wrap input,
+    select,
+    textarea {
         font-size: 16px !important;
     }
-    .submit-btn, .cancel-btn, .next-btn, .back-btn {
+    .submit-btn,
+    .cancel-btn,
+    .next-btn,
+    .back-btn {
         width: 100%;
         margin-bottom: 8px;
     }
@@ -2072,6 +2123,7 @@ tr:hover td {
     }
 }
 
+
 /* ── Lab Results Section (inside Patient Modal) ── */
 
 .lab-results-section {
@@ -2093,7 +2145,9 @@ tr:hover td {
     user-select: none;
 }
 
-.lab-results-header:hover { background: #dbeafe; }
+.lab-results-header:hover {
+    background: #dbeafe;
+}
 
 .lab-results-title {
     display: flex;
@@ -2103,7 +2157,9 @@ tr:hover td {
     color: #1e40af;
 }
 
-.lab-results-title i { color: #3b82f6; }
+.lab-results-title i {
+    color: #3b82f6;
+}
 
 .lab-count-badge {
     background: #e2e8f0;
@@ -2116,8 +2172,15 @@ tr:hover td {
     text-align: center;
 }
 
-.lab-count-badge.has-results { background: #dbeafe; color: #1d4ed8; }
-.lab-loading-badge { color: #3b82f6; font-size: 0.8rem; }
+.lab-count-badge.has-results {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.lab-loading-badge {
+    color: #3b82f6;
+    font-size: 0.8rem;
+}
 
 .lab-toggle-btn {
     background: none;
@@ -2130,8 +2193,13 @@ tr:hover td {
     align-items: center;
 }
 
-.lab-toggle-btn i { transition: transform 0.25s ease; }
-.lab-toggle-btn.open i { transform: rotate(180deg); }
+.lab-toggle-btn i {
+    transition: transform 0.25s ease;
+}
+
+.lab-toggle-btn.open i {
+    transform: rotate(180deg);
+}
 
 .lab-results-body {
     margin-top: 10px;
@@ -2139,8 +2207,14 @@ tr:hover td {
 }
 
 @keyframes labFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .lab-loading-state {
@@ -2164,9 +2238,16 @@ tr:hover td {
     font-size: 0.85rem;
 }
 
-.lab-empty-state i { font-size: 1.1rem; color: #cbd5e1; }
+.lab-empty-state i {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+}
 
-.lab-results-list { display: flex; flex-direction: column; gap: 8px; }
+.lab-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
 .lab-result-item {
     display: flex;
@@ -2180,7 +2261,10 @@ tr:hover td {
     transition: border-color 0.2s, background 0.2s;
 }
 
-.lab-result-item.has-file { border-color: #bbf7d0; background: #f0fdf4; }
+.lab-result-item.has-file {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
 
 .lab-result-info {
     display: flex;
@@ -2203,7 +2287,9 @@ tr:hover td {
     flex-shrink: 0;
 }
 
-.lab-result-item.has-file .lab-result-icon { background: linear-gradient(135deg, #10b981, #059669); }
+.lab-result-item.has-file .lab-result-icon {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
 
 .lab-result-details {
     display: flex;
@@ -2222,7 +2308,10 @@ tr:hover td {
     text-overflow: ellipsis;
 }
 
-.lab-test-date { font-size: 0.75rem; color: #94a3b8; }
+.lab-test-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
 
 .lab-status-pill {
     font-size: 0.72rem;
@@ -2233,8 +2322,15 @@ tr:hover td {
     flex-shrink: 0;
 }
 
-.lab-status-pill.pill-done { background: #d1fae5; color: #065f46; }
-.lab-status-pill.pill-pending { background: #fef3c7; color: #92400e; }
+.lab-status-pill.pill-done {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.lab-status-pill.pill-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
 
 .lab-open-btn {
     display: inline-flex;
@@ -2250,10 +2346,14 @@ tr:hover td {
     white-space: nowrap;
     flex-shrink: 0;
     transition: opacity 0.2s, transform 0.15s;
-    box-shadow: 0 2px 6px rgba(239,68,68,0.3);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
 }
 
-.lab-open-btn:hover { opacity: 0.88; transform: translateY(-1px); color: white; }
+.lab-open-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+    color: white;
+}
 
 .lab-no-file {
     display: inline-flex;

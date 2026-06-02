@@ -544,6 +544,31 @@ namespace BusinessLogicLayer.Services.Implementation
             return _mapper.Map<IEnumerable<TimeSlotResponseDto>>(allSlots.OrderBy(s => s.SlotStart));
         }
 
+        public async Task<IEnumerable<TimeSlotResponseDto>> GetTimeSlotsForDateRangeAsync(int doctorId, DateTime startDate, DateTime endDate)
+        {
+            // Generate slots for each day in the range
+            var allSlots = new List<TimeSlot>();
+            var currentDate = startDate.Date;
+
+            while (currentDate <= endDate.Date)
+            {
+                // Get or generate slots for this date
+                var slotsForDate = await GenerateTimeSlotsForDateAsync(doctorId, currentDate);
+                allSlots.AddRange(slotsForDate.Select(s => new TimeSlot
+                {
+                    Id = s.Id,
+                    DoctorId = s.DoctorId,
+                    SlotStart = s.SlotStart,
+                    SlotEnd = s.SlotEnd,
+                    IsBooked = s.IsBooked
+                }));
+
+                currentDate = currentDate.AddDays(1);
+            }
+
+            return allSlots.OrderBy(s => s.SlotStart).Select(s => _mapper.Map<TimeSlotResponseDto>(s));
+        }
+
         // ?????????????????????????????????????????????
         // Helpers
         // ?????????????????????????????????????????????

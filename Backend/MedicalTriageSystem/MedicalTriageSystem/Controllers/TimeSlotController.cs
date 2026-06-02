@@ -29,7 +29,7 @@ namespace YourApiNamespace.Controllers
         // GET /api/timeslots/doctor/{doctorId}
         // ← للـ Doctor/Admin يشوف كل الـ Slots
         [HttpGet("doctor/{doctorId}")]
-        [Authorize(Roles = "Admin,Doctor")]
+        
         public async Task<IActionResult> GetAll(int doctorId)
         {
             var slots = await _doctorService.GetAllTimeSlotsAsync(doctorId);

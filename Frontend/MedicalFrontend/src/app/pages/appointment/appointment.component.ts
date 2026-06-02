@@ -133,10 +133,11 @@ export class AppointmentComponent implements OnInit {
   }
 
   loadTimeSlots(doctorId: number) {
-    const today = new Date().toISOString().split('T')[0];
-     this.endpoint.doctors.getTimeSlots(doctorId,today).subscribe({
+    // const today = new Date().toISOString().split('T')[0];
+     this.endpoint.doctors.getTimeSlots(doctorId).subscribe({
     next: (slots) => {
       this.timeSlots.set(slots.slice(0, 8));
+      console.log(slots);
       },
       error: () => this.timeSlots.set([])
     });

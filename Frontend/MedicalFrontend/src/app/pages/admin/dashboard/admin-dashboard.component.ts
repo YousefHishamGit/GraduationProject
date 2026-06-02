@@ -6,6 +6,7 @@ import { EndPoints } from '../../../services/endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { LanguageService } from '../../../services/language.service';
 import { getDepartmentImage } from '../../../shared/department-assets';
+import { RevenueReport } from '../../../interfaces/admin.interface';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -30,6 +31,9 @@ export class AdminDashboardComponent implements OnInit {
   patients = signal<any[]>([]);
   appointments = signal<any[]>([]);
   departments = signal<any[]>([]);
+  revenueReport = signal<RevenueReport | null>(null);
+  revenueLoading = signal(false);
+
   confirmedCount = computed(() => this.appointments().filter(a => a.status === 'Confirmed').length);
   pendingCount = computed(() => this.appointments().filter(a => a.status === 'Pending').length);
   completedCount = computed(() => this.appointments().filter(a => a.status === 'Completed').length);
@@ -81,6 +85,8 @@ export class AdminDashboardComponent implements OnInit {
       error: () => { }
     });
 
+    this.loadRevenueReport();
+
     this.endpoint.appointments.getAll().subscribe({
       next: (a) => {
         this.appointments.set(a);
@@ -88,6 +94,69 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: () => this.isLoading.set(false)
     });
+  }
+
+  loadRevenueReport() {
+    this.revenueLoading.set(true);
+    this.endpoint.admin.getRevenueReport().subscribe({
+      next: (report) => {
+        this.revenueReport.set(report);
+        this.revenueLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching revenue report:', err);
+        this.revenueLoading.set(false);
+      }
+    });
+  }
+
+  getChartPoints(): string {
+    const report = this.revenueReport();
+    if (!report || report.revenueByDate.length === 0) return '';
+    
+    const dates = [...report.revenueByDate].reverse(); // oldest to newest
+    const maxVal = Math.max(...dates.map(d => d.amount), 100);
+    const width = 600;
+    const height = 150;
+    const padding = 20;
+
+    return dates.map((d, index) => {
+      const x = padding + (index / (dates.length - 1)) * (width - padding * 2);
+      const y = height - padding - (d.amount / maxVal) * (height - padding * 2);
+      return `${x},${y}`;
+    }).join(' ');
+  }
+
+  getChartFillPoints(): string {
+    const points = this.getChartPoints();
+    if (!points) return '';
+    const width = 600;
+    const height = 150;
+    const padding = 20;
+    
+    const firstPointX = points.split(' ')[0].split(',')[0];
+    const lastPointX = points.split(' ')[points.split(' ').length - 1].split(',')[0];
+    
+    return `${firstPointX},${height - padding} ${points} ${lastPointX},${height - padding}`;
+  }
+
+  getChartStartDate(): string {
+    const report = this.revenueReport();
+    if (!report || report.revenueByDate.length === 0) return '';
+    return report.revenueByDate[report.revenueByDate.length - 1].date;
+  }
+
+  getChartMiddleDate(): string {
+    const report = this.revenueReport();
+    if (!report || report.revenueByDate.length === 0) return '';
+    const midIndex = Math.floor(report.revenueByDate.length / 2);
+    return report.revenueByDate[midIndex].date;
+  }
+
+  getChartEndDate(): string {
+    const report = this.revenueReport();
+    if (!report || report.revenueByDate.length === 0) return '';
+    return report.revenueByDate[0].date;
   }
 
   setTab(tab: string) {
