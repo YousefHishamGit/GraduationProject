@@ -38,8 +38,8 @@
             </a>
 
             <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
-                <i class="fas fa-calendar-check"></i> Appointments @if (getNewAppointmentsCount() > 0) {
-                <span class="nav-badge">{{ getNewAppointmentsCount() }}</span> }
+                <i class="fas fa-calendar-check"></i> Appointments @if (unreadNotificationsCount() > 0) {
+                <span class="nav-badge" style="background-color: #ff6b6b; font-weight: bold;">{{ unreadNotificationsCount() }}</span> }
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'profile'" (click)="setTab('profile')">
                 <i class="fas fa-user"></i> My Profile
@@ -110,18 +110,30 @@
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
             </div>
-            <!-- <div class="ticker-img-wrap">
-              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
-            </div> -->
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img">
             </div>
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img">
             </div>
-            <!-- <div class="ticker-img-wrap">
+            <div class="ticker-img-wrap">
               <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
-            </div> -->
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img">
+            </div>
           </div>
         </div>
         <div class="text-ticker-wrap pharmacy-ticker">
@@ -144,13 +156,12 @@
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/alborglab3.png" alt="Al Borg Lab" class="ticker-img">
             </div>
-             <div class="ticker-img-wrap">
+            <div class="ticker-img-wrap">
               <img src="/assets/advertisement/alborglab5.png" alt="Al Borg Lab" class="ticker-img">
             </div>
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/alborglab1.png" alt="Al Borg Lab" class="ticker-img">
             </div>
-            
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/alborglab2.png" alt="Al Borg Lab" class="ticker-img">
             </div>
@@ -160,7 +171,18 @@
             <div class="ticker-img-wrap">
               <img src="/assets/advertisement/alborglab5.png" alt="Al Borg Lab" class="ticker-img">
             </div>
-            
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab1.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab2.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab3.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
+            <div class="ticker-img-wrap">
+              <img src="/assets/advertisement/alborglab5.png" alt="Al Borg Lab" class="ticker-img">
+            </div>
           </div>
         </div>
         <div class="text-ticker-wrap lab-ticker">

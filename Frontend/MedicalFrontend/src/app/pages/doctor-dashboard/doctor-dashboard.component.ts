@@ -23,6 +23,8 @@ export class DoctorDashboardComponent implements OnInit {
   activeTab = signal('overview');
   doctor = signal<any>(null);
   appointments = signal<any[]>([]);
+  notifications = signal<any[]>([]);
+  unreadNotificationsCount = signal(0);
   schedule = signal<any[]>([]);
   leaves = signal<any[]>([]);
   timeSlots = signal<any[]>([]);

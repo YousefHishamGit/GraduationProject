@@ -227,11 +227,8 @@
         <div class="dept-grid">
             @for (dept of departments(); track dept.id; let i = $index) {
             <a routerLink="/departments" class="dept-card" [style.--delay]="i * 80 + 'ms'">
-                <div class="dept-img">
-                    <img [src]="dept.imgPath || '/assets/img/health/cardiology-1.webp'" alt="{{ dept.departmentName }}" title="{{ dept.departmentName }}" loading="lazy">
-                    <div class="dept-overlay">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
+                <div class="dept-icon" [style.background]="getDeptColor(dept.departmentName) + '18'">
+                    <i [class]="getDeptIcon(dept.departmentName)" [style.color]="getDeptColor(dept.departmentName)"></i>
                 </div>
                 <div class="dept-body">
                     <h3>{{ dept.departmentName }}</h3>
@@ -244,12 +241,8 @@
         <div class="dept-grid">
             @for (service of services.slice(0,3); track service.title) {
             <a routerLink="/departments" class="dept-card">
-                <div class="dept-img dept-img-placeholder" [class.has-dept-image]="service.image" [style.background]="service.image ? 'transparent' : service.color + '20'">
-                    @if (service.image) {
-                        <img [src]="service.image" [alt]="service.title" class="dept-icon-img" />
-                    } @else {
-                        <i [class]="service.icon" [style.color]="service.color"></i>
-                    }
+                <div class="dept-icon" [style.background]="service.color + '18'">
+                    <i [class]="service.icon" [style.color]="service.color"></i>
                 </div>
                 <div class="dept-body">
                     <h3>{{ service.title }}</h3>

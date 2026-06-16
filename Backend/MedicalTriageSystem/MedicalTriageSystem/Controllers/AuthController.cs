@@ -42,7 +42,7 @@ namespace MedicalTriageSystem.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = GetFriendlyErrorMessage(ex) });
             }
         }
 
@@ -72,7 +72,7 @@ namespace MedicalTriageSystem.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = GetFriendlyErrorMessage(ex) });
             }
         }
 
@@ -90,7 +90,7 @@ namespace MedicalTriageSystem.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = GetFriendlyErrorMessage(ex) });
             }
         }
 
@@ -111,7 +111,7 @@ namespace MedicalTriageSystem.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = GetFriendlyErrorMessage(ex) });
             }
         }
 
@@ -201,6 +201,43 @@ namespace MedicalTriageSystem.Controllers
                 errors
             });
         }
+
+        private string GetFriendlyErrorMessage(Exception ex)
+        {
+            // Walk the full exception chain to find the deepest (most specific) message
+            var deepest = ex;
+            while (deepest.InnerException != null)
+                deepest = deepest.InnerException;
+
+            string msg = deepest.Message;
+
+            // Check for duplicate / unique constraint violations
+            if (msg.Contains("NationalID", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("National ID", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("IX_Persons_NationalID", StringComparison.OrdinalIgnoreCase))
+                return "This National ID is already registered.";
+
+            if (msg.Contains("IX_Persons_Phone", StringComparison.OrdinalIgnoreCase)
+                || (msg.Contains("Phone", StringComparison.OrdinalIgnoreCase) && msg.Contains("duplicate", StringComparison.OrdinalIgnoreCase)))
+                return "This Phone number is already registered.";
+
+            if (msg.Contains("LicenseNumber", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("License Number", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("IX_Doctors_LicenseNumber", StringComparison.OrdinalIgnoreCase))
+                return "This License Number is already registered.";
+
+            if (msg.Contains("UserName", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("Email", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("NormalizedUserName", StringComparison.OrdinalIgnoreCase))
+                return "This Email is already registered.";
+
+            // If the deepest message is still generic, try the original exception message
+            if (msg.Contains("See the inner exception", StringComparison.OrdinalIgnoreCase))
+                return ex.Message;
+
+            return msg;
+        }
+
 
     }
 }

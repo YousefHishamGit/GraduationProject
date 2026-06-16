@@ -108,15 +108,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (!patientId) return;
         this.endpoint.notifications.getByPatient(patientId).subscribe({
           next: (list: any[]) => {
-            const normalized = list.map(n => {
-              const msg = (n.message || '').toString();
-              if (msg.includes('تم إلغاء موعدك') || msg.toLowerCase().includes('has been cancelled')) {
-                return { ...n, message: 'نعتذر عن موعدنا اليوم بسبب ظرف طارئ حدث للدكتور' };
-              }
-              return n;
-            });
-            this.notifications.set(normalized);
-            const unread = normalized.filter(x => !x.isRead).length;
+            this.notifications.set(list);
+            const unread = list.filter(x => !x.isRead).length;
             this.unreadNotificationsCount.set(unread);
             window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: unread } }));
           }
@@ -191,5 +184,41 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getDoctorInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  getDeptIcon(department: string): string {
+    const map: Record<string, string> = {
+      Cardiology: 'fas fa-heartbeat',
+      Neurology: 'fas fa-brain',
+      Orthopedics: 'fas fa-bone',
+      Pediatrics: 'fas fa-baby',
+      Ophthalmology: 'fas fa-eye',
+      Radiology: 'fas fa-x-ray',
+      Urology: 'fas fa-toilet',
+      Dermatology: 'fas fa-sparkles',
+      Oncology: 'fas fa-ribbon',
+      Dentistry: 'fas fa-tooth',
+      Psychology: 'fas fa-brain',
+      Default: 'fas fa-hospital-symbol'
+    };
+    return map[department] || map['Default'];
+  }
+
+  getDeptColor(department: string): string {
+    const map: Record<string, string> = {
+      Cardiology: '#ef4444',
+      Neurology: '#8b5cf6',
+      Orthopedics: '#f59e0b',
+      Pediatrics: '#10b981',
+      Ophthalmology: '#3b82f6',
+      Radiology: '#0ea5e9',
+      Urology: '#6366f1',
+      Dermatology: '#f97316',
+      Oncology: '#a855f7',
+      Dentistry: '#14b8a6',
+      Psychology: '#2563eb',
+      Default: '#1a6fc4'
+    };
+    return map[department] || map['Default'];
   }
 }

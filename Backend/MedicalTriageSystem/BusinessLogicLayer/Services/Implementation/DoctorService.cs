@@ -680,7 +680,7 @@ namespace BusinessLogicLayer.Services.Implementation
                 var notification = new Notification
                 {
                     PatientId = appointment.PatientId,
-                    Message = $"Your appointment with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")} has been cancelled. / تم إلغاء موعدك مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMM yyyy hh:mm tt")}.",
+                    Message = $"We sincerely apologize for canceling your appointment at {appointment.AppointmentDate.ToString("hh:mm tt")} with Dr. {doctorName} on {appointment.AppointmentDate.ToString("dd MMM yyyy")}. / نعتذر لسيادتكم عن إلغاء موعدك الساعة {appointment.AppointmentDate.ToString("hh:mm tt")} مع د. {doctorName} بتاريخ {appointment.AppointmentDate.ToString("dd MMMM yyyy")}.",
                     IsRead = false,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = "system"

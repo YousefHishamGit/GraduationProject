@@ -293,21 +293,21 @@
 .image-ticker-wrap {
     width: 100%;
     overflow: hidden;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .image-ticker {
     display: flex;
     width: max-content;
-    animation: moveLeft 12s linear infinite;
+    animation: moveLeft 18s linear infinite;
 }
 
 .ticker-img-wrap {
     flex: 0 0 auto;
-    width: 338.29px;
-    height: 326.48px;
-    margin-left: 24px;
-    border-radius: 16px;
+    width: 240px;
+    height: 200px;
+    margin-left: 4px;
+    border-radius: 8px;
     overflow: hidden;
     background: #f8faff;
 }
@@ -320,26 +320,26 @@
 }
 
 .image-ticker:hover {
-    /* keep the ticker moving even on hover */
+    animation-play-state: paused;
 }
 
 @media (max-width: 768px) {
     .ticker-img-wrap {
-        width: 260px;
-        height: 200px;
-        margin-left: 16px;
+        width: 180px;
+        height: 150px;
+        margin-left: 4px;
     }
 
     .image-ticker-wrap {
-        padding: 12px 0;
+        padding: 8px 0;
     }
 }
 
 @media (max-width: 576px) {
     .ticker-img-wrap {
-        width: 220px;
-        height: 160px;
-        margin-left: 12px;
+        width: 150px;
+        height: 120px;
+        margin-left: 4px;
     }
 }
 

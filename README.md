@@ -1,3 +1,59 @@
+# Medical Triage System
+
+## 1. Introduction
+
+This project is a **Medical Triage System** designed as a graduation project to improve how patients are triaged, scheduled, and managed in a clinical environment. It combines a modern web frontend, a robust backend, and an AI-driven medical assistant to support both patients and healthcare staff.
+
+## 2. Project Overview
+
+- **Frontend**: Angular application in `Frontend/MedicalFrontend`
+- **Backend**: ASP.NET Core Web API in `Backend/MedicalTriageSystem`
+- **Database**: SQL Server
+- **AI Integration**: Flask API in `AI/Api` with local machine learning models and LLM-based medical assistance
+
+Main features:
+- patient registration and authentication
+- doctor and admin dashboards
+- appointment booking and management
+- medical record tracking
+- AI symptom triage and specialty recommendation
+- chatbot-style medical support and document analysis
+
+## 3. Problem Statement
+
+Healthcare intake and triage processes are often slow, fragmented, and manually intensive. This project addresses those challenges by centralizing patient data, automating initial symptom triage, and recommending the appropriate medical specialty or urgency level. It reduces administrative burden and supports faster, more accurate patient routing.
+
+Quick highlights
+
+Backend (Windows / PowerShell):
+
+```powershell
+cd Backend/MedicalTriageSystem/MedicalTriageSystem
+dotnet restore
+dotnet run
+```
+
+Frontend:
+
+```bash
+cd Frontend/MedicalFrontend
+npm install
+ng serve --open
+```
+
+Where to look
+- API documentation (Swagger) — تشغيل الـ Backend ثم افتح `https://localhost:{port}/swagger`.
+- Arabic full documentation: `DOCUMENTATION_AR.md`.
+- Extracted API endpoints: `API_ENDPOINTS.md`.
+- Prompt engineering for the AI integration: `PROMPT_ENGINEERING.md`.
+- Test cases and QA checklist: `TEST_CASES.md`.
+
+Screenshots & GIFs
+- ضع لقطات الشاشة وGIFs التوضيحية داخل `docs/screenshots/`.
+- راجع `docs/screenshots/TEMPLATE_SCREENSHOT.md` لاسماء الملفات ومقاسات مقترحة.
+
+Next steps
+- أضف لقطات تشغيل حقيقية (GIF) إلى `docs/screenshots/` ثم حدّث README لعرضها.
 # 🏥 Medical Triage System - Graduation Project
 
 Welcome to the **Medical Triage System**, a comprehensive, multi-layered graduation project designed to optimize medical consultations, patient management, and AI-driven symptom triaging. 

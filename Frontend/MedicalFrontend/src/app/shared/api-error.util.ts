@@ -24,8 +24,8 @@ export function parseApiError(error: any, fallback = 'Something went wrong. Plea
     return lines.join('\n');
   }
 
-  if (body.message) {
-    return body.message;
+  if (body.message || body.Message) {
+    return body.message || body.Message;
   }
 
   if (body.title) {

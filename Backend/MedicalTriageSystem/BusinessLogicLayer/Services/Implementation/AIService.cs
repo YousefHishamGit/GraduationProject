@@ -18,7 +18,7 @@ namespace BusinessLogicLayer.Services.Implementation
         public AIService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _flaskBaseUrl = configuration["AI:BaseUrl"] ?? "http://localhost:5000";
+            _flaskBaseUrl = configuration["AI:BaseUrl"] ?? "http://localhost:7860";
         }
 
         public async Task<DiagnosisResponseDto> PredictAsync(string symptoms)

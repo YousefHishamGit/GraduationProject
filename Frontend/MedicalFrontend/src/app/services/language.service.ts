@@ -9,6 +9,7 @@ const TRANSLATIONS: Record<string, Record<AppLanguage, string>> = {
   doctorAssistant: { en: 'Doctor Assistant', ar: 'مساعد الطبيب' },
   aiDiagnosis: { en: 'AI Diagnosis', ar: 'تشخيص AI' },
   signIn: { en: 'Sign In', ar: 'تسجيل الدخول' },
+  signUpLink: { en: 'Sign up', ar: 'سجل الآن' },
   getStarted: { en: 'Get Started', ar: 'ابدأ الآن' },
   onlineReady: { en: 'Online & Ready', ar: 'متصل وجاهز' },
   newChat: { en: 'New Chat', ar: 'دردشة جديدة' },

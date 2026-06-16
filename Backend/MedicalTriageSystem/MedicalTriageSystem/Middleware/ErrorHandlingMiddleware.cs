@@ -3,6 +3,7 @@ using MedicalTriageSystem.Exceptions;
 using MedicalTriageSystem.Exceptions.MedicalTriageSystem.Exceptions;
 using MedicalTriageSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
@@ -59,6 +60,11 @@ namespace MedicalTriageSystem.Middleware
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                     Message = e.Message
                 },
+                DbUpdateException e => new ErrorResponse
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = GetDbFriendlyMessage(e)
+                },
                 _ => new ErrorResponse
                 {
                     StatusCode = (int)HttpStatusCode.InternalServerError,
@@ -70,5 +76,33 @@ namespace MedicalTriageSystem.Middleware
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
+
+        private static string GetDbFriendlyMessage(DbUpdateException ex)
+        {
+            var deepest = ex as Exception;
+            while (deepest.InnerException != null)
+                deepest = deepest.InnerException;
+
+            string msg = deepest.Message;
+
+            if (msg.Contains("NationalID", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("IX_Persons_NationalID", StringComparison.OrdinalIgnoreCase))
+                return "This National ID is already registered.";
+
+            if (msg.Contains("IX_Persons_Phone", StringComparison.OrdinalIgnoreCase)
+                || (msg.Contains("Phone", StringComparison.OrdinalIgnoreCase) && msg.Contains("duplicate", StringComparison.OrdinalIgnoreCase)))
+                return "This Phone number is already registered.";
+
+            if (msg.Contains("LicenseNumber", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("IX_Doctors_LicenseNumber", StringComparison.OrdinalIgnoreCase))
+                return "This License Number is already registered.";
+
+            if (msg.Contains("UserName", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("Email", StringComparison.OrdinalIgnoreCase)
+                || msg.Contains("NormalizedUserName", StringComparison.OrdinalIgnoreCase))
+                return "This Email is already registered.";
+
+            return "A database error occurred. Please check your data and try again.";
+        }
     }
-}
+}

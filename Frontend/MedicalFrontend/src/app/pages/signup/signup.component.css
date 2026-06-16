@@ -292,6 +292,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 20px;
+    animation: slideDownError 0.3s ease;
 }
 
 
@@ -370,6 +371,42 @@
 .field-wrap textarea:focus {
     border-color: #1a6fc4;
     box-shadow: 0 0 0 3px rgba(26, 111, 196, 0.1);
+}
+
+.field-wrap input.has-error,
+.field-wrap select.has-error,
+.field-wrap textarea.has-error {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+    animation: shakeField 0.4s ease;
+}
+
+.terms-check input.has-error {
+    outline: 2px solid #dc2626;
+    outline-offset: 2px;
+    animation: shakeField 0.4s ease;
+}
+
+
+
+
+@keyframes shakeField {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+@keyframes slideDownError {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .eye-btn {

@@ -78,15 +78,7 @@ export class PatientDashboardComponent implements OnInit {
           ...p, medicineName: p.medicineName || (p as any).medicationName
         })));
         this.labRequests.set(res.labRequests);
-        // Normalize certain notification messages (e.g., appointment cancellations)
-        const normalized = res.notifications.map((n: any) => {
-          const msg = (n.message || '').toString();
-          if (msg.includes('تم إلغاء موعدك') || msg.toLowerCase().includes('has been cancelled') || msg.toLowerCase().includes('has been cancelled.')) {
-            return { ...n, message: 'نعتذر عن موعدنا اليوم بسبب ظرف طارئ حدث للدكتور' };
-          }
-          return n;
-        });
-        this.notifications.set(normalized);
+        this.notifications.set(res.notifications);
         this.updateTotalBadgeCount();
         this.isLoading.set(false);
       },
