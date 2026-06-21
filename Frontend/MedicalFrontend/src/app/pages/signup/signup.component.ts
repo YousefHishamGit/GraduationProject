@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EndPoints } from '../../services/endpoints';
 import { LanguageService } from '../../services/language.service';
 import { parseApiError } from '../../shared/api-error.util';
+import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +18,20 @@ export class SignupComponent implements OnInit {
   private endpoint = inject(EndPoints);
   private router = inject(Router);
   public language = inject(LanguageService);
+  private firebaseService = inject(FirebaseService);
+
+  // Firebase OTP verification fields
+  otpCode = '';
+  otpDigits = ['', '', '', '', '', ''];
+  isOtpSent = signal(false);
+  isPhoneVerified = signal(false);
+  showOtpModal = signal(false);
+  otpErrorMessage = '';
+  otpLoading = false;
+  sendingOtp = false;
+  otpSendFailed = false;
+  private confirmationResult: any = null;
+  private recaptchaVerifier: any = null;
 
   // Role Choice
   role = signal<'Patient' | 'Doctor'>('Patient');
@@ -85,6 +100,26 @@ export class SignupComponent implements OnInit {
       },
       error: () => {}
     });
+
+    // Pre-initialize reCAPTCHA so it's ready when the user clicks Next
+    setTimeout(() => {
+      try {
+        if (!this.recaptchaVerifier) {
+          this.recaptchaVerifier = this.firebaseService.createRecaptchaVerifier('recaptcha-container');
+          // Render it silently in the background
+          this.recaptchaVerifier.render().catch(() => {
+            this.recaptchaVerifier = null; // reset if it fails
+          });
+        }
+      } catch (e) {
+        this.recaptchaVerifier = null;
+      }
+    }, 500);
+  }
+
+  onPhoneBlur() {
+    this.isPhoneVerified.set(false);
+    this.isOtpSent.set(false);
   }
 
   nextStep() {
@@ -93,12 +128,23 @@ export class SignupComponent implements OnInit {
     document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
 
     if (this.currentStep() === 1) {
-      const stepOneError = this.validateStepOne();
+      // Validate all Step 1 fields except phone verification
+      const stepOneError = this.validateStepOneWithoutPhone();
       if (stepOneError) {
         this.errorMessage = stepOneError;
         this.scrollToErrorField();
         return;
       }
+
+      // If phone already verified, go to step 2 directly
+      if (this.isPhoneVerified()) {
+        this.currentStep.update(s => s + 1);
+        return;
+      }
+
+      // Otherwise, open OTP modal and auto-send code
+      this.openOtpModal();
+      return;
     }
 
     if (this.currentStep() === 2) {
@@ -112,6 +158,94 @@ export class SignupComponent implements OnInit {
 
     if (this.currentStep() < this.totalSteps) {
       this.currentStep.update(s => s + 1);
+    }
+  }
+
+  openOtpModal() {
+    this.showOtpModal.set(true);
+    this.otpCode = '';
+    this.otpDigits = ['', '', '', '', '', ''];
+    this.otpErrorMessage = '';
+    this.otpSendFailed = false;
+    if (!this.isOtpSent()) {
+      this.sendOtp();
+    }
+  }
+
+  closeOtpModal() {
+    this.showOtpModal.set(false);
+    this.otpErrorMessage = '';
+  }
+
+  async confirmAndProceed() {
+    await this.verifyOtp();
+    if (this.isPhoneVerified()) {
+      this.showOtpModal.set(false);
+      this.currentStep.update(s => s + 1);
+    }
+  }
+
+  onDigitInput(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    
+    // Allow only single numeric character
+    this.otpDigits[index] = value.replace(/[^0-9]/g, '');
+    
+    if (this.otpDigits[index] && index < 5) {
+      const nextInput = input.nextElementSibling as HTMLInputElement;
+      if (nextInput) {
+        nextInput.focus();
+        nextInput.select();
+      }
+    }
+    
+    this.otpCode = this.otpDigits.join('');
+    if (this.otpCode.length === 6) {
+      this.confirmAndProceed();
+    }
+  }
+
+  onDigitKeydown(event: KeyboardEvent, index: number) {
+    const input = event.target as HTMLInputElement;
+    
+    if (event.key === 'Backspace') {
+      if (!this.otpDigits[index] && index > 0) {
+        this.otpDigits[index - 1] = '';
+        const prevInput = input.previousElementSibling as HTMLInputElement;
+        if (prevInput) {
+          prevInput.focus();
+          prevInput.select();
+        }
+        event.preventDefault();
+      } else {
+        this.otpDigits[index] = '';
+      }
+      this.otpCode = this.otpDigits.join('');
+    }
+  }
+
+  onOtpPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const pastedData = event.clipboardData?.getData('text') || '';
+    const cleanDigits = pastedData.replace(/[^0-9]/g, '').substring(0, 6).split('');
+    
+    for (let i = 0; i < 6; i++) {
+      this.otpDigits[i] = cleanDigits[i] || '';
+    }
+    
+    this.otpCode = this.otpDigits.join('');
+    
+    // Focus appropriate input box
+    const inputs = document.querySelectorAll('.otp-digit-box');
+    const targetIndex = Math.min(cleanDigits.length, 5);
+    const targetInput = inputs[targetIndex] as HTMLInputElement;
+    if (targetInput) {
+      targetInput.focus();
+    }
+
+    if (this.otpCode.length === 6) {
+      this.confirmAndProceed();
     }
   }
 
@@ -320,17 +454,23 @@ export class SignupComponent implements OnInit {
     return invalid;
   }
 
-  private validateStepOne(): string {
+  private validateStepOneWithoutPhone(): string {
     if (!this.firstName.trim()) { this.errorField = 'firstName'; return this.language.translate('pleaseFillAllRequiredFields') + ' (First Name)'; }
     if (!this.lastName.trim()) { this.errorField = 'lastName'; return this.language.translate('pleaseFillAllRequiredFields') + ' (Last Name)'; }
     if (!this.nationalID.trim()) { this.errorField = 'nationalID'; return this.language.translate('pleaseFillAllRequiredFields') + ' (National ID)'; }
     if (!this.birthDate) { this.errorField = 'birthDate'; return this.language.translate('pleaseFillAllRequiredFields') + ' (Birth Date)'; }
+    if (this.nationalID.trim().length !== 14) { this.errorField = 'nationalID'; return 'National ID must be exactly 14 digits. (Step 1)'; }
+    if (!this.phone.trim()) { this.errorField = 'phone'; return 'Phone number is required. (Step 1)'; }
+    return '';
+  }
 
-    if (this.nationalID.trim().length !== 14) {
-      this.errorField = 'nationalID';
-      return 'National ID must be exactly 14 digits. (Step 1)';
+  private validateStepOne(): string {
+    const base = this.validateStepOneWithoutPhone();
+    if (base) return base;
+    if (!this.isPhoneVerified()) {
+      this.errorField = 'phone';
+      return 'Please verify your phone number using the verification code first.';
     }
-
     return '';
   }
 
@@ -400,5 +540,92 @@ export class SignupComponent implements OnInit {
     this.selectedImage = file;
     this.errorMessage = '';
     this.imagePreviewUrl = URL.createObjectURL(file);
+  }
+
+  // Firebase OTP Flow
+  async sendOtp() {
+    this.otpErrorMessage = '';
+    this.otpSendFailed = false;
+    this.sendingOtp = true;
+
+    const rawPhone = this.phone.trim();
+    if (!rawPhone) {
+      this.otpErrorMessage = 'Please enter a phone number first.';
+      this.sendingOtp = false;
+      this.otpSendFailed = true;
+      return;
+    }
+
+    // Format Egypt number starting with 01 to international +20...
+    let formattedPhone = rawPhone;
+    if (formattedPhone.startsWith('01') && formattedPhone.length === 11) {
+      formattedPhone = '+2' + formattedPhone;
+    } else if (formattedPhone.startsWith('1') && formattedPhone.length === 10) {
+      formattedPhone = '+20' + formattedPhone;
+    } else if (!formattedPhone.startsWith('+')) {
+      this.otpErrorMessage = 'Please enter phone number in international format starting with + (e.g. +201xxxxxxxxx).';
+      this.sendingOtp = false;
+      this.otpSendFailed = true;
+      return;
+    }
+
+    try {
+      // Reuse the pre-initialized verifier, or create a new one if needed
+      if (!this.recaptchaVerifier) {
+        this.recaptchaVerifier = this.firebaseService.createRecaptchaVerifier('recaptcha-container');
+      }
+
+      this.confirmationResult = await this.firebaseService.sendOtp(formattedPhone, this.recaptchaVerifier);
+      this.isOtpSent.set(true);
+      this.showOtpModal.set(true);
+      this.sendingOtp = false;
+      this.otpSendFailed = false;
+      this.errorMessage = '';
+    } catch (err: any) {
+      console.error(err);
+      this.otpErrorMessage = err.message || 'Failed to send SMS code. Please verify the phone number and format.';
+      this.sendingOtp = false;
+      this.otpSendFailed = true;
+      // Reset reCAPTCHA so user can try again
+      if (this.recaptchaVerifier) {
+        try { this.recaptchaVerifier.clear(); } catch(e) {}
+        this.recaptchaVerifier = null;
+      }
+    }
+  }
+
+  async verifyOtp() {
+    this.otpErrorMessage = '';
+    this.otpLoading = true;
+
+    if (!this.otpCode || this.otpCode.length < 6) {
+      this.otpErrorMessage = 'Please enter a valid 6-digit verification code.';
+      this.otpLoading = false;
+      return;
+    }
+
+    if (!this.confirmationResult) {
+      this.otpErrorMessage = 'Verification context is missing. Try sending the code again.';
+      this.otpLoading = false;
+      return;
+    }
+
+    try {
+      const result = await this.confirmationResult.confirm(this.otpCode);
+      this.isPhoneVerified.set(true);
+      this.otpLoading = false;
+      this.otpErrorMessage = '';
+      this.errorMessage = '';
+      
+      // Clean up reCAPTCHA verifier widget
+      if (this.recaptchaVerifier) {
+        try { this.recaptchaVerifier.clear(); } catch(e) {}
+        this.recaptchaVerifier = null;
+      }
+    } catch (err: any) {
+      console.error(err);
+      this.otpErrorMessage = 'Invalid or expired verification code.';
+      this.otpLoading = false;
+    }
   }
 }

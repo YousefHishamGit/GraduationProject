@@ -682,3 +682,102 @@
         font-size: 0.8rem;
     }
 }
+
+/* OTP Modal Dialog */
+.otp-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeInBackdrop 0.25s ease-out;
+}
+
+.otp-modal-content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px;
+    width: 90%;
+    max-width: 440px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    animation: scaleInModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.otp-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.otp-modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.otp-modal-header h3 i {
+    color: #1a6fc4;
+}
+
+.otp-modal-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.otp-modal-header .close-btn:hover {
+    color: #0f172a;
+}
+
+.otp-info-text {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+}
+
+.otp-resend-container button:hover:not(:disabled) {
+    color: #0d47a1 !important;
+}
+
+/* Animations */
+@keyframes fadeInBackdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleInModal {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.otp-digit-box:focus {
+    border-color: #1a6fc4 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(26, 111, 196, 0.15) !important;
+    transform: translateY(-2px);
+}

@@ -13,10 +13,12 @@ namespace MedicalTriageSystem.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IFirebaseAuthService _firebaseService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IFirebaseAuthService firebaseService)
         {
             _authService = authService;
+            _firebaseService = firebaseService;
         }
 
         [HttpPost("register/patient")]
@@ -123,6 +125,25 @@ namespace MedicalTriageSystem.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
             await _authService.LogoutAsync(userId);
             return Ok(new { message = "Logged out successfully" });
+        }
+
+        // ─────────────────────────────────────────────────────
+        // Firebase OTP Verification
+        // ─────────────────────────────────────────────────────
+
+        [HttpPost("verify-otp")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.IdToken))
+                return BadRequest(new { message = "Firebase ID Token is required." });
+
+            var phoneNumber = await _firebaseService.VerifyIdTokenAsync(dto.IdToken);
+            if (phoneNumber == null)
+                return BadRequest(new { message = "Invalid or expired Firebase verification token." });
+
+            return Ok(new { verified = true, phoneNumber, message = "Phone number verified successfully." });
         }
 
         private async Task<RegisterPatientDto?> BindRegisterPatientDtoAsync()

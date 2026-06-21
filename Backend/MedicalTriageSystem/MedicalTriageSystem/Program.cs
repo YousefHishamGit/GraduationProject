@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 namespace MedicalTriageSystem
 {
@@ -133,6 +135,22 @@ namespace MedicalTriageSystem
             // ?? AI Service ????????????????????????????????????????
             builder.Services.AddHttpClient<IAIService, AIService>();
             builder.Services.AddScoped<IAIService, AIService>();
+
+            // ?? Firebase Service ??????????????????????????????????????????
+            var adminSdkPath = Path.Combine(builder.Environment.ContentRootPath, "firebase-adminsdk.json");
+            if (File.Exists(adminSdkPath))
+            {
+                FirebaseApp.Create(new AppOptions
+                {
+                    Credential = GoogleCredential.FromFile(adminSdkPath)
+                });
+            }
+            else
+            {
+                Console.WriteLine("WARNING: firebase-adminsdk.json not found in content root. Firebase verification will not work.");
+            }
+
+            builder.Services.AddScoped<IFirebaseAuthService, FirebaseService>();
 
             // ?? AutoMapper ????????????????????????????????????????
             builder.Services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
