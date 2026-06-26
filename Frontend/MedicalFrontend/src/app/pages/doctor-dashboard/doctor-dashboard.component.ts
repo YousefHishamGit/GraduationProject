@@ -130,6 +130,30 @@ export class DoctorDashboardComponent implements OnInit {
   setTab(tab: string) {
     this.activeTab.set(tab);
     this.sidebarOpen.set(false);
+
+    // Track last-opened so badges clear when user opens the section
+    if (tab === 'appointments') localStorage.setItem('doctorLastOpenedAppointments', new Date().toISOString());
+  }
+
+  getNewAppointmentsCount(): number {
+    const last = localStorage.getItem('doctorLastOpenedAppointments');
+    if (!last) return this.appointments().length;
+    const lastDate = new Date(last);
+    return this.appointments().filter(a => {
+      const dt = this.parseDateSafe(a, ['createdOn', 'appointmentDate', 'scheduledDate']);
+      return dt ? dt > lastDate : false;
+    }).length;
+  }
+
+  private parseDateSafe(item: any, keys: string[]) {
+    for (const k of keys) {
+      if (!item) continue;
+      const v = item[k];
+      if (!v) continue;
+      const d = new Date(v);
+      if (!isNaN(d.getTime())) return d;
+    }
+    return null;
   }
 
   getStatusClass(status: string): string {

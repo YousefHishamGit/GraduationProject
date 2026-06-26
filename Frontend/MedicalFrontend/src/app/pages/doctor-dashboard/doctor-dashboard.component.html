@@ -31,19 +31,17 @@
                 <i class="fas fa-th-large"></i> Overview
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
-                <i class="fas fa-calendar-check"></i> Appointments @if (unreadNotificationsCount() > 0) {
-                <span class="nav-badge" style="background-color: #ff6b6b; font-weight: bold;">{{ unreadNotificationsCount() }}</span> }
+                <i class="fas fa-calendar-check"></i> Appointments
+                <span class="nav-badge" *ngIf="getNewAppointmentsCount() > 0">{{ getNewAppointmentsCount() }}</span>
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'schedule'" (click)="setTab('schedule')">
                 <i class="fas fa-clock"></i> My Schedule
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'timeslots'" (click)="setTab('timeslots')">
-                <i class="fas fa-calendar-alt"></i> Time Slots @if (timeSlots().length > 0) {
-                <span class="nav-badge">{{ timeSlots().length }}</span> }
+                <i class="fas fa-calendar-alt"></i> Time Slots
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'reviews'" (click)="setTab('reviews')">
-                <i class="fas fa-star"></i> Reviews @if (reviews().length > 0) {
-                <span class="nav-badge">{{ reviews().length }}</span> }
+                <i class="fas fa-star"></i> Reviews
             </a>
 
             <div class="nav-divider"></div>

@@ -482,3 +482,11 @@ C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\Medica
 C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Auth.PlatformServices.dll
 C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Auth.dll
 C:\Users\hp\Desktop\project\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Core.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\FirebaseAdmin.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Api.Gax.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Api.Gax.Rest.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Auth.PlatformServices.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Auth.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Core.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Newtonsoft.Json.dll

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-production-url/api',
+  apiUrl: 'https://medicalgraduation.runasp.net/api',
   firebase: {
     apiKey: "AIzaSyBfM-am94aIyy_NW2qIM80qFKSV6Bc8FIs",
     authDomain: "medicare-f6046.firebaseapp.com",

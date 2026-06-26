@@ -9,7 +9,7 @@ import logging
 import base64
 import io
 import PyPDF2
-import google.generativeai as genai
+from google import genai
 from PIL import Image
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings

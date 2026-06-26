@@ -262,6 +262,8 @@ export class PatientDashboardComponent implements OnInit {
   }
 
   logout() {
+    this.unreadNotificationsCount.set(0);
+    this.notifications.set([]);
     this.authService.logout();
   }
 

@@ -46,6 +46,10 @@ export class HeaderComponent implements OnInit {
     this.loadUserAvatar();
   }
 
+  private getNotificationStorageKey(userId?: string | null): string {
+    return userId ? `patientTotalBadgeCount:${userId}` : 'patientTotalBadgeCount';
+  }
+
   @HostListener('window:notifications-updated', ['$event'])
   onNotificationsUpdated(event?: any) {
     const userId = this.authService.getUserIdFromToken();
@@ -53,17 +57,17 @@ export class HeaderComponent implements OnInit {
 
     if (event && event.detail && typeof event.detail.count === 'number') {
       this.unreadNotificationsCount.set(event.detail.count);
-      localStorage.setItem('patientTotalBadgeCount', event.detail.count.toString());
+      localStorage.setItem(this.getNotificationStorageKey(userId), event.detail.count.toString());
       return;
     }
 
-    const storedCount = localStorage.getItem('patientTotalBadgeCount');
+    const storedCount = localStorage.getItem(this.getNotificationStorageKey(userId));
     if (storedCount !== null) {
       this.unreadNotificationsCount.set(parseInt(storedCount, 10));
     } else {
       this.endpoint.patients.getByUserId(userId).subscribe({
         next: (patient) => {
-          this.loadUnreadNotificationsCount(patient.id);
+          this.loadUnreadNotificationsCount(patient.id, true);
         }
       });
     }
@@ -77,21 +81,31 @@ export class HeaderComponent implements OnInit {
       this.userName.set(user.fullName);
       this.loadUserAvatar();
     } else {
+      this.isLoggedIn.set(false);
+      this.userRole.set('');
+      this.userName.set('');
       this.userImgUrl.set(null);
       this.unreadNotificationsCount.set(0);
     }
   }
 
-  loadUnreadNotificationsCount(patientId: number) {
-    const storedCount = localStorage.getItem('patientTotalBadgeCount');
-    if (storedCount !== null) {
+  loadUnreadNotificationsCount(patientId: number, forceRefresh = false) {
+    const userId = this.authService.getUserIdFromToken();
+    const storageKey = this.getNotificationStorageKey(userId);
+    const storedCount = localStorage.getItem(storageKey);
+
+    if (!forceRefresh && storedCount !== null) {
       this.unreadNotificationsCount.set(parseInt(storedCount, 10));
-    } else {
-      this.endpoint.notifications.getUnreadCount(patientId).subscribe({
-        next: (count) => this.unreadNotificationsCount.set(count),
-        error: () => this.unreadNotificationsCount.set(0)
-      });
+      return;
     }
+
+    this.endpoint.notifications.getUnreadCount(patientId).subscribe({
+      next: (count) => {
+        this.unreadNotificationsCount.set(count);
+        localStorage.setItem(storageKey, count.toString());
+      },
+      error: () => this.unreadNotificationsCount.set(0)
+    });
   }
 
   loadUserAvatar() {
@@ -106,7 +120,7 @@ export class HeaderComponent implements OnInit {
         next: (patient) => {
           const url = resolveMediaUrl(patient.imgPath);
           this.userImgUrl.set(url || null);
-          this.loadUnreadNotificationsCount(patient.id);
+          this.loadUnreadNotificationsCount(patient.id, true);
         },
         error: () => this.userImgUrl.set(null)
       });
@@ -142,9 +156,11 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.isLoggedIn.set(false);
+    this.unreadNotificationsCount.set(0);
+    this.userRole.set('');
+    this.userName.set('');
     this.userImgUrl.set(null);
     this.closeMenu();
+    this.authService.logout();
   }
 }

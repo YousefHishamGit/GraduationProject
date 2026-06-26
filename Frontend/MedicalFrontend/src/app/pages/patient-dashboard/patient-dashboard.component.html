@@ -193,27 +193,7 @@
             <span>🔬 إعلان خاص: احجز فحوصاتك الآن مع مختبر البرج وتمتع بخدمة النتائج السريعة والعروض الحصرية &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           </div>
         </div>
-        } @else {
-        <div class="topbar">
-            <div class="topbar-left">
-                <h1 class="page-title">
-                    @if (activeTab() === 'overview') { Overview } @if (activeTab() === 'appointments') { My Appointments } @if (activeTab() === 'profile') { My Profile } @if (activeTab() === 'medical') { Medical Records }
-                    @if (activeTab() === 'lab') { Lab Tests } @if (activeTab() === 'reviews') { My Reviews }
-                </h1>
-                <p class="page-sub">
-                    Welcome back, <strong>{{ currentUser()?.fullName }}</strong>
-                </p>
-            </div>
-            <div class="topbar-right">
-                <a routerLink="/appointment" class="topbar-btn topbar-book-link">
-                    <i class="fas fa-calendar-plus"></i>
-                    <span>Book Appointment</span>
-                    @if (unreadNotificationsCount() > 0) {
-                    <span class="notification-badge">{{ unreadNotificationsCount() }}</span>
-                    }
-                </a>
-            </div>
-        </div>
+        } @else if (activeTab() !== 'medical') {
         }
 
         <!-- Loading -->
@@ -581,6 +561,32 @@
         <!-- ═══ MEDICAL RECORDS ═══ -->
         @if (activeTab() === 'medical') {
         <div class="tab-content fade-in">
+            <div class="image-ticker-wrap">
+                <div class="image-ticker">
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe3.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe1.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                    <div class="ticker-img-wrap"><img src="/assets/advertisement/elazabe2.jpg" alt="Elezaby Pharmacy" class="ticker-img"></div>
+                </div>
+            </div>
+            <div class="text-ticker-wrap pharmacy-ticker">
+                <div class="text-ticker">
+                    <span>إعلان خاص: اكتشف الآن عروض الصيدلية المميزة</span>
+                    <span>اعرف أحدث عروض الفحوصات الصحية الآن</span>
+                    <span>خدمة التوصيل السريع متاحة للمدينة بالكامل</span>
+                    <span>احجز فحوصاتك من المنزل بسهولة</span>
+                    <span>استمتع بعروضنا الأسبوعية الخاصة بالصحة</span>
+                    <span>إعلان خاص: اكتشف الآن عروض الصيدلية المميزة</span>
+                    <span>اعرف أحدث عروض الفحوصات الصحية الآن</span>
+                    <span>خدمة التوصيل السريع متاحة للمدينة بالكامل</span>
+                    <span>احجز فحوصاتك من المنزل بسهولة</span>
+                    <span>استمتع بعروضنا الأسبوعية الخاصة بالصحة</span>
+                </div>
+            </div>
             @if (medicalRecords().length > 0) {
             <div class="records-grid">
                 @for (record of medicalRecords(); track record.id) {

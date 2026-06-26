@@ -38,7 +38,30 @@ export class AuthService {
   }
 
   logout() {
+    const notificationKeys = [
+      'patientTotalBadgeCount',
+      'lastOpenedAppointments',
+      'lastOpenedPrescriptions',
+      'lastOpenedLab',
+      'lastOpenedMedical'
+    ];
+
+    notificationKeys.forEach((key) => localStorage.removeItem(key));
+
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('patientTotalBadgeCount')) {
+        localStorage.removeItem(key);
+      }
+    }
+
     localStorage.clear();
+    sessionStorage.clear();
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: 0 } }));
+    }
+
     this.router.navigate(['/login']);
   }
 }

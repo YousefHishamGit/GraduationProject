@@ -162,6 +162,65 @@ export class AdminDashboardComponent implements OnInit {
   setTab(tab: string) {
     this.activeTab.set(tab);
     this.sidebarOpen.set(false);
+
+    // Record last opened timestamps so "new" badges clear when user opens the section
+    const now = new Date().toISOString();
+    if (tab === 'doctors') localStorage.setItem('adminLastOpenedDoctors', now);
+    if (tab === 'patients') localStorage.setItem('adminLastOpenedPatients', now);
+    if (tab === 'appointments') localStorage.setItem('adminLastOpenedAppointments', now);
+    if (tab === 'departments') localStorage.setItem('adminLastOpenedDepartments', now);
+  }
+
+  // --- New item counters (show unread/new badges only) ---
+  private parseDateSafe(item: any, keys: string[]) {
+    for (const k of keys) {
+      if (!item) continue;
+      const v = item[k];
+      if (!v) continue;
+      const d = new Date(v);
+      if (!isNaN(d.getTime())) return d;
+    }
+    return null;
+  }
+
+  getNewDoctorsCount(): number {
+    const last = localStorage.getItem('adminLastOpenedDoctors');
+    if (!last) return this.doctors().length;
+    const lastDate = new Date(last);
+    return this.doctors().filter(d => {
+      const dt = this.parseDateSafe(d, ['createdOn', 'hireDate', 'createdAt']);
+      return dt ? dt > lastDate : false;
+    }).length;
+  }
+
+  getNewPatientsCount(): number {
+    const last = localStorage.getItem('adminLastOpenedPatients');
+    if (!last) return this.patients().length;
+    const lastDate = new Date(last);
+    return this.patients().filter(p => {
+      const dt = this.parseDateSafe(p, ['createdOn', 'registeredOn', 'createdAt']);
+      return dt ? dt > lastDate : false;
+    }).length;
+  }
+
+  getNewAppointmentsCount(): number {
+    const last = localStorage.getItem('adminLastOpenedAppointments');
+    if (!last) return 0;
+    const lastDate = new Date(last);
+    return this.appointments().filter(a => {
+      const dt = this.parseDateSafe(a, ['createdOn', 'createdAt']);
+      return dt ? dt > lastDate : false;
+    }).length;
+  }
+
+  getNewDepartmentsCount(): number {
+    const last = localStorage.getItem('adminLastOpenedDepartments');
+    if (!last) return 0;
+    const lastDate = new Date(last);
+    return this.departments().filter(d => {
+      const dt = this.parseDateSafe(d, ['createdOn', 'createdAt']);
+      return dt ? dt > lastDate : false;
+    }).length;
   }
 
   // Stats

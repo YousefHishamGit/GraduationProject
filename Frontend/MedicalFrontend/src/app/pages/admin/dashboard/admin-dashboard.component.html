@@ -32,19 +32,19 @@
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'doctors'" (click)="setTab('doctors')">
                 <i class="fas fa-user-md"></i> Doctors
-                <span class="nav-badge">{{ doctors().length }}</span>
+                <span class="nav-badge" *ngIf="getNewDoctorsCount() > 0">{{ getNewDoctorsCount() }}</span>
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'patients'" (click)="setTab('patients')">
                 <i class="fas fa-users"></i> Patients
-                <span class="nav-badge">{{ patients().length }}</span>
+                <span class="nav-badge" *ngIf="getNewPatientsCount() > 0">{{ getNewPatientsCount() }}</span>
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'appointments'" (click)="setTab('appointments')">
                 <i class="fas fa-calendar-check"></i> Appointments
-                <span class="nav-badge">{{ appointments().length }}</span>
+                <span class="nav-badge" *ngIf="getNewAppointmentsCount() > 0">{{ getNewAppointmentsCount() }}</span>
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'departments'" (click)="setTab('departments')">
                 <i class="fas fa-building"></i> Departments
-                <span class="nav-badge">{{ departments().length }}</span>
+                <span class="nav-badge" *ngIf="getNewDepartmentsCount() > 0">{{ getNewDepartmentsCount() }}</span>
             </a>
             <a class="nav-item" [class.active]="activeTab() === 'revenue'" (click)="setTab('revenue'); loadRevenueReport()">
                 <i class="fas fa-wallet"></i> Revenue Reports
