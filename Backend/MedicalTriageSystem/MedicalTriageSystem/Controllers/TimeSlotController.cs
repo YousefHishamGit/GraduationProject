@@ -7,7 +7,6 @@ namespace YourApiNamespace.Controllers
 {
     [ApiController]
     [Route("api/timeslots")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TimeSlotController : ControllerBase
     {
         private readonly IDoctorService _doctorService;

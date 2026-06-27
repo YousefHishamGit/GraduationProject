@@ -490,3 +490,4 @@ D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSys
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Auth.dll
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Google.Apis.Core.dll
 D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\UNI\graduation\GraduationProject\Backend\MedicalTriageSystem\MedicalTriageSystem\obj\Debug\net8.0\swae.build.ex.cache

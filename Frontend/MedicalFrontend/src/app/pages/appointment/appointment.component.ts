@@ -48,6 +48,8 @@ export class AppointmentComponent implements OnInit {
   appointmentType = signal<'InPerson' | 'Online'>('InPerson');
   notes = signal('');
 
+  private readonly pendingStateKey = 'pendingAppointmentState';
+
   filteredDoctors = computed(() => {
     return this.doctors().filter(d => {
       const matchSearch = !this.searchTerm ||
@@ -66,8 +68,14 @@ export class AppointmentComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.handleQueryParams();
+    this.tryRestorePendingAppointment(this.route.snapshot.queryParamMap);
+    this.route.queryParams.subscribe(params => {
+      if (params['pendingBooking'] === '1') {
+        this.tryRestorePendingAppointment(this.route.snapshot.queryParamMap);
+      }
+    });
     const urlParams = new URLSearchParams(window.location.search);
-    this.searchTerm=urlParams.get('specialty')!
+    this.searchTerm = urlParams.get('specialty') || '';
   }
 
   loadData() {
@@ -132,6 +140,63 @@ export class AppointmentComponent implements OnInit {
     this.loadTimeSlots(doc.id);
   }
 
+  private savePendingAppointmentState() {
+    const state = {
+      doctorId: this.selectedDoctorId(),
+      selectedSlot: this.selectedSlot(),
+      appointmentType: this.appointmentType(),
+      notes: this.notes()
+    };
+    localStorage.setItem(this.pendingStateKey, JSON.stringify(state));
+  }
+
+  private clearPendingAppointmentState() {
+    localStorage.removeItem(this.pendingStateKey);
+  }
+
+  private tryRestorePendingAppointment(params: import('@angular/router').ParamMap) {
+    if (params.get('pendingBooking') !== '1') {
+      return;
+    }
+
+    const raw = localStorage.getItem(this.pendingStateKey);
+    if (!raw) {
+      return;
+    }
+
+    try {
+      const state = JSON.parse(raw);
+      if (state?.doctorId) {
+        this.selectedDoctorId.set(state.doctorId);
+        this.appointmentType.set(state.appointmentType || 'InPerson');
+        this.notes.set(state.notes || '');
+        this.selectedSlot.set(state.selectedSlot || null);
+        this.selectedSlotId.set(state.selectedSlot?.id || null);
+        this.currentStep.set(3);
+
+        const selectedDoctor = this.doctors().find(d => d.id === state.doctorId);
+        if (selectedDoctor) {
+          this.selectedDoctor.set(selectedDoctor);
+          this.loadTimeSlots(state.doctorId);
+        } else {
+          this.endpoint.doctors.getById(state.doctorId).subscribe({
+            next: (doc) => {
+              this.selectedDoctor.set({
+                ...doc,
+                imgPath: resolveDoctorPhoto(doc.imgPath, doc.fullName)
+              });
+              this.loadTimeSlots(state.doctorId);
+            }
+          });
+        }
+
+        this.clearPendingAppointmentState();
+      }
+    } catch {
+      // ignore invalid saved state
+    }
+  }
+
   loadTimeSlots(doctorId: number) {
     // const today = new Date().toISOString().split('T')[0];
      this.endpoint.doctors.getTimeSlots(doctorId).subscribe({
@@ -160,6 +225,13 @@ export class AppointmentComponent implements OnInit {
       this.errorMsg.set('Please select a time slot');
       return;
     }
+
+    if (this.currentStep() === 2 && !this.authService.isLoggedIn()) {
+      this.savePendingAppointmentState();
+      this.router.navigate(['/login'], { queryParams: { returnUrl: '/appointment?pendingBooking=1' } });
+      return;
+    }
+
     if (this.currentStep() < 3) {
       this.currentStep.update(s => s + 1);
     }

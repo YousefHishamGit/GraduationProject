@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { BaseEndpoint } from './base.endpoint';
 import {
   DoctorResponseDto, CreateDoctorDto, UpdateDoctorDto,
@@ -82,10 +82,12 @@ export class DoctorEndpoint extends BaseEndpoint {
 
   /** Slots for one calendar day, computed from weekly schedule (not stored in DB). */
   getTimeSlots(doctorId: number, date?: string): Observable<TimeSlotResponseDto[]> {
-    // New centralized timeslots endpoint: /api/timeslots/Doctor/{doctorId}
     let params = new HttpParams();
     if (date) params = params.set('date', date);
-    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params });
+
+    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params }).pipe(
+      catchError(() => this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots`, { params }))
+    );
   }
 
   /** Slots for a date range, computed from weekly schedule. */
@@ -93,7 +95,10 @@ export class DoctorEndpoint extends BaseEndpoint {
     let params = new HttpParams();
     if (startDate) params = params.set('startDate', startDate);
     if (endDate) params = params.set('endDate', endDate);
-    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params });
+
+    return this.http.get<TimeSlotResponseDto[]>(`${this.apiUrl}/timeslots/doctor/${doctorId}`, { params }).pipe(
+      catchError(() => this.http.get<TimeSlotResponseDto[]>(`${this.baseUrl}/${doctorId}/timeslots-range`, { params }))
+    );
   }
 
   generateTimeSlots(doctorId: number, date: string): Observable<TimeSlotResponseDto[]> {
