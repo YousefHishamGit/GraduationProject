@@ -322,7 +322,7 @@
                         </span>
                             </div>
                             <div class="apt-info">
-                                <h4>Doctor #{{ apt.doctorId }}</h4>
+                                <h4>Dr. {{ getDoctorName(apt.doctorId) }}</h4>
                                 <span class="apt-time">
                           <i class="fas fa-clock"></i>
                           {{ apt.appointmentDate | date:'hh:mm a' }}
@@ -412,7 +412,7 @@
                                 <td>
                                     <div class="table-doctor">
                                         <div class="td-avatar">D</div>
-                                        Doctor #{{ apt.doctorId }}
+                                        Dr. {{ getDoctorName(apt.doctorId) }}
                                     </div>
                                 </td>
                                 <td>
